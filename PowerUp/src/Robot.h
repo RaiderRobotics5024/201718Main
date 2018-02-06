@@ -6,6 +6,7 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
+#include "Commands/DriveTwoFeet.h"
 
 /**
  *
@@ -34,6 +35,7 @@ public:
 	DriveWithJoystick* pDriveWithJoystick;
 	ExampleCommand* pDefaultAutoCommand;
 	MyAutoCommand* pMyAutoCommand;
+	DriveTwoFeet* pDriveTwoFeet;
 
 private:
 };

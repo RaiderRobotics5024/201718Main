@@ -5,9 +5,6 @@
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
 
-#include "Commands/ExampleCommand.h"
-#include "Commands/MyAutoCommand.h"
-
 /**
  *
  */
@@ -17,6 +14,7 @@ Robot::~Robot()
 	delete this->pDriveWithJoystick;
 	delete this->pDefaultAutoCommand;
 	delete this->pMyAutoCommand;
+	delete this->pDriveTwoFeet;
 }
 
 /**
@@ -31,6 +29,7 @@ void Robot::RobotInit()
 	this->pDriveWithJoystick = new DriveWithJoystick();
 	this->pDefaultAutoCommand = new ExampleCommand();
 	this->pMyAutoCommand = new MyAutoCommand();
+	this->pDriveTwoFeet = new DriveTwoFeet();
 
 	// Setup smartdashboard autonomous options
 	m_chooser.AddDefault("Default Auto", pDefaultAutoCommand);
@@ -102,11 +101,11 @@ void Robot::TeleopInit()
 		pAutonomousCommand = nullptr;
 	}
 
-	if (pDriveWithJoystick != nullptr) {
-		std::cout << "[Robot] Starting DriveWithJoystick" << std::endl;
-		pDriveWithJoystick->Start();
+	if (pDriveTwoFeet != nullptr) {
+		std::cout << "[Robot] Starting pDriveTwoFeet" << std::endl;
+		pDriveTwoFeet->Start();
 	} else {
-		std::cout << "[Robot] DriveWithJoystick is nul!" << std::endl;
+		std::cout << "[Robot] pDriveTwoFeet is nul!" << std::endl;
 	}
 }
 
