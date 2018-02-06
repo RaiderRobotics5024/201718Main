@@ -5,9 +5,6 @@
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
 
-#include "Commands/ExampleCommand.h"
-#include "Commands/MyAutoCommand.h"
-
 /**
  *
  */
@@ -106,7 +103,7 @@ void Robot::TeleopInit()
 		std::cout << "[Robot] Starting DriveWithJoystick" << std::endl;
 		pDriveWithJoystick->Start();
 	} else {
-		std::cout << "[Robot] DriveWithJoystick is nul!" << std::endl;
+		std::cout << "[Robot] DriveWithJoystick is null!" << std::endl;
 	}
 }
 
