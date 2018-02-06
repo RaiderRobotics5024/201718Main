@@ -30,8 +30,6 @@ void DriveWithJoystick::Initialize()
 
 void DriveWithJoystick::Execute()
 {
-	std::cout << "[DriveWithJoystick] Executing" << std::endl;
-
 	CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystick());
 }
 
