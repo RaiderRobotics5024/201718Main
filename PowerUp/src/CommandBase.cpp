@@ -19,6 +19,16 @@ CommandBase::CommandBase() : Command()
  *
  */
 
+CommandBase::~CommandBase()
+{
+	delete this->pDriveTrain;
+	delete this->pOI;
+}
+
+/**
+ *
+ */
+
 CommandBase::CommandBase(char const *name) : Command(name)
 {
 	std::cout << "[CommandBase] Constructed with name: " << name << std::endl;
