@@ -52,26 +52,6 @@ void DriveTrain::InitDefaultCommand()
  *
  */
 
-int DriveTrain::GetLeftEncoderValue()
-{
-	double data = 0.0; // should be motor position from the enoder
-	double equation = 2.0 * 3.1415 * WHEEL_RADIUS;
-
-	return data * equation;
-}
-
-/**
- *
- */
-
-int DriveTrain::GetRightEncoderValue()
-{
-	double data = 0.0; // should be motor position from the enoder
-	double equation = 2.0 * 3.1415 * WHEEL_RADIUS;
-
-	return data * equation;
-}
-
 // Put methods for controlling this subsystem here.
 // Call these from Commands.
 
@@ -81,4 +61,18 @@ void DriveTrain::Drive(XboxController* joystick)
 	double turnAngle = joystick->GetX(XboxController::kLeftHand);
 
 	pRobotDrive->ArcadeDrive(forwardSpeed, turnAngle);
+}
+
+/**
+ *
+ */
+
+void DriveTrain::Reset()
+{
+	std::cout << "[DriveTrain] Resetting the motors" << std::endl;
+
+	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0);
+	this->pLeftRearMotor->Set(ControlMode::PercentOutput, 0);
+	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0);
+	this->pRightRearMotor->Set(ControlMode::PercentOutput, 0);
 }
