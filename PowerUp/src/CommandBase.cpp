@@ -12,7 +12,7 @@ CommandBase::CommandBase() : Command()
 {
 	std::cout << "[CommandBase] Constructed" << std::endl;
 
-	init();
+	this->init();
 }
 
 /**

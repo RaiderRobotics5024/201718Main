@@ -55,12 +55,12 @@ void DriveTrain::InitDefaultCommand()
 // Put methods for controlling this subsystem here.
 // Call these from Commands.
 
-void DriveTrain::Drive(XboxController* joystick)
+void DriveTrain::Drive(XboxController* pJoystick)
 {
-	double forwardSpeed = joystick->GetY(XboxController::kLeftHand);
-	double turnAngle = joystick->GetX(XboxController::kLeftHand);
+	double forwardSpeed = pJoystick->GetY(XboxController::kLeftHand);
+	double turnAngle = pJoystick->GetX(XboxController::kLeftHand);
 
-	pRobotDrive->ArcadeDrive(forwardSpeed, turnAngle);
+	this->pRobotDrive->ArcadeDrive(forwardSpeed, turnAngle);
 }
 
 /**

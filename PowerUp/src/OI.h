@@ -16,7 +16,7 @@ public:
 	frc::XboxController* GetJoystick();
 
 private:
-	frc::XboxController* joystick;
+	frc::XboxController* pJoystick;
 };
 
 #endif

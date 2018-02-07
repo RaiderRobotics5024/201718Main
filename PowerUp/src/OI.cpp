@@ -9,7 +9,7 @@ OI::OI()
 {
 	std::cout << "[OI] Constructed" << std::endl;
 
-	joystick = new XboxController(XBOX_CONTROLLER_DRIVE_PORT);
+	this->pJoystick = new XboxController(XBOX_CONTROLLER_DRIVE_PORT);
 }
 
 /**
@@ -18,5 +18,5 @@ OI::OI()
 
 frc::XboxController* OI::GetJoystick()
 {
-	return joystick;
+	return this->pJoystick;
 }
