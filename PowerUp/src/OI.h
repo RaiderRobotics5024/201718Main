@@ -4,6 +4,7 @@
 #include <iostream>
 #include <WPILib.h>
 #include <XboxController.h>
+#include "RobotMap.h"
 
 /**
  *

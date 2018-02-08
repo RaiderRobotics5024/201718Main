@@ -1,14 +1,14 @@
 #ifndef _DRIVETRAIN_HG_
 #define _DRIVETRAIN_HG_
 
+#include <iostream>
 #include <WPILib.h>
 #include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include <SpeedControllerGroup.h>
 #include <Drive/DifferentialDrive.h>
 #include "../RobotMap.h"
-
-#include <iostream>
+#include "../Commands/DriveWithJoystick.h"
 
 /**
  *

@@ -1,12 +1,4 @@
 #include "Robot.h"
-#include <Commands/Command.h>
-#include <Commands/Scheduler.h>
-#include <LiveWindow/LiveWindow.h>
-#include <SmartDashboard/SendableChooser.h>
-#include <SmartDashboard/SmartDashboard.h>
-
-#include "Commands/ExampleCommand.h"
-#include "Commands/MyAutoCommand.h"
 
 /**
  *

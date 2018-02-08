@@ -3,9 +3,14 @@
 
 #include <iostream>
 #include <WPILib.h>
+#include <Commands/Command.h>
+#include <Commands/Scheduler.h>
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
+#include <LiveWindow/LiveWindow.h>
+#include <SmartDashboard/SendableChooser.h>
+#include <SmartDashboard/SmartDashboard.h>
 
 /**
  *
