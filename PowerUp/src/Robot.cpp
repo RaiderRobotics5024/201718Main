@@ -4,17 +4,15 @@
  *
  */
 
-const int DRIVE_JOYSTICK_PORT_ID = 0;
-
 Robot::Robot()
 {
 	SmartDashboard::init();
 
-	motor_id = 1;
-	motor_speed = 0.0;
+	this->motor_id = 1;
+	this->motor_speed = 0.0;
 	SetMotor(motor_id);
 
-	this->pXboxController = new XboxController(DRIVE_JOYSTICK_PORT_ID);
+	this->pXboxController = new XboxController(0);
 }
 
 /**
