@@ -4,102 +4,44 @@
  *
  */
 
+const int DRIVE_JOYSTICK_PORT_ID = 0;
+
+Robot::Robot()
+{
+	SmartDashboard::init();
+
+	motor_id = 1;
+	motor_speed = 0.0;
+	SetMotor(motor_id);
+
+	this->pXboxController = new XboxController(DRIVE_JOYSTICK_PORT_ID);
+}
+
+/**
+ *
+ */
+
 Robot::~Robot()
 {
-	delete this->pDriveWithJoystick;
-	delete this->pDefaultAutoCommand;
-	delete this->pMyAutoCommand;
+	delete this->pXboxController;
+	delete this->pTalonSRX;
 }
 
 /**
  *
  */
 
-void Robot::RobotInit()
+void Robot::SetMotor(int motor_id)
 {
-	std::cout << "[Robot] Initialized" << std::endl;
-
-	// instantiate the commands
-	this->pDriveWithJoystick = new DriveWithJoystick();
-	this->pDefaultAutoCommand = new ExampleCommand();
-	this->pMyAutoCommand = new MyAutoCommand();
-
-	// Setup smartdashboard autonomous options
-	m_chooser.AddDefault("Default Auto", pDefaultAutoCommand);
-	m_chooser.AddObject("My Auto", pMyAutoCommand);
-	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-}
-
-/**
- *
- */
-
-void Robot::DisabledInit()
-{
-}
-
-/**
- *
- */
-
-void Robot::DisabledPeriodic()
-{
-	frc::Scheduler::GetInstance()->Run();
-}
-
-/**
- *
- */
-
-void Robot::AutonomousInit()
-{
-	std::cout << "[Robot] Autonomous Initialized" << std::endl;
-
-	std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", "Default");
-	std::cout << "[Robot] Auto Selected: " << autoSelected << std::endl;
-
-	pAutonomousCommand = m_chooser.GetSelected();
-
-	if (pAutonomousCommand != nullptr) {
-		std::cout << "[Robot] Starting autonomous" << std::endl;
-		pAutonomousCommand->Start();
-	} else {
-		std::cout << "Autonomous Command is null!" << std::endl;
-	}
-}
-
-/**
- *
- */
-
-void Robot::AutonomousPeriodic()
-{
-	frc::Scheduler::GetInstance()->Run();
-}
-
-/**
- *
- */
-
-void Robot::TeleopInit()
-{
-	std::cout << "[Robot] Teleop Initialized" << std::endl;
-
-	// This makes sure that the autonomous stops running when
-	// teleop starts running. If you want the autonomous to
-	// continue until interrupted by another command, remove
-	// this line or comment it out.
-	if (pAutonomousCommand != nullptr) {
-		pAutonomousCommand->Cancel();
-		pAutonomousCommand = nullptr;
+	if (this->pTalonSRX != nullptr)
+	{
+		this->pTalonSRX->Set(ControlMode::PercentOutput, 0);
+		delete this->pTalonSRX;
 	}
 
-	if (pDriveWithJoystick != nullptr) {
-		std::cout << "[Robot] Starting DriveWithJoystick" << std::endl;
-		pDriveWithJoystick->Start();
-	} else {
-		std::cout << "[Robot] DriveWithJoystick is null!" << std::endl;
-	}
+	this->pTalonSRX = new WPI_TalonSRX(motor_id);
+	this->pTalonSRX->SetInverted(false);
+	this->pTalonSRX->SetSensorPhase(true);
 }
 
 /**
@@ -108,21 +50,32 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
-	std::cout << "[Robot] Running Scheduler" << std::endl;
-	frc::Scheduler::GetInstance()->Run();
+	SmartDashboard::PutNumber("Motor ID", motor_id);
+
+	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) {
+		motor_id = (motor_id > 1) ? motor_id-- : 1;
+		SetMotor(motor_id);
+	} else if (pXboxController->GetBumperPressed(XboxController::kRightHand)) {
+		motor_id = (motor_id < 8) ? motor_id++ : 8;
+		SetMotor(motor_id);
+	}
+
+	if (this->pXboxController->GetXButton()) {
+		this->pTalonSRX->SetInverted(false);
+	} else if (this->pXboxController->GetBButton()) {
+		this->pTalonSRX->SetInverted(true);
+	}
+
+	if (this->pXboxController->GetYButton()) {
+		motor_speed = 1.0;
+	} else if (this->pXboxController->GetAButton()) {
+		motor_speed = -1.0;
+	} else {
+		motor_speed = 0.0;
+	}
+
+	pTalonSRX->Set(motor_speed);
+
 }
-
-/**
- *
- */
-
-void Robot::TestPeriodic()
-{
-	std::cout << "[Robot] TestPeriodic" << std::endl;
-}
-
-/**
- *
- */
 
 START_ROBOT_CLASS(Robot)
