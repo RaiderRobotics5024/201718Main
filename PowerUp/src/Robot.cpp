@@ -1,47 +1,43 @@
+/**
+ * [1] Enable robot and use gamepad y-axis to drive Talon.
+ * [2] If sensor is out of phase, self-test will show the sticky fault.
+ * [3] Use button 4 to read the CTRE pulse width and seed the quadrature/relative sensor.
+ * [4] Use button 1,2,3 to set the sensor position to constant values.
+ */
 #include "Robot.h"
 
 /**
  *
  */
 
-const int DRIVE_JOYSTICK_PORT_ID = 0;
-
 Robot::Robot()
 {
-	SmartDashboard::init();
+	this->_srx = new TalonSRX(0);
+	this->_joy = new Joystick(0);
+	std::stringstream _work;
+	_btn1 = false, _btn2 = false, _btn3 = false, _btn4 = false;
+}
 
-	motor_id = 1;
-	motor_speed = 0.0;
-	SetMotor(motor_id);
+/**
+ * every time we enter disable, reinit
+ */
 
-	this->pXboxController = new XboxController(DRIVE_JOYSTICK_PORT_ID);
+void Robot::DisabledInit()
+{
+	/* choose quadrature/relative which has a faster update rate */
+	_srx->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
+	_srx->SetStatusFramePeriod(StatusFrame::Status_1_General_, 5, 10); /* Talon will send new frame every 5ms */
+	_srx->SetSensorPhase(kSensorPhase);
+	_srx->SetInverted(kInvert);
 }
 
 /**
  *
  */
 
-Robot::~Robot()
+void Robot::DisabledPeriodic()
 {
-	delete this->pXboxController;
-	delete this->pTalonSRX;
-}
-
-/**
- *
- */
-
-void Robot::SetMotor(int motor_id)
-{
-	if (this->pTalonSRX != nullptr)
-	{
-		this->pTalonSRX->Set(ControlMode::PercentOutput, 0);
-		delete this->pTalonSRX;
-	}
-
-	this->pTalonSRX = new WPI_TalonSRX(motor_id);
-	this->pTalonSRX->SetInverted(false);
-	this->pTalonSRX->SetSensorPhase(true);
+	CommonLoop();
 }
 
 /**
@@ -50,32 +46,66 @@ void Robot::SetMotor(int motor_id)
 
 void Robot::TeleopPeriodic()
 {
-	SmartDashboard::PutNumber("Motor ID", motor_id);
+	CommonLoop();
+}
 
-	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) {
-		motor_id = (motor_id > 1) ? motor_id-- : 1;
-		SetMotor(motor_id);
-	} else if (pXboxController->GetBumperPressed(XboxController::kRightHand)) {
-		motor_id = (motor_id < 8) ? motor_id++ : 8;
-		SetMotor(motor_id);
+/**
+ * every loop
+ */
+
+void Robot::CommonLoop()
+{
+	bool btn1 = _joy->GetRawButton(1); /* get buttons */
+	bool btn2 = _joy->GetRawButton(2);
+	bool btn3 = _joy->GetRawButton(3);
+	bool btn4 = _joy->GetRawButton(4);
+
+	/* on button unpress => press, change pos register */
+	if (!_btn1 && btn1) {
+		_srx->SetSelectedSensorPosition(-10, 0, 0);
+		_work << "set:-10.0" << std::endl;
+	}
+	if (!_btn2 && btn2) {
+		_srx->SetSelectedSensorPosition(-20, 0, 0);
+		_work << "set:-20.0" << std::endl;
+	}
+	if (!_btn3 && btn3) {
+		_srx->SetSelectedSensorPosition(+30, 0, 0);
+		_work << "set:+30.0" << std::endl;
+	}
+	if (!_btn4 && btn4) {
+		/* read the mag encoder sensor out */
+		int read = (int) _srx->GetSensorCollection().GetPulseWidthPosition();
+		/* flip pulse width to match selected sensor.  */
+		if (kSensorPhase)
+			read *= -1;
+		if (kInvert)
+			read *= -1;
+		/* throw out the overflows, CTRE Encoder is 4096 units per rotation => 12 bitmask (0xFFF) */
+		read = read & 0xFFF;
+		/* set the value back with no overflows */
+		_srx->SetSelectedSensorPosition(read, 0, 0);
+		_work << "set:" << read << std::endl;
 	}
 
-	if (this->pXboxController->GetXButton()) {
-		this->pTalonSRX->SetInverted(false);
-	} else if (this->pXboxController->GetBButton()) {
-		this->pTalonSRX->SetInverted(true);
-	}
+	/* remove this and at most we get one stale print (one loop) */
+	usleep(10e3);
 
-	if (this->pXboxController->GetYButton()) {
-		motor_speed = 1.0;
-	} else if (this->pXboxController->GetAButton()) {
-		motor_speed = -1.0;
-	} else {
-		motor_speed = 0.0;
-	}
+	/* call get and serialize what we get */
+	double read = _srx->GetSelectedSensorPosition(0);
+	_work << "read:" << read << std::endl;
 
-	pTalonSRX->Set(motor_speed);
+	/* print any rendered strings, and clear work */
+	printf(_work.str().c_str());
+	_work.str("");
 
+	/* cache values for next loop comparisons */
+	_btn1 = btn1;
+	_btn2 = btn2;
+	_btn3 = btn3;
+	_btn4 = btn4;
+
+	_srx->Set(ControlMode::PercentOutput, -1 * _joy->GetY());
 }
 
 START_ROBOT_CLASS(Robot)
