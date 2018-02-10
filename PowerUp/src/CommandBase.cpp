@@ -7,6 +7,7 @@
 
 DriveTrain* CommandBase::pDriveTrain = NULL;
 OI* CommandBase::pOI = NULL;
+Intake* CommandBase::pIntake = NULL;
 
 CommandBase::CommandBase() : Command()
 {
@@ -24,6 +25,7 @@ CommandBase::CommandBase() : Command()
 CommandBase::~CommandBase()
 {
 	delete this->pDriveTrain;
+	delete this->pIntake;
 	delete this->pOI;
 
 	return;
@@ -64,5 +66,12 @@ void CommandBase::init()
 		CommandBase::pDriveTrain = new DriveTrain();
 	}
 
+	if (CommandBase::pIntake == nullptr)
+		{
+			CommandBase::pIntake = new Intake();
+		}
+
 	return;
 }
+
+

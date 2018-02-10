@@ -1,5 +1,5 @@
-#ifndef _DRIVETRAIN_HG_
-#define _DRIVETRAIN_HG_
+#ifndef _INTAKE_HG_
+#define _INTAKE_HG_
 
 #include <WPILib.h>
 #include <Commands/Subsystem.h>
@@ -13,6 +13,7 @@ public:
 	~Intake();
 	void InitDefaultCommand() override;
 	void Reset();
+	void SetMotorSpeed(double leftSpeed,double rightSpeed);
 
 private:
 	can::WPI_TalonSRX* pLeftMotor;

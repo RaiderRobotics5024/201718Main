@@ -22,8 +22,18 @@ Intake::~Intake()
 	delete this->pLeftMotor;
 	delete this->pRightMotor;
 
+	delete this->pGripperSolenoid;
+
 	return;
 }
+
+void Intake::SetMotorSpeed(double leftSpeed,double rightSpeed)
+{
+	this->pLeftMotor->Set(leftSpeed);
+	this->pRightMotor->Set(rightSpeed);
+	return;
+}
+
 void Intake::InitDefaultCommand()
 {
 	std::cout << "[Intake] Initialized Default Command" << std::endl;

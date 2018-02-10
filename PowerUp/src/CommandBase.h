@@ -6,6 +6,7 @@
 #include "Commands/Command.h"
 #include "OI.h"
 #include "Subsystems/DriveTrain.h"
+#include "Subsystems/Intake.h"
 
 /**
  *
@@ -20,6 +21,7 @@ public:
 	static void init();
 	static OI *pOI;
 	static DriveTrain *pDriveTrain;
+	static Intake *pIntake;
 };
 
 #endif
