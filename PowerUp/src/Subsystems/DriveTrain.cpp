@@ -14,7 +14,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftSpeedControllerGroup
 	                = new frc::SpeedControllerGroup( *(this->pLeftFrontMotor),
 			                                         *(this->pLeftRearMotor) );
-
+	//this->pLeftFrontMotor->SetInverted(true);
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightSpeedControllerGroup

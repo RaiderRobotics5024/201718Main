@@ -19,5 +19,10 @@ const double WHEEL_RADIUS = 3.0;
 
 //XBox Controller
 const int XBOX_CONTROLLER_DRIVE_PORT = 0;
+const int XBOX_CONTROLLER_OPERATOR_PORT = 1;
+//controller deadzone
+const double XBOX_DEADZONE_LEFT_JOY=0.1;
+const double XBOX_DEADZONE_RIGHT_JOY=0.1;
+
 
 #endif

@@ -1,4 +1,6 @@
 #include "DriveWithJoystick.h"
+#include <math.h>
+#include "../RobotMap.h"
 
 /**
  *
@@ -39,8 +41,35 @@ void DriveWithJoystick::Execute()
 {
 	//CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystick());
 
-	double forwardSpeed = CommandBase::pOI->GetJoystick()->GetY(XboxController::kLeftHand);
-	double turnAngle = CommandBase::pOI->GetJoystick()->GetX(XboxController::kLeftHand);
+	double slowMode = 1.0;
+	if(CommandBase::pOI->GetJoystickDrive()->GetAButton())
+	{
+		slowMode = 0.55;
+	}
+
+	double controlDirectionMode = -1.0;
+
+	if(CommandBase::pOI->GetJoystickDrive()->GetBButton())
+	{
+		controlDirectionMode = 1.0;
+	}
+
+
+	double forwardSpeed = CommandBase::pOI->GetJoystickDrive()->GetY(XboxController::kLeftHand);
+	double turnAngle = CommandBase::pOI->GetJoystickDrive()->GetX(XboxController::kLeftHand);
+
+	if (fabs(forwardSpeed) <= XBOX_DEADZONE_LEFT_JOY)
+	{
+		forwardSpeed = 0.0;
+	}
+
+	if (fabs(turnAngle) <= XBOX_DEADZONE_LEFT_JOY)
+	{
+		turnAngle = 0.0;
+	}
+
+	forwardSpeed = forwardSpeed * controlDirectionMode * slowMode;
+	turnAngle = turnAngle * slowMode;
 
 	CommandBase::pDriveTrain->ArcadeDrive( forwardSpeed, turnAngle );
 
