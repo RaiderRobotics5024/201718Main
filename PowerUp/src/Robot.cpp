@@ -37,11 +37,14 @@ void Robot::SetMotor(int motor_id)
 	{
 		this->pTalonSRX->Set(ControlMode::PercentOutput, 0);
 		delete this->pTalonSRX;
+		delete this->pFaults;
 	}
 
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
 	this->pTalonSRX->SetSensorPhase(true);
+	this->pFaults = new Faults();
+	pTalonSRX->GetFaults(*pFaults);
 }
 
 /**
@@ -104,6 +107,7 @@ void Robot::Trace()
 	double closedLoopAccum = pTalonSRX->GetIntegralAccumulator(0); /* sensor selected for PID Loop 0 */
 	double derivErr = pTalonSRX->GetErrorDerivative(0);  /* sensor selected for PID Loop 0 */
 
+
 	SmartDashboard::PutNumber("Base ID", baseId);
 	SmartDashboard::PutNumber("Version", version);
 	SmartDashboard::PutBoolean("Is Inverted", isInverted);
@@ -124,6 +128,8 @@ void Robot::Trace()
 	SmartDashboard::PutNumber("SS Closed Loop Error", closedLoopErr);
 	SmartDashboard::PutNumber("Integral Accumulator", closedLoopAccum);
 	SmartDashboard::PutNumber("Error Derivative", derivErr);
+
+	SmartDashboard::PutBoolean("Has Faults", pFaults->HasAnyFault());
 }
 
 START_ROBOT_CLASS(Robot)

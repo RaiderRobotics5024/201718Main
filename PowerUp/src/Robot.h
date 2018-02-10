@@ -24,6 +24,7 @@ private:
 	double motor_speed;
 
 	WPI_TalonSRX* pTalonSRX;
+	Faults* pFaults;
 	frc::XboxController* pXboxController;
 };
 
