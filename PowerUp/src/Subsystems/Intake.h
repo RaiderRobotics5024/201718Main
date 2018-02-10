@@ -18,6 +18,10 @@ private:
 	can::WPI_TalonSRX* pLeftMotor;
 	can::WPI_TalonSRX* pRightMotor;
 
+	frc::DoubleSolenoid* pGripperSolenoid;
+
+	//TODO: See how many hall effect switches there will be
+	//DigitalInput* pLimit;
 };
 
 #endif

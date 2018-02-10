@@ -10,7 +10,9 @@ const int DRIVETRAIN_RIGHT_REAR_MOTOR_ID = 2;
 //Intake
 const int INTAKE_LEFT_MOTOR_ID = 5;		// TODO: This been assigned, yet
 const int INTAKE_RIGHT_MOTOR_ID = 6;	// TODO: This hasn't been assigned, yet
-// TODO: Add the pneumatic switch
+// The pnuematic solenoid valve
+const int GRIPPER_SOLENOID_FORWARDCHANNEL_ID = 7;
+const int GRIPPER_SOLENOID_REVERSECHANNEL_ID = 8;
 // TODO: Add the hall effect (or whatever) sensor IDs
 
 const double WHEEL_RADIUS = 3.0;

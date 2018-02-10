@@ -9,6 +9,11 @@ Intake::Intake() : frc::Subsystem("Intake")
 	this->pLeftMotor = new can::WPI_TalonSRX(INTAKE_LEFT_MOTOR_ID);
 	this->pRightMotor = new can::WPI_TalonSRX(INTAKE_RIGHT_MOTOR_ID);
 
+
+	this->pGripperSolenoid = new frc::DoubleSolenoid( GRIPPER_SOLENOID_FORWARDCHANNEL_ID,
+	                                                  GRIPPER_SOLENOID_REVERSECHANNEL_ID );
+	this->pGripperSolenoid->Set(DoubleSolenoid::kOff);
+
 	return;
 }
 
