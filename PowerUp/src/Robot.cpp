@@ -4,8 +4,6 @@
  *
  */
 
-const int DRIVE_JOYSTICK_PORT_ID = 0;
-
 Robot::Robot()
 {
 	SmartDashboard::init();
@@ -14,7 +12,9 @@ Robot::Robot()
 	motor_speed = 0.0;
 	SetMotor(motor_id);
 
-	this->pXboxController = new XboxController(DRIVE_JOYSTICK_PORT_ID);
+	this->pXboxController = new XboxController(0);
+
+	return;
 }
 
 /**
@@ -25,6 +25,8 @@ Robot::~Robot()
 {
 	delete this->pXboxController;
 	delete this->pTalonSRX;
+
+	return;
 }
 
 /**
@@ -45,6 +47,8 @@ void Robot::SetMotor(int motor_id)
 	this->pTalonSRX->SetSensorPhase(true);
 	this->pFaults = new Faults();
 	pTalonSRX->GetFaults(*pFaults);
+
+	return;
 }
 
 /**
@@ -55,6 +59,7 @@ void Robot::TeleopPeriodic()
 {
 	SmartDashboard::PutNumber("Motor ID", motor_id);
 
+	// switch the motor with the left/right bumpers
 	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) {
 		motor_id = (motor_id > 1) ? motor_id-- : 1;
 		SetMotor(motor_id);
@@ -63,12 +68,14 @@ void Robot::TeleopPeriodic()
 		SetMotor(motor_id);
 	}
 
+	// invert the motor with the X/B buttons
 	if (this->pXboxController->GetXButton()) {
 		this->pTalonSRX->SetInverted(false);
 	} else if (this->pXboxController->GetBButton()) {
 		this->pTalonSRX->SetInverted(true);
 	}
 
+	// run forward/backward with Y/A buttons
 	if (this->pXboxController->GetYButton()) {
 		motor_speed = 1.0;
 	} else if (this->pXboxController->GetAButton()) {
@@ -78,6 +85,8 @@ void Robot::TeleopPeriodic()
 	}
 
 	pTalonSRX->Set(motor_speed);
+
+	return;
 }
 
 /**
@@ -130,6 +139,8 @@ void Robot::Trace()
 	SmartDashboard::PutNumber("Error Derivative", derivErr);
 
 	SmartDashboard::PutBoolean("Has Faults", pFaults->HasAnyFault());
+
+	return;
 }
 
 START_ROBOT_CLASS(Robot)
