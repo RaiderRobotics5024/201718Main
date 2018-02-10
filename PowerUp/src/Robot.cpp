@@ -75,7 +75,55 @@ void Robot::TeleopPeriodic()
 	}
 
 	pTalonSRX->Set(motor_speed);
+}
 
+/**
+ *
+ */
+
+void Robot::Trace()
+{
+	int baseId = pTalonSRX->GetBaseID();
+	int version = pTalonSRX->GetFirmwareVersion();
+	bool isInverted = pTalonSRX->GetInverted();
+
+	double currentAmps = pTalonSRX->GetOutputCurrent();
+	double outputV = pTalonSRX->GetMotorOutputVoltage();
+	double busV = pTalonSRX->GetBusVoltage();
+	double outputPerc = pTalonSRX->GetMotorOutputPercent();
+
+	int quadPos = pTalonSRX->GetSensorCollection().GetQuadraturePosition();
+	int quadVel = pTalonSRX->GetSensorCollection().GetQuadratureVelocity();
+
+	int analogPos = pTalonSRX->GetSensorCollection().GetAnalogIn();
+	int analogVel = pTalonSRX->GetSensorCollection().GetAnalogInVel();
+
+	int selectedSensorPos = pTalonSRX->GetSelectedSensorPosition(0); /* sensor selected for PID Loop 0 */
+	int selectedSensorVel = pTalonSRX->GetSelectedSensorVelocity(0); /* sensor selected for PID Loop 0 */
+	int closedLoopErr = pTalonSRX->GetClosedLoopError(0); /* sensor selected for PID Loop 0 */
+	double closedLoopAccum = pTalonSRX->GetIntegralAccumulator(0); /* sensor selected for PID Loop 0 */
+	double derivErr = pTalonSRX->GetErrorDerivative(0);  /* sensor selected for PID Loop 0 */
+
+	SmartDashboard::PutNumber("Base ID", baseId);
+	SmartDashboard::PutNumber("Version", version);
+	SmartDashboard::PutBoolean("Is Inverted", isInverted);
+
+	SmartDashboard::PutNumber("Current Amps", currentAmps);
+	SmartDashboard::PutNumber("Output Voltage", outputV);
+	SmartDashboard::PutNumber("Bus Voltage", busV);
+	SmartDashboard::PutNumber("Output Percent", outputPerc);
+
+	SmartDashboard::PutNumber("Quad Position", quadPos);
+	SmartDashboard::PutNumber("Quad Velocity", quadVel);
+
+	SmartDashboard::PutNumber("Analog In Position", analogPos);
+	SmartDashboard::PutNumber("Analog In Velocity", analogVel);
+
+	SmartDashboard::PutNumber("SS Position", selectedSensorPos);
+	SmartDashboard::PutNumber("SS Velocity", selectedSensorVel);
+	SmartDashboard::PutNumber("SS Closed Loop Error", closedLoopErr);
+	SmartDashboard::PutNumber("Integral Accumulator", closedLoopAccum);
+	SmartDashboard::PutNumber("Error Derivative", derivErr);
 }
 
 START_ROBOT_CLASS(Robot)

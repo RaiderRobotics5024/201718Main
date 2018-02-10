@@ -17,6 +17,7 @@ public:
 	~Robot();
 	void TeleopPeriodic();
 	void SetMotor(int);
+	void Trace();
 
 private:
 	int motor_id;
