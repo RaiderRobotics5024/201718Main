@@ -8,11 +8,16 @@ DriveWithJoystick::DriveWithJoystick()
 {
 	std::cout << "[DriveWithJoystick] Constructed" << std::endl;
 
-	if (CommandBase::pDriveTrain != nullptr)	{
+	if (CommandBase::pDriveTrain != nullptr)
+	{
 		Requires(CommandBase::pDriveTrain);
-	} else {
+	}
+	else
+	{
 		std::cout << "[DriveWithJoystick] driveTrain is null!" << std::endl;
 	}
+
+	return;
 }
 
 /**
@@ -22,6 +27,8 @@ DriveWithJoystick::DriveWithJoystick()
 void DriveWithJoystick::Initialize()
 {
 	std::cout << "[DriveWithJoystick] Initialized" << std::endl;
+
+	return;
 }
 
 /**
@@ -30,7 +37,14 @@ void DriveWithJoystick::Initialize()
 
 void DriveWithJoystick::Execute()
 {
-	CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystick());
+	//CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystick());
+
+	double forwardSpeed = CommandBase::pOI->GetJoystick()->GetY(XboxController::kLeftHand);
+	double turnAngle = CommandBase::pOI->GetJoystick()->GetX(XboxController::kLeftHand);
+
+	CommandBase::pDriveTrain->ArcadeDrive( forwardSpeed, turnAngle );
+
+	return;
 }
 
 /**
@@ -48,7 +62,7 @@ bool DriveWithJoystick::IsFinished()
 
 void DriveWithJoystick::End()
 {
-
+	return;
 }
 
 /**
@@ -57,5 +71,5 @@ void DriveWithJoystick::End()
 
 void DriveWithJoystick::Interrupted()
 {
-
+	return;
 }

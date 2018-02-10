@@ -2,10 +2,16 @@
 #define _ROBOTMAP_HG_
 
 //Drive Train
-const int LEFT_FRONT_MOTOR_ID = 4;
-const int LEFT_REAR_MOTOR_ID = 3;
-const int RIGHT_FRONT_MOTOR_ID = 1;
-const int RIGHT_REAR_MOTOR_ID = 2;
+const int DRIVETRAIN_LEFT_FRONT_MOTOR_ID = 4;
+const int DRIVETRAIN_LEFT_REAR_MOTOR_ID = 3;
+const int DRIVETRAIN_RIGHT_FRONT_MOTOR_ID = 1;
+const int DRIVETRAIN_RIGHT_REAR_MOTOR_ID = 2;
+
+//Intake
+const int INTAKE_LEFT_MOTOR_ID = 5;		// TODO: This been assigned, yet
+const int INTAKE_RIGHT_MOTOR_ID = 6;	// TODO: This hasn't been assigned, yet
+// TODO: Add the pneumatic switch
+// TODO: Add the hall effect (or whatever) sensor IDs
 
 const double WHEEL_RADIUS = 3.0;
 

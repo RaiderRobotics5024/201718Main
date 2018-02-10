@@ -9,6 +9,8 @@ Robot::~Robot()
 	delete this->pDriveWithJoystick;
 	delete this->pDefaultAutoCommand;
 	delete this->pMyAutoCommand;
+
+	return;
 }
 
 /**
@@ -28,6 +30,8 @@ void Robot::RobotInit()
 	m_chooser.AddDefault("Default Auto", pDefaultAutoCommand);
 	m_chooser.AddObject("My Auto", pMyAutoCommand);
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+
+	return;
 }
 
 /**
@@ -36,6 +40,7 @@ void Robot::RobotInit()
 
 void Robot::DisabledInit()
 {
+	return;
 }
 
 /**
@@ -45,6 +50,8 @@ void Robot::DisabledInit()
 void Robot::DisabledPeriodic()
 {
 	frc::Scheduler::GetInstance()->Run();
+
+	return;
 }
 
 /**
@@ -60,12 +67,17 @@ void Robot::AutonomousInit()
 
 	pAutonomousCommand = m_chooser.GetSelected();
 
-	if (pAutonomousCommand != nullptr) {
+	if (pAutonomousCommand != nullptr)
+	{
 		std::cout << "[Robot] Starting autonomous" << std::endl;
 		pAutonomousCommand->Start();
-	} else {
+	}
+	else
+	{
 		std::cout << "Autonomous Command is null!" << std::endl;
 	}
+
+	return;
 }
 
 /**
@@ -75,6 +87,8 @@ void Robot::AutonomousInit()
 void Robot::AutonomousPeriodic()
 {
 	frc::Scheduler::GetInstance()->Run();
+
+	return;
 }
 
 /**
@@ -89,17 +103,23 @@ void Robot::TeleopInit()
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
 	// this line or comment it out.
-	if (pAutonomousCommand != nullptr) {
+	if (pAutonomousCommand != nullptr)
+	{
 		pAutonomousCommand->Cancel();
 		pAutonomousCommand = nullptr;
 	}
 
-	if (pDriveWithJoystick != nullptr) {
+	if (pDriveWithJoystick != nullptr)
+	{
 		std::cout << "[Robot] Starting DriveWithJoystick" << std::endl;
 		pDriveWithJoystick->Start();
-	} else {
+	}
+	else
+	{
 		std::cout << "[Robot] DriveWithJoystick is null!" << std::endl;
 	}
+
+	return;
 }
 
 /**
@@ -110,6 +130,8 @@ void Robot::TeleopPeriodic()
 {
 	std::cout << "[Robot] Running Scheduler" << std::endl;
 	frc::Scheduler::GetInstance()->Run();
+
+	return;
 }
 
 /**
@@ -119,6 +141,8 @@ void Robot::TeleopPeriodic()
 void Robot::TestPeriodic()
 {
 	std::cout << "[Robot] TestPeriodic" << std::endl;
+
+	return;
 }
 
 /**
