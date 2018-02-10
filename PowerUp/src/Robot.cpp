@@ -86,6 +86,8 @@ void Robot::TeleopPeriodic()
 
 	pTalonSRX->Set(motor_speed);
 
+	Robot::Trace();
+
 	return;
 }
 
