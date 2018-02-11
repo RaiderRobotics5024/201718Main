@@ -5,8 +5,8 @@
  *
  */
 
-DriveTrain* CommandBase::pDriveTrain = NULL;
 OI* CommandBase::pOI = NULL;
+DriveTrain* CommandBase::pDriveTrain = NULL;
 Intake* CommandBase::pIntake = NULL;
 
 CommandBase::CommandBase() : Command()
@@ -67,9 +67,9 @@ void CommandBase::init()
 	}
 
 	if (CommandBase::pIntake == nullptr)
-		{
-			CommandBase::pIntake = new Intake();
-		}
+	{
+		CommandBase::pIntake = new Intake();
+	}
 
 	return;
 }

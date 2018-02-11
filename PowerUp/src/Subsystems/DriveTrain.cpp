@@ -11,19 +11,30 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	this->pLeftFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
-	this->pLeftSpeedControllerGroup
-	                = new frc::SpeedControllerGroup( *(this->pLeftFrontMotor),
-			                                         *(this->pLeftRearMotor) );
+
+	// set these base so motors turn the same way
+	this->pLeftFrontMotor->SetInverted(false);
+	this->pLeftRearMotor->SetInverted(false);
+
 	//this->pLeftFrontMotor->SetInverted(true);
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
+
+	// set these based so motors turn the same way
+	this->pLeftFrontMotor->SetInverted(false);
+	this->pLeftRearMotor->SetInverted(false);
+
+	// group the motors
+	this->pLeftSpeedControllerGroup
+	                = new frc::SpeedControllerGroup( *(this->pLeftFrontMotor),
+			                                         *(this->pLeftRearMotor) );
+
 	this->pRightSpeedControllerGroup
 	                = new frc::SpeedControllerGroup( *(this->pRightFrontMotor),
                                                      *(this->pRightRearMotor) );
 
-	this->pRobotDrive
-	                = new frc::DifferentialDrive( *(this->pLeftSpeedControllerGroup),
-                                                  *(this->pRightSpeedControllerGroup) );
+	this->pRobotDrive = new frc::DifferentialDrive( *(this->pLeftSpeedControllerGroup),
+                                                    *(this->pRightSpeedControllerGroup) );
 
 	pRobotDrive->SetSafetyEnabled(false);
 
@@ -99,7 +110,6 @@ void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
 	return;
 }
 
-
 void DriveTrain::Reset()
 {
 	std::cout << "[DriveTrain] Resetting the motors" << std::endl;
@@ -111,16 +121,3 @@ void DriveTrain::Reset()
 
 	return;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
