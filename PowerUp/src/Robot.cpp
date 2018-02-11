@@ -25,6 +25,7 @@ Robot::~Robot()
 {
 	delete this->pXboxController;
 	delete this->pTalonSRX;
+	delete this->pFaults;
 
 	return;
 }
