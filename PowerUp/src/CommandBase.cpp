@@ -1,13 +1,12 @@
 #include "CommandBase.h"
-#include "Subsystems/DriveTrain.h"
 
-/**
- *
- */
 
 OI* CommandBase::pOI = NULL;
 DriveTrain* CommandBase::pDriveTrain = NULL;
 Intake* CommandBase::pIntake = NULL;
+Elevator* CommandBase::pElevator = NULL;
+BotClimb* CommandBase::pBotClimb = NULL;
+
 
 CommandBase::CommandBase() : Command()
 {
