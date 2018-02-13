@@ -21,8 +21,7 @@ public:
 	~DriveTrain();
 	void InitDefaultCommand() override;
 	void Drive(XboxController* joystick);
-	int GetRightEncoderValue();
-	int GetLeftEncoderValue();
+	can::WPI_TalonSRX* GetMotor();
 
 private:
 	can::WPI_TalonSRX* pLeftFrontMotor;

@@ -52,24 +52,9 @@ void DriveTrain::InitDefaultCommand()
  *
  */
 
-int DriveTrain::GetLeftEncoderValue()
+can::WPI_TalonSRX* DriveTrain::GetMotor()
 {
-	double data = 0.0; // should be motor position from the enoder
-	double equation = 2.0 * 3.1415 * WHEEL_RADIUS;
-
-	return data * equation;
-}
-
-/**
- *
- */
-
-int DriveTrain::GetRightEncoderValue()
-{
-	double data = 0.0; // should be motor position from the enoder
-	double equation = 2.0 * 3.1415 * WHEEL_RADIUS;
-
-	return data * equation;
+	return this->pLeftFrontMotor;
 }
 
 // Put methods for controlling this subsystem here.

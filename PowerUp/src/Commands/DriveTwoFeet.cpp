@@ -23,8 +23,7 @@ void DriveTwoFeet::Initialize()
 {
 	std::cout << "[DriveTwoFeet] Initialized" << std::endl;
 
-	WPI_TalonSRX* _talon = new can::WPI_TalonSRX(LEFT_FRONT_MOTOR_ID);
-	//	WPI_TalonSRX* _talon = CommandBase::pDriveTrain->pLeftFrontMotor;
+	_talon = CommandBase::pDriveTrain->GetMotor();
 
 	/* lets grab the 360 degree position of the MagEncoder's absolute position */
 	/* mask out the bottom12 bits, we don't care about the wrap arounds */

@@ -22,7 +22,6 @@ public:
 
 private:
 	can::WPI_TalonSRX* _talon;
-//	Joystick * _joy = new Joystick(0);
 	std::string _sb;
 	int _loops = 0;
 	bool _lastButton1 = false;
