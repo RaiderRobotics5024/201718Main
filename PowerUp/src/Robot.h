@@ -20,8 +20,9 @@ public:
 	void Trace();
 
 private:
-	int motor_id;
-	double motor_speed;
+	int iMotorId;
+	int iCounter;
+	double dMotorSpeed;
 
 	WPI_TalonSRX* pTalonSRX;
 	Faults* pFaults;

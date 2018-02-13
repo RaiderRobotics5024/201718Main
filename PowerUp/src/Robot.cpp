@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include <iostream>
 
 /**
  *
@@ -8,9 +9,10 @@ Robot::Robot()
 {
 	SmartDashboard::init();
 
-	motor_id = 1;
-	motor_speed = 0.0;
-	SetMotor(motor_id);
+	iMotorId = 1;
+	iCounter = 0;
+	dMotorSpeed = 0.0;
+	SetMotor(iMotorId);
 
 	this->pXboxController = new XboxController(0);
 
@@ -58,15 +60,17 @@ void Robot::SetMotor(int motor_id)
 
 void Robot::TeleopPeriodic()
 {
-	SmartDashboard::PutNumber("Motor ID", motor_id);
+	SmartDashboard::PutNumber("Motor ID", iMotorId);
 
 	// switch the motor with the left/right bumpers
 	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) {
-		motor_id = (motor_id > 1) ? motor_id-- : 1;
-		SetMotor(motor_id);
+		iMotorId--;
+		if (iMotorId < 1) iMotorId = 1;
+		SetMotor(iMotorId);
 	} else if (pXboxController->GetBumperPressed(XboxController::kRightHand)) {
-		motor_id = (motor_id < 8) ? motor_id++ : 8;
-		SetMotor(motor_id);
+		iMotorId++;
+		if (iMotorId > 8) iMotorId = 8;
+		SetMotor(iMotorId);
 	}
 
 	// invert the motor with the X/B buttons
@@ -78,16 +82,20 @@ void Robot::TeleopPeriodic()
 
 	// run forward/backward with Y/A buttons
 	if (this->pXboxController->GetYButton()) {
-		motor_speed = 1.0;
+		dMotorSpeed = 1.0;
 	} else if (this->pXboxController->GetAButton()) {
-		motor_speed = -1.0;
+		dMotorSpeed = -1.0;
 	} else {
-		motor_speed = 0.0;
+		dMotorSpeed = 0.0;
 	}
 
-	pTalonSRX->Set(motor_speed);
+	pTalonSRX->Set(dMotorSpeed);
 
-	Robot::Trace();
+	if (iCounter++ == 20)
+	{
+		Robot::Trace();
+		iCounter = 0;
+	}
 
 	return;
 }
@@ -120,6 +128,7 @@ void Robot::Trace()
 	double derivErr = pTalonSRX->GetErrorDerivative(0);  /* sensor selected for PID Loop 0 */
 
 
+	SmartDashboard::PutNumber("Motor ID", iMotorId);
 	SmartDashboard::PutNumber("Base ID", baseId);
 	SmartDashboard::PutNumber("Version", version);
 	SmartDashboard::PutBoolean("Is Inverted", isInverted);
