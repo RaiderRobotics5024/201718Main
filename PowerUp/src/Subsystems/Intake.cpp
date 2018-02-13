@@ -47,7 +47,7 @@ void Intake::InitDefaultCommand()
 
 void Intake::Reset()
 {
-	std::cout << "[DriveTrain] Resetting the motors" << std::endl;
+	std::cout << "[Intake] Resetting the motors" << std::endl;
 
 	this->pLeftMotor->Set(ControlMode::PercentOutput, 0.0);
 	this->pRightMotor->Set(ControlMode::PercentOutput, 0.0);

@@ -7,6 +7,8 @@ const int DRIVETRAIN_LEFT_REAR_MOTOR_ID = 3;
 const int DRIVETRAIN_RIGHT_FRONT_MOTOR_ID = 1;
 const int DRIVETRAIN_RIGHT_REAR_MOTOR_ID = 2;
 
+const double WHEEL_RADIUS = 3.0;
+
 //Intake
 const int INTAKE_LEFT_MOTOR_ID = 5;		// TODO: This been assigned, yet
 const int INTAKE_RIGHT_MOTOR_ID = 6;	// TODO: This hasn't been assigned, yet
@@ -15,7 +17,12 @@ const int GRIPPER_SOLENOID_FORWARDCHANNEL_ID = 7;
 const int GRIPPER_SOLENOID_REVERSECHANNEL_ID = 8;
 // TODO: Add the hall effect (or whatever) sensor IDs
 
-const double WHEEL_RADIUS = 3.0;
+//Elevator
+const int ELEVATOR_MOTOR_ID = 9;
+
+//BotClimb
+const int CLIMB_MOTOR_ID = 10;
+
 
 //XBox Controller
 const int XBOX_CONTROLLER_DRIVE_PORT = 0;
