@@ -1,0 +1,16 @@
+DRIVER:
+
+LEFT_JOY - drive
+LEFT_TRIGGER - cube in
+RIGHT_TRIGGER - cube out
+BTN_A - slow mode
+BTN_B - reverse controls
+
+OPERATOR:
+
+LEFT_TRIGGER - cube in
+RIGHT_TRIGGER - cube out
+BTN_Y - toggle gripper
+NUMPAD_UP - elevator posistion (switch)
+NUMPAD_RIGHT - elevator posistion (vault)
+NUMPAD_DOWN - elevator posistion (ground)
