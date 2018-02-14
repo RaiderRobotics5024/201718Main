@@ -2,19 +2,31 @@
 #define _CODETOOLS_HG_
 bool togglePressed;
 namespace ct {
-bool ToggleBool(bool input){
-	bool togglePressed = false;
-	bool toggleOn = false;
+
+/*
+ *
+ * INSTRUCTIONS:
+ * to call the following function, do the following;
+ *
+ * static bool toggleOn;
+ * static bool togglePressed;
+ *
+ * output = toggle(<put xbox button here (ex. GetBButton())>, &toggleOn, &togglePressed);
+ *
+ * ask Evan Pratten for help if you don't understand.
+ *
+ */
+bool toggle(bool input, bool *toggleOn, bool *togglePressed){
 	if(input){
-		if(!togglePressed){
-			toggleOn = !toggleOn;
-			togglePressed = true;
+			if(!(*togglePressed)){
+				*toggleOn = !(*toggleOn);
+				*togglePressed = true;
+			}
+		}else{
+			*togglePressed = false;
 		}
-	}else{
-		togglePressed = false;
-	}
-	return toggleOn;
-} // togglebool
+		return *toggleOn;
+}
 
 }
 /*
