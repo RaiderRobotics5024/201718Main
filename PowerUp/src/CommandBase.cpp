@@ -25,6 +25,8 @@ CommandBase::~CommandBase()
 {
 	delete this->pDriveTrain;
 	delete this->pIntake;
+	delete this->pElevator;
+	delete this->pBotClimb;
 	delete this->pOI;
 
 	return;
@@ -68,6 +70,11 @@ void CommandBase::init()
 	if (CommandBase::pIntake == nullptr)
 	{
 		CommandBase::pIntake = new Intake();
+	}
+
+	if (CommandBase::pBotClimb == nullptr)
+	{
+		CommandBase::pBotClimb = new BotClimb();
 	}
 
 	return;
