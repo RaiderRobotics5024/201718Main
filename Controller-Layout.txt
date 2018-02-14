@@ -3,14 +3,15 @@ DRIVER:
 LEFT_JOY - drive
 LEFT_TRIGGER - cube in
 RIGHT_TRIGGER - cube out
-BTN_A - slow mode
-BTN_B - reverse controls
+RIGHT_BUMPER - slowmode (hold)
+BTN_A - close gripper
+BTN_B - open gripper
+BTN_X - reverse controls
+BTN_Y - robot 180
 
 OPERATOR:
 
-LEFT_TRIGGER - cube in
-RIGHT_TRIGGER - cube out
-BTN_Y - toggle gripper
-NUMPAD_UP - elevator posistion (switch)
-NUMPAD_RIGHT - elevator posistion (vault)
-NUMPAD_DOWN - elevator posistion (ground)
+DPAD_UP - elevator posistion (switch)
+DPAD_RIGHT - elevator posistion (vault)
+DPAD_DOWN - elevator posistion (ground)
+DPAD_LEFT - climb
