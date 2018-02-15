@@ -1,23 +1,5 @@
 #include "Robot.h"
-#include <iostream>
-
-/**
- *
- */
-
-Robot::Robot()
-{
-	SmartDashboard::init();
-
-	iMotorId = 1;
-	iCounter = 0;
-	dMotorSpeed = 0.0;
-	SetMotor(iMotorId);
-
-	this->pXboxController = new XboxController(0);
-
-	return;
-}
+#include "Utilities/Log.h"
 
 /**
  *
@@ -25,9 +7,8 @@ Robot::Robot()
 
 Robot::~Robot()
 {
-	delete this->pXboxController;
-	delete this->pTalonSRX;
-	delete this->pFaults;
+	delete this->pDriveWithJoystick;
+	delete this->pAutonomousCommand;
 
 	return;
 }
@@ -36,20 +17,115 @@ Robot::~Robot()
  *
  */
 
-void Robot::SetMotor(int motor_id)
+void Robot::RobotInit()
 {
-	if (this->pTalonSRX != nullptr)
+	LOG("[Robot] Initialized");
+
+	// instantiate the commands
+	this->pDriveWithJoystick = new DriveWithJoystick();
+
+	// Setup smartdashboard robot positions
+	scRobotPosition.AddDefault("Left", 0);
+	scRobotPosition.AddObject("Centre", 1);
+	scRobotPosition.AddObject("Right", 2);
+	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
+
+	// Setup smartdashboard switch positions
+	scSwitchPosition.AddDefault("Left", 0);
+	scSwitchPosition.AddObject("Right", 2);
+	frc::SmartDashboard::PutData("Switch Position", &scSwitchPosition);
+
+	return;
+}
+
+/**
+ *
+ */
+
+void Robot::DisabledInit()
+{
+	return;
+}
+
+/**
+ *
+ */
+
+void Robot::DisabledPeriodic()
+{
+	frc::Scheduler::GetInstance()->Run();
+
+	return;
+}
+
+/**
+ *
+ */
+
+void Robot::AutonomousInit()
+{
+	LOG("[Robot] Autonomous Initialized");
+
+	int _RP = scRobotPosition.GetSelected();
+	int _SP = scSwitchPosition.GetSelected();
+
+	switch (_RP + _SP)
 	{
-		this->pTalonSRX->Set(ControlMode::PercentOutput, 0);
-		delete this->pTalonSRX;
-		delete this->pFaults;
+	case 0: pAutonomousCommand = new RLSL();
+		    break;
 	}
 
-	this->pTalonSRX = new WPI_TalonSRX(motor_id);
-	this->pTalonSRX->SetInverted(false);
-	this->pTalonSRX->SetSensorPhase(true);
-	this->pFaults = new Faults();
-	pTalonSRX->GetFaults(*pFaults);
+	if (pAutonomousCommand != nullptr)
+	{
+		LOG("[Robot] Starting autonomous");
+		pAutonomousCommand->Start();
+	}
+	else
+	{
+		LOG("Autonomous Command is null!");
+	}
+
+	return;
+}
+
+/**
+ *
+ */
+
+void Robot::AutonomousPeriodic()
+{
+	frc::Scheduler::GetInstance()->Run();
+
+	return;
+}
+
+/**
+ *
+ */
+
+void Robot::TeleopInit()
+{
+	LOG("[Robot] Teleop Initialized");
+
+	// This makes sure that the autonomous stops running when
+	// teleop starts running. If you want the autonomous to
+	// continue until interrupted by another command, remove
+	// this line or comment it out.
+	if (pAutonomousCommand != nullptr)
+	{
+		pAutonomousCommand->Cancel();
+		pAutonomousCommand = nullptr;
+	}
+
+	if (pDriveWithJoystick != nullptr)
+	{
+		LOG("[Robot] Starting DriveWithJoystick");
+		pDriveWithJoystick->Start();
+	}
+	else
+	{
+		LOG("[Robot] DriveWithJoystick is null!");
+	}
 
 	return;
 }
@@ -60,42 +136,8 @@ void Robot::SetMotor(int motor_id)
 
 void Robot::TeleopPeriodic()
 {
-	SmartDashboard::PutNumber("Motor ID", iMotorId);
-
-	// switch the motor with the left/right bumpers
-	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) {
-		iMotorId--;
-		if (iMotorId < 1) iMotorId = 1;
-		SetMotor(iMotorId);
-	} else if (pXboxController->GetBumperPressed(XboxController::kRightHand)) {
-		iMotorId++;
-		if (iMotorId > 8) iMotorId = 8;
-		SetMotor(iMotorId);
-	}
-
-	// invert the motor with the X/B buttons
-	if (this->pXboxController->GetXButton()) {
-		this->pTalonSRX->SetInverted(false);
-	} else if (this->pXboxController->GetBButton()) {
-		this->pTalonSRX->SetInverted(true);
-	}
-
-	// run forward/backward with Y/A buttons
-	if (this->pXboxController->GetYButton()) {
-		dMotorSpeed = 1.0;
-	} else if (this->pXboxController->GetAButton()) {
-		dMotorSpeed = -1.0;
-	} else {
-		dMotorSpeed = 0.0;
-	}
-
-	pTalonSRX->Set(dMotorSpeed);
-
-	if (iCounter++ == 20)
-	{
-		Robot::Trace();
-		iCounter = 0;
-	}
+	LOG("[Robot] Running Scheduler");
+	frc::Scheduler::GetInstance()->Run();
 
 	return;
 }
@@ -104,55 +146,15 @@ void Robot::TeleopPeriodic()
  *
  */
 
-void Robot::Trace()
+void Robot::TestPeriodic()
 {
-	int baseId = pTalonSRX->GetBaseID();
-	int version = pTalonSRX->GetFirmwareVersion();
-	bool isInverted = pTalonSRX->GetInverted();
-
-	double currentAmps = pTalonSRX->GetOutputCurrent();
-	double outputV = pTalonSRX->GetMotorOutputVoltage();
-	double busV = pTalonSRX->GetBusVoltage();
-	double outputPerc = pTalonSRX->GetMotorOutputPercent();
-
-	int quadPos = pTalonSRX->GetSensorCollection().GetQuadraturePosition();
-	int quadVel = pTalonSRX->GetSensorCollection().GetQuadratureVelocity();
-
-	int analogPos = pTalonSRX->GetSensorCollection().GetAnalogIn();
-	int analogVel = pTalonSRX->GetSensorCollection().GetAnalogInVel();
-
-	int selectedSensorPos = pTalonSRX->GetSelectedSensorPosition(0); /* sensor selected for PID Loop 0 */
-	int selectedSensorVel = pTalonSRX->GetSelectedSensorVelocity(0); /* sensor selected for PID Loop 0 */
-	int closedLoopErr = pTalonSRX->GetClosedLoopError(0); /* sensor selected for PID Loop 0 */
-	double closedLoopAccum = pTalonSRX->GetIntegralAccumulator(0); /* sensor selected for PID Loop 0 */
-	double derivErr = pTalonSRX->GetErrorDerivative(0);  /* sensor selected for PID Loop 0 */
-
-
-	SmartDashboard::PutNumber("Motor ID", iMotorId);
-	SmartDashboard::PutNumber("Base ID", baseId);
-	SmartDashboard::PutNumber("Version", version);
-	SmartDashboard::PutBoolean("Is Inverted", isInverted);
-
-	SmartDashboard::PutNumber("Current Amps", currentAmps);
-	SmartDashboard::PutNumber("Output Voltage", outputV);
-	SmartDashboard::PutNumber("Bus Voltage", busV);
-	SmartDashboard::PutNumber("Output Percent", outputPerc);
-
-	SmartDashboard::PutNumber("Quad Position", quadPos);
-	SmartDashboard::PutNumber("Quad Velocity", quadVel);
-
-	SmartDashboard::PutNumber("Analog In Position", analogPos);
-	SmartDashboard::PutNumber("Analog In Velocity", analogVel);
-
-	SmartDashboard::PutNumber("SS Position", selectedSensorPos);
-	SmartDashboard::PutNumber("SS Velocity", selectedSensorVel);
-	SmartDashboard::PutNumber("SS Closed Loop Error", closedLoopErr);
-	SmartDashboard::PutNumber("Integral Accumulator", closedLoopAccum);
-	SmartDashboard::PutNumber("Error Derivative", derivErr);
-
-	SmartDashboard::PutBoolean("Has Faults", pFaults->HasAnyFault());
+	LOG("[Robot] TestPeriodic");
 
 	return;
 }
+
+/**
+ *
+ */
 
 START_ROBOT_CLASS(Robot)

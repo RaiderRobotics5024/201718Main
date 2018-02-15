@@ -2,31 +2,43 @@
 #define _ROBOT_HG_
 
 #include <WPILib.h>
-#include <IterativeRobot.h>
-#include <ctre/Phoenix.h>
-#include <XboxController.h>
+#include <Commands/Command.h>
+#include <Commands/Scheduler.h>
+#include "Commands/DriveWithJoystick.h"
+#include "Commands/Autonomous/RLSL.h"
+#include <LiveWindow/LiveWindow.h>
+#include <SmartDashboard/SendableChooser.h>
+#include <SmartDashboard/SmartDashboard.h>
 
 /**
  *
  */
 
-class Robot : public frc::IterativeRobot
+class Robot : public frc::TimedRobot
 {
 public:
-	Robot();
 	~Robot();
-	void TeleopPeriodic();
-	void SetMotor(int);
-	void Trace();
+	void RobotInit() override;
+	void DisabledInit() override;
+	void DisabledPeriodic() override;
+	void AutonomousInit() override;
+	void AutonomousPeriodic() override;
+	void TeleopInit() override;
+	void TeleopPeriodic() override;
+	void TestPeriodic() override;
+
+	// Have it null by default so that if testing teleop it
+	// doesn't have undefined behavior and potentially crash.
+	frc::Command* pAutonomousCommand = nullptr;
+
+	frc::SendableChooser<int> scRobotPosition;
+	frc::SendableChooser<int> scSwitchPosition;
+
+	// declare the commands
+	DriveWithJoystick* pDriveWithJoystick;
+	RLSL* pRLSLCommand;
 
 private:
-	int iMotorId;
-	int iCounter;
-	double dMotorSpeed;
-
-	WPI_TalonSRX* pTalonSRX;
-	Faults* pFaults;
-	frc::XboxController* pXboxController;
 };
 
 #endif
