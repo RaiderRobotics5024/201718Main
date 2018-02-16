@@ -19,6 +19,17 @@ Robot::~Robot()
 
 void Robot::RobotInit()
 {
+	// This bit is just for fun
+		std::cout << "#######                                                     ##    ##  #######   " << std::endl <<
+					"##    ##                                                    ##    ##  ##    ##  " << std::endl <<
+					"##    ##   ######   ##   ##   ##   ######    ######         ##    ##  ##    ##  " << std::endl <<
+					"#######   ##    ##  ##   ##   ##  ##    ##  ##    ##        ##    ##  #######   "<< std::endl <<
+					"##        ##    ##  ##   ##   ##  ########  ##              ##    ##  ##        "<< std::endl <<
+					"##        ##    ##  ##   ##   ##  ##        ##              ##    ##  ##        "<< std::endl <<
+					"##         ######    ##### ####    #######  ##               ######   ##        " << std::endl <<
+					"-------------------------------- Made By: Team 5024 ----------------------------" << std::endl;
+
+
 	std::cout << "[Robot] Initialized" << std::endl;
 
 	// instantiate the commands
