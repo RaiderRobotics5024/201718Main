@@ -1,4 +1,5 @@
 #include "RLSR.h"
+#include "../../Utilities/Log.h"
 #include "../DriveByPosition.h"
 #include "../RotateByPosition.h"
 
@@ -8,6 +9,8 @@
 
 RLSR::RLSR()
 {
+	LOG("[RLSR] Constructed");
+
 	// 19.75 * pi / 4 = 15.51
 	AddSequential(new DriveByPosition(60.0, 1.0));
 	AddSequential(new RotateByPosition(15.51, 0.5));
