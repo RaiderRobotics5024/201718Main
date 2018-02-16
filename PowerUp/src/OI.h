@@ -1,7 +1,6 @@
 #ifndef _OI_HG_
 #define _OI_HG_
 
-#include <iostream>
 #include <WPILib.h>
 #include <XboxController.h>
 
@@ -13,10 +12,13 @@ class OI
 {
 public:
 	OI();
-	frc::XboxController* GetJoystick();
+	~OI();
+	frc::XboxController* GetJoystickDrive();
+	frc::XboxController* GetJoystickOperator();
 
 private:
-	frc::XboxController* pJoystick;
+	frc::XboxController* pJoystickDrive;
+	frc::XboxController* pJoystickOperator;
 };
 
 #endif

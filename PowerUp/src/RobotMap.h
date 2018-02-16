@@ -8,6 +8,7 @@ const int RIGHT_FRONT_MOTOR_ID = 3;
 const int RIGHT_REAR_MOTOR_ID = 4;
 
 // Talon Settings
+const double WHEEL_TO_WHEEL = 19.75; // in inches
 const double WHEEL_RADIUS = 3.0; // in inches
 const int TICKS_PER_REVOLUTION = 4096;
 const double INCHES_PER_REVOLUTION = 18.85; // 2 * r * pi in inches
@@ -23,9 +24,11 @@ const static double PID_F = 0.00f;
 
 const static double TOLERANCE_DEGREES = 2.0f;
 
-
-
 // XBox Controller
 const int XBOX_CONTROLLER_DRIVE_PORT = 0;
+const int XBOX_CONTROLLER_OPERATOR_PORT = 1;
+
+const double XBOX_DEADZONE_LEFT_JOY = 0.1;
+const double XBOX_DEADZONE_RIGHT_JOY = 0.1;
 
 #endif

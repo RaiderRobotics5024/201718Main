@@ -1,4 +1,5 @@
 #include "DriveTrain.h"
+#include <math.h>
 #include "../Utilities/Log.h"
 #include "../Commands/DriveWithJoystick.h"
 #include "../RobotMap.h"
@@ -63,7 +64,7 @@ DriveTrain::~DriveTrain()
  *
  */
 
-void DriveTrain::InitAutonomous()
+void DriveTrain::InitAutonomous(bool inverted)
 {
 	LOG("[DriveTrain] Autonomous Initialized");
 
@@ -86,6 +87,9 @@ void DriveTrain::InitAutonomous()
 	pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.1, TIMEOUT_MS);
 	pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
 	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+
+	pRightFrontMotor->Follow(*pLeftFrontMotor);
+	pRightFrontMotor->SetInverted(inverted);
 
 	return;
 }
@@ -114,6 +118,16 @@ void DriveTrain::Drive(XboxController* pJoystick)
 {
 	double forwardSpeed = pJoystick->GetY(XboxController::kLeftHand);
 	double turnAngle = pJoystick->GetX(XboxController::kLeftHand);
+
+	if (fabs(forwardSpeed) <= XBOX_DEADZONE_LEFT_JOY)
+	{
+		forwardSpeed = 0.0;
+	}
+
+	if (fabs(turnAngle) <= XBOX_DEADZONE_LEFT_JOY)
+	{
+		turnAngle = 0.0;
+	}
 
 	this->pRobotDrive->ArcadeDrive(forwardSpeed, turnAngle);
 
@@ -204,6 +218,14 @@ void DriveTrain::ResetDrive()
 	this->pLeftRearMotor->Set(ControlMode::PercentOutput, 0);
 	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0);
 	this->pRightRearMotor->Set(ControlMode::PercentOutput, 0);
+
+	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
+	this->pLeftFrontMotor->SetInverted(false);
+	this->pLeftRearMotor->SetInverted(false);
+
+	this->pRightRearMotor->Follow(*pRightRearMotor);
+	this->pRightFrontMotor->SetInverted(true);
+	this->pRightRearMotor->SetInverted(true);
 
 	return;
 }

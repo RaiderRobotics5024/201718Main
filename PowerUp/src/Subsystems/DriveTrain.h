@@ -16,7 +16,7 @@ class DriveTrain: public frc::Subsystem, PIDOutput
 public:
 	DriveTrain();
 	~DriveTrain();
-	void InitAutonomous();
+	void InitAutonomous(bool inverted);
 	void InitDefaultCommand() override;
 	void Drive(XboxController* joystick);
 	void Drive(double position);

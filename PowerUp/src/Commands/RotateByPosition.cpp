@@ -1,22 +1,22 @@
 #include <iostream>
-#include "DriveByPosition.h"
+#include "RotateByPosition.h"
 #include "../Utilities/Log.h"
 #include "../RobotMap.h"
 
 /**
- * distance in inches, speed from -1 to 1
+ *
  */
 
-DriveByPosition::DriveByPosition(double distance, double speed)
+RotateByPosition::RotateByPosition(double distance, double speed)
 {
-	LOG("[DriveByPosition] Constructed");
+	LOG("[RotateByPosition] Constructed" );
 
 	if (CommandBase::pDriveTrain != nullptr) {
 		Requires(CommandBase::pDriveTrain);
 		this->dDistance = distance;
 		this->dSpeed = speed;
 	} else {
-		LOG("[DriveByPosition] driveTrain is null!");
+		LOG("[RotateByPosition] driveTrain is null!");
 	}
 
 	return;
@@ -26,11 +26,11 @@ DriveByPosition::DriveByPosition(double distance, double speed)
  *
  */
 
-void DriveByPosition::Initialize()
+void RotateByPosition::Initialize()
 {
-	LOG("[DriveByPosition] Initialized");
+	LOG("[RotateByPosition] Initialized");
 
-	CommandBase::pDriveTrain->InitAutonomous(true);
+	CommandBase::pDriveTrain->InitAutonomous(false);
 	double targetPositionRotations = (dDistance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
 	CommandBase::pDriveTrain->Drive(dSpeed * targetPositionRotations);
 
@@ -41,7 +41,7 @@ void DriveByPosition::Initialize()
  *
  */
 
-void DriveByPosition::Execute()
+void RotateByPosition::Execute()
 {
 	if (iCounter++ == 10)
 	{
@@ -56,7 +56,7 @@ void DriveByPosition::Execute()
  *
  */
 
-bool DriveByPosition::IsFinished()
+bool RotateByPosition::IsFinished()
 {
 	return CommandBase::pDriveTrain->IsDriving();
 }
@@ -65,9 +65,9 @@ bool DriveByPosition::IsFinished()
  *
  */
 
-void DriveByPosition::End()
+void RotateByPosition::End()
 {
-	LOG("[DriveByPosition] Ended" );
+	LOG("[RotateByPosition] Ended");
 
 	CommandBase::pDriveTrain->ResetDrive();
 
@@ -78,8 +78,9 @@ void DriveByPosition::End()
  *
  */
 
-void DriveByPosition::Interrupted()
+void RotateByPosition::Interrupted()
 {
+	LOG("[RotateByPosition] Interrupted");
 
 	return;
 }

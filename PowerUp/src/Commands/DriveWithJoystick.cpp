@@ -1,4 +1,5 @@
 #include "DriveWithJoystick.h"
+#include "../Utilities/Log.h"
 
 /**
  *
@@ -6,13 +7,15 @@
 
 DriveWithJoystick::DriveWithJoystick()
 {
-	std::cout << "[DriveWithJoystick] Constructed" << std::endl;
+	LOG("[DriveWithJoystick] Constructed");
 
 	if (CommandBase::pDriveTrain != nullptr)	{
 		Requires(CommandBase::pDriveTrain);
 	} else {
-		std::cout << "[DriveWithJoystick] driveTrain is null!" << std::endl;
+		LOG("[DriveWithJoystick] driveTrain is null!");
 	}
+
+	return;
 }
 
 /**
@@ -21,7 +24,9 @@ DriveWithJoystick::DriveWithJoystick()
 
 void DriveWithJoystick::Initialize()
 {
-	std::cout << "[DriveWithJoystick] Initialized" << std::endl;
+	LOG("[DriveWithJoystick] Initialized");
+
+	return;
 }
 
 /**
@@ -30,7 +35,7 @@ void DriveWithJoystick::Initialize()
 
 void DriveWithJoystick::Execute()
 {
-	CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystick());
+	CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystickDrive());
 }
 
 /**
@@ -48,7 +53,9 @@ bool DriveWithJoystick::IsFinished()
 
 void DriveWithJoystick::End()
 {
+	LOG("[DriveWithJoystick] Ended");
 
+	return;
 }
 
 /**
@@ -57,5 +64,7 @@ void DriveWithJoystick::End()
 
 void DriveWithJoystick::Interrupted()
 {
+	LOG("[DriveWithJoystick] Interrupted");
 
+	return;
 }
