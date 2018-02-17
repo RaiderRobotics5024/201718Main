@@ -9,6 +9,7 @@ Robot::~Robot()
 	delete this->pDriveWithJoystick;
 	delete this->pDefaultAutoCommand;
 	delete this->pMyAutoCommand;
+	delete this->pGripper;
 
 	return;
 }
@@ -36,6 +37,7 @@ void Robot::RobotInit()
 	this->pDriveWithJoystick = new DriveWithJoystick();
 	this->pDefaultAutoCommand = new ExampleCommand();
 	this->pMyAutoCommand = new MyAutoCommand();
+	this->pGripper = new Gripper();
 
 	// Setup smartdashboard autonomous options
 	m_chooser.AddDefault("Default Auto", pDefaultAutoCommand);
@@ -120,6 +122,7 @@ void Robot::TeleopInit()
 		pAutonomousCommand = nullptr;
 	}
 
+	//driving
 	if (pDriveWithJoystick != nullptr)
 	{
 		std::cout << "[Robot] Starting DriveWithJoystick" << std::endl;
@@ -128,6 +131,16 @@ void Robot::TeleopInit()
 	else
 	{
 		std::cout << "[Robot] DriveWithJoystick is null!" << std::endl;
+	}
+	//gripper
+	if (pGripper != nullptr)
+	{
+		std::cout << "[Robot] Starting Gripper" << std::endl;
+		pGripper->Start();
+	}
+	else
+	{
+		std::cout << "[Robot] Gripper is null!" << std::endl;
 	}
 
 	return;
