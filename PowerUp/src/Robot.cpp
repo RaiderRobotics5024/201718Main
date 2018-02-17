@@ -9,7 +9,7 @@ Robot::Robot()
 {
 	SmartDashboard::init();
 
-	iMotorId = 1;
+	iMotorId = 0;
 	iCounter = 0;
 	dMotorSpeed = 0.0;
 	SetMotor(iMotorId);
@@ -65,7 +65,7 @@ void Robot::TeleopPeriodic()
 	// switch the motor with the left/right bumpers
 	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) {
 		iMotorId--;
-		if (iMotorId < 1) iMotorId = 1;
+		if (iMotorId < 0) iMotorId = 0;
 		SetMotor(iMotorId);
 	} else if (pXboxController->GetBumperPressed(XboxController::kRightHand)) {
 		iMotorId++;
