@@ -8,7 +8,6 @@
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Intake.h"
 #include "Subsystems/Elevator.h"
-#include "Subsystems/BotClimb.h"
 
 /**
  *
@@ -24,8 +23,7 @@ public:
 	static OI *pOI;
 	static DriveTrain *pDriveTrain;
 	static Intake *pIntake;
-	static Elevator* pElevator;
-	static BotClimb* pBotClimb;
+	static Elevator *pElevator;
 };
 
 #endif

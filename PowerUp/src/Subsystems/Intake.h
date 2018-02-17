@@ -4,6 +4,7 @@
 #include <WPILib.h>
 #include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
+#include <DoubleSolenoid.h>
 #include "../RobotMap.h"
 
 class Intake: public frc::Subsystem
@@ -14,12 +15,15 @@ public:
 	void InitDefaultCommand() override;
 	void Reset();
 	void SetMotorSpeed(double leftSpeed,double rightSpeed);
+	void OpenCloseIntake();
+	void BeltIntake();
 
 private:
 	can::WPI_TalonSRX* pLeftMotor;
 	can::WPI_TalonSRX* pRightMotor;
 
 	frc::DoubleSolenoid* pGripperSolenoid;
+
 
 	//TODO: See how many hall effect switches there will be
 	//DigitalInput* pLimit;

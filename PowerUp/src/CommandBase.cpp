@@ -1,12 +1,16 @@
 #include "CommandBase.h"
+#include "Subsystems/DriveTrain.h"
+#include "Subsystems/Intake.h"
+#include "Subsystems/Elevator.h"
 
+/**
+ *
+ */
 
 OI* CommandBase::pOI = NULL;
 DriveTrain* CommandBase::pDriveTrain = NULL;
 Intake* CommandBase::pIntake = NULL;
-Elevator* CommandBase::pElevator = NULL;
-BotClimb* CommandBase::pBotClimb = NULL;
-
+Elevator * CommandBase::pElevator = NULL;
 
 CommandBase::CommandBase() : Command()
 {
@@ -26,7 +30,6 @@ CommandBase::~CommandBase()
 	delete this->pDriveTrain;
 	delete this->pIntake;
 	delete this->pElevator;
-	delete this->pBotClimb;
 	delete this->pOI;
 
 	return;
@@ -72,11 +75,10 @@ void CommandBase::init()
 		CommandBase::pIntake = new Intake();
 	}
 
-	if (CommandBase::pBotClimb == nullptr)
+	if (CommandBase::pElevator == nullptr)
 	{
-		CommandBase::pBotClimb = new BotClimb();
+		CommandBase::pElevator = new Elevator();
 	}
-
 	return;
 }
 

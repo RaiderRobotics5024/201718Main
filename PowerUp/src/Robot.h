@@ -8,6 +8,8 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
+#include "Commands/Gripper.h"
+#include "Commands/ControlElevator.h"
 #include <LiveWindow/LiveWindow.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
@@ -39,6 +41,9 @@ public:
 	DriveWithJoystick* pDriveWithJoystick;
 	ExampleCommand* pDefaultAutoCommand;
 	MyAutoCommand* pMyAutoCommand;
+	Gripper* pGripper;
+	ControlElevator* pControlElevator;
+
 
 private:
 };

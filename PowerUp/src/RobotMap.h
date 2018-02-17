@@ -10,20 +10,16 @@ const int DRIVETRAIN_RIGHT_REAR_MOTOR_ID = 2;
 const double WHEEL_RADIUS = 3.0;
 
 //Intake
-const int INTAKE_LEFT_MOTOR_ID = 5;		// TODO: This been assigned, yet
+const int INTAKE_LEFT_MOTOR_ID = 7;		// TODO: This been assigned, yet
 const int INTAKE_RIGHT_MOTOR_ID = 6;	// TODO: This hasn't been assigned, yet
-
 // The pnuematic solenoid valve
-// NOTE: The CANbus ID for the module is now 8
-//   The "channel ID" is the wired connection to this module
-//   (there are 2 for the double solenoid)
-const int GRIPPER_SOLENOID_CAN_ID = 8;
-const int GRIPPER_SOLENOID_FORWARDCHANNEL_ID = 0;
+const int GRIPPER_SOLENOID_FORWARDCHANNEL_ID = 2;
 const int GRIPPER_SOLENOID_REVERSECHANNEL_ID = 1;
+const int GRIPPER_SOLENOID_CAN_ID = 8;
 // TODO: Add the hall effect (or whatever) sensor IDs
 
 //Elevator
-const int ELEVATOR_MOTOR_ID = 9;
+const int ELEVATOR_MOTOR_ID = 5;
 
 //BotClimb
 const int CLIMB_MOTOR_ID = 10;

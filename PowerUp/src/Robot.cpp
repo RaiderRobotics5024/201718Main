@@ -9,6 +9,8 @@ Robot::~Robot()
 	delete this->pDriveWithJoystick;
 	delete this->pDefaultAutoCommand;
 	delete this->pMyAutoCommand;
+	delete this->pGripper;
+	delete this->pControlElevator;
 
 	return;
 }
@@ -19,13 +21,25 @@ Robot::~Robot()
 
 void Robot::RobotInit()
 {
+	// This bit is just for fun
+		std::cout << "#######                                                     ##    ##  #######   " << std::endl <<
+					"##    ##                                                    ##    ##  ##    ##  " << std::endl <<
+					"##    ##   ######   ##   ##   ##   ######    ######         ##    ##  ##    ##  " << std::endl <<
+					"#######   ##    ##  ##   ##   ##  ##    ##  ##    ##        ##    ##  #######   "<< std::endl <<
+					"##        ##    ##  ##   ##   ##  ########  ##              ##    ##  ##        "<< std::endl <<
+					"##        ##    ##  ##   ##   ##  ##        ##              ##    ##  ##        "<< std::endl <<
+					"##         ######    ##### ####    #######  ##               ######   ##        " << std::endl <<
+					"-------------------------------- Made By: Team 5024 ----------------------------" << std::endl;
+
+
 	std::cout << "[Robot] Initialized" << std::endl;
 
 	// instantiate the commands
 	this->pDriveWithJoystick = new DriveWithJoystick();
 	this->pDefaultAutoCommand = new ExampleCommand();
 	this->pMyAutoCommand = new MyAutoCommand();
-
+	this->pGripper = new Gripper();
+	this->pControlElevator = new ControlElevator();
 	// Setup smartdashboard autonomous options
 	m_chooser.AddDefault("Default Auto", pDefaultAutoCommand);
 	m_chooser.AddObject("My Auto", pMyAutoCommand);
@@ -109,6 +123,7 @@ void Robot::TeleopInit()
 		pAutonomousCommand = nullptr;
 	}
 
+	//driving
 	if (pDriveWithJoystick != nullptr)
 	{
 		std::cout << "[Robot] Starting DriveWithJoystick" << std::endl;
@@ -117,6 +132,16 @@ void Robot::TeleopInit()
 	else
 	{
 		std::cout << "[Robot] DriveWithJoystick is null!" << std::endl;
+	}
+	//gripper
+	if (pGripper != nullptr)
+	{
+		std::cout << "[Robot] Starting Gripper" << std::endl;
+		pGripper->Start();
+	}
+	else
+	{
+		std::cout << "[Robot] Gripper is null!" << std::endl;
 	}
 
 	return;

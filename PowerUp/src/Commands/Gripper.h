@@ -1,5 +1,5 @@
-#ifndef _GRIPPER_TEST_HG_
-#define _GRIPPER_TEST_HG_
+#ifndef _GRIPPER_HG_
+#define _GRIPPER_HG_
 
 #include <iostream>
 #include <WPILib.h>
@@ -9,15 +9,18 @@
  *
  */
 
-class GripperTest: public CommandBase
+class Gripper: public CommandBase
 {
 public:
-	GripperTest();
+	Gripper();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+private:
+	can::WPI_TalonSRX* pLeftMotor;
+	can::WPI_TalonSRX* pRightMotor;
 };
 
 #endif
