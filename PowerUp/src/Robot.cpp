@@ -1,9 +1,11 @@
+#include "Commands/Autonomous/RobotCenterSwitchLeft.h"
+#include "Commands/Autonomous/RobotCenterSwitchRight.h"
+#include "Commands/Autonomous/RobotLeftSwitchLeft.h"
+#include "Commands/Autonomous/RobotLeftSwitchRight.h"
+#include "Commands/Autonomous/RobotRightSwitchLeft.h"
+#include "Commands/Autonomous/RobotRightSwitchRight.h"
 #include "Robot.h"
 #include "Utilities/Log.h"
-#include "Commands/Autonomous/RCSL.h"
-#include "Commands/Autonomous/RCSR.h"
-#include "Commands/Autonomous/RLSL.h"
-#include "Commands/Autonomous/RLSR.h"
 
 
 /**
@@ -76,25 +78,22 @@ void Robot::AutonomousInit()
 
 	switch (_RP + _SP)
 	{
-	case 11: pAutonomousCommand = new RLSL();
-		    break;
-	case 12: pAutonomousCommand = new RLSR();
-		    break;
-	case 21: pAutonomousCommand = new RCSL();
-		    break;
-	case 22: pAutonomousCommand = new RCSR();
-		    break;
+	case 11: pAutonomousCommand = new RobotLeftSwitchLeft   (); break;
+	case 12: pAutonomousCommand = new RobotLeftSwitchRight  (); break;
+	case 21: pAutonomousCommand = new RobotCenterSwitchLeft (); break;
+	case 22: pAutonomousCommand = new RobotCenterSwitchRight(); break;
+	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
+	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
 	}
 
 	if (pAutonomousCommand != nullptr)
 	{
-		LOG("[Robot] Starting autonomous");
-		pAutonomousCommand->Start();
-	}
-	else
-	{
 		LOG("Autonomous Command is null!");
+		return;
 	}
+
+	LOG("[Robot] Starting autonomous");
+	pAutonomousCommand->Start();
 
 	return;
 }
@@ -148,6 +147,7 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
 	LOG("[Robot] Running Scheduler");
+
 	frc::Scheduler::GetInstance()->Run();
 
 	return;

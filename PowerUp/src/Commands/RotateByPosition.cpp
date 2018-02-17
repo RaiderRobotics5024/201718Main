@@ -58,7 +58,7 @@ void RotateByPosition::Execute()
 
 bool RotateByPosition::IsFinished()
 {
-	return CommandBase::pDriveTrain->IsDriving();
+	return CommandBase::pDriveTrain->IsTurning();
 }
 
 /**

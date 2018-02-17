@@ -32,7 +32,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	this->pGyro = new AHRS(SPI::Port::kMXP);
 
-	this->pTurnController = new PIDController(PID_P, PID_I, PID_D, PID_F, pGyro, nullptr, 0.5);
+	this->pTurnController = new PIDController(PID_P, PID_I, PID_D, PID_F, pGyro, this, 0.5);
 	this->pTurnController->SetInputRange(-180.0f,  180.0f);
 	this->pTurnController->SetOutputRange(-1.0, 1.0);
 	this->pTurnController->SetAbsoluteTolerance(TOLERANCE_DEGREES);
@@ -116,20 +116,20 @@ void DriveTrain::InitDefaultCommand()
 
 void DriveTrain::Drive(XboxController* pJoystick)
 {
-	double forwardSpeed = pJoystick->GetY(XboxController::kLeftHand);
-	double turnAngle = pJoystick->GetX(XboxController::kLeftHand);
+	double drivingSpeed = pJoystick->GetY(XboxController::kLeftHand);
+	double turningSpeed = pJoystick->GetX(XboxController::kLeftHand);
 
-	if (fabs(forwardSpeed) <= XBOX_DEADZONE_LEFT_JOY)
+	if (fabs(drivingSpeed) <= XBOX_DEADZONE_LEFT_JOY)
 	{
-		forwardSpeed = 0.0;
+		drivingSpeed = 0.0;
 	}
 
-	if (fabs(turnAngle) <= XBOX_DEADZONE_LEFT_JOY)
+	if (fabs(turningSpeed) <= XBOX_DEADZONE_LEFT_JOY)
 	{
-		turnAngle = 0.0;
+		turningSpeed = 0.0;
 	}
 
-	this->pRobotDrive->ArcadeDrive(forwardSpeed, turnAngle);
+	this->pRobotDrive->ArcadeDrive(drivingSpeed, turningSpeed);
 
 	return;
 }
@@ -149,9 +149,9 @@ void DriveTrain::Drive(double targetPositionRotations)
  *
  */
 
-void DriveTrain::ArcadeDrive(double xSpeed, double zRotation)
+void DriveTrain::ArcadeDrive(double drivingSpeed, double turningSpeed)
 {
-	this->pRobotDrive->ArcadeDrive(xSpeed, zRotation);
+	this->pRobotDrive->ArcadeDrive(drivingSpeed, turningSpeed);
 
 	return;
 }
