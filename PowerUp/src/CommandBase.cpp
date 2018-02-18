@@ -5,7 +5,7 @@ OI* CommandBase::pOI = NULL;
 DriveTrain* CommandBase::pDriveTrain = NULL;
 Intake* CommandBase::pIntake = NULL;
 Elevator* CommandBase::pElevator = NULL;
-BotClimb* CommandBase::pBotClimb = NULL;
+ClimbSystem* CommandBase::pClimbSystem = NULL;
 
 
 CommandBase::CommandBase() : Command()
@@ -26,7 +26,7 @@ CommandBase::~CommandBase()
 	delete this->pDriveTrain;
 	delete this->pIntake;
 	delete this->pElevator;
-	delete this->pBotClimb;
+	delete this->pClimbSystem;
 	delete this->pOI;
 
 	return;
@@ -72,9 +72,9 @@ void CommandBase::init()
 		CommandBase::pIntake = new Intake();
 	}
 
-	if (CommandBase::pBotClimb == nullptr)
+	if (CommandBase::pClimbSystem == nullptr)
 	{
-		CommandBase::pBotClimb = new BotClimb();
+		CommandBase::pClimbSystem = new ClimbSystem();
 	}
 
 	return;

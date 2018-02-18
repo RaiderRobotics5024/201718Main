@@ -25,16 +25,17 @@ const int GRIPPER_SOLENOID_REVERSECHANNEL_ID = 1;
 //Elevator
 const int ELEVATOR_MOTOR_ID = 9;
 
-//BotClimb
-const int CLIMB_MOTOR_ID = 10;
-
+//Climb
+const int CLIMBSYSTEM_MOTOR_ID = 0;
+const int CLIMBSYSTEM_SOLENOID_CAN_ID = 7;
+const int CLIMBSYSTEM_SOLENOID_FORWARD_CHANNEL_ID = 0;
+const int CLIMBSYSTEM_SOLENOID_REVERSE_CHANNEL_ID = 1;
 
 //XBox Controller
 const int XBOX_CONTROLLER_DRIVE_PORT = 0;
 const int XBOX_CONTROLLER_OPERATOR_PORT = 1;
 //controller deadzone
-const double XBOX_DEADZONE_LEFT_JOY=0.1;
-const double XBOX_DEADZONE_RIGHT_JOY=0.1;
-
+const double XBOX_DEADZONE_LEFT_JOY = 0.1;
+const double XBOX_DEADZONE_RIGHT_JOY = 0.1;
 
 #endif
