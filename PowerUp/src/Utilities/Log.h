@@ -1,15 +1,8 @@
-/*
- * Log.h
- *
- *  Created on: Feb 18, 2018
- *      Author: John
- */
+#ifndef _LOG_HG_
+#define _LOG_HG_
 
-#ifndef SRC_UTILITIES_LOG_H_
-#define SRC_UTILITIES_LOG_H_
+#include <iostream>
 
+#define LOG(x) { std::cout << x << std::endl; }
 
-
-
-
-#endif /* SRC_UTILITIES_LOG_H_ */
+#endif
