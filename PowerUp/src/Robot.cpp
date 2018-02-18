@@ -1,12 +1,13 @@
+#include "Robot.h"
+#include "Utilities/Log.h"
 #include "Commands/Autonomous/RobotCenterSwitchLeft.h"
 #include "Commands/Autonomous/RobotCenterSwitchRight.h"
 #include "Commands/Autonomous/RobotLeftSwitchLeft.h"
 #include "Commands/Autonomous/RobotLeftSwitchRight.h"
 #include "Commands/Autonomous/RobotRightSwitchLeft.h"
 #include "Commands/Autonomous/RobotRightSwitchRight.h"
-#include "Robot.h"
-#include "Utilities/Log.h"
 
+//Steamed Hams
 
 /**
  *
@@ -75,6 +76,8 @@ void Robot::AutonomousInit()
 
 	int _RP = scRobotPosition.GetSelected();
 	int _SP = scSwitchPosition.GetSelected();
+
+	LOG("RP: " << _RP << " - SP: " << _SP);
 
 	switch (_RP + _SP)
 	{

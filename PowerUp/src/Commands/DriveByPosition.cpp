@@ -1,4 +1,3 @@
-#include <iostream>
 #include "DriveByPosition.h"
 #include "../Utilities/Log.h"
 #include "../RobotMap.h"
@@ -45,7 +44,7 @@ void DriveByPosition::Execute()
 {
 	if (iCounter++ == 10)
 	{
-		std::cout << "[DriveByPosition] Execute - " << CommandBase::pDriveTrain->GetPosition() << std::endl;
+		CommandBase::pDriveTrain->Trace();
 		iCounter = 0;
 	}
 

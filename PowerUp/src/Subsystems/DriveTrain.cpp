@@ -68,7 +68,7 @@ void DriveTrain::InitAutonomous(bool inverted)
 {
 	LOG("[DriveTrain] Autonomous Initialized");
 
-	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
 	/* use the low level API to set the quad encoder signal */
 	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
@@ -106,10 +106,6 @@ void DriveTrain::InitDefaultCommand()
 
 	return;
 }
-
-/**
- *
- */
 
 // Put methods for controlling this subsystem here.
 // Call these from Commands.
@@ -253,6 +249,71 @@ void DriveTrain::Turn(double setpoint)
     this->pTurnController->Enable();
 
     this->pRobotDrive->CurvatureDrive(0.2, 0.2, true);
+
+	return;
+}
+
+/**
+ *
+ */
+
+void DriveTrain::Trace()
+{
+	Trace(this->pLeftFrontMotor);
+}
+
+/**
+ *
+ */
+
+void DriveTrain::Trace(WPI_TalonSRX* pTalonSRX)
+{
+	int baseId = pTalonSRX->GetBaseID();
+	int version = pTalonSRX->GetFirmwareVersion();
+	bool isInverted = pTalonSRX->GetInverted();
+
+	double currentAmps = pTalonSRX->GetOutputCurrent();
+	double outputV = pTalonSRX->GetMotorOutputVoltage();
+	double busV = pTalonSRX->GetBusVoltage();
+	double outputPerc = pTalonSRX->GetMotorOutputPercent();
+
+	int quadPos = pTalonSRX->GetSensorCollection().GetQuadraturePosition();
+	int quadVel = pTalonSRX->GetSensorCollection().GetQuadratureVelocity();
+
+	int analogPos = pTalonSRX->GetSensorCollection().GetAnalogIn();
+	int analogVel = pTalonSRX->GetSensorCollection().GetAnalogInVel();
+
+	int selectedSensorPos = pTalonSRX->GetSelectedSensorPosition(SLOT_INDEX); /* sensor selected for PID Loop 0 */
+	int selectedSensorVel = pTalonSRX->GetSelectedSensorVelocity(SLOT_INDEX); /* sensor selected for PID Loop 0 */
+	int closedLoopErr = pTalonSRX->GetClosedLoopError(SLOT_INDEX); /* sensor selected for PID Loop 0 */
+	double closedLoopAccum = pTalonSRX->GetIntegralAccumulator(SLOT_INDEX); /* sensor selected for PID Loop 0 */
+	double derivErr = pTalonSRX->GetErrorDerivative(SLOT_INDEX);  /* sensor selected for PID Loop 0 */
+
+
+	SmartDashboard::PutNumber("Base ID", baseId);
+	SmartDashboard::PutNumber("Version", version);
+	SmartDashboard::PutBoolean("Is Inverted", isInverted);
+
+	SmartDashboard::PutNumber("Current Amps", currentAmps);
+	SmartDashboard::PutNumber("Output Voltage", outputV);
+	SmartDashboard::PutNumber("Bus Voltage", busV);
+	SmartDashboard::PutNumber("Output Percent", outputPerc);
+
+	SmartDashboard::PutNumber("Quad Position", quadPos);
+	SmartDashboard::PutNumber("Quad Velocity", quadVel);
+
+	SmartDashboard::PutNumber("Analog In Position", analogPos);
+	SmartDashboard::PutNumber("Analog In Velocity", analogVel);
+
+	SmartDashboard::PutNumber("SS Position", selectedSensorPos);
+	SmartDashboard::PutNumber("SS Velocity", selectedSensorVel);
+	SmartDashboard::PutNumber("SS Closed Loop Error", closedLoopErr);
+	SmartDashboard::PutNumber("Integral Accumulator", closedLoopAccum);
+	SmartDashboard::PutNumber("Error Derivative", derivErr);
+
+	SmartDashboard::PutBoolean("Has Faults", pFaults->HasAnyFault());
+
+	SmartDashboard::PutNumber("Gyro Angle", pGyro->GetAngle());
 
 	return;
 }

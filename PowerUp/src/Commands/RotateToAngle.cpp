@@ -1,4 +1,3 @@
-#include <iostream>
 #include "RotateToAngle.h"
 #include "../Utilities/Log.h"
 
@@ -43,7 +42,7 @@ void RotateToAngle::Execute()
 
 	if (iCounter++ == 10)
 	{
-		std::cout << "[RotateToAngle] Execute - Gyro Angle: " << CommandBase::pDriveTrain->GetAngle() << std::endl;
+		CommandBase::pDriveTrain->Trace();
 		iCounter = 0;
 	}
 

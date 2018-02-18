@@ -35,6 +35,9 @@ public:
 	void ResetDrive();
 	void ResetGyro();
 
+	void Trace();
+	void Trace(WPI_TalonSRX* pTalonSRX);
+
 	virtual void PIDWrite(double output);
 
 
@@ -49,6 +52,8 @@ private:
 	AHRS* pGyro; // navX MXP
 	PIDController* pTurnController;
 	double dRotateToAngleRate;
+
+	Faults* pFaults;
 }
 ;
 
