@@ -10,7 +10,7 @@ ClimbSystem::ClimbSystem() : frc::Subsystem("ClimbSystem")
 	LOG("[ClimbSystem] Constructed");
 
 	this->pClimbMotor = new can::WPI_TalonSRX(CLIMBSYSTEM_MOTOR_ID);
-	this->pClimbSolenoid = new frc::DoubleSolenoid(CLIMBSYSTEM_SOLENOID_CAN_ID, CLIMBSYSTEM_SOLENOID_FORWARD_CHANNEL_ID, CLIMBSYSTEM_SOLENOID_REVERSE_CHANNEL_ID);
+	this->pClimbSolenoid = new frc::Solenoid(CLIMBSYSTEM_SOLENOID_CAN_ID, CLIMBSYSTEM_SOLENOID_FORWARD_CHANNEL_ID);
 
 	return;
 }

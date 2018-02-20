@@ -21,7 +21,7 @@ public:
 
 private:
 	can::WPI_TalonSRX* pClimbMotor;
-	frc::DoubleSolenoid* pClimbSolenoid;
+	frc::Solenoid* pClimbSolenoid;
 };
 
 #endif
