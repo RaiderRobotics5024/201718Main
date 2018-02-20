@@ -1,6 +1,8 @@
 #ifndef _ROBOTMAP_HG_
 #define _ROBOTMAP_HG_
 
+#include <math.h>
+
 // Drive Train
 const int LEFT_FRONT_MOTOR_ID = 1;
 const int LEFT_REAR_MOTOR_ID = 2;
@@ -11,7 +13,7 @@ const int RIGHT_REAR_MOTOR_ID = 4;
 const double WHEEL_TO_WHEEL = 19.75; // in inches
 const double WHEEL_RADIUS = 3.0; // in inches
 const int TICKS_PER_REVOLUTION = 4096;
-const double INCHES_PER_REVOLUTION = 18.85; // 2 * r * pi in inches
+const double INCHES_PER_REVOLUTION = 2 * M_PI * WHEEL_RADIUS;
 const int SLOT_INDEX = 0;
 const int PID_LOOP_INDEX = 0;
 const int TIMEOUT_MS = 10;

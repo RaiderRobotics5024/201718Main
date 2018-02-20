@@ -29,9 +29,9 @@ void RotateByPosition::Initialize()
 {
 	LOG("[RotateByPosition] Initialized");
 
+	CommandBase::pDriveTrain->ResetEncoders();
 	CommandBase::pDriveTrain->InitAutonomous(false);
-	double targetPositionRotations = (dDistance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
-	CommandBase::pDriveTrain->Drive(dSpeed * targetPositionRotations);
+	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 
 	return;
 }

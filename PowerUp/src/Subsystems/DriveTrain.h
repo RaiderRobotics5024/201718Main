@@ -1,6 +1,7 @@
-#ifndef _DRIVETRAIN_HG_
-#define _DRIVETRAIN_HG_
+#ifndef _DRIVE_TRAIN_HG_
+#define _DRIVE_TRAIN_HG_
 
+#include <string>
 #include <WPILib.h>
 #include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
@@ -19,7 +20,7 @@ public:
 	void InitAutonomous(bool inverted);
 	void InitDefaultCommand() override;
 	void Drive(XboxController* joystick);
-	void Drive(double position);
+	void Drive(double distance, double speed);
 	void Turn(double setpoint);
 
 	// These are the same as the DifferentialDrive class:
@@ -28,15 +29,17 @@ public:
 	void TankDrive( double leftSpeed, double rightSpeed );
 
 	double GetAngle();
-	double GetPosition();
+	double GetLeftPosition();
+	double GetRightPosition();
 	bool IsDriving();
 	bool IsTurning();
 
 	void ResetDrive();
+	void ResetEncoders();
 	void ResetGyro();
 
 	void Trace();
-	void Trace(WPI_TalonSRX* pTalonSRX);
+	void Trace(WPI_TalonSRX* pTalonSRX, const std::string name);
 
 	virtual void PIDWrite(double output);
 
@@ -51,10 +54,8 @@ private:
 
 	AHRS* pGyro; // navX MXP
 	PIDController* pTurnController;
-	double dRotateToAngleRate;
 
-	Faults* pFaults;
-}
-;
+	double dRotateToAngleRate;
+};
 
 #endif
