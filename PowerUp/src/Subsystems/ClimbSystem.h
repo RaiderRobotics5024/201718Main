@@ -16,8 +16,8 @@ public:
 	ClimbSystem();
 	~ClimbSystem();
 	void InitDefaultCommand() override;
-	void ExtendArm(XboxController* pJoystick);
-	void RetractArm(XboxController* pJoystick);
+	void ExtendArm();
+	void RetractArm();
 
 private:
 	can::WPI_TalonSRX* pClimbMotor;

@@ -42,14 +42,9 @@ void ClimbSystem::InitDefaultCommand()
  *
  */
 
-void ClimbSystem::ExtendArm(XboxController* pJoystick)
+void ClimbSystem::ExtendArm()
 {
-   	this->pClimbSolenoid->Set(frc::DoubleSolenoid::Value::kOff);
-
-	if(pJoystick->GetXButton())
-	{
-	   	this->pClimbSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
-	}
+	this->pClimbSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
 
 	return;
 }
@@ -58,14 +53,9 @@ void ClimbSystem::ExtendArm(XboxController* pJoystick)
  *
  */
 
-void ClimbSystem::RetractArm(XboxController* pJoystick)
+void ClimbSystem::RetractArm()
 {
-   	this->pClimbMotor->Set(0.0);
-
-	if(pJoystick->GetXButtonPressed())
-	{
-	   	this->pClimbMotor->Set(1.0);
-	}
+	this->pClimbMotor->Set(1.0);
 
 	return;
 }

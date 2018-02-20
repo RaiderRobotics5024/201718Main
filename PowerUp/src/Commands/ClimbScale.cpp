@@ -39,8 +39,15 @@ void ClimbScale::Initialize()
 
 void ClimbScale::Execute()
 {
-	CommandBase::pClimbSystem->ExtendArm(CommandBase::pOI->GetJoystickOperator());
-	CommandBase::pClimbSystem->RetractArm(CommandBase::pOI->GetJoystickOperator());
+	if (CommandBase::pOI->GetJoystickOperator()->GetAButtonPressed())
+	{
+	   	CommandBase::pClimbSystem->ExtendArm();
+	}
+
+	else if (CommandBase::pOI->GetJoystickOperator()->GetYButtonPressed())
+	{
+		CommandBase::pClimbSystem->RetractArm();
+	}
 
 	return;
 }
