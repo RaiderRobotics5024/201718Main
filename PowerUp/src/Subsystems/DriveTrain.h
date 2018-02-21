@@ -10,9 +10,6 @@
 
 #include <iostream>
 
-/**
- *
- */
 
 class DriveTrain: public frc::Subsystem
 {
@@ -20,6 +17,7 @@ public:
 	DriveTrain();
 	~DriveTrain();
 	void InitDefaultCommand() override;
+
 	// Original basic example drive, passing joystick. Calls ArcadeDrive()
 	void Drive(XboxController* joystick);
 	// These are the same as the DifferentialDrive class:

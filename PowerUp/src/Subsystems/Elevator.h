@@ -1,10 +1,12 @@
-#ifndef _Elevator_HG_
-#define _Elevator_HG_
+#ifndef SRC_SUBSYSTEMS_ELEVATOR_H_
+#define SRC_SUBSYSTEMS_ELEVATOR_H_
 
 #include <WPILib.h>
 #include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include "../RobotMap.h"
+
+#include <iostream>
 
 class Elevator: public frc::Subsystem
 {
@@ -13,12 +15,15 @@ public:
 	~Elevator();
 	void InitDefaultCommand() override;
 	void Reset();
-
+	void SetMotorSpeed(double speed);
 private:
 	can::WPI_TalonSRX* pElevatorMotor;
 
-	//TODO: See how many hall effect switches there will be
-	//DigitalInput* pLimit;
+	frc::DigitalInput* pTopElevatorSwitch;
+	frc::DigitalInput* pMidElevatorSwitch;
+	frc::DigitalInput* pBottomElevatorSwitch;
 };
 
-#endif
+
+
+#endif /* SRC_SUBSYSTEMS_ELEVATOR_H_ */

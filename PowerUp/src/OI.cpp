@@ -1,9 +1,6 @@
 #include "OI.h"
 #include "RobotMap.h"
 
-/**
- *
- */
 
 OI::OI()
 {
@@ -17,6 +14,7 @@ OI::OI()
 	return;
 }
 
+
 OI::~OI()
 {
 	delete this->pJoystickDrive;
@@ -25,14 +23,12 @@ OI::~OI()
 	return;
 }
 
-/**
- *
- */
 
 frc::XboxController* OI::GetJoystickDrive()
 {
 	return this->pJoystickDrive;
 }
+
 
 frc::XboxController* OI::GetJoystickOperator()
 {

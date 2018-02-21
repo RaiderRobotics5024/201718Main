@@ -1,21 +1,17 @@
 #include "Robot.h"
 
-/**
- *
- */
 
 Robot::~Robot()
 {
 	delete this->pDriveWithJoystick;
 	delete this->pDefaultAutoCommand;
 	delete this->pMyAutoCommand;
+	delete this->pGripper;
+	delete this->pControlElevator;
 
 	return;
 }
 
-/**
- *
- */
 
 void Robot::RobotInit()
 {
@@ -25,6 +21,8 @@ void Robot::RobotInit()
 	this->pDriveWithJoystick = new DriveWithJoystick();
 	this->pDefaultAutoCommand = new ExampleCommand();
 	this->pMyAutoCommand = new MyAutoCommand();
+	this->pGripper = new Gripper();
+	this->pControlElevator = new ControlElevator();
 
 	// Setup smartdashboard autonomous options
 	m_chooser.AddDefault("Default Auto", pDefaultAutoCommand);
@@ -34,18 +32,12 @@ void Robot::RobotInit()
 	return;
 }
 
-/**
- *
- */
 
 void Robot::DisabledInit()
 {
 	return;
 }
 
-/**
- *
- */
 
 void Robot::DisabledPeriodic()
 {
@@ -54,9 +46,6 @@ void Robot::DisabledPeriodic()
 	return;
 }
 
-/**
- *
- */
 
 void Robot::AutonomousInit()
 {
@@ -77,12 +66,11 @@ void Robot::AutonomousInit()
 		std::cout << "Autonomous Command is null!" << std::endl;
 	}
 
+
+
 	return;
 }
 
-/**
- *
- */
 
 void Robot::AutonomousPeriodic()
 {
@@ -91,9 +79,6 @@ void Robot::AutonomousPeriodic()
 	return;
 }
 
-/**
- *
- */
 
 void Robot::TeleopInit()
 {
@@ -112,31 +97,34 @@ void Robot::TeleopInit()
 	if (pDriveWithJoystick != nullptr)
 	{
 		std::cout << "[Robot] Starting DriveWithJoystick" << std::endl;
-		pDriveWithJoystick->Start();
+		//pDriveWithJoystick->Start();
 	}
 	else
 	{
 		std::cout << "[Robot] DriveWithJoystick is null!" << std::endl;
 	}
 
+	if ( pGripper != nullptr )
+	{
+		std::cout << "[Robot] Starting Gripper" << std::endl;
+	}
+	else
+	{
+		std::cout << "[Robot] Gripper is null!" << std::endl;
+	}
+
 	return;
 }
 
-/**
- *
- */
 
 void Robot::TeleopPeriodic()
 {
-	std::cout << "[Robot] Running Scheduler" << std::endl;
+	//std::cout << "[Robot] Running Scheduler" << std::endl;
 	frc::Scheduler::GetInstance()->Run();
 
 	return;
 }
 
-/**
- *
- */
 
 void Robot::TestPeriodic()
 {
@@ -145,8 +133,7 @@ void Robot::TestPeriodic()
 	return;
 }
 
-/**
- *
- */
-
+// The main() function is hidden in this
+//	pre-processor macro...
 START_ROBOT_CLASS(Robot)
+

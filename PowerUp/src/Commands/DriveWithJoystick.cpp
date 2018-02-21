@@ -2,9 +2,7 @@
 #include <math.h>
 #include "../RobotMap.h"
 
-/**
- *
- */
+
 
 DriveWithJoystick::DriveWithJoystick()
 {
@@ -22,9 +20,6 @@ DriveWithJoystick::DriveWithJoystick()
 	return;
 }
 
-/**
- *
- */
 
 void DriveWithJoystick::Initialize()
 {
@@ -33,29 +28,16 @@ void DriveWithJoystick::Initialize()
 	return;
 }
 
-/**
- *
- */
+
 
 void DriveWithJoystick::Execute()
 {
 	//CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystick());
 
-	double slowMode = 1.0;
-	if(CommandBase::pOI->GetJoystickDrive()->GetAButton())
-	{
-		slowMode = 0.55;
-	}
+	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
-	double controlDirectionMode = 1.0;
-
-	if(CommandBase::pOI->GetJoystickDrive()->GetBButton())
-	{
-		controlDirectionMode = -1.0;
-	}
-
-	double forwardSpeed = CommandBase::pOI->GetJoystickDrive()->GetY(XboxController::kLeftHand);
-	double turnAngle = CommandBase::pOI->GetJoystickDrive()->GetX(XboxController::kLeftHand);
+	double forwardSpeed = pJoyDrive->GetY(XboxController::kLeftHand);
+	double turnAngle = pJoyDrive->GetX(XboxController::kLeftHand);
 
 	if (fabs(forwardSpeed) <= XBOX_DEADZONE_LEFT_JOY)
 	{
@@ -67,37 +49,29 @@ void DriveWithJoystick::Execute()
 		turnAngle = 0.0;
 	}
 
-	forwardSpeed = forwardSpeed * controlDirectionMode * slowMode;
-	turnAngle = turnAngle * slowMode;
-
-	CommandBase::pDriveTrain->ArcadeDrive(forwardSpeed, turnAngle);
+	CommandBase::pDriveTrain->ArcadeDrive( forwardSpeed, turnAngle );
 
 	return;
 }
 
-/**
- *
- */
+
 
 bool DriveWithJoystick::IsFinished()
 {
 	return false;
 }
 
-/**
- *
- */
+
 
 void DriveWithJoystick::End()
 {
 	return;
 }
 
-/**
- *
- */
+
 
 void DriveWithJoystick::Interrupted()
 {
 	return;
 }
+

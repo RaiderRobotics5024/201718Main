@@ -5,12 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#ifndef _EXAMPLE_COMMAND_HG_
+#define _EXAMPLE_COMMAND_HG_
 
 #include <iostream>
 #include <Commands/Command.h>
 
-class ExampleCommand : public frc::Command {
+class ExampleCommand : public frc::Command
+{
 public:
 	ExampleCommand();
 	void Initialize() override;
@@ -19,3 +21,5 @@ public:
 	void End() override;
 	void Interrupted() override;
 };
+
+#endif

@@ -5,9 +5,7 @@
 #include <WPILib.h>
 #include "../CommandBase.h"
 
-/**
- *
- */
+
 
 class DriveWithJoystick: public CommandBase
 {

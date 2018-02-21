@@ -5,12 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#ifndef _MY_AUTO_COMMAND_HG_
+#define _MY_AUTO_COMMAND_HG_
 
 #include <iostream>
 #include <Commands/Command.h>
 
-class MyAutoCommand : public frc::Command {
+class MyAutoCommand : public frc::Command
+{
 public:
 	MyAutoCommand();
 	void Initialize() override;
@@ -19,3 +21,5 @@ public:
 	void End() override;
 	void Interrupted() override;
 };
+
+#endif

@@ -5,9 +5,6 @@
 #include <WPILib.h>
 #include <XboxController.h>
 
-/**
- *
- */
 
 class OI
 {

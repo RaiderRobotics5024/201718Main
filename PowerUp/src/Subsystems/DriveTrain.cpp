@@ -1,9 +1,6 @@
 #include "DriveTrain.h"
 #include "../Commands/DriveWithJoystick.h"
 
-/**
- *
- */
 
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
@@ -11,39 +8,26 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	this->pLeftFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
-
-	// set these base so motors turn the same way
-	this->pLeftFrontMotor->SetInverted(false);
-	this->pLeftRearMotor->SetInverted(false);
-
-	//this->pLeftFrontMotor->SetInverted(true);
-	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
-	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
-
-	// set these based so motors turn the same way
-	this->pLeftFrontMotor->SetInverted(false);
-	this->pLeftRearMotor->SetInverted(false);
-
-	// group the motors
 	this->pLeftSpeedControllerGroup
 	                = new frc::SpeedControllerGroup( *(this->pLeftFrontMotor),
 			                                         *(this->pLeftRearMotor) );
-
+	//this->pLeftFrontMotor->SetInverted(true);
+	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
+	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightSpeedControllerGroup
 	                = new frc::SpeedControllerGroup( *(this->pRightFrontMotor),
                                                      *(this->pRightRearMotor) );
 
-	this->pRobotDrive = new frc::DifferentialDrive( *(this->pLeftSpeedControllerGroup),
-                                                    *(this->pRightSpeedControllerGroup) );
+	this->pRobotDrive
+	                = new frc::DifferentialDrive( *(this->pLeftSpeedControllerGroup),
+                                                  *(this->pRightSpeedControllerGroup) );
 
 	pRobotDrive->SetSafetyEnabled(false);
 
 	return;
 }
 
-/**
- *
- */
+
 
 DriveTrain::~DriveTrain()
 {
@@ -58,9 +42,7 @@ DriveTrain::~DriveTrain()
 	return;
 }
 
-/**
- *
- */
+
 
 void DriveTrain::InitDefaultCommand()
 {
@@ -71,12 +53,6 @@ void DriveTrain::InitDefaultCommand()
 	return;
 }
 
-/**
- *
- */
-
-// Put methods for controlling this subsystem here.
-// Call these from Commands.
 
 void DriveTrain::Drive(XboxController* pJoystick)
 {
@@ -88,6 +64,7 @@ void DriveTrain::Drive(XboxController* pJoystick)
 	return;
 }
 
+
 void DriveTrain::ArcadeDrive( double xSpeed, double zRotation )
 {
 	// Taken from DriveTrain::Drive()
@@ -96,6 +73,7 @@ void DriveTrain::ArcadeDrive( double xSpeed, double zRotation )
 	return;
 }
 
+
 void DriveTrain::CurvatureDrive( double xSpeed, double zRotation, bool isQuickTurn )
 {
 	this->pRobotDrive->CurvatureDrive( xSpeed, zRotation, isQuickTurn );
@@ -103,12 +81,14 @@ void DriveTrain::CurvatureDrive( double xSpeed, double zRotation, bool isQuickTu
 	return;
 }
 
+
 void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
 {
 	this->pRobotDrive->TankDrive( leftSpeed, rightSpeed );
 
 	return;
 }
+
 
 void DriveTrain::Reset()
 {
@@ -121,3 +101,16 @@ void DriveTrain::Reset()
 
 	return;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

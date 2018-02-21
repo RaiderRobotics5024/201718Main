@@ -1,12 +1,13 @@
 #include "CommandBase.h"
+#include "Subsystems/DriveTrain.h"
 
-
-OI* CommandBase::pOI = NULL;
+// static variables in C++ have to be declared here
+// (not in the .h file)
 DriveTrain* CommandBase::pDriveTrain = NULL;
+OI* CommandBase::pOI = NULL;
 Intake* CommandBase::pIntake = NULL;
 Elevator* CommandBase::pElevator = NULL;
-BotClimb* CommandBase::pBotClimb = NULL;
-
+ClimbSystem* CommandBase::pClimbSystem = NULL;
 
 CommandBase::CommandBase() : Command()
 {
@@ -17,24 +18,18 @@ CommandBase::CommandBase() : Command()
 	return;
 }
 
-/**
- *
- */
 
 CommandBase::~CommandBase()
 {
 	delete this->pDriveTrain;
 	delete this->pIntake;
-	delete this->pElevator;
-	delete this->pBotClimb;
 	delete this->pOI;
+	delete this->pElevator;
+	delete this->pClimbSystem;
 
 	return;
 }
 
-/**
- *
- */
 
 CommandBase::CommandBase(char const *name) : Command(name)
 {
@@ -43,9 +38,6 @@ CommandBase::CommandBase(char const *name) : Command(name)
 	return;
 }
 
-/**
- *
- */
 
 void CommandBase::init()
 {
@@ -72,10 +64,16 @@ void CommandBase::init()
 		CommandBase::pIntake = new Intake();
 	}
 
-	if (CommandBase::pBotClimb == nullptr)
+	if (CommandBase::pElevator == nullptr)
 	{
-		CommandBase::pBotClimb = new BotClimb();
+		CommandBase::pElevator = new Elevator();
 	}
+
+	if (CommandBase::pClimbSystem == nullptr)
+	{
+		CommandBase::pClimbSystem = new ClimbSystem();
+	}
+
 
 	return;
 }

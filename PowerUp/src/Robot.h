@@ -8,13 +8,12 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
+#include "Commands/Gripper.h"
+#include "Commands/ControlElevator.h"
 #include <LiveWindow/LiveWindow.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
 
-/**
- *
- */
 
 class Robot : public frc::TimedRobot
 {
@@ -36,11 +35,14 @@ public:
 	frc::SendableChooser<frc::Command*> m_chooser;
 
 	// declare the commands
-	DriveWithJoystick* pDriveWithJoystick;
-	ExampleCommand* pDefaultAutoCommand;
-	MyAutoCommand* pMyAutoCommand;
+	DriveWithJoystick*	pDriveWithJoystick;
+	ExampleCommand*		pDefaultAutoCommand;
+	MyAutoCommand*		pMyAutoCommand;
+	Gripper*			pGripper;
+	ControlElevator*	pControlElevator;
 
 private:
+
 };
 
 #endif

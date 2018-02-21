@@ -1,23 +1,23 @@
-#ifndef _GRIPPER_TEST_HG_
-#define _GRIPPER_TEST_HG_
+#ifndef SRC_COMMANDS_GRIPPER_H_
+#define SRC_COMMANDS_GRIPPER_H_
+
 
 #include <iostream>
 #include <WPILib.h>
 #include "../CommandBase.h"
 
-/**
- *
- */
-
-class GripperTest: public CommandBase
+class Gripper : public CommandBase
 {
 public:
-	GripperTest();
+	Gripper();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+
 };
 
-#endif
+
+
+#endif /* SRC_COMMANDS_GRIPPER_H_ */
