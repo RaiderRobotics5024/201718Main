@@ -1,9 +1,9 @@
 #include "ClimbScale.h"
-#include <iostream>
+#include "../Utilities/Log.h"
 
 ClimbScale::ClimbScale()
 {
-	std::cout << "[ClimbScale] Constructed" << std::endl;
+	LOG("[ClimbScale] Constructed");
 
 	if ( CommandBase::pClimbSystem != nullptr )
 	{
@@ -11,7 +11,7 @@ ClimbScale::ClimbScale()
 	}
 	else
 	{
-		std::cout << "[ClimbScale] ClimbSystem is NULL" << std::endl;
+		LOG("[ClimbScale] ClimbSystem is NULL");
 	}
 
 	return;
@@ -52,6 +52,3 @@ void ClimbScale::Interrupted()
 {
 	return;
 }
-
-
-

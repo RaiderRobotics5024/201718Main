@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include "Utilities/Log.h"
 
 
 Robot::~Robot()
@@ -15,7 +16,7 @@ Robot::~Robot()
 
 void Robot::RobotInit()
 {
-	std::cout << "[Robot] Initialized" << std::endl;
+	LOG("[Robot] Initialized");
 
 	// instantiate the commands
 	this->pDriveWithJoystick = new DriveWithJoystick();
@@ -49,21 +50,21 @@ void Robot::DisabledPeriodic()
 
 void Robot::AutonomousInit()
 {
-	std::cout << "[Robot] Autonomous Initialized" << std::endl;
+	LOG("[Robot] Autonomous Initialized");
 
 	std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", "Default");
-	std::cout << "[Robot] Auto Selected: " << autoSelected << std::endl;
+	LOG("[Robot] Auto Selected: " << autoSelected);
 
 	pAutonomousCommand = m_chooser.GetSelected();
 
 	if (pAutonomousCommand != nullptr)
 	{
-		std::cout << "[Robot] Starting autonomous" << std::endl;
+		LOG("[Robot] Starting autonomous");
 		pAutonomousCommand->Start();
 	}
 	else
 	{
-		std::cout << "Autonomous Command is null!" << std::endl;
+		LOG("Autonomous Command is null!");
 	}
 
 
@@ -82,7 +83,7 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit()
 {
-	std::cout << "[Robot] Teleop Initialized" << std::endl;
+	LOG("[Robot] Teleop Initialized");
 
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
@@ -96,21 +97,21 @@ void Robot::TeleopInit()
 
 	if (pDriveWithJoystick != nullptr)
 	{
-		std::cout << "[Robot] Starting DriveWithJoystick" << std::endl;
+		LOG("[Robot] Starting DriveWithJoystick");
 		//pDriveWithJoystick->Start();
 	}
 	else
 	{
-		std::cout << "[Robot] DriveWithJoystick is null!" << std::endl;
+		LOG("[Robot] DriveWithJoystick is null!");
 	}
 
 	if ( pGripper != nullptr )
 	{
-		std::cout << "[Robot] Starting Gripper" << std::endl;
+		LOG("[Robot] Starting Gripper");
 	}
 	else
 	{
-		std::cout << "[Robot] Gripper is null!" << std::endl;
+		LOG("[Robot] Gripper is null!");
 	}
 
 	return;
@@ -119,7 +120,6 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
-	//std::cout << "[Robot] Running Scheduler" << std::endl;
 	frc::Scheduler::GetInstance()->Run();
 
 	return;
@@ -128,8 +128,6 @@ void Robot::TeleopPeriodic()
 
 void Robot::TestPeriodic()
 {
-	std::cout << "[Robot] TestPeriodic" << std::endl;
-
 	return;
 }
 

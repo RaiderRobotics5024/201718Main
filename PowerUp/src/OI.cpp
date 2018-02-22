@@ -1,10 +1,11 @@
 #include "OI.h"
+#include "Utilities/Log.h"
 #include "RobotMap.h"
 
 
 OI::OI()
 {
-	std::cout << "[OI] Constructed" << std::endl;
+	LOG("[OI] Constructed");
 
 	// NOTE: For some reason, Eclipse complains about not finding
 	//	the XboxController class, even though it compiles 100% OK.

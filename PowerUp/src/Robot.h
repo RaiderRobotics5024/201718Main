@@ -1,7 +1,6 @@
 #ifndef _ROBOT_HG_
 #define _ROBOT_HG_
 
-#include <iostream>
 #include <WPILib.h>
 #include <Commands/Command.h>
 #include <Commands/Scheduler.h>

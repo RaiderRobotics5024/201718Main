@@ -1,8 +1,6 @@
 #ifndef SRC_COMMANDS_GRIPPER_H_
 #define SRC_COMMANDS_GRIPPER_H_
 
-
-#include <iostream>
 #include <WPILib.h>
 #include "../CommandBase.h"
 

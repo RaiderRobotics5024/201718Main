@@ -1,10 +1,11 @@
 #include "DriveTrain.h"
+#include "../Utilities/Log.h"
 #include "../Commands/DriveWithJoystick.h"
 
 
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
-	std::cout << "[DriveTrain] Constructed" << std::endl;
+	LOG("[DriveTrain] Constructed");
 
 	this->pLeftFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
@@ -46,7 +47,7 @@ DriveTrain::~DriveTrain()
 
 void DriveTrain::InitDefaultCommand()
 {
-	std::cout << "[DriveTrain] Initialized Default Command" << std::endl;
+	LOG("[DriveTrain] Initialized Default Command");
 
 	SetDefaultCommand(new DriveWithJoystick());
 
@@ -92,7 +93,7 @@ void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
 
 void DriveTrain::Reset()
 {
-	std::cout << "[DriveTrain] Resetting the motors" << std::endl;
+	LOG("[DriveTrain] Resetting the motors");
 
 	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0.0);
 	this->pLeftRearMotor->Set(ControlMode::PercentOutput, 0.0);

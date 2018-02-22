@@ -1,9 +1,10 @@
 #include "ClimbSystem.h"
+#include "../Utilities/Log.h"
 
 
 ClimbSystem::ClimbSystem() : frc::Subsystem("ClimbSystem")
 {
-	std::cout << "[ClimbSystem] Constructed" << std::endl;
+	LOG("[ClimbSystem] Constructed");
 
 	this->pClimbMotor = new can::WPI_TalonSRX(CLIMBSYSTEM_MOTOR_ID);
 	this->pClimbSolenoid = new frc::Solenoid( CLIMBSYSTEM_SOLENOID_CAN_ID,
@@ -24,7 +25,7 @@ ClimbSystem::~ClimbSystem()
 
 void ClimbSystem::InitDefaultCommand()
 {
-	std::cout << "[ClimbSystem] Initilized Default Command" << std::endl;
+	LOG("[ClimbSystem] Initilized Default Command");
 
 	return;
 }
@@ -32,7 +33,7 @@ void ClimbSystem::InitDefaultCommand()
 
 void ClimbSystem::ExtendArm(void)
 {
-	this->pClimbSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+	this->pClimbSolenoid->Set(true);
 
 	return;
 }

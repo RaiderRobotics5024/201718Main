@@ -1,11 +1,11 @@
 #include "Intake.h"
-#include <iostream>
+#include "../Utilities/Log.h"
 #include "../Commands/Gripper.h"
 
 
 Intake::Intake() : frc::Subsystem("Intake")
 {
-	std::cout << "[Intake] Constructed" << std::endl;
+	LOG("[Intake] Constructed");
 
 	this->pLeftMotor = new can::WPI_TalonSRX(INTAKE_LEFT_MOTOR_ID);
 	this->pLeftMotor->SetInverted(true);
@@ -74,7 +74,7 @@ void Intake::BeltIntake(void)
 
 void Intake::InitDefaultCommand()
 {
-	std::cout << "[Intake] Initialized Default Command" << std::endl;
+	LOG("[Intake] Initialized Default Command");
 
 	SetDefaultCommand( new Gripper() );
 
@@ -84,7 +84,7 @@ void Intake::InitDefaultCommand()
 
 void Intake::Reset()
 {
-	std::cout << "[Intake] Resetting the motors" << std::endl;
+	LOG("[Intake] Resetting the motors");
 
 	this->pLeftMotor->Set(0.0);
 	this->pRightMotor->Set(0.0);

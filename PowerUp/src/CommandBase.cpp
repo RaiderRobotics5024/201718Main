@@ -1,4 +1,5 @@
 #include "CommandBase.h"
+#include "Utilities/Log.h"
 #include "Subsystems/DriveTrain.h"
 
 // static variables in C++ have to be declared here
@@ -11,7 +12,7 @@ ClimbSystem* CommandBase::pClimbSystem = NULL;
 
 CommandBase::CommandBase() : Command()
 {
-	std::cout << "[CommandBase] Constructed" << std::endl;
+	LOG("[CommandBase] Constructed");
 
 	this->init();
 
@@ -33,7 +34,7 @@ CommandBase::~CommandBase()
 
 CommandBase::CommandBase(char const *name) : Command(name)
 {
-	std::cout << "[CommandBase] Constructed with name: " << name << std::endl;
+	LOG("[CommandBase] Constructed with name: ");
 
 	return;
 }
@@ -41,7 +42,7 @@ CommandBase::CommandBase(char const *name) : Command(name)
 
 void CommandBase::init()
 {
-	std::cout << "[CommandBase] Initialized" << std::endl;
+	LOG("[CommandBase] Initialized");
 
 	// Note: These aren't "this" because they are static,
 	//	so there is only one instance of these variables in
@@ -73,7 +74,6 @@ void CommandBase::init()
 	{
 		CommandBase::pClimbSystem = new ClimbSystem();
 	}
-
 
 	return;
 }

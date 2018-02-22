@@ -6,8 +6,6 @@
 #include <ctre/Phoenix.h>
 #include "../RobotMap.h"
 
-#include <iostream>
-
 class Elevator: public frc::Subsystem
 {
 public:

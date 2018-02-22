@@ -1,7 +1,6 @@
 #ifndef SRC_COMMANDS_CLIMBSCALE_H_
 #define SRC_COMMANDS_CLIMBSCALE_H_
 
-#include <iostream>
 #include <WPILib.h>
 #include "../CommandBase.h"
 

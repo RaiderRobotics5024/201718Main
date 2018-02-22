@@ -1,10 +1,9 @@
 #include "ControlElevator.h"
-#include <iostream>
-
+#include "../Utilities/Log.h"
 
 ControlElevator::ControlElevator()
 {
-	std::cout << "[ControlElevator] Constructed" << std::endl;
+	LOG("[ControlElevator] Constructed");
 
 	if ( CommandBase::pElevator != nullptr )
 	{
@@ -12,7 +11,7 @@ ControlElevator::ControlElevator()
 	}
 	else
 	{
-		std::cout << "[ControlElevator] elevator is NULL!" << std::endl;
+		LOG("[ControlElevator] elevator is NULL!");
 	}
 
 	return;
@@ -21,7 +20,7 @@ ControlElevator::ControlElevator()
 
 void ControlElevator::Initialize()
 {
-	std::cout << "[ControlElevator] Constructed" << std::endl;
+	LOG("[ControlElevator] Constructed");
 
 	return;
 }

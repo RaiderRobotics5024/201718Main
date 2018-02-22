@@ -1,7 +1,6 @@
 #ifndef _COMMANDBASE_HG_
 #define _COMMANDBASE_HG_
 
-#include <iostream>
 #include <WPILib.h>
 #include "Commands/Command.h"
 #include "OI.h"

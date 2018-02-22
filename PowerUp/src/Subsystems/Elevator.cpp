@@ -1,11 +1,11 @@
 #include "Elevator.h"
-#include <iostream>
+#include "../Utilities/Log.h"
 #include "../Commands/ControlElevator.h"
 
 
 Elevator::Elevator() : frc::Subsystem("Elevator")
 {
-	std::cout << "[Elevator] Constructed" << std::endl;
+	LOG("[Elevator] Constructed");
 
 	this->pElevatorMotor = new can::WPI_TalonSRX(ELEVATOR_MOTOR_ID);
 	this->pTopElevatorSwitch = new frc::DigitalInput(ELEVATOR_TOP_SWITCH_ID);
@@ -38,7 +38,7 @@ void Elevator::SetMotorSpeed(double elevatorSpeed)
 
 void Elevator::InitDefaultCommand()
 {
-	std::cout << "[Elevator] Initilizaed Default Cmomand" << std::endl;
+	LOG("[Elevator] Initilizaed Default Cmomand");
 
 	SetDefaultCommand( new ControlElevator() );
 
@@ -48,7 +48,7 @@ void Elevator::InitDefaultCommand()
 
 void Elevator::Reset()
 {
-	std::cout << "[Elevator] Resettign the motors" << std::endl;
+	LOG("[Elevator] Resettign the motors");
 
 	this->pElevatorMotor->Set(0.0);
 

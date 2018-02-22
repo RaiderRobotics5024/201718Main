@@ -7,8 +7,6 @@
 #include <DoubleSolenoid.h>
 #include "../RobotMap.h"
 
-#include <iostream>
-
 class Intake: public frc::Subsystem
 {
 public:

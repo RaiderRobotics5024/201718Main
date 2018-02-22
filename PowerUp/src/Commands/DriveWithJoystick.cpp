@@ -1,4 +1,5 @@
 #include "DriveWithJoystick.h"
+#include "../Utilities/Log.h"
 #include <math.h>
 #include "../RobotMap.h"
 
@@ -6,7 +7,7 @@
 
 DriveWithJoystick::DriveWithJoystick()
 {
-	std::cout << "[DriveWithJoystick] Constructed" << std::endl;
+	LOG("[DriveWithJoystick] Constructed");
 
 	if (CommandBase::pDriveTrain != nullptr)
 	{
@@ -14,7 +15,7 @@ DriveWithJoystick::DriveWithJoystick()
 	}
 	else
 	{
-		std::cout << "[DriveWithJoystick] driveTrain is null!" << std::endl;
+		LOG("[DriveWithJoystick] driveTrain is null!");
 	}
 
 	return;
@@ -23,7 +24,7 @@ DriveWithJoystick::DriveWithJoystick()
 
 void DriveWithJoystick::Initialize()
 {
-	std::cout << "[DriveWithJoystick] Initialized" << std::endl;
+	LOG("[DriveWithJoystick] Initialized");
 
 	return;
 }

@@ -1,11 +1,12 @@
 #include "Gripper.h"
+#include "../Utilities/Log.h"
 #include <math.h>
 #include "../RobotMap.h"
 
 
 Gripper::Gripper()
 {
-	std::cout << "[Gripper] Constructed" << std::endl;
+	LOG("[Gripper] Constructed");
 
 	if ( CommandBase::pIntake != nullptr )
 	{
@@ -13,7 +14,7 @@ Gripper::Gripper()
 	}
 	else
 	{
-		std::cout << "[Gripper] driveTrain is NULL!" << std::endl;
+		LOG("[Gripper] driveTrain is NULL!");
 	}
 
 	return;
@@ -21,7 +22,7 @@ Gripper::Gripper()
 
 void Gripper::Initialize()
 {
-	std::cout << "[Gripper] Initialize" << std::endl;
+	LOG("[Gripper] Initialize");
 
 	return;
 }
@@ -50,13 +51,3 @@ void Gripper::Interrupted()
 {
 	return;
 }
-
-
-
-
-
-
-
-
-
-
