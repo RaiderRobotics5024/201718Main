@@ -111,16 +111,14 @@ void Robot::TeleopInit()
 {
 	LOG("[Robot] Teleop Initialized");
 
-	// This makes sure that the autonomous stops running when
-	// teleop starts running. If you want the autonomous to
-	// continue until interrupted by another command, remove
-	// this line or comment it out.
+	// Stop the Autonomous Command
 	if (pAutonomousCommand != nullptr)
 	{
 		pAutonomousCommand->Cancel();
 		pAutonomousCommand = nullptr;
 	}
 
+	// Start the Teleop Commands
 	if (pClimbScale != nullptr)
 	{
 		LOG("[Robot] Starting pClimbScale");

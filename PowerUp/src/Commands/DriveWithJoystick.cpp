@@ -33,8 +33,6 @@ void DriveWithJoystick::Initialize()
 
 void DriveWithJoystick::Execute()
 {
-	//CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystick());
-
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
 	double forwardSpeed = pJoyDrive->GetY(XboxController::kLeftHand);
