@@ -5,21 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#ifndef _EXAMPLE_COMMAND_HG_
-#define _EXAMPLE_COMMAND_HG_
+#pragma once
 
-#include <iostream>
-#include <Commands/Command.h>
+#include <Commands/CommandGroup.h>
 
-class ExampleCommand : public frc::Command
-{
+class RobotCenterSwitchLeft : public frc::CommandGroup {
 public:
-	ExampleCommand();
-	void Initialize() override;
-	void Execute() override;
-	bool IsFinished() override;
-	void End() override;
-	void Interrupted() override;
+	RobotCenterSwitchLeft();
 };
 
-#endif

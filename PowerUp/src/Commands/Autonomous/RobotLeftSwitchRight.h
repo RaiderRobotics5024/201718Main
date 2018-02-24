@@ -5,21 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#ifndef _MY_AUTO_COMMAND_HG_
-#define _MY_AUTO_COMMAND_HG_
+#pragma once
 
-#include <iostream>
-#include <Commands/Command.h>
+#include <Commands/CommandGroup.h>
 
-class MyAutoCommand : public frc::Command
-{
+class RobotLeftSwitchRight : public frc::CommandGroup {
 public:
-	MyAutoCommand();
-	void Initialize() override;
-	void Execute() override;
-	bool IsFinished() override;
-	void End() override;
-	void Interrupted() override;
+	RobotLeftSwitchRight();
 };
 
-#endif

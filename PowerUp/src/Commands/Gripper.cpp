@@ -14,7 +14,7 @@ Gripper::Gripper()
 	}
 	else
 	{
-		LOG("[Gripper] driveTrain is NULL!");
+		LOG("[Gripper] intake is NULL!");
 	}
 
 	return;

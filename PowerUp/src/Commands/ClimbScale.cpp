@@ -11,7 +11,7 @@ ClimbScale::ClimbScale()
 	}
 	else
 	{
-		LOG("[ClimbScale] ClimbSystem is NULL");
+		LOG("[ClimbScale] climbSystem is NULL");
 	}
 
 	return;
