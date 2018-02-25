@@ -26,6 +26,8 @@ MotionProfileCommand::MotionProfileCommand()
  */
 void MotionProfileCommand::Initialize()
 {
+	LOG("[MotionProfileCommand] Initializing" );
+
 	CommandBase::pDriveTrain->InitMotionProfiling();
 
 	return;
@@ -61,6 +63,8 @@ bool MotionProfileCommand::IsFinished()
  */
 void MotionProfileCommand::End()
 {
+	LOG("[MotionProfileCommand] Ending" );
+
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
 
@@ -72,6 +76,8 @@ void MotionProfileCommand::End()
  */
 void MotionProfileCommand::Interrupted()
 {
+	LOG("[MotionProfileCommand] Interrupted" );
+
 	CommandBase::pDriveTrain->ResetDrive();
 
 	return;
