@@ -91,9 +91,3 @@ void Intake::Reset()
 
 	return;
 }
-
-
-
-
-
-

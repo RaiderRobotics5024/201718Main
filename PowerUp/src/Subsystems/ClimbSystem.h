@@ -1,11 +1,14 @@
-#ifndef SRC_CLIMBSYSTEM_H_
-#define SRC_CLIMBSYSTEM_H_
+#ifndef _CLIMBSYSTEM_HG_
+#define _CLIMBSYSTEM_HG_
 
 #include <WPILib.h>
 #include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include "../RobotMap.h"
 
+/**
+ *
+ */
 class ClimbSystem: public frc::Subsystem
 {
 public:
@@ -15,12 +18,10 @@ public:
 //	void Reset();
 	void ExtendArm(void);
 	void RetractArm(void);
-private:
 
+private:
 	can::WPI_TalonSRX* pClimbMotor;
 	frc::Solenoid* pClimbSolenoid;
 };
 
-
-
-#endif /* SRC_SUBSYSTEMS_CLIMBSYSTEM_H_ */
+#endif

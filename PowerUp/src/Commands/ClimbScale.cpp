@@ -1,6 +1,9 @@
 #include "ClimbScale.h"
 #include "../Utilities/Log.h"
 
+/**
+ *
+ */
 ClimbScale::ClimbScale()
 {
 	LOG("[ClimbScale] Constructed");
@@ -16,12 +19,18 @@ ClimbScale::ClimbScale()
 
 	return;
 }
+
+/**
+ *
+ */
 void ClimbScale::Initialize()
 {
-
 	return;
 }
 
+/**
+ *
+ */
 void ClimbScale::Execute()
 {
 	frc::XboxController* pJoyOperator = CommandBase::pOI->GetJoystickOperator();
@@ -38,16 +47,25 @@ void ClimbScale::Execute()
 	return;
 }
 
+/**
+ *
+ */
 bool ClimbScale::IsFinished()
 {
 	return false;
 }
 
+/**
+ *
+ */
 void ClimbScale::End()
 {
 	return;
 }
 
+/**
+ *
+ */
 void ClimbScale::Interrupted()
 {
 	return;

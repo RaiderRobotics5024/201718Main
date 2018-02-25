@@ -36,6 +36,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	// Initialize the gyro
 	this->pGyro = new AHRS(SPI::Port::kMXP);
+	this->pGyro->Reset();
 
 	// Initialize the turn controller
 	this->pTurnController = new PIDController(GYRO_PID_P, GYRO_PID_I, GYRO_PID_D, GYRO_PID_F, pGyro, this, 0.5);
@@ -169,6 +170,22 @@ void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
 /**
  *
  */
+bool DriveTrain::IsDriving()
+{
+	return this->pGyro->IsMoving();
+}
+
+/**
+ *
+ */
+bool DriveTrain::IsTurning()
+{
+	return this->pGyro->IsRotating();
+}
+
+/**
+ *
+ */
 void DriveTrain::ResetDrive()
 {
 	LOG("[DriveTrain] Resetting the motors");
@@ -288,15 +305,3 @@ void DriveTrain::PIDWrite(double output)
 
     return;
 }
-
-
-
-
-
-
-
-
-
-
-
-

@@ -10,39 +10,12 @@ Intake* CommandBase::pIntake = NULL;
 Elevator* CommandBase::pElevator = NULL;
 ClimbSystem* CommandBase::pClimbSystem = NULL;
 
+/**
+ *
+ */
 CommandBase::CommandBase() : Command()
 {
 	LOG("[CommandBase] Constructed");
-
-	this->init();
-
-	return;
-}
-
-
-CommandBase::~CommandBase()
-{
-	delete this->pDriveTrain;
-	delete this->pIntake;
-	delete this->pOI;
-	delete this->pElevator;
-	delete this->pClimbSystem;
-
-	return;
-}
-
-
-CommandBase::CommandBase(char const *name) : Command(name)
-{
-	LOG("[CommandBase] Constructed with name: ");
-
-	return;
-}
-
-
-void CommandBase::init()
-{
-	LOG("[CommandBase] Initialized");
 
 	// Note: These aren't "this" because they are static,
 	//	so there is only one instance of these variables in
@@ -78,4 +51,16 @@ void CommandBase::init()
 	return;
 }
 
+/**
+ *
+ */
+CommandBase::~CommandBase()
+{
+	delete this->pDriveTrain;
+	delete this->pIntake;
+	delete this->pOI;
+	delete this->pElevator;
+	delete this->pClimbSystem;
 
+	return;
+}

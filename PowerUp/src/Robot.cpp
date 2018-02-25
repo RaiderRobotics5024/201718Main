@@ -8,6 +8,9 @@
 #include "Commands/Autonomous/RobotRightSwitchLeft.h"
 #include "Commands/Autonomous/RobotRightSwitchRight.h"
 
+/**
+ *
+ */
 Robot::~Robot()
 {
 	delete this->pDriveWithJoystick;
@@ -18,6 +21,9 @@ Robot::~Robot()
 	return;
 }
 
+/**
+ *
+ */
 void Robot::RobotInit()
 {
 	LOG("[Robot] Initialized");
@@ -42,6 +48,9 @@ void Robot::RobotInit()
 	return;
 }
 
+/**
+ *
+ */
 void Robot::DisabledInit()
 {
 	return;
@@ -66,6 +75,9 @@ int Robot::GetAutoType()
 	return _RP + _SP;
 }
 
+/**
+ *
+ */
 void Robot::DisabledPeriodic()
 {
 	frc::Scheduler::GetInstance()->Run();
@@ -100,6 +112,9 @@ void Robot::AutonomousInit()
 	return;
 }
 
+/**
+ *
+ */
 void Robot::AutonomousPeriodic()
 {
 	frc::Scheduler::GetInstance()->Run();
@@ -107,6 +122,9 @@ void Robot::AutonomousPeriodic()
 	return;
 }
 
+/**
+ *
+ */
 void Robot::TeleopInit()
 {
 	LOG("[Robot] Teleop Initialized");
@@ -146,6 +164,9 @@ void Robot::TeleopInit()
 	return;
 }
 
+/**
+ *
+ */
 void Robot::TeleopPeriodic()
 {
 	frc::Scheduler::GetInstance()->Run();
@@ -153,6 +174,9 @@ void Robot::TeleopPeriodic()
 	return;
 }
 
+/**
+ *
+ */
 void Robot::TestPeriodic()
 {
 	return;
@@ -161,4 +185,3 @@ void Robot::TestPeriodic()
 // The main() function is hidden in this
 //	pre-processor macro...
 START_ROBOT_CLASS(Robot)
-

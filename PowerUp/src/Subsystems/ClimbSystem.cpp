@@ -1,7 +1,9 @@
 #include "ClimbSystem.h"
 #include "../Utilities/Log.h"
 
-
+/**
+ *
+ */
 ClimbSystem::ClimbSystem() : frc::Subsystem("ClimbSystem")
 {
 	LOG("[ClimbSystem] Constructed");
@@ -13,7 +15,9 @@ ClimbSystem::ClimbSystem() : frc::Subsystem("ClimbSystem")
 	return;
 }
 
-
+/**
+ *
+ */
 ClimbSystem::~ClimbSystem()
 {
 	delete this->pClimbMotor;
@@ -22,7 +26,9 @@ ClimbSystem::~ClimbSystem()
 	return;
 }
 
-
+/**
+ *
+ */
 void ClimbSystem::InitDefaultCommand()
 {
 	LOG("[ClimbSystem] Initilized Default Command");
@@ -30,7 +36,9 @@ void ClimbSystem::InitDefaultCommand()
 	return;
 }
 
-
+/**
+ *
+ */
 void ClimbSystem::ExtendArm(void)
 {
 	this->pClimbSolenoid->Set(true);
@@ -38,14 +46,12 @@ void ClimbSystem::ExtendArm(void)
 	return;
 }
 
-
+/**
+ *
+ */
 void ClimbSystem::RetractArm(void)
 {
 	this->pClimbMotor->Set(1.0);
 
 	return;
 }
-
-
-
-

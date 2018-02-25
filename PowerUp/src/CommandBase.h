@@ -15,8 +15,7 @@ class CommandBase: public frc::Command
 public:
 	CommandBase();
 	~CommandBase();
-	CommandBase(char const *name);
-	static void init();
+
 	static OI *pOI;
 	static DriveTrain *pDriveTrain;
 	static Intake *pIntake;

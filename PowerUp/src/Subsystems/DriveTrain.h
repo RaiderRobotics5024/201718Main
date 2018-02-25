@@ -27,6 +27,9 @@ public:
 	void CurvatureDrive(double xSpeed, double zRotation, bool isQuickTurn);
 	void TankDrive(double leftSpeed, double rightSpeed);
 
+	bool IsDriving();
+	bool IsTurning();
+
 	void ResetDrive();
 	void ResetEncoders();
 	void ResetGyro();

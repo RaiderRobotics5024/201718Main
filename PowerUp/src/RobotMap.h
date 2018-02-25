@@ -16,6 +16,8 @@ const double INCHES_PER_REVOLUTION = 2 * M_PI * WHEEL_RADIUS;
 const int SLOT_INDEX = 0;
 const int PID_LOOP_INDEX = 0;
 const int TIMEOUT_MS = 10;
+const int BASE_TRAJECTORY_PERIOD_MS = 0;
+const int NEUTRAL_DEADBAND_PERCENT = 1;
 
 // Gyro Settings
 const static double GYRO_PID_P = 0.03f;

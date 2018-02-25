@@ -13,4 +13,3 @@ class RobotLeftSwitchLeft : public frc::CommandGroup {
 public:
 	RobotLeftSwitchLeft();
 };
-

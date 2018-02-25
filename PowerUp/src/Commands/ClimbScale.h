@@ -1,9 +1,12 @@
-#ifndef SRC_COMMANDS_CLIMBSCALE_H_
-#define SRC_COMMANDS_CLIMBSCALE_H_
+#ifndef _CLIMBSCALE_HG_
+#define _CLIMBSCALE_HG_
 
 #include <WPILib.h>
 #include "../CommandBase.h"
 
+/**
+ *
+ */
 class ClimbScale : public CommandBase
 {
 public:
@@ -16,4 +19,4 @@ public:
 
 };
 
-#endif /* SRC_COMMANDS_CLIMBSCALE_H_ */
+#endif
