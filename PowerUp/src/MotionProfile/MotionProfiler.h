@@ -317,8 +317,8 @@ public:
 			double velocityRPM = profile[i][1];
 
 			/* for each point, fill our structure and pass it to API */
-			point.position = positionRot * SENSOR_UNITS_PER_ROTATION; //Convert Revolutions to Units
-			point.velocity = velocityRPM * SENSOR_UNITS_PER_ROTATION / 600.0; //Convert RPM to Units/100ms
+			point.position = positionRot * TICKS_PER_REVOLUTION; //Convert Revolutions to Units
+			point.velocity = velocityRPM * TICKS_PER_REVOLUTION / 600.0; //Convert RPM to Units/100ms
 			point.headingDeg = 0; /* future feature - not used in this example*/
 			point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
 			point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */

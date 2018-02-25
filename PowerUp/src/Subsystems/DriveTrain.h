@@ -17,6 +17,7 @@ public:
 
 	void InitAutonomousMode(bool inverted);
 	void InitDefaultCommand() override;
+	void InitMotionProfiling();
 
 	// Used for autonomous moude
 	void Drive(double distance, double speed);
@@ -26,6 +27,8 @@ public:
 	void ArcadeDrive(double xSpeed, double zRotation);
 	void CurvatureDrive(double xSpeed, double zRotation, bool isQuickTurn);
 	void TankDrive(double leftSpeed, double rightSpeed);
+
+	can::WPI_TalonSRX* GetFrontLeftMotor(); // Needed by Motion Profiler
 
 	bool IsDriving();
 	bool IsTurning();

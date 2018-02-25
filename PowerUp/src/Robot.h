@@ -11,6 +11,8 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/Gripper.h"
 
+#include "Commands/Autonomous/MotionProfileCommand.h"
+
 /**
  *
  */
@@ -25,6 +27,7 @@ public:
 	void AutonomousPeriodic() override;
 	void TeleopInit() override;
 	void TeleopPeriodic() override;
+	void TestInit() override;
 	void TestPeriodic() override;
 
 	// declare the commands
@@ -32,6 +35,8 @@ public:
 	ControlElevator*	pControlElevator;
 	DriveWithJoystick*	pDriveWithJoystick;
 	Gripper*			pGripper;
+
+	MotionProfileCommand* pMotionProfileCommand;
 
 private:
 

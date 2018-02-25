@@ -177,8 +177,20 @@ void Robot::TeleopPeriodic()
 /**
  *
  */
+void Robot::TestInit()
+{
+	this->pMotionProfileCommand = new MotionProfileCommand();
+	this->pMotionProfileCommand->Start();
+
+	return;
+}
+
+/**
+ *
+ */
 void Robot::TestPeriodic()
 {
+
 	return;
 }
 
