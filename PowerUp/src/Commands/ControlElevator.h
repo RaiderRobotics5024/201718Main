@@ -1,15 +1,13 @@
-#ifndef _DRIVEWITHJOYSTICK_HG_
-#define _DRIVEWITHJOYSTICK_HG_
+#ifndef SRC_COMMANDS_CONTROLELEVATOR_H_
+#define SRC_COMMANDS_CONTROLELEVATOR_H_
 
 #include <WPILib.h>
 #include "../CommandBase.h"
 
-
-
-class DriveWithJoystick: public CommandBase
+class ControlElevator : public CommandBase
 {
 public:
-	DriveWithJoystick();
+	ControlElevator();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -17,4 +15,4 @@ public:
 	void Interrupted() override;
 };
 
-#endif
+#endif /* SRC_COMMANDS_CONTROLELEVATOR_H_ */

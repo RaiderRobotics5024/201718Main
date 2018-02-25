@@ -1,20 +1,22 @@
-#ifndef _DRIVEWITHJOYSTICK_HG_
-#define _DRIVEWITHJOYSTICK_HG_
+#ifndef _CLIMBSCALE_HG_
+#define _CLIMBSCALE_HG_
 
 #include <WPILib.h>
 #include "../CommandBase.h"
 
-
-
-class DriveWithJoystick: public CommandBase
+/**
+ *
+ */
+class ClimbScale : public CommandBase
 {
 public:
-	DriveWithJoystick();
+	ClimbScale();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+
 };
 
 #endif

@@ -1,63 +1,75 @@
 #include "DriveWithJoystick.h"
+#include "../Utilities/Log.h"
+#include <math.h>
+#include "../RobotMap.h"
 
-/**
- *
- */
+
 
 DriveWithJoystick::DriveWithJoystick()
 {
-	std::cout << "[DriveWithJoystick] Constructed" << std::endl;
+	LOG("[DriveWithJoystick] Constructed");
 
-	if (CommandBase::pDriveTrain != nullptr)	{
+	if (CommandBase::pDriveTrain != nullptr)
+	{
 		Requires(CommandBase::pDriveTrain);
-	} else {
-		std::cout << "[DriveWithJoystick] driveTrain is null!" << std::endl;
 	}
+	else
+	{
+		LOG("[DriveWithJoystick] driveTrain is null!");
+	}
+
+	return;
 }
 
-/**
- *
- */
 
 void DriveWithJoystick::Initialize()
 {
-	std::cout << "[DriveWithJoystick] Initialized" << std::endl;
+	LOG("[DriveWithJoystick] Initialized");
+
+	return;
 }
 
-/**
- *
- */
+
 
 void DriveWithJoystick::Execute()
 {
-	std::cout << "[DriveWithJoystick] Executing" << std::endl;
+	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
-	CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetJoystick());
+	double forwardSpeed = pJoyDrive->GetY(XboxController::kLeftHand);
+	double turnAngle = pJoyDrive->GetX(XboxController::kLeftHand);
+
+	if (fabs(forwardSpeed) <= XBOX_DEADZONE_LEFT_JOY)
+	{
+		forwardSpeed = 0.0;
+	}
+
+	if (fabs(turnAngle) <= XBOX_DEADZONE_LEFT_JOY)
+	{
+		turnAngle = 0.0;
+	}
+
+	CommandBase::pDriveTrain->ArcadeDrive( forwardSpeed, turnAngle );
+
+	return;
 }
 
-/**
- *
- */
+
 
 bool DriveWithJoystick::IsFinished()
 {
 	return false;
 }
 
-/**
- *
- */
+
 
 void DriveWithJoystick::End()
 {
-
+	return;
 }
 
-/**
- *
- */
+
 
 void DriveWithJoystick::Interrupted()
 {
-
+	return;
 }
