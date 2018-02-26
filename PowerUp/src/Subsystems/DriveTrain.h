@@ -28,7 +28,10 @@ public:
 	void CurvatureDrive(double xSpeed, double zRotation, bool isQuickTurn);
 	void TankDrive(double leftSpeed, double rightSpeed);
 
+	double GetAngle();
 	can::WPI_TalonSRX* GetFrontLeftMotor(); // Needed by Motion Profiler
+	double GetLeftPosition();
+	double GetRightPosition();
 
 	bool IsDriving();
 	bool IsTurning();

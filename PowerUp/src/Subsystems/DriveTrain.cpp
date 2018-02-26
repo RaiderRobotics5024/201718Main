@@ -191,9 +191,33 @@ void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
 /**
  *
  */
+double DriveTrain::GetAngle()
+{
+	return pGyro->GetAngle();
+}
+
+/**
+ *
+ */
 can::WPI_TalonSRX* DriveTrain::GetFrontLeftMotor()
 {
 	return this->pLeftFrontMotor;
+}
+
+/**
+ *
+ */
+double DriveTrain::GetLeftPosition()
+{
+	return pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+double DriveTrain::GetRightPosition()
+{
+	return pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
 }
 
 /**
