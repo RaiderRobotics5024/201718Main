@@ -16,8 +16,8 @@ public:
 	~DriveTrain();
 
 	void InitAutonomousMode(bool inverted);
-	void InitDefaultCommand() override;
-	void InitMotionProfiling();
+	void InitDefaultCommand(void) override;
+	void InitMotionProfiling(void);
 
 	// Used for autonomous moude
 	void Drive(double distance, double speed);
@@ -28,20 +28,20 @@ public:
 	void CurvatureDrive(double xSpeed, double zRotation, bool isQuickTurn);
 	void TankDrive(double leftSpeed, double rightSpeed);
 
-	double GetAngle();
+	double GetAngle(void);
 	can::WPI_TalonSRX* GetFrontLeftMotor(); // Needed by Motion Profiler
-	double GetLeftPosition();
-	double GetRightPosition();
+	double GetLeftPosition(void);
+	double GetRightPosition(void);
 
-	bool IsDriving();
-	bool IsTurning();
+	bool IsDriving(void);
+	bool IsTurning(void);
 
-	void ResetDrive();
-	void ResetEncoders();
-	void ResetGyro();
+	void ResetDrive(void);
+	void ResetEncoders(void);
+	void ResetGyro(void);
 
 	// Send motor data to SmartDashboard
-	void Trace();
+	void Trace(void);
 	void Trace(WPI_TalonSRX* pTalonSRX, const std::string name);
 
 	virtual void PIDWrite(double output) override;

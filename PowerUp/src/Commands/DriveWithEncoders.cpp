@@ -31,7 +31,7 @@ void DriveWithEncoders::Initialize()
 	LOG("[DriveWithEncoders] Initialized");
 
 	CommandBase::pDriveTrain->ResetEncoders();
-	CommandBase::pDriveTrain->InitAutonomousMode(true);
+	CommandBase::pDriveTrain->InitAutonomousMode(true); // invert right front motor
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 
 	return;

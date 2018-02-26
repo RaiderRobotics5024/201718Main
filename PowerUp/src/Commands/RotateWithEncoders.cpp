@@ -31,7 +31,7 @@ void RotateWithEncoders::Initialize()
 	LOG("[RotateByPosition] Initialized");
 
 	CommandBase::pDriveTrain->ResetEncoders();
-	CommandBase::pDriveTrain->InitAutonomousMode(false);
+	CommandBase::pDriveTrain->InitAutonomousMode(false); // don't invert right front motor
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 
 	return;

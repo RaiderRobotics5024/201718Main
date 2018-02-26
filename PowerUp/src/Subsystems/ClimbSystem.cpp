@@ -39,9 +39,9 @@ void ClimbSystem::InitDefaultCommand()
 /**
  *
  */
-void ClimbSystem::ExtendArm(void)
+void ClimbSystem::ExtendArm(bool bOn)
 {
-	this->pClimbSolenoid->Set(true);
+	this->pClimbSolenoid->Set(bOn);
 
 	return;
 }
@@ -49,9 +49,9 @@ void ClimbSystem::ExtendArm(void)
 /**
  *
  */
-void ClimbSystem::RetractArm(void)
+void ClimbSystem::RetractArm(double dSpeed)
 {
-	this->pClimbMotor->Set(1.0);
+	this->pClimbMotor->Set(dSpeed);
 
 	return;
 }

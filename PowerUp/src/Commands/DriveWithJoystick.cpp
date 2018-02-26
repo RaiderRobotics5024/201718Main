@@ -3,8 +3,9 @@
 #include <math.h>
 #include "../RobotMap.h"
 
-
-
+/**
+ *
+ */
 DriveWithJoystick::DriveWithJoystick()
 {
 	LOG("[DriveWithJoystick] Constructed");
@@ -21,7 +22,9 @@ DriveWithJoystick::DriveWithJoystick()
 	return;
 }
 
-
+/**
+ *
+ */
 void DriveWithJoystick::Initialize()
 {
 	LOG("[DriveWithJoystick] Initialized");
@@ -29,8 +32,9 @@ void DriveWithJoystick::Initialize()
 	return;
 }
 
-
-
+/**
+ *
+ */
 void DriveWithJoystick::Execute()
 {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
@@ -53,24 +57,26 @@ void DriveWithJoystick::Execute()
 	return;
 }
 
-
-
+/**
+ *
+ */
 bool DriveWithJoystick::IsFinished()
 {
 	return false;
 }
 
-
-
+/**
+ *
+ */
 void DriveWithJoystick::End()
 {
 	return;
 }
 
-
-
+/**
+ *
+ */
 void DriveWithJoystick::Interrupted()
 {
 	return;
 }
-
