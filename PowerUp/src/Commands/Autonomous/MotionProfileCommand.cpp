@@ -43,6 +43,8 @@ void MotionProfileCommand::Execute()
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
+	LOG("[MotionProfileCommand] Set Output: " << setOutput);
+
 	CommandBase::pDriveTrain->GetFrontLeftMotor()->Set(ControlMode::MotionProfile, setOutput);
 
 	this->pMotionProfiler->start();

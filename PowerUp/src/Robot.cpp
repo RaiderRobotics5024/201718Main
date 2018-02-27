@@ -93,7 +93,7 @@ void Robot::AutonomousInit()
 
 	int autoType = GetAutoType();
 
-	LOG("Auto Type: " << autoType);
+	LOG("[Robot] Auto Type: " << autoType);
 
 	switch (autoType)
 	{

@@ -28,7 +28,8 @@
 #include "ctre/Phoenix.h"
 #include "../RobotMap.h"
 #include "Instrumentation.h"
-#include "MotionProfilePath.h"
+//#include "MotionProfilePath.h"
+#include "SampleDriveForward.h"
 
 using namespace ctre::phoenix::motion;
 
@@ -66,7 +67,7 @@ public:
 	 * timeout. Getting time-stamps would certainly work too, this is just
 	 * simple (no need to worry about timer overflows).
 	 */
-	int _loopTimeout = -1;
+	int _loopTimeout = 30;
 
 	/**
 	 * If start() gets called, this flag is set and in the control() we will

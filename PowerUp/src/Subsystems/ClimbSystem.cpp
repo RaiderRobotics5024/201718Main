@@ -1,5 +1,6 @@
 #include "ClimbSystem.h"
 #include "../Utilities/Log.h"
+#include "../Commands/ClimbScale.h"
 
 /**
  *
@@ -32,6 +33,8 @@ ClimbSystem::~ClimbSystem()
 void ClimbSystem::InitDefaultCommand()
 {
 	LOG("[ClimbSystem] Initilized Default Command");
+
+	SetDefaultCommand(new ClimbScale());
 
 	return;
 }

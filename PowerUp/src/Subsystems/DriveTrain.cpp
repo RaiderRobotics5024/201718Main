@@ -20,15 +20,21 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
+	this->pLeftFrontMotor->SetSensorPhase(true);
+	this->pLeftRearMotor->SetSensorPhase(true);
+
 
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(false);
-	this->pRightRearMotor->SetInverted(false);
+	this->pRightFrontMotor->SetInverted(true);
+	this->pRightRearMotor->SetInverted(true);
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
+
+	this->pRightFrontMotor->SetSensorPhase(true);
+	this->pRightRearMotor->SetSensorPhase(true);
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
@@ -147,7 +153,6 @@ void DriveTrain::Drive(double distance, double speed)
 /**
  * Used by Autonomous Commands
  */
-
 void DriveTrain::Turn(double setpoint)
 {
     this->pTurnController->SetSetpoint(setpoint);
@@ -173,7 +178,7 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation)
  */
 void DriveTrain::CurvatureDrive(double xSpeed, double zRotation, bool isQuickTurn)
 {
-	this->pRobotDrive->CurvatureDrive( xSpeed, zRotation, isQuickTurn );
+	this->pRobotDrive->CurvatureDrive(xSpeed, zRotation, isQuickTurn);
 
 	return;
 }
@@ -183,7 +188,7 @@ void DriveTrain::CurvatureDrive(double xSpeed, double zRotation, bool isQuickTur
  */
 void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
 {
-	this->pRobotDrive->TankDrive( leftSpeed, rightSpeed );
+	this->pRobotDrive->TankDrive(leftSpeed, rightSpeed);
 
 	return;
 }
@@ -289,8 +294,13 @@ void DriveTrain::ResetGyro()
  */
 void DriveTrain::Trace()
 {
-	Trace(this->pLeftFrontMotor, "Left");
-	Trace(this->pRightFrontMotor, "Right");
+	LOG("[Robot] Tracing");
+
+	Trace(this->pLeftFrontMotor, "Left Front");
+	Trace(this->pLeftRearMotor, "Left Rear");
+
+	Trace(this->pRightFrontMotor, "Right Front");
+	Trace(this->pRightRearMotor, "Right Rear");
 
 	SmartDashboard::PutNumber("Gyro Angle", pGyro->GetAngle());
 }
@@ -300,6 +310,8 @@ void DriveTrain::Trace()
  */
 void DriveTrain::Trace(WPI_TalonSRX* pTalonSRX, const std::string name)
 {
+	LOG("[Robot] Tracing: " << name);
+
 	int baseId = pTalonSRX->GetBaseID();
 	int version = pTalonSRX->GetFirmwareVersion();
 	bool isInverted = pTalonSRX->GetInverted();
@@ -324,28 +336,28 @@ void DriveTrain::Trace(WPI_TalonSRX* pTalonSRX, const std::string name)
 	Faults faults;
 	pTalonSRX->GetFaults(faults);
 
-	SmartDashboard::PutNumber(name + std::string(" Base ID"), baseId);
-	SmartDashboard::PutNumber(name + std::string(" Version"), version);
-	SmartDashboard::PutBoolean(name + std::string(" Is Inverted"), isInverted);
+	SmartDashboard::PutNumber(name + " Base ID", baseId);
+	SmartDashboard::PutNumber(name + " Version", version);
+	SmartDashboard::PutBoolean(name + " Is Inverted", isInverted);
 
-	SmartDashboard::PutNumber(name + std::string(" Current Amps"), currentAmps);
-	SmartDashboard::PutNumber(name + std::string(" Output Voltage"), outputV);
-	SmartDashboard::PutNumber(name + std::string(" Bus Voltage"), busV);
-	SmartDashboard::PutNumber(name + std::string(" Output Percent"), outputPerc);
+	SmartDashboard::PutNumber(name + " Current Amps", currentAmps);
+	SmartDashboard::PutNumber(name + " Output Voltage", outputV);
+	SmartDashboard::PutNumber(name + " Bus Voltage", busV);
+	SmartDashboard::PutNumber(name + " Output Percent", outputPerc);
 
-	SmartDashboard::PutNumber(name + std::string(" Quad Position"), quadPos);
-	SmartDashboard::PutNumber(name + std::string(" Quad Velocity"), quadVel);
+	SmartDashboard::PutNumber(name + " Quad Position", quadPos);
+	SmartDashboard::PutNumber(name + " Quad Velocity", quadVel);
 
-	SmartDashboard::PutNumber(name + std::string(" Analog In Position"), analogPos);
-	SmartDashboard::PutNumber(name + std::string(" Analog In Velocity"), analogVel);
+	SmartDashboard::PutNumber(name + " Analog In Position", analogPos);
+	SmartDashboard::PutNumber(name + " Analog In Velocity", analogVel);
 
-	SmartDashboard::PutNumber(name + std::string(" SS Position"), selectedSensorPos);
-	SmartDashboard::PutNumber(name + std::string(" SS Velocity"), selectedSensorVel);
-	SmartDashboard::PutNumber(name + std::string(" SS Closed Loop Error"), closedLoopErr);
-	SmartDashboard::PutNumber(name + std::string(" Integral Accumulator"), closedLoopAccum);
-	SmartDashboard::PutNumber(name + std::string(" Error Derivative"), derivErr);
+	SmartDashboard::PutNumber(name + " SS Position", selectedSensorPos);
+	SmartDashboard::PutNumber(name + " SS Velocity", selectedSensorVel);
+	SmartDashboard::PutNumber(name + " SS Closed Loop Error", closedLoopErr);
+	SmartDashboard::PutNumber(name + " Integral Accumulator", closedLoopAccum);
+	SmartDashboard::PutNumber(name + " Error Derivative", derivErr);
 
-	SmartDashboard::PutBoolean(name + std::string(" Has Faults"), faults.HasAnyFault());
+	SmartDashboard::PutBoolean(name + " Has Faults", faults.HasAnyFault());
 
 	return;
 }
