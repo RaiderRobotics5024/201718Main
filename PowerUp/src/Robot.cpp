@@ -34,7 +34,6 @@ void Robot::RobotInit()
 /**
  *
  */
-
 void Robot::DisabledInit()
 {
 	std::cout << "[Robot] DisabledInit called" << std::endl;
