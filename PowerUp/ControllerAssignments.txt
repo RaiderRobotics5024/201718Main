@@ -1,6 +1,6 @@
 Driver Controller
-Button A       : Intake - Open
-Button B       : Intake - Close
+Button A       : Intake - Close
+Button B       : Intake - Open
 Button X       :
 Button Y       :
 Left Stick     : Drivetrain Forwards/Backwards/Left/Right
