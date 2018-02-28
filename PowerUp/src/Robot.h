@@ -22,7 +22,7 @@ public:
 	void TestPeriodic() override;
 
 private:
-	TalonSRX* pTalonSRX;
+	can::WPI_TalonSRX* pTalonSRX;
 	Joystick* pJoystick;
 	double dTargetPositionRotations;
 	std::string _sb;
