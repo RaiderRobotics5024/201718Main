@@ -2,6 +2,7 @@
 #define _ROBOT_HG_
 
 #include <WPILib.h>
+#include "ctre/Phoenix.h"
 #include <string>
 
 /**
