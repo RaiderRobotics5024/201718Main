@@ -81,14 +81,14 @@ void Robot::TeleopInit()
 	pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 10);
 
 	/* choose the sensor and sensor direction */
-	pTalonSRX->ConfigSelectedFeedbackSensor( FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
+	pTalonSRX->ConfigSelectedFeedbackSensor FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
 	pTalonSRX->SetSensorPhase(true);
 
 	/* set the peak and nominal outputs, 12V means full */
-	pTalonSRX->ConfigNominalOutputForward(0, 10);
-	pTalonSRX->ConfigNominalOutputReverse(0, 10);
-	pTalonSRX->ConfigPeakOutputForward(1, 10);
-	pTalonSRX->ConfigPeakOutputReverse(-1, 10);
+	pTalonSRX->ConfigNominalOutputForward( 0, 10);
+	pTalonSRX->ConfigNominalOutputReverse( 0, 10);
+	pTalonSRX->ConfigPeakOutputForward   ( 1, 10);
+	pTalonSRX->ConfigPeakOutputReverse   (-1, 10);
 
 	/* set closed loop gains in slot0 */
 	pTalonSRX->Config_kF(0, 0.0, 10);
