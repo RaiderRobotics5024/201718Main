@@ -41,6 +41,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	pRobotDrive->SetSafetyEnabled(false);
 
 	// Initialize the gyro
+	// (See comment here about which port. We are using MXP, the one physically on top of the RoboRio
+	//  https://www.pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/c/)
 	this->pGyro = new AHRS(SPI::Port::kMXP);
 	this->pGyro->Reset();
 
@@ -121,23 +123,25 @@ void DriveTrain::InitDefaultCommand()
 /**
  *
  */
-void DriveTrain::InitMotionProfiling()
-{
-	pRightFrontMotor->Follow(*pLeftFrontMotor);
-
-	pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, TIMEOUT_MS);
-	pLeftFrontMotor->SetSensorPhase(true);
-	pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01,	TIMEOUT_MS);
-
-	pLeftFrontMotor->Config_kF(0, 0.076, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kP(0, 2.000, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kI(0, 0.0  , TIMEOUT_MS);
-	pLeftFrontMotor->Config_kD(0, 20.0 , TIMEOUT_MS);
-
-	pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(10, TIMEOUT_MS); //Our profile uses 10 ms timing
-	/* status 10 provides the trajectory target for motion profile AND motion magic */
-	pLeftFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
-}
+// Note: For now, the MotionProfile is causing issues, so it's removed.
+//       The files are in the MotionProfile_ForNowTheseDontWork.7z file.
+//void DriveTrain::InitMotionProfiling()
+//{
+//	pRightFrontMotor->Follow(*pLeftFrontMotor);
+//
+//	pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, TIMEOUT_MS);
+//	pLeftFrontMotor->SetSensorPhase(true);
+//	pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01,	TIMEOUT_MS);
+//
+//	pLeftFrontMotor->Config_kF(0, 0.076, TIMEOUT_MS);
+//	pLeftFrontMotor->Config_kP(0, 2.000, TIMEOUT_MS);
+//	pLeftFrontMotor->Config_kI(0, 0.0  , TIMEOUT_MS);
+//	pLeftFrontMotor->Config_kD(0, 20.0 , TIMEOUT_MS);
+//
+//		pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(10, TIMEOUT_MS); //Our profile uses 10 ms timing
+//	/* status 10 provides the trajectory target for motion profile AND motion magic */
+//	pLeftFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
+//}
 
 /**
  * Used by Autonomous Commands

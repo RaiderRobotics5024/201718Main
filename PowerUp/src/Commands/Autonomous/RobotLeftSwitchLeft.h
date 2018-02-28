@@ -9,7 +9,8 @@
 
 #include <Commands/CommandGroup.h>
 
-class RobotLeftSwitchLeft : public frc::CommandGroup {
+class RobotLeftSwitchLeft : public frc::CommandGroup
+{
 public:
 	RobotLeftSwitchLeft();
 };

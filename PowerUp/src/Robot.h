@@ -11,7 +11,9 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/Gripper.h"
 
-#include "Commands/Autonomous/MotionProfileCommand.h"
+// Note: For now, the MotionProfile is causing issues, so it's removed.
+//       The files are in the MotionProfile_ForNowTheseDontWork.7z file.
+//#include "Commands/Autonomous/MotionProfileCommand.h"
 
 /**
  *
@@ -36,7 +38,7 @@ public:
 	DriveWithJoystick*	pDriveWithJoystick;
 	Gripper*			pGripper;
 
-	MotionProfileCommand* pMotionProfileCommand;
+//	MotionProfileCommand* pMotionProfileCommand;
 
 private:
 

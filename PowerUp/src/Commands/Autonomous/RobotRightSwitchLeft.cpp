@@ -7,7 +7,8 @@
 
 #include "RobotRightSwitchLeft.h"
 
-RobotRightSwitchLeft::RobotRightSwitchLeft() {
+RobotRightSwitchLeft::RobotRightSwitchLeft()
+{
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
@@ -24,4 +25,6 @@ RobotRightSwitchLeft::RobotRightSwitchLeft() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
+
+	return;
 }

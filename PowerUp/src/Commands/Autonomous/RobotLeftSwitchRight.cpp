@@ -7,7 +7,8 @@
 
 #include "RobotLeftSwitchRight.h"
 
-RobotLeftSwitchRight::RobotLeftSwitchRight() {
+RobotLeftSwitchRight::RobotLeftSwitchRight()
+{
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());

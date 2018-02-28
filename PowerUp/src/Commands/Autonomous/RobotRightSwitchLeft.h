@@ -5,11 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#ifndef _ROBOTRIGHTSWITCHLEFT_HG_
+#define _ROBOTRIGHTSWITCHLEFT_HG_
 
 #include <Commands/CommandGroup.h>
 
-class RobotRightSwitchLeft : public frc::CommandGroup {
+class RobotRightSwitchLeft : public frc::CommandGroup
+{
 public:
 	RobotRightSwitchLeft();
 };
+
+#endif

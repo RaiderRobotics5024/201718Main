@@ -179,8 +179,10 @@ void Robot::TeleopPeriodic()
  */
 void Robot::TestInit()
 {
-	this->pMotionProfileCommand = new MotionProfileCommand();
-	this->pMotionProfileCommand->Start();
+	// Note: For now, the MotionProfile is causing issues, so it's removed.
+	//       The files are in the MotionProfile_ForNowTheseDontWork.7z file.
+	//	this->pMotionProfileCommand = new MotionProfileCommand();
+	//	this->pMotionProfileCommand->Start();
 
 	return;
 }

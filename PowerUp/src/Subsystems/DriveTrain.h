@@ -6,6 +6,8 @@
 #include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include <Drive/DifferentialDrive.h>
+// If you get an error including this library, you'll need to get the navX libraries from here:
+// https://www.pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/c/
 #include <AHRS.h>
 
 
@@ -17,9 +19,9 @@ public:
 
 	void InitAutonomousMode(bool inverted);
 	void InitDefaultCommand(void) override;
-	void InitMotionProfiling(void);
+//	void InitMotionProfiling(void);
 
-	// Used for autonomous moude
+	// Used for autonomous mode
 	void Drive(double distance, double speed);
 	void Turn (double setpoint);
 
