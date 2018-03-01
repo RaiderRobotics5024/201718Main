@@ -23,7 +23,7 @@ void Robot::RobotInit()
 {
 	std::cout << "[Robot] RobotInit called" << std::endl;
 
-	this->pTalonSRX = new TalonSRX(0);
+	this->pTalonSRX = new TalonSRX(1);
 	this->pJoystick = new Joystick(0);
 
 
