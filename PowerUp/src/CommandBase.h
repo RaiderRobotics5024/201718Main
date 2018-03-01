@@ -8,19 +8,23 @@
 #include "Subsystems/Intake.h"
 #include "Subsystems/Elevator.h"
 #include "Subsystems/ClimbSystem.h"
+#include <Subsystems/CompressorSystem.h>
 
-
+/*
+ *
+ */
 class CommandBase: public frc::Command
 {
 public:
 	CommandBase();
 	~CommandBase();
 
-	static OI *pOI;
-	static DriveTrain *pDriveTrain;
-	static Intake *pIntake;
-	static Elevator *pElevator;
-	static ClimbSystem* pClimbSystem;
+	static OI*                pOI;
+	static DriveTrain*        pDriveTrain;
+	static Intake*            pIntake;
+	static Elevator*          pElevator;
+	static ClimbSystem*       pClimbSystem;
+	static CompressorSystem*  pCompressorSystem;
 };
 
 #endif

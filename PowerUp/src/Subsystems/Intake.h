@@ -1,5 +1,5 @@
-#ifndef SRC_SUBSYSTEMS_INTAKE_H_
-#define SRC_SUBSYSTEMS_INTAKE_H_
+#ifndef _INTAKE_HG_
+#define _INTAKE_HG_
 
 #include <WPILib.h>
 #include <Commands/Subsystem.h>
@@ -7,6 +7,9 @@
 #include <DoubleSolenoid.h>
 #include "../RobotMap.h"
 
+/**
+ *
+ */
 class Intake: public frc::Subsystem
 {
 public:
@@ -14,11 +17,13 @@ public:
 	~Intake();
 	void InitDefaultCommand() override;
 	void Reset();
-//	void SetMotorSpeed(double leftSpeed, double rightSpeed);
-	void OpenCloseIntake(void);
-	void BeltIntake(void);
 
-	static const double SPEED_ADJUSTMENT_RATIO;// Can't define values here (unless int) see .cpp file
+	void BeltIn(double);
+	void BeltIntake(void);
+	void BeltOff(void);
+	void BeltOut(double);
+	void CloseGripper(void);
+	void OpenCloseIntake(void);
 
 private:
 	can::WPI_TalonSRX* pLeftMotor;
@@ -27,5 +32,4 @@ private:
 	frc::DoubleSolenoid* pGripperSolenoid;
 };
 
-
-#endif /* SRC_SUBSYSTEMS_INTAKE_H_ */
+#endif
