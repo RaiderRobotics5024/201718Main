@@ -37,7 +37,7 @@ void ClimbScale::Execute()
 {
 	frc::XboxController* pJoyOperator = CommandBase::pOI->GetJoystickOperator();
 
-	if (pJoyOperator->GetXButton())
+	if (pJoyOperator->GetAButton() && pJoyOperator->GetBumper(XboxController::kLeftHand))
 	{
 		CommandBase::pClimbSystem->ExtendArm(true);
 	}
