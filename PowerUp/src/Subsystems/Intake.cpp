@@ -59,55 +59,6 @@ void Intake::Reset()
 /**
  *
  */
-void Intake::BeltIn(double speed)
-{
-	this->pLeftMotor->Set(-speed);
-
-	return;
-}
-
-/**
- *
- */
-void Intake::BeltIntake(void)
-{
-	frc::XboxController* pJoystick = CommandBase::pOI->GetJoystickDrive();
-
-	double dInSpeed  = pJoystick->GetTriggerAxis(frc::XboxController::kLeftHand);
-	double dOutSpeed = pJoystick->GetTriggerAxis(frc::XboxController::kRightHand);
-
-	double dSpeed = dInSpeed - dOutSpeed;
-
-	dSpeed = dSpeed * GRIPPER_SPEED_ADJUSTMENT_RATIO;
-
-	this->pLeftMotor->Set(dSpeed);
-
-	return;
-}
-
-/**
- *
- */
-void Intake::BeltOff(void)
-{
-	this->pLeftMotor->Set(0.0);
-
-	return;
-}
-
-/**
- *
- */
-void Intake::BeltOut(double dSpeed)
-{
-	this->pLeftMotor->Set(dSpeed);
-
-	return;
-}
-
-/**
- *
- */
 void Intake::CloseGripper(void)
 {
 	this->pGripperSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
@@ -118,18 +69,19 @@ void Intake::CloseGripper(void)
 /**
  *
  */
-void Intake::OpenCloseIntake(void)
+void Intake::OpenGripper(void)
 {
-	frc::XboxController* pJoystick = CommandBase::pOI->GetJoystickDrive();
+	this->pGripperSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
 
-	if (pJoystick->GetAButton())
-	{
-		this->pGripperSolenoid->Set(frc::DoubleSolenoid::Value::kForward); // close grippers
-	}
-	else if ( pJoystick->GetBButton() )
-	{
-		this->pGripperSolenoid->Set(frc::DoubleSolenoid::Value::kReverse); // open grippers
-	}
+	return;
+}
+
+/**
+ *
+ */
+void Intake::SetSpeed(double dSpeed)
+{
+	this->pLeftMotor->Set(dSpeed);
 
 	return;
 }

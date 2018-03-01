@@ -35,14 +35,14 @@ void ToggleCompressor::Initialize()
  */
 void ToggleCompressor::Execute()
 {
-	frc::XboxController* pJoystick = CommandBase::pOI->GetJoystickOperator();
+	frc::XboxController* pJoyOperator = CommandBase::pOI->GetJoystickOperator();
 
-	if( pJoystick->GetStartButton())
+	if( pJoyOperator->GetStartButton())
 	{
 		CommandBase::pCompressorSystem->On();
 	}
 
-	if( pJoystick->GetBackButton())
+	if( pJoyOperator->GetBackButton())
 	{
 		CommandBase::pCompressorSystem->Off();
 	}

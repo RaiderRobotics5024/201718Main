@@ -18,12 +18,9 @@ public:
 	void InitDefaultCommand() override;
 	void Reset();
 
-	void BeltIn(double);
-	void BeltIntake(void);
-	void BeltOff(void);
-	void BeltOut(double);
 	void CloseGripper(void);
-	void OpenCloseIntake(void);
+	void OpenGripper(void);
+	void SetSpeed(double);
 
 private:
 	can::WPI_TalonSRX* pLeftMotor;
