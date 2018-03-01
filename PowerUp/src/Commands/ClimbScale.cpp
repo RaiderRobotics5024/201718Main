@@ -41,7 +41,12 @@ void ClimbScale::Execute()
 	{
 		CommandBase::pClimbSystem->ExtendArm(true);
 	}
-	else if (pJoyOperator->GetYButton())
+	
+	if (pJoyOperator->GetYButton())
+	{
+		CommandBase::pClimbSystem->RetractArm(-1.0);
+	}
+	else if (pJoyOperator->GetBButton())
 	{
 		CommandBase::pClimbSystem->RetractArm(1.0);
 	}
