@@ -26,7 +26,6 @@ void Robot::RobotInit()
 	this->pTalonSRX = new TalonSRX(1);
 	this->pJoystick = new Joystick(0);
 
-
 	return;
 }
 
