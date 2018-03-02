@@ -19,7 +19,6 @@ public:
 
 	void InitAutonomousMode(bool inverted);
 	void InitDefaultCommand(void) override;
-//	void InitMotionProfiling(void);
 
 	// Used for autonomous mode
 	void Drive(double distance, double speed);
