@@ -12,8 +12,8 @@ class OI
 public:
 	OI();
 	~OI();
-	frc::XboxController* GetJoystickDrive();
-	frc::XboxController* GetJoystickOperator();
+	frc::XboxController* GetJoystickDrive(void);
+	frc::XboxController* GetJoystickOperator(void);
 
 
 private:

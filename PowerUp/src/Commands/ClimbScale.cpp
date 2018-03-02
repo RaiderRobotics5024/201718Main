@@ -8,7 +8,7 @@ ClimbScale::ClimbScale()
 {
 	LOG("[ClimbScale] Constructed");
 
-	if ( CommandBase::pClimbSystem != nullptr )
+	if (CommandBase::pClimbSystem != nullptr)
 	{
 		Requires( CommandBase::pClimbSystem );
 	}
@@ -25,6 +25,8 @@ ClimbScale::ClimbScale()
  */
 void ClimbScale::Initialize()
 {
+	LOG("[ClimbScale] Initialized");
+
 	return;
 }
 
@@ -35,13 +37,22 @@ void ClimbScale::Execute()
 {
 	frc::XboxController* pJoyOperator = CommandBase::pOI->GetJoystickOperator();
 
-	if ( pJoyOperator->GetAButton() )
+	if (pJoyOperator->GetAButton() && pJoyOperator->GetBumper(XboxController::kLeftHand))
 	{
-		CommandBase::pClimbSystem->ExtendArm();
+		CommandBase::pClimbSystem->ExtendArm(true);
 	}
-	else if ( pJoyOperator->GetYButton() )
+
+	if (pJoyOperator->GetYButton())
 	{
-		CommandBase::pClimbSystem->RetractArm();
+		CommandBase::pClimbSystem->RetractArm(-1.0);
+	}
+	else if (pJoyOperator->GetBButton())
+	{
+		CommandBase::pClimbSystem->RetractArm(1.0);
+	}
+	else
+	{
+		CommandBase::pClimbSystem->RetractArm(0.0);
 	}
 
 	return;
@@ -60,6 +71,10 @@ bool ClimbScale::IsFinished()
  */
 void ClimbScale::End()
 {
+	LOG("[ClimbScale] Ended");
+
+	CommandBase::pClimbSystem->ExtendArm(false); // reset the solenoid
+
 	return;
 }
 
@@ -68,5 +83,7 @@ void ClimbScale::End()
  */
 void ClimbScale::Interrupted()
 {
+	LOG("[ClimbScale] Interrupted");
+
 	return;
 }

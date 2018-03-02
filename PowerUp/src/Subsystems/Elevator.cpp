@@ -54,5 +54,3 @@ void Elevator::Reset()
 
 	return;
 }
-
-

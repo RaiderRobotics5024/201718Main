@@ -6,9 +6,13 @@
 #include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include <Drive/DifferentialDrive.h>
+// If you get an error including this library, you'll need to get the navX libraries from here:
+// https://www.pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/c/
 #include <AHRS.h>
 
-
+/**
+ *
+ */
 class DriveTrain: public frc::Subsystem, PIDOutput
 {
 public:
@@ -16,9 +20,10 @@ public:
 	~DriveTrain();
 
 	void InitAutonomousMode(bool inverted);
-	void InitDefaultCommand() override;
+	void InitDefaultCommand(void) override;
+	void InitMotionProfiling(void);
 
-	// Used for autonomous moude
+	// Used for autonomous mode
 	void Drive(double distance, double speed);
 	void Turn (double setpoint);
 
@@ -27,15 +32,20 @@ public:
 	void CurvatureDrive(double xSpeed, double zRotation, bool isQuickTurn);
 	void TankDrive(double leftSpeed, double rightSpeed);
 
-	bool IsDriving();
-	bool IsTurning();
+	double GetAngle(void);
+	can::WPI_TalonSRX* GetFrontLeftMotor(); // Needed by Motion Profiler
+	double GetLeftPosition(void);
+	double GetRightPosition(void);
 
-	void ResetDrive();
-	void ResetEncoders();
-	void ResetGyro();
+	bool IsDriving(void);
+	bool IsTurning(void);
+
+	void ResetDrive(void);
+	void ResetEncoders(void);
+	void ResetGyro(void);
 
 	// Send motor data to SmartDashboard
-	void Trace();
+	void Trace(void);
 	void Trace(WPI_TalonSRX* pTalonSRX, const std::string name);
 
 	virtual void PIDWrite(double output) override;

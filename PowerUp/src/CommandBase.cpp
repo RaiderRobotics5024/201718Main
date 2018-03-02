@@ -4,11 +4,12 @@
 
 // static variables in C++ have to be declared here
 // (not in the .h file)
-DriveTrain* CommandBase::pDriveTrain = NULL;
-OI* CommandBase::pOI = NULL;
-Intake* CommandBase::pIntake = NULL;
-Elevator* CommandBase::pElevator = NULL;
-ClimbSystem* CommandBase::pClimbSystem = NULL;
+DriveTrain*       CommandBase::pDriveTrain = NULL;
+OI*               CommandBase::pOI = NULL;
+Intake*           CommandBase::pIntake = NULL;
+Elevator*         CommandBase::pElevator = NULL;
+ClimbSystem*      CommandBase::pClimbSystem = NULL;
+CompressorSystem* CommandBase::pCompressorSystem = NULL;
 
 /**
  *
@@ -48,6 +49,11 @@ CommandBase::CommandBase() : Command()
 		CommandBase::pClimbSystem = new ClimbSystem();
 	}
 
+	if (CommandBase::pCompressorSystem == nullptr)
+	{
+		CommandBase::pCompressorSystem = new CompressorSystem();
+	}
+
 	return;
 }
 
@@ -61,6 +67,7 @@ CommandBase::~CommandBase()
 	delete this->pOI;
 	delete this->pElevator;
 	delete this->pClimbSystem;
+	delete this->pCompressorSystem;
 
 	return;
 }

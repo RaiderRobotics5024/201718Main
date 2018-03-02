@@ -93,7 +93,7 @@ void Robot::AutonomousInit()
 
 	int autoType = GetAutoType();
 
-	LOG("Auto Type: " << autoType);
+	LOG("[Robot] Auto Type: " << autoType);
 
 	switch (autoType)
 	{
@@ -170,6 +170,17 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
 	frc::Scheduler::GetInstance()->Run();
+
+	return;
+}
+
+/**
+ *
+ */
+void Robot::TestInit()
+{
+	this->pMotionProfileCommand = new MotionProfileCommand();
+	this->pMotionProfileCommand->Start();
 
 	return;
 }

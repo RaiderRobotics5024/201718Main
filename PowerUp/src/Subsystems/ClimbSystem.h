@@ -15,9 +15,8 @@ public:
 	ClimbSystem();
 	~ClimbSystem();
 	void InitDefaultCommand() override;
-//	void Reset();
-	void ExtendArm(void);
-	void RetractArm(void);
+	void ExtendArm(bool on);
+	void RetractArm(double speed);
 
 private:
 	can::WPI_TalonSRX* pClimbMotor;

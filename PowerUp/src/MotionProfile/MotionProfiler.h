@@ -28,7 +28,8 @@
 #include "ctre/Phoenix.h"
 #include "../RobotMap.h"
 #include "Instrumentation.h"
-#include "MotionProfilePath.h"
+//#include "MotionProfilePath.h"
+#include "SampleDriveForward.h"
 
 using namespace ctre::phoenix::motion;
 
@@ -66,7 +67,7 @@ public:
 	 * timeout. Getting time-stamps would certainly work too, this is just
 	 * simple (no need to worry about timer overflows).
 	 */
-	int _loopTimeout = -1;
+	int _loopTimeout = 30;
 
 	/**
 	 * If start() gets called, this flag is set and in the control() we will
@@ -317,8 +318,8 @@ public:
 			double velocityRPM = profile[i][1];
 
 			/* for each point, fill our structure and pass it to API */
-			point.position = positionRot * SENSOR_UNITS_PER_ROTATION; //Convert Revolutions to Units
-			point.velocity = velocityRPM * SENSOR_UNITS_PER_ROTATION / 600.0; //Convert RPM to Units/100ms
+			point.position = positionRot * TICKS_PER_REVOLUTION; //Convert Revolutions to Units
+			point.velocity = velocityRPM * TICKS_PER_REVOLUTION / 600.0; //Convert RPM to Units/100ms
 			point.headingDeg = 0; /* future feature - not used in this example*/
 			point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
 			point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */

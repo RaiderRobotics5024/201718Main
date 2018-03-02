@@ -1,5 +1,5 @@
-#ifndef _DRIVEWITHJOYSTICK_HG_
-#define _DRIVEWITHJOYSTICK_HG_
+#ifndef _COMPRESSOR_TOGGLE_HG_
+#define _COMPRESSOR_TOGGLE_HG_
 
 #include <WPILib.h>
 #include "../CommandBase.h"
@@ -7,10 +7,11 @@
 /**
  *
  */
-class DriveWithJoystick: public CommandBase
-{
+#include <Commands/Command.h>
+
+class ToggleCompressor : public frc::Command {
 public:
-	DriveWithJoystick();
+	ToggleCompressor();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

@@ -1,21 +1,21 @@
-#ifndef _DRIVEWITHJOYSTICK_HG_
-#define _DRIVEWITHJOYSTICK_HG_
+#ifndef _ROTATE_WITH_GYRO_HG_
+#define _ROTATE_WITH_GYRO_HG_
 
-#include <WPILib.h>
 #include "../CommandBase.h"
 
-/**
- *
- */
-class DriveWithJoystick: public CommandBase
+class RotateWithGyro : public CommandBase
 {
 public:
-	DriveWithJoystick();
+	RotateWithGyro(double setpoint);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+
+private:
+	int iCounter = 0;
+	double dSetPoint;
 };
 
 #endif

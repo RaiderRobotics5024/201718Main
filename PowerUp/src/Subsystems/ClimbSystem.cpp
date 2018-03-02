@@ -1,5 +1,6 @@
 #include "ClimbSystem.h"
 #include "../Utilities/Log.h"
+#include "../Commands/ClimbScale.h"
 
 /**
  *
@@ -33,15 +34,7 @@ void ClimbSystem::InitDefaultCommand()
 {
 	LOG("[ClimbSystem] Initilized Default Command");
 
-	return;
-}
-
-/**
- *
- */
-void ClimbSystem::ExtendArm(void)
-{
-	this->pClimbSolenoid->Set(true);
+	SetDefaultCommand(new ClimbScale());
 
 	return;
 }
@@ -49,10 +42,19 @@ void ClimbSystem::ExtendArm(void)
 /**
  *
  */
-void ClimbSystem::RetractArm(void)
+void ClimbSystem::ExtendArm(bool bOn)
 {
-	this->pClimbMotor->Set(1.0);
+	this->pClimbSolenoid->Set(bOn);
 
 	return;
 }
 
+/**
+ *
+ */
+void ClimbSystem::RetractArm(double dSpeed)
+{
+	this->pClimbMotor->Set(dSpeed);
+
+	return;
+}

@@ -1,9 +1,12 @@
-#ifndef SRC_COMMANDS_CONTROLELEVATOR_H_
-#define SRC_COMMANDS_CONTROLELEVATOR_H_
+#ifndef _CONTROLELEVATOR_HG_
+#define _CONTROLELEVATOR_HG_
 
 #include <WPILib.h>
 #include "../CommandBase.h"
 
+/**
+ *
+ */
 class ControlElevator : public CommandBase
 {
 public:
@@ -15,4 +18,4 @@ public:
 	void Interrupted() override;
 };
 
-#endif /* SRC_COMMANDS_CONTROLELEVATOR_H_ */
+#endif

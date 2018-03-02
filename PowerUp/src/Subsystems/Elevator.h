@@ -1,5 +1,5 @@
-#ifndef SRC_SUBSYSTEMS_ELEVATOR_H_
-#define SRC_SUBSYSTEMS_ELEVATOR_H_
+#ifndef _ELEVATOR_HG_
+#define _ELEVATOR_HG_
 
 #include <WPILib.h>
 #include <Commands/Subsystem.h>
@@ -14,6 +14,7 @@ public:
 	void InitDefaultCommand() override;
 	void Reset();
 	void SetMotorSpeed(double speed);
+
 private:
 	can::WPI_TalonSRX* pElevatorMotor;
 
@@ -22,6 +23,4 @@ private:
 	frc::DigitalInput* pBottomElevatorSwitch;
 };
 
-
-
-#endif /* SRC_SUBSYSTEMS_ELEVATOR_H_ */
+#endif

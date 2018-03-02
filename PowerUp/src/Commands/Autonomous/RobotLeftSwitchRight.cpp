@@ -1,27 +1,23 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+#include "Commands/Autonomous/RobotLeftSwitchRight.h"
+#include "../../Utilities/Log.h"
+#include "../DriveWithEncoders.h"
+#include "../RotateWithEncoders.h"
+#include "../RotateWithGyro.h"
 
-#include "RobotLeftSwitchRight.h"
+/**
+ *
+ */
 
-RobotLeftSwitchRight::RobotLeftSwitchRight() {
-	// Add Commands here:
-	// e.g. AddSequential(new Command1());
-	//      AddSequential(new Command2());
-	// these will run in order.
+RobotLeftSwitchRight::RobotLeftSwitchRight()
+{
+	LOG("[RobotLeftSwitchRight] Constructed");
 
-	// To run multiple commands at the same time,
-	// use AddParallel()
-	// e.g. AddParallel(new Command1());
-	//      AddSequential(new Command2());
-	// Command1 and Command2 will run in parallel.
-
-	// A command group will require all of the subsystems that each member
-	// would require.
-	// e.g. if Command1 requires chassis, and Command2 requires arm,
-	// a CommandGroup containing them would require both the chassis and the
-	// arm.
+	// 19.75 * pi / 4 = 15.51
+	AddSequential(new DriveWithEncoders ( 60.0 , 1.0));
+	//	AddSequential(new RotateWithGyro( 90.0f     ));
+	AddSequential(new RotateWithEncoders( 15.51, 0.5));
+	AddSequential(new DriveWithEncoders (120.0 , 1.0));
+	//	AddSequential(new RotateWithGyro( 90.0f     ));
+	AddSequential(new RotateWithEncoders( 15.51, 0.5));
+	AddSequential(new DriveWithEncoders ( 24.0 , 0.5));
 }
