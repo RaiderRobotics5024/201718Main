@@ -11,10 +11,6 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/Gripper.h"
 
-// Note: For now, the MotionProfile is causing issues, so it's removed.
-//       The files are in the MotionProfile_ForNowTheseDontWork.7z file.
-//#include "Commands/Autonomous/MotionProfileCommand.h"
-
 /**
  *
  */
@@ -33,15 +29,12 @@ public:
 	void TestPeriodic() override;
 
 	// declare the commands
-	ClimbScale*         pClimbScale;
-	ControlElevator*	pControlElevator;
-	DriveWithJoystick*	pDriveWithJoystick;
-	Gripper*			pGripper;
-
-//	MotionProfileCommand* pMotionProfileCommand;
+	ClimbScale*        pClimbScale;
+	ControlElevator*   pControlElevator;
+	DriveWithJoystick* pDriveWithJoystick;
+	Gripper*           pGripper;
 
 private:
-
 	int GetAutoType();
 
 	frc::SendableChooser<int> scRobotPosition;
