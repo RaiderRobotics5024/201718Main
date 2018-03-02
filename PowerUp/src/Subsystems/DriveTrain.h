@@ -19,7 +19,6 @@ public:
 
 	void InitAutonomousMode(bool inverted);
 	void InitDefaultCommand(void) override;
-//	void InitMotionProfiling(void);
 
 	// Used for autonomous mode
 	void Drive(double distance, double speed);
@@ -34,6 +33,7 @@ public:
 	can::WPI_TalonSRX* GetFrontLeftMotor(); // Needed by Motion Profiler
 	double GetLeftPosition(void);
 	double GetRightPosition(void);
+	double GetTargetPosition(void);
 
 	bool IsDriving(void);
 	bool IsTurning(void);
@@ -41,6 +41,8 @@ public:
 	void ResetDrive(void);
 	void ResetEncoders(void);
 	void ResetGyro(void);
+
+	void SetEncoders(void);
 
 	// Send motor data to SmartDashboard
 	void Trace(void);
@@ -58,6 +60,8 @@ private:
 
 	AHRS* pGyro;
 	PIDController* pTurnController;
+
+	double dTargetPostionRotations;
 	double dRotateToAngleRate;
 };
 

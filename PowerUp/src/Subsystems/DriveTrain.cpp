@@ -23,7 +23,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftFrontMotor->SetSensorPhase(true);
 	this->pLeftRearMotor->SetSensorPhase(true);
 
-
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
@@ -82,9 +81,7 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 {
 	LOG("[DriveTrain] Autonomous Initialized");
 
-	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-	/* use the low level API to set the quad encoder signal */
-	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
+	SetEncoders();
 
 	/* choose the sensor and sensor direction */
 	pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
@@ -121,35 +118,12 @@ void DriveTrain::InitDefaultCommand()
 }
 
 /**
- *
- */
-// Note: For now, the MotionProfile is causing issues, so it's removed.
-//       The files are in the MotionProfile_ForNowTheseDontWork.7z file.
-//void DriveTrain::InitMotionProfiling()
-//{
-//	pRightFrontMotor->Follow(*pLeftFrontMotor);
-//
-//	pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, TIMEOUT_MS);
-//	pLeftFrontMotor->SetSensorPhase(true);
-//	pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01,	TIMEOUT_MS);
-//
-//	pLeftFrontMotor->Config_kF(0, 0.076, TIMEOUT_MS);
-//	pLeftFrontMotor->Config_kP(0, 2.000, TIMEOUT_MS);
-//	pLeftFrontMotor->Config_kI(0, 0.0  , TIMEOUT_MS);
-//	pLeftFrontMotor->Config_kD(0, 20.0 , TIMEOUT_MS);
-//
-//		pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(10, TIMEOUT_MS); //Our profile uses 10 ms timing
-//	/* status 10 provides the trajectory target for motion profile AND motion magic */
-//	pLeftFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
-//}
-
-/**
  * Used by Autonomous Commands
  */
 void DriveTrain::Drive(double distance, double speed)
 {
-	double targetPositionRotations = (distance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
-	pLeftFrontMotor->Set(ControlMode::Position, speed * targetPositionRotations);
+	this->dTargetPostionRotations = (distance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
+	pLeftFrontMotor->Set(ControlMode::Position, speed * dTargetPostionRotations);
 
 	return;
 }
@@ -232,6 +206,14 @@ double DriveTrain::GetRightPosition()
 /**
  *
  */
+double DriveTrain::GetTargetPosition()
+{
+	return this->dTargetPostionRotations;
+}
+
+/**
+ *
+ */
 bool DriveTrain::IsDriving()
 {
 	return this->pGyro->IsMoving();
@@ -293,6 +275,17 @@ void DriveTrain::ResetGyro()
 	return;
 }
 
+/**
+ *
+ */
+void DriveTrain::SetEncoders()
+{
+	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	/* use the low level API to set the quad encoder signal */
+	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
+
+	return;
+}
 /**
  *
  */

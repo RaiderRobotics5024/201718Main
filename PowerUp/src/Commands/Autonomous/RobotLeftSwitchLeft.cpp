@@ -1,7 +1,18 @@
-#include "RobotLeftSwitchLeft.h"
+#include "Commands/Autonomous/RobotLeftSwitchLeft.h"
+#include "../../Utilities/Log.h"
 #include "../DriveWithEncoders.h"
+#include "../RotateWithEncoders.h"
+#include "../RotateWithGyro.h"
 
+/**
+ *
+ */
 RobotLeftSwitchLeft::RobotLeftSwitchLeft()
 {
-	AddSequential(new DriveWithEncoders(120, 1.0));
+	LOG("[RobotLeftSwitchLeft] Constructed");
+
+	AddSequential(new DriveWithEncoders (168.0 , 1.0));
+//	AddSequential(new RotateWithGyro    ( 90.0f     ));
+	AddSequential(new RotateWithEncoders( 15.51, 0.5));
+	AddSequential(new DriveWithEncoders ( 48.0 , 0.5));
 }

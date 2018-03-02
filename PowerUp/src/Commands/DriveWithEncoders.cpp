@@ -56,7 +56,9 @@ void DriveWithEncoders::Execute()
  */
 bool DriveWithEncoders::IsFinished()
 {
-	return CommandBase::pDriveTrain->IsDriving();
+//	return CommandBase::pDriveTrain->IsDriving();
+
+	return CommandBase::pDriveTrain->GetLeftPosition() >= CommandBase::pDriveTrain->GetTargetPosition();
 }
 
 /**
