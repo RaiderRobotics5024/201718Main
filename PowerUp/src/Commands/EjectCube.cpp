@@ -19,6 +19,8 @@ EjectCube::EjectCube(double speed)
 		LOG("[EjectCube] inTake is null!");
 	}
 
+	this->pTimer = new Timer();
+
 	return;
 }
 
@@ -28,6 +30,9 @@ EjectCube::EjectCube(double speed)
 void EjectCube::Initialize()
 {
 	LOG("[EjectCube] Initialized");
+
+	this->pTimer->Reset();
+	this->pTimer->Start();
 
 	CommandBase::pIntake->SetSpeed(dSpeed);
 
@@ -47,8 +52,7 @@ void EjectCube::Execute()
  */
 bool EjectCube::IsFinished()
 {
-	CommandBase::pIntake->Reset();
-	return true;
+	return this->pTimer->Get() > 2000;
 }
 
 /**
@@ -69,6 +73,8 @@ void EjectCube::End()
 void EjectCube::Interrupted()
 {
 	LOG("[EjectCube] Interrupted" );
+
+	CommandBase::pIntake->Reset();
 
 	return;
 }

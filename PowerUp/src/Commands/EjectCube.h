@@ -2,6 +2,7 @@
 #define _EJECTCUBE_HG_
 
 #include <WPILib.h>
+#include <Timer.h>
 #include "../CommandBase.h"
 
 /**
@@ -18,6 +19,7 @@ public:
 	void Interrupted() override;
 
 private:
+	Timer* pTimer;
 	double dSpeed = 0;
 };
 

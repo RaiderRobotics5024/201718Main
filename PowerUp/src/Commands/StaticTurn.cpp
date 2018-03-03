@@ -1,5 +1,4 @@
 #include "StaticTurn.h"
-#include "../Utilities/Log.h"
 
 StaticTurn::StaticTurn()
 {
@@ -12,6 +11,11 @@ StaticTurn::StaticTurn()
 	// This allows us to have multiple PIDs working
 	m_PID = new PID(PROPORTIONAL, INTEGRAL, DERIVATIVE, BUFFER_ZONE) ;
 
+	//Creates a stopwatch for use of timing our the command if unable to reach angle
+	this->timer = new Timer() ;
+
+	this->target = 0.0 ;
+
 	return ;
 }
 
@@ -19,6 +23,7 @@ StaticTurn::StaticTurn(double angleDeg)
 {
 	LOG("[StaticTurn] Contructed with angle: "<<angleDeg);
 	m_PID = new PID(PROPORTIONAL, INTEGRAL, DERIVATIVE, BUFFER_ZONE) ;
+	this->target = angleDeg ;
 	setTarget(angleDeg) ;
 	if (CommandBase::pDriveTrain != nullptr)
 		Requires(CommandBase::pDriveTrain) ;
@@ -38,7 +43,8 @@ double StaticTurn::setTarget(double deg)
 
 // Called just before this Command runs the first time
 void StaticTurn::Initialize() {
-	while (pDriveTrain->GetAHRS()->IsCalibrating())
+	this->timer->Start() ;
+	while (pDriveTrain->GetAHRS()->IsCalibrating()) ;
 	LOG("[StaticTurn] Initialized");
 	pDriveTrain->GetAHRS()->Reset() ;
 	pDriveTrain->GetAHRS()->ZeroYaw() ;
@@ -57,13 +63,11 @@ void StaticTurn::Execute()
 	bool isCal = pDriveTrain->GetAHRS()->IsCalibrating() ;
 	bool isRot = pDriveTrain->GetAHRS()->IsRotating() ;
 	pDriveTrain->ArcadeDrive(0, calcPID) ;
-	SmartDashboard::PutNumber("Connected", isConnected) ;
-	SmartDashboard::PutNumber("Calibrating", isCal) ;
-	SmartDashboard::PutNumber("Rotating", isRot) ;
-	SmartDashboard::PutNumber("calcPID", calcPID) ;
-
-	double target = m_PID->getTarget() ;
-	SmartDashboard::PutNumber("currentTarget", target) ;
+	SmartDashboard::PutNumber("NavX_Connected", isConnected) ;
+	SmartDashboard::PutNumber("NavX_Calibrating", isCal) ;
+	SmartDashboard::PutNumber("NavX_Rotating", isRot) ;
+	SmartDashboard::PutNumber("PID_calcPID", calcPID) ;
+	SmartDashboard::PutNumber("PID_currentTarget", m_PID->getTarget()) ;
 
 	IsFinished() ;
 
@@ -72,15 +76,17 @@ void StaticTurn::Execute()
 
 // Make this return true when this Command no longer needs to run execute()
 bool StaticTurn::IsFinished() {
-	if (m_PID->isFinished())
+	if (m_PID->isFinished()
+	||  this->timer->Get() > TIMEOUT)
 		return true ;
 	return false;
 }
 
 // Called once after isFinished returns true
 void StaticTurn::End() {
-	printf("Reached target: %f", m_PID->getTarget()) ;
+	LOG("[StaticTurn] Reached target: "<<m_PID->getTarget()) ;
 	delete this->m_PID ;
+	delete this->timer ;
 	return ;
 }
 

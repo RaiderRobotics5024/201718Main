@@ -3,14 +3,20 @@
 
 #include "../CommandBase.h"
 #include "../Subsystems/PID.h"
+#include "../Utilities/Log.h"
+#include <Timer.h>
 
 class StaticTurn : public CommandBase
 {
-	PID* m_PID ;
 	#define PROPORTIONAL	0.005
 	#define INTEGRAL	0.003
 	#define DERIVATIVE	0.001
 	#define BUFFER_ZONE	0.5 //Degrees
+	#define TIMEOUT		5 //Seconds
+
+	PID* m_PID ;
+	double target ;
+	Timer* timer ;
 public:
 	StaticTurn();
 	StaticTurn(double) ;

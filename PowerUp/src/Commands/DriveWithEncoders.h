@@ -1,8 +1,10 @@
 #ifndef _DRIVE_WITH_ENCODERS_HG_
 #define _DRIVE_WITH_ENCODERS_HG_
 
+#include <Timer.h>
 #include <WPILib.h>
 #include "../CommandBase.h"
+
 
 /**
  *
@@ -21,6 +23,7 @@ private:
 	int iCounter = 0;
 	double dDistance = 0;
 	double dSpeed = 0;
+	Timer* pTimer;
 };
 
 #endif

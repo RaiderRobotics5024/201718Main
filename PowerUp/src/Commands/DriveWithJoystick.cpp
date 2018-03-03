@@ -19,6 +19,20 @@ DriveWithJoystick::DriveWithJoystick()
 		LOG("[DriveWithJoystick] driveTrain is null!");
 	}
 
+	this->pStaticTurn = new StaticTurn(180.0) ;
+
+	return;
+}
+
+/**
+ *
+ */
+DriveWithJoystick::~DriveWithJoystick()
+{
+	LOG("[DriveWithJoystick] Destroyed");
+
+	delete this->pStaticTurn ;
+
 	return;
 }
 
@@ -40,7 +54,18 @@ void DriveWithJoystick::Execute()
 {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
-	if (pJoyDrive->GetXButtonReleased()) {this->isReverse = !this->isReverse; }
+	if (pJoyDrive->GetXButtonReleased())
+	{
+		this->isReverse = !this->isReverse;
+	}
+
+	if (pJoyDrive->GetYButtonPressed())
+	{
+		if (!pStaticTurn->IsRunning())
+			pStaticTurn->Start();
+		else
+			pStaticTurn->End();
+	}
 
 	double xSpeed    = pJoyDrive->GetX(XboxController::kLeftHand);
 	double zRotation = pJoyDrive->GetY(XboxController::kLeftHand);

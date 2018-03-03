@@ -61,16 +61,20 @@ void Robot::DisabledInit()
 // but override that if we get game specific message
 int Robot::GetAutoType()
 {
-	int _RP = scRobotPosition.GetSelected();
-	int _SP = scSwitchPosition.GetSelected();
-	std::string _GSM = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+	int _RP = 30; // 10 = Left, 20 = Center, 30 = Right
+	int _SP =  2;  // 1 = Left, 2 = Right
 
+	DriverStation& driverStation = frc::DriverStation::GetInstance();
+
+	_RP = driverStation.GetLocation() * 10;
+
+	std::string _GSM = driverStation.GetGameSpecificMessage();
 	if (_GSM.length() > 0)
 	{
 		_SP = (_GSM[0] == 'L') ? 1 : 2;
 	}
 
-	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP << " - Game Data: " << _GSM);
+	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP);
 
 	return _RP + _SP;
 }
@@ -92,7 +96,7 @@ void Robot::AutonomousInit()
 	LOG("[Robot] Autonomous Initialized");
 
 //	int autoType = GetAutoType();
-	int autoType = 22;
+	int autoType = 32;
 
 	LOG("[Robot] Auto Type: " << autoType);
 
