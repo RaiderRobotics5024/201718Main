@@ -1,0 +1,383 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Gyro Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="452" y="13"/>
+	</widget>
+	<widget field="Right Rear Has Faults" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1001" y="547"/>
+	</widget>
+	<widget field="Right Rear Error Derivative" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="969" y="519"/>
+		<height>22</height>
+	</widget>
+	<widget field="Right Rear Integral Accumulator" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="930" y="459"/>
+	</widget>
+	<widget field="Right Rear SS Closed Loop Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="937" y="492"/>
+	</widget>
+	<widget field="Right Rear SS Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="997" y="374"/>
+	</widget>
+	<widget field="Right Rear SS Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="996" y="349"/>
+	</widget>
+	<widget field="Right Rear Analog In Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="960" y="403"/>
+	</widget>
+	<widget field="Right Rear Analog In Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="945" y="429"/>
+	</widget>
+	<widget field="Right Rear Quad Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="977" y="328"/>
+	</widget>
+	<widget field="Right Rear Quad Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="978" y="305"/>
+	</widget>
+	<widget field="Right Rear Output Percent" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="960" y="199"/>
+		<height>23</height>
+	</widget>
+	<widget field="Right Rear Bus Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="978" y="251"/>
+	</widget>
+	<widget field="Right Rear Output Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="960" y="227"/>
+	</widget>
+	<widget field="Right Rear Current Amps" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="969" y="172"/>
+	</widget>
+	<widget field="Right Rear Is Inverted" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="987" y="279"/>
+	</widget>
+	<widget field="Right Rear Version" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1002" y="144"/>
+	</widget>
+	<widget field="Right Rear Base ID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1005" y="115"/>
+	</widget>
+	<widget field="Right Front Has Faults" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="660" y="543"/>
+	</widget>
+	<widget field="Right Front Error Derivative" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="636" y="518"/>
+	</widget>
+	<widget field="Right Front Integral Accumulator" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="606" y="463"/>
+	</widget>
+	<widget field="Right Front SS Closed Loop Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="606" y="491"/>
+	</widget>
+	<widget field="Right Front SS Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="658" y="384"/>
+	</widget>
+	<widget field="Right Front SS Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="646" y="358"/>
+	</widget>
+	<widget field="Right Front Analog In Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="624" y="412"/>
+		<height>22</height>
+	</widget>
+	<widget field="Right Front Analog In Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="617" y="435"/>
+	</widget>
+	<widget field="Right Front Quad Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="630" y="334"/>
+	</widget>
+	<widget field="Right Front Quad Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="629" y="312"/>
+	</widget>
+	<widget field="Right Front Output Percent" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="594" y="205"/>
+	</widget>
+	<widget field="Right Front Bus Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="621" y="263"/>
+	</widget>
+	<widget field="Right Front Output Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="596" y="232"/>
+	</widget>
+	<widget field="Right Front Current Amps" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="593" y="179"/>
+	</widget>
+	<widget field="Right Front Is Inverted" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="638" y="292"/>
+	</widget>
+	<widget field="Right Front Version" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="629" y="150"/>
+	</widget>
+	<widget field="Right Front Base ID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="627" y="123"/>
+	</widget>
+	<widget field="Left Rear Has Faults" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="364" y="545"/>
+	</widget>
+	<widget field="Left Rear Error Derivative" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="336" y="520"/>
+		<height>22</height>
+	</widget>
+	<widget field="Left Rear Integral Accumulator" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="305" y="464"/>
+	</widget>
+	<widget field="Left Rear SS Closed Loop Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="307" y="492"/>
+	</widget>
+	<widget field="Left Rear SS Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="362" y="387"/>
+	</widget>
+	<widget field="Left Rear SS Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="358" y="361"/>
+	</widget>
+	<widget field="Left Rear Analog In Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="322" y="413"/>
+	</widget>
+	<widget field="Left Rear Analog In Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="323" y="438"/>
+	</widget>
+	<widget field="Left Rear Quad Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="343" y="335"/>
+	</widget>
+	<widget field="Left Rear Quad Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="344" y="311"/>
+	</widget>
+	<widget field="Left Rear Output Percent" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="328" y="207"/>
+	</widget>
+	<widget field="Left Rear Bus Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="350" y="259"/>
+	</widget>
+	<widget field="Left Rear Output Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="330" y="232"/>
+	</widget>
+	<widget field="Left Rear Current Amps" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="337" y="179"/>
+		<height>25</height>
+	</widget>
+	<widget field="Left Rear Is Inverted" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="358" y="286"/>
+	</widget>
+	<widget field="Left Rear Version" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="371" y="151"/>
+	</widget>
+	<widget field="Left Rear Base ID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="371" y="125"/>
+	</widget>
+	<widget field="Left Front Has Faults" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="69" y="547"/>
+	</widget>
+	<widget field="Left Front Error Derivative" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="38" y="521"/>
+		<height>23</height>
+	</widget>
+	<widget field="Left Front Integral Accumulator" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="5" y="465"/>
+	</widget>
+	<widget field="Left Front SS Closed Loop Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="5" y="494"/>
+	</widget>
+	<widget field="Left Front SS Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="59" y="386"/>
+	</widget>
+	<widget field="Left Front SS Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="58" y="359"/>
+	</widget>
+	<widget field="Left Front Analog In Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="20" y="413"/>
+	</widget>
+	<widget field="Left Front Analog In Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="21" y="438"/>
+	</widget>
+	<widget field="Left Front Quad Velocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="45" y="333"/>
+	</widget>
+	<widget field="Left Front Quad Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="44" y="307"/>
+	</widget>
+	<widget field="Left Front Output Percent" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="34" y="204"/>
+	</widget>
+	<widget field="Left Front Bus Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="54" y="258"/>
+	</widget>
+	<widget field="Left Front Output Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="35" y="232"/>
+	</widget>
+	<widget field="Left Front Current Amps" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="40" y="178"/>
+	</widget>
+	<widget field="Left Front Is Inverted" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="61" y="283"/>
+	</widget>
+	<widget field="Left Front Version" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="76" y="152"/>
+	</widget>
+	<widget field="Left Front Base ID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="75" y="126"/>
+	</widget>
+	<widget field="Elevator Motorspeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="397" y="39"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="224" y="12"/>
+		<property name="Text" value="Switch Position"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="13" y="15"/>
+		<property name="Text" value="Robot Position"/>
+	</static-widget>
+	<widget field="Robot Position" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="102" y="-1"/>
+	</widget>
+	<widget field="Switch Position" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="317" y="0"/>
+	</widget>
+</dashboard>
+<live-window>
+	<widget field="PID" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="436"/>
+	</widget>
+	<widget field="ClimbSystem" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="322" y="0"/>
+	</widget>
+	<widget field="Intake" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="410"/>
+	</widget>
+	<widget field="DriveTrain" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="384"/>
+	</widget>
+	<widget field="Compressor" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="358"/>
+	</widget>
+	<widget field="Elevator" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="332"/>
+	</widget>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="Talon SRX [4]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [4]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [2]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [2]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [3]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [3]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [0]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [0]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [5]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Talon SRX [5]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Compressor[8]" type="Compressor" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
+			<location x="93" y="18"/>
+			<height>25</height>
+			<width>135</width>
+		</widget>
+		<widget field="DoubleSolenoid[8,2]" type="Double Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.RelayController">
+			<location x="6" y="43"/>
+			<height>22</height>
+			<width>309</width>
+		</widget>
+		<widget field="Talon SRX [10]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="65"/>
+			<height>51</height>
+			<width>309</width>
+		</widget>
+		<widget field="Solenoid[8,0]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
+			<location x="99" y="116"/>
+			<height>25</height>
+			<width>123</width>
+		</widget>
+		<widget field="Talon SRX [7]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="141"/>
+			<height>51</height>
+			<width>309</width>
+		</widget>
+		<widget field="DigitalInput[3]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="192"/>
+			<height>22</height>
+			<width>309</width>
+		</widget>
+		<widget field="Talon SRX [6]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="214"/>
+			<height>51</height>
+			<width>309</width>
+		</widget>
+		<widget field="DigitalInput[2]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="265"/>
+			<height>22</height>
+			<width>309</width>
+		</widget>
+		<widget field="DigitalInput[1]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="287"/>
+			<height>22</height>
+			<width>309</width>
+		</widget>
+		<location x="0" y="0"/>
+		<width>321</width>
+		<height>316</height>
+	</widget>
+</live-window>
+	<hidden field="Analog In Position"/>
+	<hidden field="SS Velocity"/>
+	<hidden field="Quad Velocity"/>
+	<hidden field="Bus Voltage"/>
+	<hidden field="Auto Selector"/>
+	<hidden field="Is Inverted"/>
+	<hidden field="Base ID"/>
+	<hidden field="Analog In Velocity"/>
+	<hidden field="Has Faults"/>
+	<hidden field="Error Derivative"/>
+	<hidden field="Version"/>
+	<hidden field="SS Closed Loop Error"/>
+	<hidden field="Motor ID"/>
+	<hidden field="SS Position"/>
+	<hidden field="Quad Position"/>
+	<hidden field="Current Amps"/>
+	<hidden field="Output Voltage"/>
+	<hidden field="Integral Accumulator"/>
+	<hidden field="Output Percent"/>
+</xml>
