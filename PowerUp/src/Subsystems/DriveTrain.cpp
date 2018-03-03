@@ -279,6 +279,7 @@ void DriveTrain::ResetGyro()
 {
 	LOG("[DriveTrain] Resetting the gyro");
 
+	pGyro->Reset();
 	pGyro->ZeroYaw();
 
 	return;

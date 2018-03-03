@@ -54,7 +54,11 @@ void RotateWithGyro::Execute()
  */
 bool RotateWithGyro::IsFinished()
 {
-	return CommandBase::pDriveTrain->GetAngle() == dSetPoint;
+	double dCurrentAngle = CommandBase::pDriveTrain->GetAngle();
+
+	LOG("[RotateWithGyro] Set Point: " << dSetPoint << " Angle: " << dCurrentAngle);
+
+	return dCurrentAngle == dSetPoint;
 }
 
 /**

@@ -28,6 +28,7 @@ DriveWithJoystick::DriveWithJoystick()
 void DriveWithJoystick::Initialize()
 {
 	LOG("[DriveWithJoystick] Initialized");
+	this->isReverse = false;
 
 	return;
 }
@@ -39,11 +40,13 @@ void DriveWithJoystick::Execute()
 {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
+	if (pJoyDrive->GetXButtonReleased()) {this->isReverse = !this->isReverse; }
+
 	double xSpeed    = pJoyDrive->GetX(XboxController::kLeftHand);
 	double zRotation = pJoyDrive->GetY(XboxController::kLeftHand);
 
 	double dSlow = (pJoyDrive->GetBumper(XboxController::kRightHand)) ? 0.5 : 1;
-//	double dReverse = (pJoyDrive->GetXButton()) ? 1 : -1;
+	double dReverse = (this->isReverse) ? -1 : 1;
 
 	if (fabs(xSpeed) <= XBOX_DEADZONE_LEFT_JOY)
 	{
@@ -56,7 +59,7 @@ void DriveWithJoystick::Execute()
 	}
 
 //	CommandBase::pDriveTrain->ArcadeDrive(xSpeed, zRotation);
-	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow), (zRotation * dSlow));
+	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow * dReverse));
 
 	return;
 }
