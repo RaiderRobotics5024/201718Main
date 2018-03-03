@@ -91,7 +91,8 @@ void Robot::AutonomousInit()
 {
 	LOG("[Robot] Autonomous Initialized");
 
-	int autoType = GetAutoType();
+//	int autoType = GetAutoType();
+	int autoType = 22;
 
 	LOG("[Robot] Auto Type: " << autoType);
 

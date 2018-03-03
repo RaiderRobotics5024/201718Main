@@ -30,6 +30,7 @@ public:
 	void TankDrive(double leftSpeed, double rightSpeed);
 
 	double GetAngle(void);
+	AHRS* GetAHRS() ;
 	can::WPI_TalonSRX* GetFrontLeftMotor(); // Needed by Motion Profiler
 	double GetLeftPosition(void);
 	double GetRightPosition(void);

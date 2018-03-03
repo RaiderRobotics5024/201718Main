@@ -179,6 +179,15 @@ double DriveTrain::GetAngle()
 	return pGyro->GetAngle();
 }
 
+/*
+ *
+ */
+
+AHRS* DriveTrain::GetAHRS()
+{
+	return this->pGyro ;
+}
+
 /**
  *
  */
@@ -291,8 +300,6 @@ void DriveTrain::SetEncoders()
  */
 void DriveTrain::Trace()
 {
-	LOG("[Robot] Tracing");
-
 	Trace(this->pLeftFrontMotor, "Left Front");
 	Trace(this->pLeftRearMotor, "Left Rear");
 
@@ -307,8 +314,6 @@ void DriveTrain::Trace()
  */
 void DriveTrain::Trace(WPI_TalonSRX* pTalonSRX, const std::string name)
 {
-	LOG("[Robot] Tracing: " << name);
-
 	int baseId = pTalonSRX->GetBaseID();
 	int version = pTalonSRX->GetFirmwareVersion();
 	bool isInverted = pTalonSRX->GetInverted();

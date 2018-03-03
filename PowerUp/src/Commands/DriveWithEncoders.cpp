@@ -58,7 +58,9 @@ bool DriveWithEncoders::IsFinished()
 {
 //	return CommandBase::pDriveTrain->IsDriving();
 
-	return CommandBase::pDriveTrain->GetLeftPosition() >= CommandBase::pDriveTrain->GetTargetPosition();
+	LOG("[DriveWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
+
+	return CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition() - 1500.0);
 }
 
 /**
