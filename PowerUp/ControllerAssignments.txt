@@ -1,22 +1,22 @@
 Driver Controller
 Button A       : Intake - Close
 Button B       : Intake - Open
-Button X       :
+Button X       : DriveTrain - Toggle Reverse
 Button Y       :
-Left Stick     : Drivetrain Forwards/Backwards/Left/Right
+Left Stick     : DriveTrain Forwards/Backwards/Left/Right
 Left Bumper    :
 Left Trigger   : Intake - Cube In
 Right Stick    :
-Right Bumper   :
+Right Bumper   : DriveTrain - Slow speed
 Right Trigger  : Intake - Cube Out
 Directional Pad:
 Start Button   :
 Back Button    :
 
 Operator Controller
-Button A       :
-Button B       :
-Button X       : ClimbScale - Extend Arm
+Button A + LB  : ClimbScale - Extend Arm by Solenoid
+Button B       : ClimbScale - Extend Arm by Motor
+Button X       : 
 Button Y       : ClimbScale - Retract Arm
 Left Stick     :
 Left Bumper    :
@@ -25,5 +25,5 @@ Right Stick    :
 Right Bumper   :
 Right Trigger  : Elevator - Up
 Directional Pad:
-Start Button   :
-Back Button    
+Start Button   : Compressor - On
+Back Button    : Compressor - Off
