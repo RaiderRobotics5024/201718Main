@@ -34,17 +34,6 @@ void Robot::RobotInit()
 	this->pDriveWithJoystick = new DriveWithJoystick();
 	this->pGripper = new Gripper();
 
-	// setup smartdashboard robot positions
-	scRobotPosition.AddDefault("Left", 10);
-	scRobotPosition.AddObject("Centre", 20);
-	scRobotPosition.AddObject("Right", 30);
-	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
-
-	// setup smartdashboard switch positions - used for test only
-	scSwitchPosition.AddDefault("Left", 1);
-	scSwitchPosition.AddObject("Right", 2);
-	frc::SmartDashboard::PutData("Switch Position", &scSwitchPosition);
-
 	return;
 }
 
