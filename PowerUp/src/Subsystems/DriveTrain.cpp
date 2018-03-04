@@ -126,7 +126,7 @@ void DriveTrain::InitDefaultCommand()
  */
 void DriveTrain::Drive(double distance, double speed)
 {
-	this->dTargetPostionRotations = (distance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
+	this->dTargetPostionRotations = (distance / INCHES_PER_REVOLUTION) * 4096; // * TICKS_PER_REVOLUTION;
 	pLeftFrontMotor->Set(ControlMode::Position, speed * dTargetPostionRotations);
 
 	return;

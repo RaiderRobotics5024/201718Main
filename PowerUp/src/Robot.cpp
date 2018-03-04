@@ -7,6 +7,7 @@
 #include "Commands/Autonomous/RobotCenterSwitchRight.h"
 #include "Commands/Autonomous/RobotRightSwitchLeft.h"
 #include "Commands/Autonomous/RobotRightSwitchRight.h"
+#include "Commands/Autonomous/TestAutonomous.h"
 
 /**
  *
@@ -60,7 +61,23 @@ int Robot::GetAutoType()
 	std::string _GSM = driverStation.GetGameSpecificMessage();
 	if (_GSM.length() > 0)
 	{
+		if (_GSM[0] == 'L')
+		{
+			_SP = 1; // switch is on the left
+		}
+		else if (_GSM[0] == 'R')
+		{
+			_SP = 2; // switch is on the right
+		}
+		else
+		{
+			_SP = 3; // use this for test mode
+		}
 		_SP = (_GSM[0] == 'L') ? 1 : 2;
+	}
+	else
+	{
+		_SP = 2; // go for right if GSM is empty
 	}
 
 	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP);
@@ -92,10 +109,13 @@ void Robot::AutonomousInit()
 	{
 	case 11: pAutonomousCommand = new RobotLeftSwitchLeft   (); break;
 	case 12: pAutonomousCommand = new RobotLeftSwitchRight  (); break;
+	case 13: pAutonomousCommand = new TestAutonomous        (); break;
 	case 21: pAutonomousCommand = new RobotCenterSwitchLeft (); break;
 	case 22: pAutonomousCommand = new RobotCenterSwitchRight(); break;
+	case 23: pAutonomousCommand = new TestAutonomous        (); break;
 	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
 	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
+	case 33: pAutonomousCommand = new TestAutonomous        (); break;
 	default: pAutonomousCommand = new RobotCenterSwitchRight(); break;
 	}
 
