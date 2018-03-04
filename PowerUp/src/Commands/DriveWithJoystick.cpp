@@ -84,7 +84,7 @@ void DriveWithJoystick::Execute()
 	}
 
 //	CommandBase::pDriveTrain->ArcadeDrive(xSpeed, zRotation);
-	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow * dReverse));
+	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow));
 
 	return;
 }

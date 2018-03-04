@@ -20,10 +20,10 @@ public:
 	void Interrupted() override;
 
 private:
+	Timer* pTimer;
 	int iCounter = 0;
 	double dDistance = 0;
 	double dSpeed = 0;
-	Timer* pTimer;
 };
 
 #endif

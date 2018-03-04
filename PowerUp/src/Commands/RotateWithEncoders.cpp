@@ -20,6 +20,8 @@ RotateWithEncoders::RotateWithEncoders(double distance, double speed)
 		LOG("[RotateWithEncoders] driveTrain is null!");
 	}
 
+	this->pTimer = new Timer();
+
 	return;
 }
 
@@ -29,6 +31,9 @@ RotateWithEncoders::RotateWithEncoders(double distance, double speed)
 void RotateWithEncoders::Initialize()
 {
 	LOG("[RotateByPosition] Initialized");
+
+	this->pTimer->Reset();
+	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->ResetEncoders();
 	CommandBase::pDriveTrain->InitAutonomousMode(false); // don't invert right front motor
@@ -45,6 +50,11 @@ void RotateWithEncoders::Execute()
 	if (iCounter++ == 10)
 	{
 		CommandBase::pDriveTrain->Trace();
+
+		LOG("[RotateWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
+
+		LOG("[RotateWithEncoders] Time: "  << this->pTimer->Get());
+
 		iCounter = 0;
 	}
 
@@ -56,7 +66,21 @@ void RotateWithEncoders::Execute()
  */
 bool RotateWithEncoders::IsFinished()
 {
-	return CommandBase::pDriveTrain->IsTurning();
+	if (this->pTimer->Get() > 2000)
+	{
+		LOG("[RotateWithEncoders] Timed out");
+
+		return true;
+	}
+
+	if (CommandBase::pDriveTrain->IsTurning())
+	{
+		LOG("[RotateWithEncoders] Angle Reached");
+
+		return true;
+	}
+
+	return false;
 }
 
 /**

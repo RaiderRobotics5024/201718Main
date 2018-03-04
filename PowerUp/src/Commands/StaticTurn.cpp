@@ -57,28 +57,49 @@ void StaticTurn::Execute()
 {
 	double yaw = pDriveTrain->GetAHRS()->GetYaw() ;
 	double calcPID = m_PID->calcPID(yaw) ;
-	SmartDashboard::PutNumber("yaw", yaw) ;
 
-	bool isConnected = pDriveTrain->GetAHRS()->IsConnected() ;
-	bool isCal = pDriveTrain->GetAHRS()->IsCalibrating() ;
-	bool isRot = pDriveTrain->GetAHRS()->IsRotating() ;
 	pDriveTrain->ArcadeDrive(0, calcPID) ;
-	SmartDashboard::PutNumber("NavX_Connected", isConnected) ;
-	SmartDashboard::PutNumber("NavX_Calibrating", isCal) ;
-	SmartDashboard::PutNumber("NavX_Rotating", isRot) ;
-	SmartDashboard::PutNumber("PID_calcPID", calcPID) ;
-	SmartDashboard::PutNumber("PID_currentTarget", m_PID->getTarget()) ;
 
-	IsFinished() ;
+	if (iCounter++ == 10)
+	{
+		bool isConnected = pDriveTrain->GetAHRS()->IsConnected() ;
+		bool isCal = pDriveTrain->GetAHRS()->IsCalibrating() ;
+		bool isRot = pDriveTrain->GetAHRS()->IsRotating() ;
+
+		SmartDashboard::PutNumber("yaw", yaw) ;
+		SmartDashboard::PutNumber("NavX_Connected", isConnected) ;
+		SmartDashboard::PutNumber("NavX_Calibrating", isCal) ;
+		SmartDashboard::PutNumber("NavX_Rotating", isRot) ;
+		SmartDashboard::PutNumber("PID_calcPID", calcPID) ;
+		SmartDashboard::PutNumber("PID_currentTarget", m_PID->getTarget()) ;
+
+		LOG("[StaticTurn] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
+
+		LOG("[StaticTurn] Time: "  << this->timer->Get());
+
+		iCounter = 0;
+	}
 
 	return ;
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool StaticTurn::IsFinished() {
-	if (m_PID->isFinished()
-	||  this->timer->Get() > TIMEOUT)
+bool StaticTurn::IsFinished()
+{
+	if (m_PID->isFinished())
+	{
+		LOG("[StaticTurn] Finished Turn");
+
+		return true;
+	}
+
+	if (this->timer->Get() > TIMEOUT)
+	{
+		LOG("[StaticTurn] Timed Out");
+
 		return true ;
+	}
+
 	return false;
 }
 

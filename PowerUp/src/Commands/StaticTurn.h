@@ -1,10 +1,10 @@
 #ifndef StaticTurn_H
 #define StaticTurn_H
 
+#include <Timer.h>
 #include "../CommandBase.h"
 #include "../Subsystems/PID.h"
 #include "../Utilities/Log.h"
-#include <Timer.h>
 
 class StaticTurn : public CommandBase
 {
@@ -14,9 +14,11 @@ class StaticTurn : public CommandBase
 	#define BUFFER_ZONE	0.5 //Degrees
 	#define TIMEOUT		5 //Seconds
 
+	Timer* timer ;
 	PID* m_PID ;
 	double target ;
-	Timer* timer ;
+	int iCounter = 0;
+
 public:
 	StaticTurn();
 	StaticTurn(double) ;

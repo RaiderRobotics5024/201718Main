@@ -52,6 +52,8 @@ void DriveWithEncoders::Execute()
 
 		LOG("[DriveWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
 
+		LOG("[DriveWithEncoders] Time: "  << this->pTimer->Get());
+
 		iCounter = 0;
 	}
 
@@ -65,8 +67,6 @@ bool DriveWithEncoders::IsFinished()
 {
 //	return CommandBase::pDriveTrain->IsDriving();
 
-	LOG("DriveWithEncoders] Time: "  << this->pTimer->Get());
-
 	if (this->pTimer->Get() > 4000)
 	{
 		LOG("[DriveWithEncoder] Timed out");
@@ -79,7 +79,6 @@ bool DriveWithEncoders::IsFinished()
 		LOG("[DriveWithEncoder] Reached Target");
 
 		return true;
-
 	}
 
 	return false;

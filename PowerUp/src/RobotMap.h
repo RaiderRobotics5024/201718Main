@@ -22,7 +22,7 @@ const int NEUTRAL_DEADBAND_PERCENT = 1;
 
 const double TALON_PID_P = 0.02;
 const double TALON_PID_I = 0.00;
-const double TALON_PID_D = 0.00;
+const double TALON_PID_D = 0.01;
 const double TALON_PID_F = 0.00;
 
 // Gyro Settings

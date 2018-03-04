@@ -61,8 +61,8 @@ void Robot::DisabledInit()
 // but override that if we get game specific message
 int Robot::GetAutoType()
 {
-	int _RP = 30; // 10 = Left, 20 = Center, 30 = Right
-	int _SP =  2;  // 1 = Left, 2 = Right
+	int _RP = 10; // 10 = Left, 20 = Center, 30 = Right
+	int _SP =  1;  // 1 = Left, 2 = Right
 
 	DriverStation& driverStation = frc::DriverStation::GetInstance();
 
@@ -95,8 +95,7 @@ void Robot::AutonomousInit()
 {
 	LOG("[Robot] Autonomous Initialized");
 
-//	int autoType = GetAutoType();
-	int autoType = 32;
+	int autoType = GetAutoType();
 
 	LOG("[Robot] Auto Type: " << autoType);
 
