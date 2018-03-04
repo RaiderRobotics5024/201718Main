@@ -18,6 +18,7 @@ public:
 	void Interrupted() override;
 
 private:
+	void Trace(double speed);
 	int iCounter = 0;
 	int setElevatorPos;
 	int lastElevatorPos;

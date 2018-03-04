@@ -69,11 +69,14 @@ int Robot::GetAutoType()
 		{
 			_SP = 2; // switch is on the right
 		}
+		else if (_GSM[0] == 'T')
+		{
+			_SP = 3; // this is test auto
+		}
 		else
 		{
-			_SP = 3; // use this for test mode
+			_SP = 2; // default to right
 		}
-		_SP = (_GSM[0] == 'L') ? 1 : 2;
 	}
 	else
 	{
@@ -107,14 +110,14 @@ void Robot::AutonomousInit()
 
 	switch (autoType)
 	{
-	case 11: pAutonomousCommand = new RobotLeftSwitchLeft   (); break;
-	case 12: pAutonomousCommand = new RobotLeftSwitchRight  (); break;
+	case 11: pAutonomousCommand = new RobotCenterSwitchLeft   (); break;
+	case 12: pAutonomousCommand = new RobotCenterSwitchRight  (); break;
 	case 13: pAutonomousCommand = new TestAutonomous        (); break;
 	case 21: pAutonomousCommand = new RobotCenterSwitchLeft (); break;
 	case 22: pAutonomousCommand = new RobotCenterSwitchRight(); break;
 	case 23: pAutonomousCommand = new TestAutonomous        (); break;
-	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
-	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
+	case 31: pAutonomousCommand = new RobotCenterSwitchLeft  (); break;
+	case 32: pAutonomousCommand = new RobotCenterSwitchRight (); break;
 	case 33: pAutonomousCommand = new TestAutonomous        (); break;
 	default: pAutonomousCommand = new RobotCenterSwitchRight(); break;
 	}

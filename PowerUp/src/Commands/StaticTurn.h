@@ -12,7 +12,7 @@ class StaticTurn : public CommandBase
 	#define INTEGRAL	0.003
 	#define DERIVATIVE	0.001
 	#define BUFFER_ZONE	0.5 //Degrees
-	#define TIMEOUT		5 //Seconds
+	#define TIMEOUT		5.0 //Seconds
 
 	Timer* timer ;
 	PID* m_PID ;

@@ -28,6 +28,14 @@ DriveWithEncoders::DriveWithEncoders(double distance, double speed)
 /**
  *
  */
+DriveWithEncoders::~DriveWithEncoders()
+{
+	delete this->pTimer;
+}
+
+/**
+ *
+ */
 void DriveWithEncoders::Initialize()
 {
 	LOG("[DriveWithEncoders] Initialized");
@@ -67,14 +75,14 @@ bool DriveWithEncoders::IsFinished()
 {
 //	return CommandBase::pDriveTrain->IsDriving();
 
-	if (this->pTimer->Get() > 4000)
+	if (this->pTimer->Get() > 5.0) // stop after 4 seconds no matter what
 	{
 		LOG("[DriveWithEncoder] Timed out");
 
 		return true;
 	}
 
-	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition() - 1500.0))
+	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition() - 500.0))
 	{
 		LOG("[DriveWithEncoder] Reached Target");
 

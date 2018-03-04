@@ -44,8 +44,6 @@ void ControlElevator::Execute()
 
 	double dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
 
-	LOG("[ControlElevator] Switch: " << CommandBase::pElevator->IsTopSwitchAligned() << " Speed: " << dMotorSpeed);
-
 	if (CommandBase::pElevator->IsTopSwitchAligned() && dMotorSpeed > 0.0)
 	{
 		LOG("[ControlElevator] At the top" );
@@ -56,12 +54,7 @@ void ControlElevator::Execute()
 
 	CommandBase::pElevator->SetMotorSpeed(dMotorSpeed);
 
-	if (iCounter++ == 10)
-	{
-		SmartDashboard::PutNumber( "Elevator Motorspeed", dMotorSpeed );
-
-		iCounter = 0;
-	}
+//	ControlElevator::Trace(dMotorSpeed);
 
 	return;
 }
@@ -90,6 +83,24 @@ void ControlElevator::End()
 void ControlElevator::Interrupted()
 {
 	LOG("[ControlElevator] Interrupted" );
+
+	return;
+}
+
+/**
+ *
+ */
+void ControlElevator::Trace(double dMotorSpeed)
+{
+
+	if (iCounter++ == 10)
+	{
+		SmartDashboard::PutNumber( "Elevator Motorspeed", dMotorSpeed );
+
+		LOG("[ControlElevator] Switch: " << CommandBase::pElevator->IsTopSwitchAligned() << " Speed: " << dMotorSpeed);
+
+		iCounter = 0;
+	}
 
 	return;
 }

@@ -9,6 +9,7 @@ class RotateWithEncoders : public CommandBase
 {
 public:
 	RotateWithEncoders(double distance, double speed);
+	~RotateWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

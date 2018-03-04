@@ -43,6 +43,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor->SetSafetyEnabled(false);
 	this->pRobotDrive->SetSafetyEnabled(false);
 
+	DriveTrain::ResetEncoders();
+
 	// Initialize the gyro
 	// (See comment here about which port. We are using MXP, the one physically on top of the RoboRio
 	//  https://www.pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/c/)
@@ -126,7 +128,7 @@ void DriveTrain::InitDefaultCommand()
  */
 void DriveTrain::Drive(double distance, double speed)
 {
-	this->dTargetPostionRotations = (distance / INCHES_PER_REVOLUTION) * 4096; // * TICKS_PER_REVOLUTION;
+	this->dTargetPostionRotations = (distance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
 	pLeftFrontMotor->Set(ControlMode::Position, speed * dTargetPostionRotations);
 
 	return;
@@ -140,7 +142,11 @@ void DriveTrain::Turn(double setpoint)
     this->pTurnController->SetSetpoint(setpoint);
     this->pTurnController->Enable();
 
-    this->pRobotDrive->CurvatureDrive(0.8, 0.8, true);
+    double dSpeed = 0.25;
+
+    if (setpoint < 0.0) dSpeed = dSpeed * -1;
+
+    this->pRobotDrive->CurvatureDrive(dSpeed, 0.0, true);
 
 	return;
 }

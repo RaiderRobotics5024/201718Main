@@ -1,6 +1,7 @@
 #ifndef _ROTATE_WITH_GYRO_HG_
 #define _ROTATE_WITH_GYRO_HG_
 
+#include <Timer.h>
 #include "../CommandBase.h"
 
 class RotateWithGyro : public CommandBase
@@ -14,6 +15,7 @@ public:
 	void Interrupted() override;
 
 private:
+	Timer* pTimer;
 	int iCounter = 0;
 	double dSetPoint;
 };

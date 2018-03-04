@@ -13,6 +13,7 @@ class DriveWithEncoders : public CommandBase
 {
 public:
 	DriveWithEncoders(double distance, double speed);
+	~DriveWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

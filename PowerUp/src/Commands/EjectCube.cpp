@@ -34,8 +34,6 @@ void EjectCube::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
-	CommandBase::pIntake->SetSpeed(dSpeed);
-
 	return;
 }
 
@@ -44,6 +42,8 @@ void EjectCube::Initialize()
  */
 void EjectCube::Execute()
 {
+	CommandBase::pIntake->SetSpeed(dSpeed);
+
 	return;
 }
 
@@ -52,7 +52,14 @@ void EjectCube::Execute()
  */
 bool EjectCube::IsFinished()
 {
-	return this->pTimer->Get() > 2000;
+	if (this->pTimer->Get() > 0.5) // stop after 2 seconds no matter what
+	{
+		LOG("[EjectCube] Timed Out");
+
+		return true;
+	}
+
+	return false;
 }
 
 /**
