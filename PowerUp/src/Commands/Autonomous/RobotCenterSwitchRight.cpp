@@ -31,7 +31,7 @@ RobotCenterSwitchRight::RobotCenterSwitchRight()
 	AddSequential(new OpenCloseGripper (-1          ));
 	
 	// THIS IS VERY EXPERIMENTAL
-	AddSequential(new IntakeDriveWithEncoders (40.00, -1.0, 1.00);
+	AddSequential(new IntakeDriveWithEncoders (40.00, -1.0, 1.00));
 	
 	/*	ADD THIS BACK IF ABOVE CODE WON'T WORK
 	AddSequential(new DriveWithEncoders( 40.00, -1.0));

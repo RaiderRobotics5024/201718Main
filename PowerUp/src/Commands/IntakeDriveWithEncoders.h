@@ -12,7 +12,7 @@
 class IntakeDriveWithEncoders : public CommandBase
 {
 public:
-	IntakeDriveWithEncoders(double distance, double speed);
+	IntakeDriveWithEncoders(double distance, double speed, double intakespeed);
 	~IntakeDriveWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;

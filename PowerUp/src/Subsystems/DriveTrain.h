@@ -8,7 +8,7 @@
 #include <Drive/DifferentialDrive.h>
 // If you get an error including this library, you'll need to get the navX libraries from here:
 // https://www.pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/c/
-#include <AHRS.h>
+#include "../include/navX/AHRS.h"
 
 
 class DriveTrain: public frc::Subsystem, PIDOutput
