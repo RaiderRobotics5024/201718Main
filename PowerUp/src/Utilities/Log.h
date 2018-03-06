@@ -2,8 +2,9 @@
 #define _LOG_HG_
 
 #include <iostream>
-#include <chrono>
+// #include <chrono>
 
-#define LOG(x) { std::cout << "[ " << std::chrono::system_clock::now(); << " ] - " << x << std::endl; }
+#define LOG(x) { std::cout << x << std::endl; }
+// << "[ " << std::chrono::system_clock::now(); << " ] - " 
 
 #endif
