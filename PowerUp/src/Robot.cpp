@@ -4,11 +4,8 @@
 /**
  *
  */
-
 Robot::Robot()
 {
-	SmartDashboard::init();
-
 	iMotorId = 1;
 	iCounter = 0;
 	dMotorSpeed = 0.0;
@@ -22,7 +19,6 @@ Robot::Robot()
 /**
  *
  */
-
 Robot::~Robot()
 {
 	delete this->pXboxController;
@@ -35,7 +31,6 @@ Robot::~Robot()
 /**
  *
  */
-
 void Robot::SetMotor(int motor_id)
 {
 	if (this->pTalonSRX != nullptr)
@@ -48,6 +43,9 @@ void Robot::SetMotor(int motor_id)
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
 	this->pTalonSRX->SetSensorPhase(true);
+	
+	this->pLeftFrontMotor->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
+
 	this->pFaults = new Faults();
 	pTalonSRX->GetFaults(*pFaults);
 
@@ -63,27 +61,36 @@ void Robot::TeleopPeriodic()
 	SmartDashboard::PutNumber("Motor ID", iMotorId);
 
 	// switch the motor with the left/right bumpers
-	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) {
+	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) 
+	{
 		iMotorId--;
 		if (iMotorId < 1) iMotorId = 1;
 		SetMotor(iMotorId);
-	} else if (pXboxController->GetBumperPressed(XboxController::kRightHand)) {
+	} 
+	else if (pXboxController->GetBumperPressed(XboxController::kRightHand)) 
+	{
 		iMotorId++;
 		if (iMotorId > 8) iMotorId = 8;
 		SetMotor(iMotorId);
 	}
 
 	// invert the motor with the X/B buttons
-	if (this->pXboxController->GetXButton()) {
+	if (this->pXboxController->GetXButton()) 
+	{
 		this->pTalonSRX->SetInverted(false);
-	} else if (this->pXboxController->GetBButton()) {
+	} 
+	else if (this->pXboxController->GetBButton()) 
+	{
 		this->pTalonSRX->SetInverted(true);
 	}
 
 	// run forward/backward with Y/A buttons
-	if (this->pXboxController->GetYButton()) {
+	if (this->pXboxController->GetYButton())
+	{
 		dMotorSpeed = 1.0;
-	} else if (this->pXboxController->GetAButton()) {
+	} 
+	else if (this->pXboxController->GetAButton()) 
+	{
 		dMotorSpeed = -1.0;
 	} else {
 		dMotorSpeed = 0.0;
@@ -91,11 +98,7 @@ void Robot::TeleopPeriodic()
 
 	pTalonSRX->Set(dMotorSpeed);
 
-	if (iCounter++ == 20)
-	{
-		Robot::Trace();
-		iCounter = 0;
-	}
+	Robot::Trace();
 
 	return;
 }
@@ -106,6 +109,10 @@ void Robot::TeleopPeriodic()
 
 void Robot::Trace()
 {
+	if (iCounter++ < 20 ) return;
+	
+	iCounter = 0;
+	
 	int baseId = pTalonSRX->GetBaseID();
 	int version = pTalonSRX->GetFirmwareVersion();
 	bool isInverted = pTalonSRX->GetInverted();
