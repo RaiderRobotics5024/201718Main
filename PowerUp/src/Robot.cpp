@@ -55,7 +55,6 @@ void Robot::SetMotor(int motor_id)
 /**
  *
  */
-
 void Robot::TeleopPeriodic()
 {
 	SmartDashboard::PutNumber("Motor ID", iMotorId);
@@ -106,7 +105,6 @@ void Robot::TeleopPeriodic()
 /**
  *
  */
-
 void Robot::Trace()
 {
 	if (iCounter++ < 20 ) return;
