@@ -1,20 +1,20 @@
-#ifndef _SR2RCPROFILE_HG_
-#define _SR2RCPROFILE_HG_
+#ifndef _RC2SLPROFILE_HG_
+#define _RC2SLPROFILE_HG_
 
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../RobotMap.h"
 #include "Instrumentation.h"
 
-#include "Paths/SR2RCPath.h"
+#include "Paths/RC2SLPath.h"
 
 /**
  *
  */
-class SR2RCProfile
+class RC2SLProfile
 {
 public:
-	SR2RCProfile(TalonSRX & talon);
+	RC2SLProfile(TalonSRX & talon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

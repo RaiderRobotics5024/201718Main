@@ -1,12 +1,12 @@
 #ifndef _RC2SRPROFILE_HG_
 #define _RC2SRPROFILE_HG_
 
-#include <MotionProfile/Paths/RC2SRPath.h>
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../RobotMap.h"
 #include "Instrumentation.h"
 
+#include "Paths/RC2SRPath.h"
 
 /**
  *
