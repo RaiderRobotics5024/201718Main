@@ -7,7 +7,7 @@
  */
 ToggleIntake::ToggleIntake(double speed)
 {
-	LOG("[EjectCube] Constructed");
+	LOG("[ToggleIntake] Constructed");
 
 	if (CommandBase::pIntake != nullptr)
 	{
@@ -16,7 +16,7 @@ ToggleIntake::ToggleIntake(double speed)
 	}
 	else
 	{
-		LOG("[EjectCube] inTake is null!");
+		LOG("[ToggleIntake] inTake is null!");
 	}
 
 	this->pTimer = new Timer();
@@ -29,7 +29,7 @@ ToggleIntake::ToggleIntake(double speed)
  */
 void ToggleIntake::Initialize()
 {
-	LOG("[EjectCube] Initialized");
+	LOG("[ToggleIntake] Initialized");
 
 	this->pTimer->Reset();
 	this->pTimer->Start();
@@ -54,7 +54,7 @@ bool ToggleIntake::IsFinished()
 {
 	if (this->pTimer->Get() > 0.5) // stop after 2 seconds no matter what
 	{
-		LOG("[EjectCube] Timed Out");
+		LOG("[ToggleIntake] Timed Out");
 
 		return true;
 	}
@@ -67,7 +67,7 @@ bool ToggleIntake::IsFinished()
  */
 void ToggleIntake::End()
 {
-	LOG("[EjectCube] Ended");
+	LOG("[ToggleIntake] Ended");
 
 	CommandBase::pIntake->Reset();
 
@@ -79,7 +79,7 @@ void ToggleIntake::End()
  */
 void ToggleIntake::Interrupted()
 {
-	LOG("[EjectCube] Interrupted" );
+	LOG("[ToggleIntake] Interrupted" );
 
 	CommandBase::pIntake->Reset();
 

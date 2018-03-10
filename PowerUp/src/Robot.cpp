@@ -112,14 +112,14 @@ void Robot::AutonomousInit()
 
 	switch (autoType)
 	{
-	case 11: pAutonomousCommand = new RobotCenterSwitchLeft   (); break;
-	case 12: pAutonomousCommand = new RobotCenterSwitchRight  (); break;
+	case 11: pAutonomousCommand = new RobotLeftSwitchLeft   (); break;
+	case 12: pAutonomousCommand = new RobotLeftSwitchRight  (); break;
 	case 13: pAutonomousCommand = new TestAutonomous        (); break;
 	case 21: pAutonomousCommand = new RobotCenterSwitchLeft (); break;
 	case 22: pAutonomousCommand = new RobotCenterSwitchRight(); break;
 	case 23: pAutonomousCommand = new TestAutonomous        (); break;
-	case 31: pAutonomousCommand = new RobotCenterSwitchLeft  (); break;
-	case 32: pAutonomousCommand = new RobotCenterSwitchRight (); break;
+	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
+	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
 	case 33: pAutonomousCommand = new TestAutonomous        (); break;
 	default: pAutonomousCommand = new RobotCenterSwitchRight(); break;
 	}
