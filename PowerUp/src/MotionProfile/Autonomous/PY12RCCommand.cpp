@@ -1,21 +1,21 @@
-#include "MotionProfileCommand.h"
+#include "PY12RCCommand.h"
 #include "../../Utilities/Log.h"
 
 /**
  *
  */
-MotionProfileCommand::MotionProfileCommand()
+PY12RCCommand::PY12RCCommand()
 {
-	LOG("[MotionProfileCommand] Constructed");
+	LOG("[PY12RCCommand] Constructed");
 
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new MotionProfiler(*CommandBase::pDriveTrain->GetFrontLeftMotor());
+		this->pMotionProfiler = new PY12RCProfile(*CommandBase::pDriveTrain->GetFrontLeftMotor());
 	}
 	else
 	{
-		LOG("[MotionProfileCommand] driveTrain is NULL");
+		LOG("[PY12RCCommand] driveTrain is NULL");
 	}
 
 	return;
@@ -24,9 +24,9 @@ MotionProfileCommand::MotionProfileCommand()
 /**
  *
  */
-void MotionProfileCommand::Initialize()
+void PY12RCCommand::Initialize()
 {
-	LOG("[MotionProfileCommand] Initializing" );
+	LOG("[PY12RCCommand] Initializing" );
 
 	CommandBase::pDriveTrain->InitMotionProfiling();
 
@@ -36,14 +36,14 @@ void MotionProfileCommand::Initialize()
 /**
  *
  */
-void MotionProfileCommand::Execute()
+void PY12RCCommand::Execute()
 {
 	this->pMotionProfiler->control();
 	this->pMotionProfiler->PeriodicTask();
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[MotionProfileCommand] Set Output: " << setOutput);
+	LOG("[PY12RCCommand] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetFrontLeftMotor()->Set(ControlMode::MotionProfile, setOutput);
 
@@ -55,7 +55,7 @@ void MotionProfileCommand::Execute()
 /**
  *
  */
-bool MotionProfileCommand::IsFinished()
+bool PY12RCCommand::IsFinished()
 {
 	return false;
 }
@@ -63,9 +63,9 @@ bool MotionProfileCommand::IsFinished()
 /**
  *
  */
-void MotionProfileCommand::End()
+void PY12RCCommand::End()
 {
-	LOG("[MotionProfileCommand] Ending" );
+	LOG("[PY12RCCommand] Ending" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
@@ -76,9 +76,9 @@ void MotionProfileCommand::End()
 /**
  *
  */
-void MotionProfileCommand::Interrupted()
+void PY12RCCommand::Interrupted()
 {
-	LOG("[MotionProfileCommand] Interrupted" );
+	LOG("[PY12RCCommand] Interrupted" );
 
 	CommandBase::pDriveTrain->ResetDrive();
 

@@ -1,20 +1,20 @@
-#ifndef _MOTIONPROFILER_HG_
-#define _MOTIONPROFILER_HG_
+#ifndef _RC2PY1PROFILE_HG_
+#define _RC2PY1PROFILE_HG_
 
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../RobotMap.h"
 #include "Instrumentation.h"
 
-#include "SampleDriveForward.h"
+#include "Paths/RC2PY1Path.h"
 
 /**
  *
  */
-class MotionProfiler
+class RC2PY1Profile
 {
 public:
-	MotionProfiler(TalonSRX & talon);
+	RC2PY1Profile(TalonSRX & talon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

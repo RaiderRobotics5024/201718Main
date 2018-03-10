@@ -1,20 +1,20 @@
-#ifndef _MOTIONPROFILER_HG_
-#define _MOTIONPROFILER_HG_
+#ifndef _PY12RCPROFILE_HG_
+#define _PY12RCPROFILE_HG_
 
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../RobotMap.h"
 #include "Instrumentation.h"
 
-#include "SampleDriveForward.h"
+#include "Paths/PY12RCPath.h"
 
 /**
  *
  */
-class MotionProfiler
+class PY12RCProfile
 {
 public:
-	MotionProfiler(TalonSRX & talon);
+	PY12RCProfile(TalonSRX & talon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

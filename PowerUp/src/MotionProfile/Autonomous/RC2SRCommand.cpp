@@ -1,21 +1,21 @@
-#include "MotionProfileCommand.h"
+#include "RC2SRCommand.h"
 #include "../../Utilities/Log.h"
 
 /**
  *
  */
-MotionProfileCommand::MotionProfileCommand()
+RC2SRCommand::RC2SRCommand()
 {
-	LOG("[MotionProfileCommand] Constructed");
+	LOG("[RC2SRCommand] Constructed");
 
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new MotionProfiler(*CommandBase::pDriveTrain->GetFrontLeftMotor());
+		this->pMotionProfiler = new RC2SRProfile(*CommandBase::pDriveTrain->GetFrontLeftMotor());
 	}
 	else
 	{
-		LOG("[MotionProfileCommand] driveTrain is NULL");
+		LOG("[RC2SRCommand] driveTrain is NULL");
 	}
 
 	return;
@@ -24,9 +24,9 @@ MotionProfileCommand::MotionProfileCommand()
 /**
  *
  */
-void MotionProfileCommand::Initialize()
+void RC2SRCommand::Initialize()
 {
-	LOG("[MotionProfileCommand] Initializing" );
+	LOG("[RC2SRCommand] Initializing" );
 
 	CommandBase::pDriveTrain->InitMotionProfiling();
 
@@ -36,14 +36,14 @@ void MotionProfileCommand::Initialize()
 /**
  *
  */
-void MotionProfileCommand::Execute()
+void RC2SRCommand::Execute()
 {
 	this->pMotionProfiler->control();
 	this->pMotionProfiler->PeriodicTask();
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[MotionProfileCommand] Set Output: " << setOutput);
+	LOG("[RC2SRCommand] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetFrontLeftMotor()->Set(ControlMode::MotionProfile, setOutput);
 
@@ -55,7 +55,7 @@ void MotionProfileCommand::Execute()
 /**
  *
  */
-bool MotionProfileCommand::IsFinished()
+bool RC2SRCommand::IsFinished()
 {
 	return false;
 }
@@ -63,9 +63,9 @@ bool MotionProfileCommand::IsFinished()
 /**
  *
  */
-void MotionProfileCommand::End()
+void RC2SRCommand::End()
 {
-	LOG("[MotionProfileCommand] Ending" );
+	LOG("[RC2SRCommand] Ending" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
@@ -76,9 +76,9 @@ void MotionProfileCommand::End()
 /**
  *
  */
-void MotionProfileCommand::Interrupted()
+void RC2SRCommand::Interrupted()
 {
-	LOG("[MotionProfileCommand] Interrupted" );
+	LOG("[RC2SRCommand] Interrupted" );
 
 	CommandBase::pDriveTrain->ResetDrive();
 
