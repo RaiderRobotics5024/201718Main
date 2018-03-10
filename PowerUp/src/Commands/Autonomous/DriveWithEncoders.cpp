@@ -1,6 +1,6 @@
 #include "DriveWithEncoders.h"
-#include "../Utilities/Log.h"
-#include "../RobotMap.h"
+#include "../../Utilities/Log.h"
+#include "../../RobotMap.h"
 
 /**
  * distance in inches, speed from -1 to 1
