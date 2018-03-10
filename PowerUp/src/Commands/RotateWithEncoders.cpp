@@ -20,7 +20,17 @@ RotateWithEncoders::RotateWithEncoders(double distance, double speed)
 		LOG("[RotateWithEncoders] driveTrain is null!");
 	}
 
+	this->pTimer = new Timer();
+
 	return;
+}
+
+/**
+ *
+ */
+RotateWithEncoders::~RotateWithEncoders()
+{
+	delete this->pTimer;
 }
 
 /**
@@ -28,10 +38,13 @@ RotateWithEncoders::RotateWithEncoders(double distance, double speed)
  */
 void RotateWithEncoders::Initialize()
 {
-	LOG("[RotateByPosition] Initialized");
+	LOG("[RotateWithEncoders] Initialized");
 
-	CommandBase::pDriveTrain->ResetEncoders();
+	this->pTimer->Reset();
+	this->pTimer->Start();
+
 	CommandBase::pDriveTrain->InitAutonomousMode(false); // don't invert right front motor
+	CommandBase::pDriveTrain->ResetEncoders();
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 
 	return;
@@ -45,6 +58,9 @@ void RotateWithEncoders::Execute()
 	if (iCounter++ == 10)
 	{
 		CommandBase::pDriveTrain->Trace();
+
+		LOG("[RotateWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
+
 		iCounter = 0;
 	}
 
@@ -56,7 +72,21 @@ void RotateWithEncoders::Execute()
  */
 bool RotateWithEncoders::IsFinished()
 {
-	return CommandBase::pDriveTrain->IsTurning();
+	if (this->pTimer->Get() > 3.0) // stop after 2 seconds no matter what
+	{
+		LOG("[RotateWithEncoders] Timed out");
+
+		return true;
+	}
+
+	if (CommandBase::pDriveTrain->IsTurning())
+	{
+		LOG("[RotateWithEncoders] Angle Reached");
+
+		return true;
+	}
+
+	return false;
 }
 
 /**
@@ -74,6 +104,7 @@ void RotateWithEncoders::End()
 /**
  *
  */
+
 void RotateWithEncoders::Interrupted()
 {
 	LOG("[RotateWithEncoders] Interrupted");

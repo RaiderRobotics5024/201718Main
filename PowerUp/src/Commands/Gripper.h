@@ -1,12 +1,9 @@
-#ifndef _GRIPPER_HG_
-#define _GRIPPER_HG_
+#ifndef SRC_COMMANDS_GRIPPER_H_
+#define SRC_COMMANDS_GRIPPER_H_
 
 #include <WPILib.h>
 #include "../CommandBase.h"
 
-/**
- *
- */
 class Gripper : public CommandBase
 {
 public:
@@ -16,6 +13,9 @@ public:
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+
 };
 
-#endif
+
+
+#endif /* SRC_COMMANDS_GRIPPER_H_ */

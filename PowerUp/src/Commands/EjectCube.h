@@ -1,16 +1,17 @@
-#ifndef _CONTROLELEVATOR_HG_
-#define _CONTROLELEVATOR_HG_
+#ifndef _EJECTCUBE_HG_
+#define _EJECTCUBE_HG_
 
 #include <WPILib.h>
+#include <Timer.h>
 #include "../CommandBase.h"
 
 /**
  *
  */
-class ControlElevator : public CommandBase
+class EjectCube : public CommandBase
 {
 public:
-	ControlElevator();
+	EjectCube(double speed);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -18,10 +19,8 @@ public:
 	void Interrupted() override;
 
 private:
-	void Trace(double speed);
-	int iCounter = 0;
-	int setElevatorPos;
-	int lastElevatorPos;
+	Timer* pTimer;
+	double dSpeed = 0;
 };
 
 #endif

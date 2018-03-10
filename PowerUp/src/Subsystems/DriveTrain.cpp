@@ -23,7 +23,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftFrontMotor->SetSensorPhase(true);
 	this->pLeftRearMotor->SetSensorPhase(true);
 
-
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
@@ -38,7 +37,13 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
-	pRobotDrive->SetSafetyEnabled(false);
+	this->pLeftFrontMotor->SetSafetyEnabled(false);
+	this->pLeftRearMotor->SetSafetyEnabled(false);
+	this->pRightFrontMotor->SetSafetyEnabled(false);
+	this->pRightRearMotor->SetSafetyEnabled(false);
+	this->pRobotDrive->SetSafetyEnabled(false);
+
+	DriveTrain::ResetEncoders();
 
 	// Initialize the gyro
 	// (See comment here about which port. We are using MXP, the one physically on top of the RoboRio
@@ -82,13 +87,11 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 {
 	LOG("[DriveTrain] Autonomous Initialized");
 
-	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-	/* use the low level API to set the quad encoder signal */
-	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
+	SetEncoders();
 
 	/* choose the sensor and sensor direction */
 	pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
-	pLeftFrontMotor->SetSensorPhase(true);
+	pLeftFrontMotor->SetSensorPhase(false);
 
 	/* set the peak and nominal outputs, 12V means full */
 	pLeftFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
@@ -97,10 +100,10 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 	pLeftFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
-	pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.1, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, TALON_PID_P, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, TALON_PID_I, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, TALON_PID_D, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, TALON_PID_F, TIMEOUT_MS);
 
 	pRightFrontMotor->Follow(*pLeftFrontMotor);
 	pRightFrontMotor->SetInverted(inverted);
@@ -160,9 +163,13 @@ void DriveTrain::Turn(double setpoint)
     this->pTurnController->SetSetpoint(setpoint);
     this->pTurnController->Enable();
 
-    this->pRobotDrive->CurvatureDrive(0.8, 0.8, true);
+    double dSpeed = 0.25;
 
-	return;
+    if (setpoint < 0.0) dSpeed = dSpeed * -1;
+
+    this->pRobotDrive->CurvatureDrive(dSpeed, 0.0, true);
+
+    return;
 }
 
 /**
@@ -230,6 +237,14 @@ double DriveTrain::GetRightPosition()
 /**
  *
  */
+double DriveTrain::GetTargetPosition()
+{
+	return this->dTargetPostionRotations;
+}
+
+/**
+ *
+ */
 bool DriveTrain::IsDriving()
 {
 	return this->pGyro->IsMoving();
@@ -259,7 +274,7 @@ void DriveTrain::ResetDrive()
 	this->pLeftFrontMotor->SetInverted(false);
 	this->pLeftRearMotor->SetInverted(false);
 
-	this->pRightRearMotor->Follow(*pRightRearMotor);
+	this->pRightRearMotor->Follow(*pRightFrontMotor);
 	this->pRightFrontMotor->SetInverted(true);
 	this->pRightRearMotor->SetInverted(true);
 
@@ -286,7 +301,20 @@ void DriveTrain::ResetGyro()
 {
 	LOG("[DriveTrain] Resetting the gyro");
 
+	pGyro->Reset();
 	pGyro->ZeroYaw();
+
+	return;
+}
+
+/**
+ *
+ */
+void DriveTrain::SetEncoders()
+{
+	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	/* use the low level API to set the quad encoder signal */
+	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
 }

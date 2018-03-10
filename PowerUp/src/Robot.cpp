@@ -7,6 +7,7 @@
 #include "Commands/Autonomous/RobotCenterSwitchRight.h"
 #include "Commands/Autonomous/RobotRightSwitchLeft.h"
 #include "Commands/Autonomous/RobotRightSwitchRight.h"
+#include "Commands/Autonomous/TestAutonomous.h"
 
 /**
  *
@@ -40,11 +41,6 @@ void Robot::RobotInit()
 	scRobotPosition.AddObject("Right", 30);
 	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
 
-	// setup smartdashboard switch positions - used for test only
-	scSwitchPosition.AddDefault("Left", 1);
-	scSwitchPosition.AddObject("Right", 2);
-	frc::SmartDashboard::PutData("Switch Position", &scSwitchPosition);
-
 	return;
 }
 
@@ -67,7 +63,26 @@ int Robot::GetAutoType()
 
 	if (_GSM.length() > 0)
 	{
-		_SP = (_GSM[0] == 'L') ? 1 : 2;
+		if (_GSM[0] == 'L')
+		{
+			_SP = 1; // switch is on the left
+		}
+		else if (_GSM[0] == 'R')
+		{
+			_SP = 2; // switch is on the right
+		}
+		else if (_GSM[0] == 'T')
+		{
+			_SP = 3; // this is test auto
+		}
+		else
+		{
+			_SP = 2; // default to right
+		}
+	}
+	else
+	{
+		_SP = 2; // go for right if GSM is empty
 	}
 
 	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP << " - Game Data: " << _GSM);
@@ -97,12 +112,15 @@ void Robot::AutonomousInit()
 
 	switch (autoType)
 	{
-	case 11: pAutonomousCommand = new RobotLeftSwitchLeft   (); break;
-	case 12: pAutonomousCommand = new RobotLeftSwitchRight  (); break;
+	case 11: pAutonomousCommand = new RobotCenterSwitchLeft   (); break;
+	case 12: pAutonomousCommand = new RobotCenterSwitchRight  (); break;
+	case 13: pAutonomousCommand = new TestAutonomous        (); break;
 	case 21: pAutonomousCommand = new RobotCenterSwitchLeft (); break;
 	case 22: pAutonomousCommand = new RobotCenterSwitchRight(); break;
-	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
-	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
+	case 23: pAutonomousCommand = new TestAutonomous        (); break;
+	case 31: pAutonomousCommand = new RobotCenterSwitchLeft  (); break;
+	case 32: pAutonomousCommand = new RobotCenterSwitchRight (); break;
+	case 33: pAutonomousCommand = new TestAutonomous        (); break;
 	default: pAutonomousCommand = new RobotCenterSwitchRight(); break;
 	}
 
@@ -134,31 +152,6 @@ void Robot::TeleopInit()
 	{
 		pAutonomousCommand->Cancel();
 		pAutonomousCommand = nullptr;
-	}
-
-	// Start the Teleop Commands
-	if (pClimbScale != nullptr)
-	{
-		LOG("[Robot] Starting pClimbScale");
-		pClimbScale->Start();
-	}
-
-	if (pControlElevator != nullptr)
-	{
-		LOG("[Robot] Starting pControlElevator");
-		pControlElevator->Start();
-	}
-
-	if (pDriveWithJoystick != nullptr)
-	{
-		LOG("[Robot] Starting DriveWithJoystick");
-		pDriveWithJoystick->Start();
-	}
-
-	if ( pGripper != nullptr )
-	{
-		LOG("[Robot] Starting Gripper");
-		pGripper->Start();
 	}
 
 	return;

@@ -1,5 +1,6 @@
 #include "RotateWithGyro.h"
 #include "../Utilities/Log.h"
+#include <math.h>
 
 /**
  *
@@ -18,6 +19,8 @@ RotateWithGyro::RotateWithGyro(double setpoint)
 		LOG("[RotateWithGyro] driveTrain is null!");
 	}
 
+	this->pTimer = new Timer();
+
 	return;
 }
 
@@ -27,6 +30,9 @@ RotateWithGyro::RotateWithGyro(double setpoint)
 void RotateWithGyro::Initialize()
 {
 	LOG("[RotateWithGyro] Initalized");
+
+	this->pTimer->Reset();
+	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->ResetGyro();
 	CommandBase::pDriveTrain->Turn(dSetPoint);
@@ -43,6 +49,11 @@ void RotateWithGyro::Execute()
 	if (iCounter++ == 10)
 	{
 		CommandBase::pDriveTrain->Trace();
+
+		double dCurrentAngle = CommandBase::pDriveTrain->GetAngle();
+
+		LOG("[RotateWithGyro] Set Point: " << dSetPoint << " Angle: " << dCurrentAngle);
+
 		iCounter = 0;
 	}
 
@@ -54,7 +65,21 @@ void RotateWithGyro::Execute()
  */
 bool RotateWithGyro::IsFinished()
 {
-	return CommandBase::pDriveTrain->GetAngle() == dSetPoint;
+	if (this->pTimer->Get() > 4.0) // stop after 2 seconds no matter what
+	{
+		LOG("[RotateWithEncoders] Timed out");
+
+		return true;
+	}
+
+	double dCurrentAngle = CommandBase::pDriveTrain->GetAngle();
+
+	if (fabs(dCurrentAngle) >= fabs(dSetPoint))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 /**

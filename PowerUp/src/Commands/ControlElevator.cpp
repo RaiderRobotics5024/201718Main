@@ -1,6 +1,9 @@
 #include "ControlElevator.h"
 #include "../Utilities/Log.h"
 
+/**
+ *
+ */
 ControlElevator::ControlElevator()
 {
 	LOG("[ControlElevator] Constructed");
@@ -14,18 +17,24 @@ ControlElevator::ControlElevator()
 		LOG("[ControlElevator] elevator is NULL!");
 	}
 
+	CommandBase::pElevator->ResetCounters();
+
 	return;
 }
 
-
+/**
+ *
+ */
 void ControlElevator::Initialize()
 {
-	LOG("[ControlElevator] Constructed");
+	LOG("[ControlElevator] Initalized");
 
 	return;
 }
 
-
+/**
+ *
+ */
 void ControlElevator::Execute()
 {
 	frc::XboxController* pJoyOperator = CommandBase::pOI->GetJoystickOperator();
@@ -33,32 +42,65 @@ void ControlElevator::Execute()
 	double rightOpTriggerAxis = pJoyOperator->GetTriggerAxis(frc::XboxController::kRightHand);
 	double leftOpTriggerAxis = pJoyOperator->GetTriggerAxis(frc::XboxController::kLeftHand);
 
-	double motorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
+	double dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
 
-	//std::cout << "[ControlElevator] Motorspeed: '" << motorSpeed << "'.\n";
+	if (CommandBase::pElevator->IsTopSwitchAligned() && dMotorSpeed > 0.0)
+	{
+		LOG("[ControlElevator] At the top" );
 
-	SmartDashboard::PutNumber( "Elevator Motorspeed", motorSpeed );
+		dMotorSpeed = 0; // don't let the motor go passed the top switch
+		CommandBase::pElevator->ResetCounters();
+	}
 
-	CommandBase::pElevator->SetMotorSpeed(motorSpeed);
+	CommandBase::pElevator->SetMotorSpeed(dMotorSpeed);
+
+//	ControlElevator::Trace(dMotorSpeed);
 
 	return;
 }
 
-
+/**
+ *
+ */
 bool ControlElevator::IsFinished()
 {
 	return false;
 }
 
-
-
+/**
+ *
+ */
 void ControlElevator::End()
 {
+	LOG("[ControlElevator] Ended");
+
 	return;
 }
 
-
+/**
+ *
+ */
 void ControlElevator::Interrupted()
 {
+	LOG("[ControlElevator] Interrupted" );
+
+	return;
+}
+
+/**
+ *
+ */
+void ControlElevator::Trace(double dMotorSpeed)
+{
+
+	if (iCounter++ == 10)
+	{
+		SmartDashboard::PutNumber( "Elevator Motorspeed", dMotorSpeed );
+
+		LOG("[ControlElevator] Switch: " << CommandBase::pElevator->IsTopSwitchAligned() << " Speed: " << dMotorSpeed);
+
+		iCounter = 0;
+	}
+
 	return;
 }

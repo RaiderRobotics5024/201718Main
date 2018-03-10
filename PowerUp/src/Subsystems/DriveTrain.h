@@ -36,6 +36,7 @@ public:
 	can::WPI_TalonSRX* GetFrontLeftMotor(); // Needed by Motion Profiler
 	double GetLeftPosition(void);
 	double GetRightPosition(void);
+	double GetTargetPosition(void);
 
 	bool IsDriving(void);
 	bool IsTurning(void);
@@ -43,6 +44,8 @@ public:
 	void ResetDrive(void);
 	void ResetEncoders(void);
 	void ResetGyro(void);
+
+	void SetEncoders(void);
 
 	// Send motor data to SmartDashboard
 	void Trace(void);
@@ -60,6 +63,8 @@ private:
 
 	AHRS* pGyro;
 	PIDController* pTurnController;
+
+	double dTargetPostionRotations;
 	double dRotateToAngleRate;
 };
 
