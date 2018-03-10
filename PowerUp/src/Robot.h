@@ -11,7 +11,7 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/Gripper.h"
 
-#include "Commands/Autonomous/MotionProfileCommand.h"
+#include "MotionProfile/Autonomous/MotionProfileCommand.h"
 
 /**
  *

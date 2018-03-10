@@ -1,8 +1,8 @@
 #include "Commands/Autonomous/RobotCenterSwitchLeft.h"
 #include "../../Utilities/Log.h"
 #include "DriveWithEncoders.h"
-#include "RotateWithEncoders.h"
 #include "RotateWithGyro.h"
+#include "ToggleIntake.h"
 
 /**
  *
@@ -11,11 +11,10 @@ RobotCenterSwitchLeft::RobotCenterSwitchLeft()
 {
 	LOG("[RobotCenterSwitchLeft] Constructed");
 
-	AddSequential(new DriveWithEncoders ( 60.0 ,  1.0));
-//	AddSequential(new RotateWithGyro    (-90.0f      ));
-	AddSequential(new RotateWithEncoders( 15.51, -0.5));
-	AddSequential(new DriveWithEncoders (240.0 ,  1.0));
-//	AddSequential(new RotateWithGyro    ( 90.0f      ));
-	AddSequential(new RotateWithEncoders( 15.51,  0.5));
-	AddSequential(new DriveWithEncoders ( 24.0 ,  0.5));
+	AddSequential(new DriveWithEncoders( 19.00, 1.0));
+	AddSequential(new RotateWithGyro   (-41.15     ));
+	AddSequential(new DriveWithEncoders( 85.00, 1.0));
+	AddSequential(new RotateWithGyro   ( 41.15     ));
+	AddSequential(new DriveWithEncoders( 19.00, 1.0));
+	AddSequential(new ToggleIntake     ( -1.00     ));
 }
