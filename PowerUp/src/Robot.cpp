@@ -1,13 +1,13 @@
 #include "Robot.h"
 #include "Utilities/Log.h"
 #include <string>
-#include "Commands/Autonomous/RobotLeftSwitchLeft.h"
-#include "Commands/Autonomous/RobotLeftSwitchRight.h"
-#include "Commands/Autonomous/RobotCenterSwitchLeft.h"
-#include "Commands/Autonomous/RobotCenterSwitchRight.h"
-#include "Commands/Autonomous/RobotRightSwitchLeft.h"
-#include "Commands/Autonomous/RobotRightSwitchRight.h"
-#include "Commands/Autonomous/TestAutonomous.h"
+#include "Commands/Autonomous/CommandGroups/RobotLeftSwitchLeft.h"
+#include "Commands/Autonomous/CommandGroups/RobotLeftSwitchRight.h"
+#include "Commands/Autonomous/CommandGroups/RobotCenterSwitchLeft.h"
+#include "Commands/Autonomous/CommandGroups/RobotCenterSwitchRight.h"
+#include "Commands/Autonomous/CommandGroups/RobotRightSwitchLeft.h"
+#include "Commands/Autonomous/CommandGroups/RobotRightSwitchRight.h"
+#include "Commands/Autonomous/CommandGroups/TestAutonomous.h"
 
 /**
  *
@@ -58,7 +58,7 @@ void Robot::DisabledInit()
 int Robot::GetAutoType()
 {
 	int _RP = scRobotPosition.GetSelected();
-	int _SP = scSwitchPosition.GetSelected();
+	int _SP = 0;
 	std::string _GSM = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 
 	if (_GSM.length() > 0)

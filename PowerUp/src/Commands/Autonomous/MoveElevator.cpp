@@ -5,21 +5,23 @@
 /**
  *
  */
-MoveElevator::MoveElevator(double pos)
+MoveElevator::MoveElevator(int position)
 {
 	LOG("[MoveElevator] Constructed");
 
 	if (CommandBase::pElevator != nullptr)
 	{
 		Requires(CommandBase::pElevator);
-		this->dPos = pos;
+		this->dPosition = position;
 	}
 	else
 	{
-		LOG("[MoveElevator] inTake is null!");
+		LOG("[MoveElevator] elevator is null!");
 	}
 
 	this->pTimer = new Timer();
+
+	CommandBase::pElevator->Reset();
 	CommandBase::pElevator->ResetCounters();
 
 	return;
@@ -43,35 +45,15 @@ void MoveElevator::Initialize()
  */
 void MoveElevator::Execute()
 {
-	if (dPos == 1)
+	switch (dPosition)
 	{
-		dMotorSpeed = 0.5;
-	}
-	else if (dPos == 0)
-	{
-		dMotorSpeed = -0.5;
-	}
-	else
-	{
-		dMotorSpeed = 0;
+	case CommandBase::pElevator->BOTTOM : dMotorSpeed = -0.5; break; // go down until we hit bottom
+	case CommandBase::pElevator->CUBE   : dMotorSpeed = -0.5; break; // go down until we hit cube or bottom
+	case CommandBase::pElevator->CUBEX2 : dMotorSpeed =  0.5; break; // go up unti we hit cubex2 or switch
+	case CommandBase::pElevator->SWITCH : dMotorSpeed =  0.5; break; // go up until we hit switch
 	}
 
 	CommandBase::pElevator->SetMotorSpeed(dMotorSpeed);
-
-	if (CommandBase::pElevator->IsTopSwitchAligned() && dMotorSpeed > 0.0)
-	{
-		LOG("[ControlElevator] At the top" );
-
-		dMotorSpeed = 0; // don't let the motor go passed the top switch
-		CommandBase::pElevator->ResetCounters();
-	}
-	if (CommandBase::pElevator->IsBottomSwitchAligned() && dMotorSpeed > 0.0)
-	{
-		LOG("[ControlElevator] At the bottom" );
-
-		dMotorSpeed = 0; // don't let the motor go passed the top switch
-		CommandBase::pElevator->ResetCounters();
-	}
 
 	return;
 }
@@ -81,14 +63,26 @@ void MoveElevator::Execute()
  */
 bool MoveElevator::IsFinished()
 {
-	if (this->pTimer->Get() > 0.5) // stop after 2 seconds no matter what
+	switch (dPosition)
 	{
-		LOG("[MoveElevator] Timed Out");
+	case CommandBase::pElevator->BOTTOM :
+			return this->pTimer->Get() > 2; // it should take a maximum of 2 seconds to reach the bottom from any position
 
-		return true;
+	case CommandBase::pElevator->CUBE :
+			if (CommandBase::pElevator->IsBottomSwitchAligned()) return true;
+			if (this->pTimer->Get() > 2) CommandBase::pElevator->SetMotorSpeed(0.5); // we must be at the bottom so go up
+			return false;
+
+	case CommandBase::pElevator->CUBEX2 :
+			if (CommandBase::pElevator->IsMiddleSwitchAligned()) return true;
+			if (CommandBase::pElevator->IsTopSwitchAligned()) CommandBase::pElevator->SetMotorSpeed(-0.5); //we are at the top so go down
+			return false;
+
+	case CommandBase::pElevator->SWITCH :
+			return CommandBase::pElevator->IsTopSwitchAligned();
+
+	default: return false;
 	}
-
-	return false;
 }
 
 /**
@@ -99,6 +93,7 @@ void MoveElevator::End()
 	LOG("[MoveElevator] Ended");
 
 	CommandBase::pElevator->Reset();
+	CommandBase::pElevator->ResetCounters();
 
 	return;
 }
@@ -111,6 +106,7 @@ void MoveElevator::Interrupted()
 	LOG("[MoveElevator] Interrupted" );
 
 	CommandBase::pElevator->Reset();
+	CommandBase::pElevator->ResetCounters();
 
 	return;
 }

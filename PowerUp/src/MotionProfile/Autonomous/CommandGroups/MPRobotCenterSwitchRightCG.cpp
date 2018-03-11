@@ -20,28 +20,28 @@ MPRobotCenterSwitchRightCG::MPRobotCenterSwitchRightCG()
 
 	// second cube
 	AddParallel(new SRtoRCCommand());
-	AddSequential(new MoveElevator(  0.00));
+	AddSequential(new MoveElevator(Elevator::Positions::CUBE));
 
 	AddParallel(new RCtoPY1Command());
 	AddSequential(new ToggleGripper(-1.00));
 	AddSequential(new ToggleIntake ( 1.00));
 
 	AddParallel(new PY1toRCCommand());
-	AddSequential(new MoveElevator( 2.00));
+	AddSequential(new MoveElevator(Elevator::Positions::SWITCH));
 
 	AddSequential(new RCtoSRCommand());
 	AddSequential(new ToggleIntake( -1.00));
 
 	// third cube
 	AddParallel(new SRtoRCCommand());
-	AddSequential(new MoveElevator(  1.00));
+	AddSequential(new MoveElevator(Elevator::Positions::CUBEX2));
 
 	AddParallel(new RCtoPY2Command());
 	AddSequential(new ToggleGripper(-1.00));
 	AddSequential(new ToggleIntake ( 1.00));
 
 	AddParallel(new PY2toRCCommand());
-	AddSequential(new MoveElevator( 2.00));
+	AddSequential(new MoveElevator(Elevator::Positions::SWITCH));
 
 	AddSequential(new RCtoSRCommand());
 	AddSequential(new ToggleIntake( -1.00));

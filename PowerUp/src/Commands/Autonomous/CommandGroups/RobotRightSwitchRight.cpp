@@ -1,8 +1,8 @@
-#include "Commands/Autonomous/RobotRightSwitchRight.h"
-#include "../../Utilities/Log.h"
-#include "DriveWithEncoders.h"
-#include "RotateWithGyro.h"
-#include "ToggleIntake.h"
+#include "RobotRightSwitchRight.h"
+#include "../../../Utilities/Log.h"
+#include "../DriveWithEncoders.h"
+#include "../RotateWithGyro.h"
+#include "../ToggleIntake.h"
 
 /**
  *

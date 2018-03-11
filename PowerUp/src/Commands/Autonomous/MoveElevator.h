@@ -11,7 +11,7 @@
 class MoveElevator : public CommandBase
 {
 public:
-	MoveElevator(double pos);
+	MoveElevator(int position);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -20,8 +20,8 @@ public:
 
 private:
 	Timer* pTimer;
-	double dPos = 0;
-	double dMotorSpeed = 0;
+	int    dPosition = 0;
+	double dMotorSpeed = 0.0;
 };
 
 #endif
