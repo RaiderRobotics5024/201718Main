@@ -1,6 +1,6 @@
 #include "Intake.h"
 #include "../Utilities/Log.h"
-#include "../Commands/ControlGripper.h"
+#include "../Commands/ControlIntake.h"
 
 /**
  *
@@ -39,7 +39,7 @@ void Intake::InitDefaultCommand()
 {
 	LOG("[Intake] Initialized Default Command");
 
-	SetDefaultCommand(new ControlGripper());
+	SetDefaultCommand(new ControlIntake());
 
 	return;
 }

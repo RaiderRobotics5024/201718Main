@@ -1,13 +1,13 @@
-#ifndef _CONTROLGRIPPER_HG_
-#define _CONTROLGRIPPER_HG_
+#ifndef _CONTROLINTAKE_HG_
+#define _CONTROLINTAKE_HG_
 
 #include <WPILib.h>
 #include "../CommandBase.h"
 
-class ControlGripper : public CommandBase
+class ControlIntake : public CommandBase
 {
 public:
-	ControlGripper();
+	ControlIntake();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

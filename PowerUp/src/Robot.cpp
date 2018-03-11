@@ -15,7 +15,7 @@
 Robot::~Robot()
 {
 	delete this->pDriveWithJoystick;
-	delete this->pControlGripper;
+	delete this->pControlIntake;
 	delete this->pControlElevator;
 	delete this->pAutonomousCommand;
 
@@ -33,7 +33,7 @@ void Robot::RobotInit()
 	this->pClimbScale = new ClimbScale();
 	this->pControlElevator = new ControlElevator();
 	this->pDriveWithJoystick = new DriveWithJoystick();
-	this->pControlGripper = new ControlGripper();
+	this->pControlIntake = new ControlIntake();
 
 	// setup smartdashboard robot positions
 	scRobotPosition.AddDefault("Left", 10);
