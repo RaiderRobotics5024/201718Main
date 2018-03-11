@@ -1,6 +1,7 @@
 #ifndef _RCTOSLCOMMAND_HG_
 #define _RCTOSLCOMMAND_HG_
 
+#include <Timer.h>
 #include <WPILib.h>
 #include "../../CommandBase.h"
 #include "../RCtoSLProfile.h"
@@ -20,6 +21,7 @@ public:
 	void Interrupted() override;
 
 private:
+	Timer* pTimer;
 	RCtoSLProfile* pMotionProfiler;
 };
 

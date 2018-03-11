@@ -1,6 +1,7 @@
 #ifndef _PY2TORCCOMMAND_HG_
 #define _PY2TORCCOMMAND_HG_
 
+#include <Timer.h>
 #include <WPILib.h>
 #include "../../CommandBase.h"
 #include "../PY2toRCProfile.h"
@@ -20,6 +21,7 @@ public:
 	void Interrupted() override;
 
 private:
+	Timer* pTimer;
 	PY2toRCProfile* pMotionProfiler;
 };
 

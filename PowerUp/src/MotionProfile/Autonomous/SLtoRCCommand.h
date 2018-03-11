@@ -1,6 +1,7 @@
 #ifndef _SLTORCCOMMAND_HG_
 #define _SLTORCCOMMAND_HG_
 
+#include <Timer.h>
 #include <WPILib.h>
 #include "../../CommandBase.h"
 #include "../SLtoRCProfile.h"
@@ -20,6 +21,7 @@ public:
 	void Interrupted() override;
 
 private:
+	Timer* pTimer;
 	SLtoRCProfile* pMotionProfiler;
 };
 

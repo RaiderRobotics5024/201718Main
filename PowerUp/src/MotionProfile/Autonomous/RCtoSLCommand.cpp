@@ -18,6 +18,8 @@ RCtoSLCommand::RCtoSLCommand()
 		LOG("[RCtoSLCommand] driveTrain is NULL");
 	}
 
+	this->pTimer = new Timer();
+
 	return;
 }
 
@@ -26,6 +28,7 @@ RCtoSLCommand::RCtoSLCommand()
  */
 RCtoSLCommand::~RCtoSLCommand()
 {
+	delete this->pTimer;
 	delete this->pMotionProfiler;
 
 	return;
@@ -37,6 +40,9 @@ RCtoSLCommand::~RCtoSLCommand()
 void RCtoSLCommand::Initialize()
 {
 	LOG("[RCtoSLCommand] Initializing" );
+
+	this->pTimer->Reset();
+	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->InitMotionProfiling();
 
@@ -67,6 +73,27 @@ void RCtoSLCommand::Execute()
  */
 bool RCtoSLCommand::IsFinished()
 {
+	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
+	{
+		LOG("[DriveWithEncoder] Timed out");
+
+		return true;
+	}
+
+	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetFrontLeftMotor()->GetActiveTrajectoryVelocity() == 0)
+	{
+		LOG("[DriveWithEncoder] MP Finished");
+
+		return true;
+	}
+
+	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
+	{
+		LOG("[DriveWithEncoder] MP Stopped");
+
+		return true;
+	}
+
 	return false;
 }
 

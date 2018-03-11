@@ -1,6 +1,7 @@
 #ifndef _RCTOSRPY2COMMAND_HG_
 #define _RCTOSRPY2COMMAND_HG_
 
+#include <Timer.h>
 #include <WPILib.h>
 #include "../../CommandBase.h"
 #include "../RCtoPY2Profile.h"
@@ -20,6 +21,7 @@ public:
 	void Interrupted() override;
 
 private:
+	Timer* pTimer;
 	RCtoPY2Profile* pMotionProfiler;
 };
 

@@ -1,21 +1,21 @@
-#include "RCtoSRCommand.h"
+#include "RLtoSLCommand.h"
 #include "../../Utilities/Log.h"
 
 /**
  *
  */
-RCtoSRCommand::RCtoSRCommand()
+RLtoSLCommand::RLtoSLCommand()
 {
-	LOG("[RCtoSRCommand] Constructed");
+	LOG("[RLtoSLCommand] Constructed");
 
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new RCtoSRProfile(*CommandBase::pDriveTrain->GetFrontLeftMotor());
+		this->pMotionProfiler = new RLtoSLProfile(*CommandBase::pDriveTrain->GetFrontLeftMotor());
 	}
 	else
 	{
-		LOG("[RCtoSRCommand] driveTrain is NULL");
+		LOG("[RLtoSLCommand] driveTrain is NULL");
 	}
 
 	this->pTimer = new Timer();
@@ -26,7 +26,7 @@ RCtoSRCommand::RCtoSRCommand()
 /**
  *
  */
-RCtoSRCommand::~RCtoSRCommand()
+RLtoSLCommand::~RLtoSLCommand()
 {
 	delete this->pTimer;
 	delete this->pMotionProfiler;
@@ -37,9 +37,9 @@ RCtoSRCommand::~RCtoSRCommand()
 /**
  *
  */
-void RCtoSRCommand::Initialize()
+void RLtoSLCommand::Initialize()
 {
-	LOG("[RCtoSRCommand] Initializing" );
+	LOG("[RLtoSLCommand] Initializing" );
 
 	this->pTimer->Reset();
 	this->pTimer->Start();
@@ -52,14 +52,14 @@ void RCtoSRCommand::Initialize()
 /**
  *
  */
-void RCtoSRCommand::Execute()
+void RLtoSLCommand::Execute()
 {
 	this->pMotionProfiler->control();
 	this->pMotionProfiler->PeriodicTask();
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[RCtoSRCommand] Set Output: " << setOutput);
+	LOG("[RLtoSLCommand] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetFrontLeftMotor()->Set(ControlMode::MotionProfile, setOutput);
 
@@ -71,7 +71,7 @@ void RCtoSRCommand::Execute()
 /**
  *
  */
-bool RCtoSRCommand::IsFinished()
+bool RLtoSLCommand::IsFinished()
 {
 	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
 	{
@@ -100,9 +100,9 @@ bool RCtoSRCommand::IsFinished()
 /**
  *
  */
-void RCtoSRCommand::End()
+void RLtoSLCommand::End()
 {
-	LOG("[RCtoSRCommand] Ending" );
+	LOG("[RLtoSLCommand] Ending" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
@@ -113,9 +113,9 @@ void RCtoSRCommand::End()
 /**
  *
  */
-void RCtoSRCommand::Interrupted()
+void RLtoSLCommand::Interrupted()
 {
-	LOG("[RCtoSRCommand] Interrupted" );
+	LOG("[RLtoSLCommand] Interrupted" );
 
 	CommandBase::pDriveTrain->ResetDrive();
 

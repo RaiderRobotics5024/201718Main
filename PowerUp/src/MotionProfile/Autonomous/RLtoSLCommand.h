@@ -1,19 +1,19 @@
-#ifndef _PY1TORCCOMMAND_HG_
-#define _PY1TORCCOMMAND_HG_
+#ifndef _RLTOSLCOMMAND_HG_
+#define _RLTOSLCOMMAND_HG_
 
 #include <Timer.h>
 #include <WPILib.h>
 #include "../../CommandBase.h"
-#include "../PY1toRCProfile.h"
+#include "../RLtoSLProfile.h"
 
 /**
  *
  */
-class PY1toRCCommand : public CommandBase
+class RLtoSLCommand : public CommandBase
 {
 public:
-	PY1toRCCommand();
-	~PY1toRCCommand();
+	RLtoSLCommand();
+	~RLtoSLCommand();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -22,7 +22,7 @@ public:
 
 private:
 	Timer* pTimer;
-	PY1toRCProfile* pMotionProfiler;
+	RLtoSLProfile* pMotionProfiler;
 };
 
 #endif

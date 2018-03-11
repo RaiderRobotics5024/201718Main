@@ -18,6 +18,8 @@ PY1toRCCommand::PY1toRCCommand()
 		LOG("[PY1toRCCommand] driveTrain is NULL");
 	}
 
+	this->pTimer = new Timer();
+
 	return;
 }
 
@@ -26,6 +28,7 @@ PY1toRCCommand::PY1toRCCommand()
  */
 PY1toRCCommand::~PY1toRCCommand()
 {
+	delete this->pTimer;
 	delete this->pMotionProfiler;
 
 	return;
@@ -37,6 +40,9 @@ PY1toRCCommand::~PY1toRCCommand()
 void PY1toRCCommand::Initialize()
 {
 	LOG("[PY1toRCCommand] Initializing" );
+
+	this->pTimer->Reset();
+	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->InitMotionProfiling();
 
@@ -67,6 +73,27 @@ void PY1toRCCommand::Execute()
  */
 bool PY1toRCCommand::IsFinished()
 {
+	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
+	{
+		LOG("[DriveWithEncoder] Timed out");
+
+		return true;
+	}
+
+	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetFrontLeftMotor()->GetActiveTrajectoryVelocity() == 0)
+	{
+		LOG("[DriveWithEncoder] MP Finished");
+
+		return true;
+	}
+
+	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
+	{
+		LOG("[DriveWithEncoder] MP Stopped");
+
+		return true;
+	}
+
 	return false;
 }
 
