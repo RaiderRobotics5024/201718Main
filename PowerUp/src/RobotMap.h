@@ -25,6 +25,11 @@ const double TALON_PID_I = 0.00;
 const double TALON_PID_D = 0.00;
 const double TALON_PID_F = 0.00;
 
+const double MP_PID_P =  2.000;
+const double MP_PID_I =  0.000;
+const double MP_PID_D = 20.000;
+const double MP_PID_F =  0.076;
+
 // Gyro Settings
 const static double GYRO_PID_P = 0.005f;
 const static double GYRO_PID_I = 0.003f;
