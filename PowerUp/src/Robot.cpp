@@ -172,7 +172,7 @@ void Robot::TeleopPeriodic()
  */
 void Robot::TestInit()
 {
-	this->pMotionProfileCommand = new MotionProfileCommand();
+	this->pMotionProfileCommand = new MPRobotCenterSwitchRightCG();
 	this->pMotionProfileCommand->Start();
 
 	return;

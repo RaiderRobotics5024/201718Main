@@ -11,7 +11,7 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/Gripper.h"
 
-#include "MotionProfile/Autonomous/MotionProfileCommand.h"
+#include "MotionProfile/Autonomous/CommandGroups/MPRobotCenterSwitchRightCG.h"
 
 /**
  *
@@ -36,7 +36,7 @@ public:
 	DriveWithJoystick*	pDriveWithJoystick;
 	Gripper*			pGripper;
 
-	MotionProfileCommand* pMotionProfileCommand;
+	MPRobotCenterSwitchRightCG* pMotionProfileCommand;
 
 private:
 
