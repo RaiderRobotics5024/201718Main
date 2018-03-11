@@ -75,21 +75,21 @@ bool PY2toRCCommand::IsFinished()
 {
 	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
 	{
-		LOG("[DriveWithEncoder] Timed out");
+		LOG("[PY2toRCCommand] Timed out");
 
 		return true;
 	}
 
 	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetFrontLeftMotor()->GetActiveTrajectoryVelocity() == 0)
 	{
-		LOG("[DriveWithEncoder] MP Finished");
+		LOG("[PY2toRCCommand] MP Finished");
 
 		return true;
 	}
 
 	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
 	{
-		LOG("[DriveWithEncoder] MP Stopped");
+		LOG("[PY2toRCCommand] MP Stopped");
 
 		return true;
 	}

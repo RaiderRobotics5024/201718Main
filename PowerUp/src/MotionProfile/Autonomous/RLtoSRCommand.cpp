@@ -1,21 +1,21 @@
-#include "RCtoSLCommand.h"
+#include "RLtoSRCommand.h"
 #include "../../Utilities/Log.h"
 
 /**
  *
  */
-RCtoSLCommand::RCtoSLCommand()
+RLtoSRCommand::RLtoSRCommand()
 {
-	LOG("[RCtoSLCommand] Constructed");
+	LOG("[RLtoSRCommand] Constructed");
 
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new RCtoSLProfile(*CommandBase::pDriveTrain->GetFrontLeftMotor());
+		this->pMotionProfiler = new RLtoSRProfile(*CommandBase::pDriveTrain->GetFrontLeftMotor());
 	}
 	else
 	{
-		LOG("[RCtoSLCommand] driveTrain is NULL");
+		LOG("[RLtoSRCommand] driveTrain is NULL");
 	}
 
 	this->pTimer = new Timer();
@@ -26,7 +26,7 @@ RCtoSLCommand::RCtoSLCommand()
 /**
  *
  */
-RCtoSLCommand::~RCtoSLCommand()
+RLtoSRCommand::~RLtoSRCommand()
 {
 	delete this->pTimer;
 	delete this->pMotionProfiler;
@@ -37,9 +37,9 @@ RCtoSLCommand::~RCtoSLCommand()
 /**
  *
  */
-void RCtoSLCommand::Initialize()
+void RLtoSRCommand::Initialize()
 {
-	LOG("[RCtoSLCommand] Initializing" );
+	LOG("[RLtoSRCommand] Initializing" );
 
 	this->pTimer->Reset();
 	this->pTimer->Start();
@@ -52,14 +52,14 @@ void RCtoSLCommand::Initialize()
 /**
  *
  */
-void RCtoSLCommand::Execute()
+void RLtoSRCommand::Execute()
 {
 	this->pMotionProfiler->control();
 	this->pMotionProfiler->PeriodicTask();
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[RCtoSLCommand] Set Output: " << setOutput);
+	LOG("[RLtoSRCommand] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetFrontLeftMotor()->Set(ControlMode::MotionProfile, setOutput);
 
@@ -71,25 +71,25 @@ void RCtoSLCommand::Execute()
 /**
  *
  */
-bool RCtoSLCommand::IsFinished()
+bool RLtoSRCommand::IsFinished()
 {
 	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
 	{
-		LOG("[RCtoSLCommand] Timed out");
+		LOG("[RLtoSRCommand] Timed out");
 
 		return true;
 	}
 
 	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetFrontLeftMotor()->GetActiveTrajectoryVelocity() == 0)
 	{
-		LOG("[RCtoSLCommand] MP Finished");
+		LOG("[RLtoSRCommand] MP Finished");
 
 		return true;
 	}
 
 	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
 	{
-		LOG("[RCtoSLCommand] MP Stopped");
+		LOG("[RLtoSRCommand] MP Stopped");
 
 		return true;
 	}
@@ -100,9 +100,9 @@ bool RCtoSLCommand::IsFinished()
 /**
  *
  */
-void RCtoSLCommand::End()
+void RLtoSRCommand::End()
 {
-	LOG("[RCtoSLCommand] Ending" );
+	LOG("[RLtoSRCommand] Ending" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
@@ -113,9 +113,9 @@ void RCtoSLCommand::End()
 /**
  *
  */
-void RCtoSLCommand::Interrupted()
+void RLtoSRCommand::Interrupted()
 {
-	LOG("[RCtoSLCommand] Interrupted" );
+	LOG("[RLtoSRCommand] Interrupted" );
 
 	CommandBase::pDriveTrain->ResetDrive();
 
