@@ -4,6 +4,8 @@
 #include <math.h>
 
 //Drive Train
+const bool TRACE_ENABLED = false; // set to true to update smartdashboard
+
 const int DRIVETRAIN_RIGHT_FRONT_MOTOR_ID = 1;
 const int DRIVETRAIN_RIGHT_REAR_MOTOR_ID = 2;
 const int DRIVETRAIN_LEFT_FRONT_MOTOR_ID = 3;

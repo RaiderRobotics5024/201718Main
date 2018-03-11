@@ -324,6 +324,8 @@ void DriveTrain::SetEncoders()
  */
 void DriveTrain::Trace()
 {
+	if (!TRACE_ENABLED) return;
+
 	LOG("[Robot] Tracing");
 
 	Trace(this->pLeftFrontMotor, "Left Front");
@@ -333,6 +335,8 @@ void DriveTrain::Trace()
 	Trace(this->pRightRearMotor, "Right Rear");
 
 	SmartDashboard::PutNumber("Gyro Angle", pGyro->GetAngle());
+
+	return;
 }
 
 /**
