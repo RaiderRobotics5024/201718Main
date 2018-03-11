@@ -11,7 +11,8 @@
 
 /**
  *
- */MPRobotCenterSwitchRightCG::MPRobotCenterSwitchRightCG()
+ */
+MPRobotCenterSwitchRightCG::MPRobotCenterSwitchRightCG()
 {
 	 // first cube
 	AddSequential(new RCtoSRCommand());
@@ -44,5 +45,4 @@
 
 	AddSequential(new RCtoSRCommand());
 	AddSequential(new ToggleIntake( -1.00));
-
 }
