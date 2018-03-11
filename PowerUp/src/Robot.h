@@ -9,7 +9,7 @@
 #include "Commands/ClimbScale.h"
 #include "Commands/ControlElevator.h"
 #include "Commands/DriveWithJoystick.h"
-#include "Commands/Gripper.h"
+#include "Commands/ControlGripper.h"
 
 #include "MotionProfile/Autonomous/CommandGroups/MPRobotCenterSwitchRightCG.h"
 
@@ -34,7 +34,7 @@ public:
 	ClimbScale*         pClimbScale;
 	ControlElevator*	pControlElevator;
 	DriveWithJoystick*	pDriveWithJoystick;
-	Gripper*			pGripper;
+	ControlGripper*		pControlGripper;
 
 	MPRobotCenterSwitchRightCG* pMotionProfileCommand;
 
