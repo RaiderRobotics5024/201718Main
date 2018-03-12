@@ -150,7 +150,8 @@ void DriveTrain::InitMotionProfiling()
 void DriveTrain::Drive(double distance, double speed)
 {
 	double targetPositionRotations = (distance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
-	pLeftFrontMotor->Set(ControlMode::Position, speed * targetPositionRotations);
+
+	SetTargetPosition(targetPositionRotations * speed);
 
 	return;
 }
@@ -245,6 +246,13 @@ double DriveTrain::GetTargetPosition()
 /**
  *
  */
+int DriveTrain::GetVelocity()
+{
+	return pRightFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
+}
+/**
+ *
+ */
 bool DriveTrain::IsDriving()
 {
 	return this->pGyro->IsMoving();
@@ -315,6 +323,16 @@ void DriveTrain::SetEncoders()
 	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
 	/* use the low level API to set the quad encoder signal */
 	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
+
+	return;
+}
+
+/**
+ *
+ */
+void DriveTrain::SetTargetPosition(double dTargetPosition)
+{
+	pLeftFrontMotor->Set(ControlMode::Position, dTargetPosition);
 
 	return;
 }

@@ -37,6 +37,7 @@ public:
 	double GetLeftPosition(void);
 	double GetRightPosition(void);
 	double GetTargetPosition(void);
+	int    GetVelocity(void);
 
 	bool IsDriving(void);
 	bool IsTurning(void);
@@ -46,6 +47,7 @@ public:
 	void ResetGyro(void);
 
 	void SetEncoders(void);
+	void SetTargetPosition(double target);
 
 	// Send motor data to SmartDashboard
 	void Trace(void);

@@ -58,9 +58,10 @@ void DriveWithEncoders::Execute()
 	{
 		CommandBase::pDriveTrain->Trace();
 
-		LOG("[DriveWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
-
-		LOG("[DriveWithEncoders] Time: "  << this->pTimer->Get());
+		LOG("[DriveWithEncoders] Position Target: " << CommandBase::pDriveTrain->GetTargetPosition()
+				<< " Current: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " Velocity: " << CommandBase::pDriveTrain->GetVelocity()
+				<< " Time: "  << this->pTimer->Get());
 
 		iCounter = 0;
 	}
@@ -73,8 +74,6 @@ void DriveWithEncoders::Execute()
  */
 bool DriveWithEncoders::IsFinished()
 {
-//	return CommandBase::pDriveTrain->IsDriving();
-
 	if (this->pTimer->Get() > 5.0) // stop after 4 seconds no matter what
 	{
 		LOG("[DriveWithEncoder] Timed out");

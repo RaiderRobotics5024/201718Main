@@ -59,7 +59,7 @@ void RCtoSRCommand::Execute()
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[RCtoSRCommand] Set Output: " << setOutput);
+	LOG("[RCtoSRCommand] SetValue: " << setOutput);
 
 	CommandBase::pDriveTrain->GetFrontLeftMotor()->Set(ControlMode::MotionProfile, setOutput);
 
@@ -118,6 +118,25 @@ void RCtoSRCommand::Interrupted()
 	LOG("[RCtoSRCommand] Interrupted" );
 
 	CommandBase::pDriveTrain->ResetDrive();
+
+	return;
+}
+
+/**
+ *
+ */
+void RCtoSRCommand::Trace()
+{
+	if (iCounter++ == 10)
+	{
+		CommandBase::pDriveTrain->Trace();
+
+		LOG("[RCtoSRCommand] Current Target: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " Velocity: " << CommandBase::pDriveTrain->GetVelocity()
+				<< " Time: "  << this->pTimer->Get());
+
+		iCounter = 0;
+	}
 
 	return;
 }

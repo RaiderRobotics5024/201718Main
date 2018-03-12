@@ -19,9 +19,11 @@ public:
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+	void Trace(void);
 
 private:
 	Timer* pTimer;
+	int iCounter = 0;
 	RCtoSRProfile* pMotionProfiler;
 };
 
