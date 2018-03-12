@@ -43,6 +43,7 @@ private:
 	int GetAutoType();
 
 	frc::SendableChooser<int> scRobotPosition;
+	frc::SendableChooser<int> scOverrideAuto;
 	frc::Command* pAutonomousCommand;
 };
 

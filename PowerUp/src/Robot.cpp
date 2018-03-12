@@ -36,10 +36,18 @@ void Robot::RobotInit()
 	this->pControlIntake = new ControlIntake();
 
 	// setup smartdashboard robot positions
-	scRobotPosition.AddDefault("Left", 10);
-	scRobotPosition.AddObject("Centre", 20);
+	scRobotPosition.AddDefault("Centre", 20);
+	scRobotPosition.AddObject("Left", 10);
 	scRobotPosition.AddObject("Right", 30);
 	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
+
+	// setup override auto if we are left/right and scale and switch are opposite
+	// and our opposite alliance partner can go for scale.  we don't want to collide
+	// with them.  we should let them get the scale
+	scOverrideAuto.AddDefault("No Override", 1);
+	scOverrideAuto.AddObject("Go through switch area", 2);
+	scOverrideAuto.AddObject("Just drive forward", 3);
+	frc::SmartDashboard::PutData("Autonomous Override", &scOverrideAuto);
 
 	return;
 }
