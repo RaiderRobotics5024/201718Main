@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "Utilities/Log.h"
 #include <string>
+#include "Commands/Autonomous/CommandGroups/JustDriveForward.h"
 #include "Commands/Autonomous/CommandGroups/RobotLeftSwitchLeft.h"
 #include "Commands/Autonomous/CommandGroups/RobotLeftSwitchRight.h"
 #include "Commands/Autonomous/CommandGroups/RobotCenterSwitchLeft.h"
@@ -36,17 +37,17 @@ void Robot::RobotInit()
 	this->pControlIntake = new ControlIntake();
 
 	// setup smartdashboard robot positions
-	scRobotPosition.AddDefault("Centre", 20);
-	scRobotPosition.AddObject("Left", 10);
-	scRobotPosition.AddObject("Right", 30);
+	scRobotPosition.AddDefault("Centre", RobotPosition::CENTER);
+	scRobotPosition.AddObject("Left", RobotPosition::LEFT);
+	scRobotPosition.AddObject("Right", RobotPosition::RIGHT);
 	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
 
 	// setup override auto if we are left/right and scale and switch are opposite
 	// and our opposite alliance partner can go for scale.  we don't want to collide
 	// with them.  we should let them get the scale
-	scOverrideAuto.AddDefault("No Override", 1);
-	scOverrideAuto.AddObject("Go through switch area", 2);
-	scOverrideAuto.AddObject("Just drive forward", 3);
+	scOverrideAuto.AddDefault("No Override", 0);
+	scOverrideAuto.AddObject("Go through switch area", 98);
+	scOverrideAuto.AddObject("Just drive forward", 99);
 	frc::SmartDashboard::PutData("Autonomous Override", &scOverrideAuto);
 
 	return;
@@ -65,6 +66,7 @@ void Robot::DisabledInit()
 // but override that if we get game specific message
 int Robot::GetAutoType()
 {
+	int _OA = scOverrideAuto.GetSelected();
 	int _RP = scRobotPosition.GetSelected();
 	int _SP = 0;
 	std::string _GSM = frc::DriverStation::GetInstance().GetGameSpecificMessage();
@@ -73,24 +75,25 @@ int Robot::GetAutoType()
 	{
 		if (_GSM[0] == 'L')
 		{
-			_SP = 1; // switch is on the left
+			_SP = SwitchPosition::LEFT; // switch is on the left
 		}
 		else if (_GSM[0] == 'R')
 		{
-			_SP = 2; // switch is on the right
+			_SP = SwitchPosition::RIGHT; // switch is on the right
 		}
 		else if (_GSM[0] == 'T')
 		{
-			_SP = 3; // this is test auto
-		}
-		else
-		{
-			_SP = 2; // default to right
+			_SP = SwitchPosition::TEST; // this is test auto
 		}
 	}
-	else
+
+	// if
+	if ((_RP == RobotPosition::LEFT  && _SP == SwitchPosition::RIGHT && _OA > 0) ||
+		(_RP == RobotPosition::RIGHT && _SP == SwitchPosition::LEFT  && _OA > 0))
 	{
-		_SP = 2; // go for right if GSM is empty
+		LOG("[Robot] Override Autonomous: " << _OA);
+
+		return _OA;
 	}
 
 	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP << " - Game Data: " << _GSM);
@@ -120,16 +123,21 @@ void Robot::AutonomousInit()
 
 	switch (autoType)
 	{
+	case 10: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
 	case 11: pAutonomousCommand = new RobotLeftSwitchLeft   (); break;
 	case 12: pAutonomousCommand = new RobotLeftSwitchRight  (); break;
 	case 13: pAutonomousCommand = new TestAutonomous        (); break;
+	case 20: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
 	case 21: pAutonomousCommand = new RobotCenterSwitchLeft (); break;
 	case 22: pAutonomousCommand = new RobotCenterSwitchRight(); break;
 	case 23: pAutonomousCommand = new TestAutonomous        (); break;
+	case 30: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
 	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
 	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
 	case 33: pAutonomousCommand = new TestAutonomous        (); break;
-	default: pAutonomousCommand = new RobotCenterSwitchRight(); break;
+	case 98:
+	case 99:
+	default: pAutonomousCommand = new JustDriveForward      (); break;
 	}
 
 	LOG("[Robot] Starting autonomous");
