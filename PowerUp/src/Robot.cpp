@@ -83,13 +83,13 @@ int Robot::GetAutoType()
 		}
 		else if (_GSM[0] == 'T')
 		{
-			_SP = SwitchPosition::TEST; // this is test auto
+			_SP = SwitchPosition::TEST; // used for testing autonomous scenarios without affecting real autonmous
 		}
 	}
 
-	// if
+	// do the override if robot left/switch right or robot right/switch left
 	if ((_RP == RobotPosition::LEFT  && _SP == SwitchPosition::RIGHT && _OA > 0) ||
-		(_RP == RobotPosition::RIGHT && _SP == SwitchPosition::LEFT  && _OA > 0))
+	    (_RP == RobotPosition::RIGHT && _SP == SwitchPosition::LEFT  && _OA > 0))
 	{
 		LOG("[Robot] Override Autonomous: " << _OA);
 
@@ -199,6 +199,8 @@ void Robot::TestInit()
  */
 void Robot::TestPeriodic()
 {
+	frc::Scheduler::GetInstance()->Run();
+
 	return;
 }
 
