@@ -4,6 +4,6 @@
 #include <iostream>
 #include <chrono>
 
-#define LOG(x) { std::cout << "[ " << std::chrono::system_clock::now(); << " ] - " << x << std::endl; }
-
+#define LOG(x) { std::cout << x << std::endl; }
+//
 #endif

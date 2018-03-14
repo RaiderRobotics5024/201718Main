@@ -142,7 +142,7 @@ void DriveTrain::Turn(double setpoint)
     this->pTurnController->SetSetpoint(setpoint);
     this->pTurnController->Enable();
 
-    double dSpeed = 0.25;
+    double dSpeed = 0.1;
 
     if (setpoint < 0.0) dSpeed = dSpeed * -1;
 
