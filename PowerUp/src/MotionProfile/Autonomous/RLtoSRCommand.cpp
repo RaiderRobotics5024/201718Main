@@ -11,7 +11,7 @@ RLtoSRCommand::RLtoSRCommand()
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new RLtoSRProfile(*CommandBase::pDriveTrain->GetFrontLeftMotor());
+		this->pMotionProfiler = new RLtoSRProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
 	}
 	else
 	{
@@ -61,7 +61,8 @@ void RLtoSRCommand::Execute()
 
 	LOG("[RLtoSRCommand] Set Output: " << setOutput);
 
-	CommandBase::pDriveTrain->GetFrontLeftMotor()->Set(ControlMode::MotionProfile, setOutput);
+	CommandBase::pDriveTrain->GetLeftFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
+	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 
 	this->pMotionProfiler->start();
 
@@ -80,7 +81,7 @@ bool RLtoSRCommand::IsFinished()
 		return true;
 	}
 
-	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetFrontLeftMotor()->GetActiveTrajectoryVelocity() == 0)
+	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetLeftFrontMotor()->GetActiveTrajectoryVelocity() == 0)
 	{
 		LOG("[RLtoSRCommand] MP Finished");
 

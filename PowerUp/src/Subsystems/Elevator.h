@@ -6,20 +6,23 @@
 #include <ctre/Phoenix.h>
 #include "../RobotMap.h"
 
+struct Height
+{
+	typedef enum
+	{
+		BOTTOM = 0, // elevator at the bottom
+		CUBE,       // elevator at cube intake height - 8"
+		CUBEX2,     // elevator at cube on top of another cube height to intake - 19"
+		SWITCH      // elevator at height to put cube in switch - 33"
+	} ElevatorHeight;
+};
+
 /**
  *
  */
 class Elevator: public frc::Subsystem
 {
 public:
-	enum Positions {
-		BOTTOM = 0, // elevator at the bottom
-		CUBE,       // elevator at cube intake height - 8"
-		CUBEX2,     // elevator at cube on top of another cube height to intake - 19"
-		SWITCH      // elevator at height to put cube in switch - 33"
-	};
-	static Positions positions;
-
 	Elevator();
 	~Elevator();
 	void InitDefaultCommand() override;

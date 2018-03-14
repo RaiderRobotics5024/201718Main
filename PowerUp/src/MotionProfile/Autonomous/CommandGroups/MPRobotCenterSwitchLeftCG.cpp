@@ -24,22 +24,22 @@ MPRobotCenterSwitchLeftCG::MPRobotCenterSwitchLeftCG()
 	// move from switch left back to robot center
 	// set elevator height to cube one
 	AddParallel(new SLtoRCCommand());
-	AddSequential(new MoveElevator(Elevator::Positions::CUBE));
+	AddSequential(new MoveElevator(Height::CUBE));
 
 	// move robot to pyramid 1 position
 	// open the gripper
 	AddParallel(new RCtoPY1Command());
-	AddSequential(new ToggleGripper(-1.00));
+	AddSequential(new ToggleGripper(Action::OPEN));
 	
 	// close the gripper
 	// intake the cube
-	AddParallel(new ToggleGripper(1.00));
+	AddParallel(new ToggleGripper(Action::CLOSE));
 	AddSequential(new ToggleIntake ( 1.00));
 
 	// move robot back to robot center
 	// set elevator height to switch
 	AddParallel(new PY1toRCCommand());
-	AddSequential(new MoveElevator(Elevator::Positions::SWITCH));
+	AddSequential(new MoveElevator(Height::SWITCH));
 
 	// move robot from robot center to switch left
 	// eject the cube
@@ -50,22 +50,22 @@ MPRobotCenterSwitchLeftCG::MPRobotCenterSwitchLeftCG()
 	// move robot from switch left back to robot center
 	// set elevator height to cube two
 	AddParallel(new SLtoRCCommand());
-	AddSequential(new MoveElevator(Elevator::Positions::CUBEX2));
+	AddSequential(new MoveElevator(Height::CUBEX2));
 
 	// move robot from robot center to pyramid two
 	// open gripper
 	AddParallel(new RCtoPY2Command());
-	AddSequential(new ToggleGripper(-1.00));
+	AddSequential(new ToggleGripper(Action::OPEN));
 		    
 	// close gripper
 	// intake the cube
-	AddParallel(new ToggleGripper(1.00));
+	AddParallel(new ToggleGripper(Action::CLOSE));
 	AddSequential(new ToggleIntake (1.00));
 
 	// move robot back to robot center
 	// set elevator height to switch
 	AddParallel(new PY2toRCCommand());
-	AddSequential(new MoveElevator(Elevator::Positions::SWITCH));
+	AddSequential(new MoveElevator(Height::SWITCH));
 
 	// move robot from robot center to switch left
 	// eject the cube

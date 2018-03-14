@@ -5,14 +5,14 @@
 /**
  *
  */
-MoveElevator::MoveElevator(int position)
+MoveElevator::MoveElevator(Height::ElevatorHeight height)
 {
 	LOG("[MoveElevator] Constructed");
 
 	if (CommandBase::pElevator != nullptr)
 	{
 		Requires(CommandBase::pElevator);
-		this->dPosition = position;
+		this->ehHeight = height;
 	}
 	else
 	{
@@ -45,12 +45,12 @@ void MoveElevator::Initialize()
  */
 void MoveElevator::Execute()
 {
-	switch (dPosition)
+	switch (ehHeight)
 	{
-	case CommandBase::pElevator->BOTTOM : dMotorSpeed = -0.5; break; // go down until we hit bottom
-	case CommandBase::pElevator->CUBE   : dMotorSpeed = -0.5; break; // go down until we hit cube or bottom
-	case CommandBase::pElevator->CUBEX2 : dMotorSpeed =  0.5; break; // go up unti we hit cubex2 or switch
-	case CommandBase::pElevator->SWITCH : dMotorSpeed =  0.5; break; // go up until we hit switch
+	case Height::BOTTOM : dMotorSpeed = -0.5; break; // go down until we hit bottom
+	case Height::CUBE   : dMotorSpeed = -0.5; break; // go down until we hit cube or bottom
+	case Height::CUBEX2 : dMotorSpeed =  0.5; break; // go up unti we hit cubex2 or switch
+	case Height::SWITCH : dMotorSpeed =  0.5; break; // go up until we hit switch
 	}
 
 	CommandBase::pElevator->SetMotorSpeed(dMotorSpeed);
@@ -63,22 +63,22 @@ void MoveElevator::Execute()
  */
 bool MoveElevator::IsFinished()
 {
-	switch (dPosition)
+	switch (ehHeight)
 	{
-	case CommandBase::pElevator->BOTTOM :
+	case Height::BOTTOM :
 			return this->pTimer->Get() > 2; // it should take a maximum of 2 seconds to reach the bottom from any position
 
-	case CommandBase::pElevator->CUBE :
+	case Height::CUBE :
 			if (CommandBase::pElevator->IsBottomSwitchAligned()) return true;
 			if (this->pTimer->Get() > 2) CommandBase::pElevator->SetMotorSpeed(0.5); // we must be at the bottom so go up
 			return false;
 
-	case CommandBase::pElevator->CUBEX2 :
+	case Height::CUBEX2 :
 			if (CommandBase::pElevator->IsMiddleSwitchAligned()) return true;
 			if (CommandBase::pElevator->IsTopSwitchAligned()) CommandBase::pElevator->SetMotorSpeed(-0.5); //we are at the top so go down
 			return false;
 
-	case CommandBase::pElevator->SWITCH :
+	case Height::SWITCH :
 			return CommandBase::pElevator->IsTopSwitchAligned();
 
 	default: return false;

@@ -14,7 +14,7 @@
 class RCtoSRProfile
 {
 public:
-	RCtoSRProfile(TalonSRX & talon);
+	RCtoSRProfile(TalonSRX & leftTalon, TalonSRX & rightTalon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);
@@ -22,12 +22,13 @@ public:
 	void reset();
 	void start();
 	void startFilling();
-	void startFilling(const double profile[][3], int totalCnt);
+	void startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt);
 
 private:
 	MotionProfileStatus _status;
 	double _pos = 0, _vel = 0, _heading = 0;
-	TalonSRX & _talon;
+	TalonSRX & _talonLeft;
+	TalonSRX & _talonRight;
 	int _state = 0;
 	int _loopTimeout = 30;
 	bool _bStart = false;

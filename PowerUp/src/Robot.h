@@ -13,6 +13,27 @@
 
 #include "MotionProfile/Autonomous/CommandGroups/MPRobotCenterSwitchRightCG.h"
 
+struct RobotPosition
+{
+	typedef enum
+	{
+		LEFT   = 10,
+		CENTER = 20,
+		RIGHT  = 30
+	} RP;
+};
+
+// Switch Positions
+struct SwitchPosition
+{
+	typedef enum
+	{
+		LEFT  = 1,
+		RIGHT = 2,
+		TEST  = 3
+	} SP;
+};
+
 /**
  *
  */
@@ -20,27 +41,6 @@ class Robot : public frc::TimedRobot
 {
 public:
 	// Robot Positions
-	struct RobotPosition
-	{
-		typedef enum
-		{
-			LEFT   = 10,
-			CENTER = 20,
-			RIGHT  = 30
-		} RP;
-	};
-
-	// Switch Positions
-	struct SwitchPosition
-	{
-		typedef enum
-		{
-			LEFT  = 1,
-			RIGHT = 2,
-			TEST  = 3
-		} SP;
-	};
-
 	~Robot();
 	void RobotInit() override;
 	void DisabledInit() override;

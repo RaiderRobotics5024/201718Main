@@ -5,14 +5,14 @@
 /**
  * speed from -1 to 1
  */
-ToggleGripper::ToggleGripper(double type)
+ToggleGripper::ToggleGripper(Action::GripperAction state)
 {
 	LOG("[ToggleGripper] Constructed");
 
 	if (CommandBase::pIntake != nullptr)
 	{
 		Requires(CommandBase::pIntake);
-		this->dType = type;
+		this->gsState = state;
 	}
 	else
 	{
@@ -42,11 +42,11 @@ void ToggleGripper::Initialize()
  */
 void ToggleGripper::Execute()
 {
-	if (dType == -1)
+	if (gsState == Action::OPEN)
 	{
 		CommandBase::pIntake->OpenGripper();
 	}
-	else if (dType == 1)
+	else if (gsState == Action::CLOSE)
 	{
 		CommandBase::pIntake->CloseGripper();
 	}

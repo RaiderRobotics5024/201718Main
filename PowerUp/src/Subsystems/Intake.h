@@ -7,6 +7,15 @@
 #include <DoubleSolenoid.h>
 #include "../RobotMap.h"
 
+struct Action
+{
+	typedef enum
+	{
+		OPEN = 0,
+		CLOSE
+	} GripperAction;
+};
+
 /**
  *
  */

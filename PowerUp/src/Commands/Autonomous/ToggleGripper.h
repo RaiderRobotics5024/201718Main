@@ -4,6 +4,7 @@
 #include <WPILib.h>
 #include <Timer.h>
 #include "../../CommandBase.h"
+#include "../../Subsystems/Intake.h"
 
 /**
  *
@@ -11,7 +12,7 @@
 class ToggleGripper : public CommandBase
 {
 public:
-	ToggleGripper(double type);
+	ToggleGripper(Action::GripperAction state);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -20,7 +21,7 @@ public:
 
 private:
 	Timer* pTimer;
-	double dType = 1;
+	Action::GripperAction gsState;
 };
 
 #endif

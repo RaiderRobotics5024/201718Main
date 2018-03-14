@@ -128,11 +128,9 @@ void DriveTrain::InitDefaultCommand()
  */
 void DriveTrain::InitMotionProfiling()
 {
-	pRightFrontMotor->Follow(*pLeftFrontMotor);
-
 	pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, PID_LOOP_INDEX, TIMEOUT_MS);
 	pLeftFrontMotor->SetSensorPhase(true);
-	pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01,	TIMEOUT_MS);
+	pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
 	pLeftFrontMotor->Config_kP(SLOT_INDEX, MP_PID_P, TIMEOUT_MS);
 	pLeftFrontMotor->Config_kI(SLOT_INDEX, MP_PID_I, TIMEOUT_MS);
@@ -142,6 +140,21 @@ void DriveTrain::InitMotionProfiling()
 	pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(5, TIMEOUT_MS); //Our profile uses 5 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	pLeftFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 5, TIMEOUT_MS);
+
+	pRightFrontMotor->SetInverted(true);
+
+	pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, PID_LOOP_INDEX, TIMEOUT_MS);
+	pRightFrontMotor->SetSensorPhase(true);
+	pRightFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
+
+	pRightFrontMotor->Config_kP(SLOT_INDEX, MP_PID_P, TIMEOUT_MS);
+	pRightFrontMotor->Config_kI(SLOT_INDEX, MP_PID_I, TIMEOUT_MS);
+	pRightFrontMotor->Config_kD(SLOT_INDEX, MP_PID_D, TIMEOUT_MS);
+	pRightFrontMotor->Config_kF(SLOT_INDEX, MP_PID_F, TIMEOUT_MS);
+
+	pRightFrontMotor->ConfigMotionProfileTrajectoryPeriod(5, TIMEOUT_MS); //Our profile uses 5 ms timing
+	/* status 10 provides the trajectory target for motion profile AND motion magic */
+	pRightFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 5, TIMEOUT_MS);
 }
 
 /**
@@ -214,9 +227,17 @@ double DriveTrain::GetAngle()
 /**
  *
  */
-can::WPI_TalonSRX* DriveTrain::GetFrontLeftMotor()
+can::WPI_TalonSRX* DriveTrain::GetLeftFrontMotor()
 {
 	return this->pLeftFrontMotor;
+}
+
+/**
+ *
+ */
+can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
+{
+	return this->pRightFrontMotor;
 }
 
 /**

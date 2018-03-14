@@ -4,6 +4,7 @@
 #include <WPILib.h>
 #include <Timer.h>
 #include "../../CommandBase.h"
+#include "../../Subsystems/Elevator.h"
 
 /**
  *
@@ -11,7 +12,7 @@
 class MoveElevator : public CommandBase
 {
 public:
-	MoveElevator(int position);
+	MoveElevator(Height::ElevatorHeight height);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -20,7 +21,7 @@ public:
 
 private:
 	Timer* pTimer;
-	int    dPosition = 0;
+	Height::ElevatorHeight ehHeight;
 	double dMotorSpeed = 0.0;
 };
 
