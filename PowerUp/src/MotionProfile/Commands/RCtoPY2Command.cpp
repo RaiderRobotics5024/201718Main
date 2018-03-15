@@ -118,6 +118,7 @@ void RCtoPY2Command::Interrupted()
 {
 	LOG("[RCtoPY2Command] Interrupted" );
 
+	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
 
 	return;

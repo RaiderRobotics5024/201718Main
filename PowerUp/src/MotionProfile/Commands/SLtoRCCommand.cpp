@@ -118,6 +118,7 @@ void SLtoRCCommand::Interrupted()
 {
 	LOG("[SLtoRCCommand] Interrupted" );
 
+	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
 
 	return;
