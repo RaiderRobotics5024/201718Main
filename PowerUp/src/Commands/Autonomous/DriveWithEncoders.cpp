@@ -54,7 +54,7 @@ void DriveWithEncoders::Initialize()
  */
 void DriveWithEncoders::Execute()
 {
-	if (iCounter++ == 10)
+	if (iCounter++ == 2)
 	{
 		CommandBase::pDriveTrain->Trace();
 
@@ -74,7 +74,7 @@ void DriveWithEncoders::Execute()
  */
 bool DriveWithEncoders::IsFinished()
 {
-	if (this->pTimer->Get() > 5.0) // stop after 4 seconds no matter what
+	if (this->pTimer->Get() > 5.0) // stop after 5 seconds no matter what
 	{
 		LOG("[DriveWithEncoder] Timed out");
 

@@ -166,6 +166,8 @@ void DriveTrain::Drive(double distance, double speed)
 
 	SetTargetPosition(targetPositionRotations * speed);
 
+	pLeftFrontMotor->Set(ControlMode::Position, targetPositionRotations);
+
 	return;
 }
 
@@ -353,7 +355,7 @@ void DriveTrain::SetEncoders()
  */
 void DriveTrain::SetTargetPosition(double dTargetPosition)
 {
-	pLeftFrontMotor->Set(ControlMode::Position, dTargetPosition);
+	this->dTargetPostionRotations = dTargetPosition;
 
 	return;
 }
