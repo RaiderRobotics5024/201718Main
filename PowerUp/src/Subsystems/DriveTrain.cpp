@@ -174,14 +174,13 @@ void DriveTrain::Drive(double distance, double speed)
 /**
  * Used by Autonomous Commands
  */
-void DriveTrain::Turn(double setpoint)
+void DriveTrain::Turn()
 {
-    this->pTurnController->SetSetpoint(setpoint);
     this->pTurnController->Enable();
 
-    double dSpeed = 0.25;
+    double dSpeed = this->dRotateToAngleRate;
 
-    if (setpoint < 0.0) dSpeed = dSpeed * -1;
+    if (this->TurnController->GetSetPoint() < 0.0) dSpeed = dSpeed * -1;
 
     this->pRobotDrive->CurvatureDrive(dSpeed, 0.0, true);
 
@@ -348,6 +347,16 @@ void DriveTrain::SetEncoders()
 	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
+}
+
+/**
+ * Used by Autonomous Commands
+ */
+void DriveTrain::SetSetPoint(double setpoint)
+{
+    this->pTurnController->SetSetpoint(setpoint);
+
+    return;
 }
 
 /**
