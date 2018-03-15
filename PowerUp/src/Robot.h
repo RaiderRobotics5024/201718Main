@@ -11,7 +11,7 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/ControlIntake.h"
 
-#include "MotionProfile/Autonomous/CommandGroups/MPRobotCenterSwitchRightCG.h"
+#include "MotionProfile/CommandGroups/MPRobotCenterSwitchRightCG.h"
 
 struct RobotPosition
 {
