@@ -22,7 +22,7 @@ public:
 
 	// Used for autonomous mode
 	void Drive(double distance, double speed);
-	void Turn (double setpoint);
+	void Turn();
 
 	// These are the same as the DifferentialDrive class:
 	void ArcadeDrive(double xSpeed, double zRotation);
@@ -44,6 +44,7 @@ public:
 	void ResetGyro(void);
 
 	void SetEncoders(void);
+	void SetSetPoint(double setpoint);
 
 	// Send motor data to SmartDashboard
 	void Trace(void);
