@@ -47,9 +47,9 @@ Elevator::~Elevator()
  */
 void Elevator::InitDefaultCommand()
 {
-	LOG("[Elevator] Initilizaed Default Cmomand");
+	LOG("[Elevator] Initialized Default Command");
 
-	SetDefaultCommand( new ControlElevator() );
+	SetDefaultCommand(new ControlElevator());
 
 	return;
 }
@@ -59,8 +59,6 @@ void Elevator::InitDefaultCommand()
  */
 void Elevator::Reset()
 {
-	LOG("[Elevator] Resetting the motor");
-
 	this->pElevatorMotor->Set(0.0);
 
 	return;
