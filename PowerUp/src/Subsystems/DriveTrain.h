@@ -44,7 +44,7 @@ public:
 	void ResetGyro(void);
 
 	void SetEncoders(void);
-	void SetSetPoint(double setpoint);
+	void SetSetpoint(double setpoint);
 
 	// Send motor data to SmartDashboard
 	void Trace(void);
