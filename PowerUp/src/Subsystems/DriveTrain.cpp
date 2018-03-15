@@ -143,7 +143,7 @@ void DriveTrain::Turn()
 
     double dSpeed = this->dRotateToAngleRate;
 
-    if (this->turnController->GetSetPoint() < 0.0) dSpeed = dSpeed * -1;
+    if (this->pTurnController->GetSetpoint() < 0.0) dSpeed = dSpeed * -1;
 
     this->pRobotDrive->CurvatureDrive(dSpeed, 0.0, true);
 
@@ -309,9 +309,9 @@ void DriveTrain::SetEncoders()
 /**
  *
  */
-void DriveTrain::SetSetPoint(double setpoint)
+void DriveTrain::SetSetpoint(double setpoint)
 {
-	this->turnController->SetSetPoint(setpoint);
+	this->pTurnController->SetSetpoint(setpoint);
 
 	return;
 }
