@@ -452,5 +452,7 @@ void DriveTrain::PIDWrite(double output)
 {
     this->dRotateToAngleRate = output;
 
+    LOG("[DriveTrain] PIDWrite: " << output);
+
     return;
 }

@@ -24,7 +24,7 @@ MPRobotCenterSwitchLeftCG::MPRobotCenterSwitchLeftCG()
 	// move from switch left back to robot center
 	// set elevator height to cube one
 	AddParallel(new SLtoRCCommand());
-	AddSequential(new MoveElevator(Height::CUBE));
+	AddSequential(new MoveElevator(Height::BOTTOM));
 
 	// move robot to pyramid 1 position
 	// open the gripper

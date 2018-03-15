@@ -24,7 +24,7 @@ RobotCenterSwitchRight::RobotCenterSwitchRight()
 
 	// Second cube
 	AddParallel  (new DriveWithEncoders(-48.00, 1.0));
-	AddSequential(new MoveElevator(Height::CUBE));
+	AddSequential(new MoveElevator(Height::BOTTOM));
 
 	AddParallel  (new RotateWithGyro   (-90.00     ));
 	AddSequential(new ToggleGripper    (Action::OPEN));

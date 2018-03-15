@@ -21,9 +21,6 @@ MoveElevator::MoveElevator(Height::ElevatorHeight height)
 
 	this->pTimer = new Timer();
 
-	CommandBase::pElevator->Reset();
-	CommandBase::pElevator->ResetCounters();
-
 	return;
 }
 
@@ -37,6 +34,9 @@ void MoveElevator::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
+	CommandBase::pElevator->Reset();
+	CommandBase::pElevator->ResetCounters();
+
 	return;
 }
 
@@ -48,8 +48,7 @@ void MoveElevator::Execute()
 	switch (ehHeight)
 	{
 	case Height::BOTTOM : dMotorSpeed = -0.5; break; // go down until we hit bottom
-	case Height::CUBE   : dMotorSpeed = -0.5; break; // go down until we hit cube or bottom
-	case Height::CUBEX2 : dMotorSpeed =  0.5; break; // go up unti we hit cubex2 or switch
+	case Height::CUBEX2 : dMotorSpeed = -0.5; break; // go down until we hit cubex2 or bottom
 	case Height::SWITCH : dMotorSpeed =  0.5; break; // go up until we hit switch
 	}
 
@@ -66,20 +65,16 @@ bool MoveElevator::IsFinished()
 	switch (ehHeight)
 	{
 	case Height::BOTTOM :
-			return this->pTimer->Get() > 2; // it should take a maximum of 2 seconds to reach the bottom from any position
-
-	case Height::CUBE :
-			if (CommandBase::pElevator->IsBottomSwitchAligned()) return true;
-			if (this->pTimer->Get() > 2) CommandBase::pElevator->SetMotorSpeed(0.5); // we must be at the bottom so go up
-			return false;
+		if (CommandBase::pElevator->IsBottomSwitchAligned()) return true;
+		return this->pTimer->Get() > 2; // it should take a maximum of 2 seconds to reach the bottom from any position
 
 	case Height::CUBEX2 :
-			if (CommandBase::pElevator->IsMiddleSwitchAligned()) return true;
-			if (CommandBase::pElevator->IsTopSwitchAligned()) CommandBase::pElevator->SetMotorSpeed(-0.5); //we are at the top so go down
-			return false;
+		if (CommandBase::pElevator->IsMiddleSwitchAligned()) return true;
+		if (CommandBase::pElevator->IsBottomSwitchAligned()) CommandBase::pElevator->SetMotorSpeed(0.5); //we are at the bottom so go up
+		return false;
 
 	case Height::SWITCH :
-			return CommandBase::pElevator->IsTopSwitchAligned();
+		return CommandBase::pElevator->IsTopSwitchAligned();
 
 	default: return false;
 	}
