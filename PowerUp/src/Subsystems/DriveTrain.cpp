@@ -180,9 +180,9 @@ void DriveTrain::Turn()
 
     double dSpeed = this->dRotateToAngleRate;
 
-    if (this->TurnController->GetSetPoint() < 0.0) dSpeed = dSpeed * -1;
+    if (this->pTurnController->GetSetpoint() < 0.0) dSpeed = dSpeed * -1;
 
-    this->pRobotDrive->CurvatureDrive(dSpeed, 0.0, true);
+    this->pRobotDrive->ArcadeDrive(0.0, dSpeed);
 
     return;
 }
@@ -352,7 +352,7 @@ void DriveTrain::SetEncoders()
 /**
  * Used by Autonomous Commands
  */
-void DriveTrain::SetSetPoint(double setpoint)
+void DriveTrain::SetSetpoint(double setpoint)
 {
     this->pTurnController->SetSetpoint(setpoint);
 

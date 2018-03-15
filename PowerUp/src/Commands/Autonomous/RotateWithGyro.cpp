@@ -35,7 +35,7 @@ void RotateWithGyro::Initialize()
 	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->ResetGyro();
-	CommandBase::pDriveTrain->SetSetPoint(dSetPoint);
+	CommandBase::pDriveTrain->SetSetpoint(dSetPoint);
 
 	return;
 }
