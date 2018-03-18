@@ -246,7 +246,7 @@ can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
  */
 double DriveTrain::GetLeftPosition()
 {
-	return pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+	return this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
 }
 
 /**
@@ -254,7 +254,15 @@ double DriveTrain::GetLeftPosition()
  */
 double DriveTrain::GetRightPosition()
 {
-	return pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+	return this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+double DriveTrain::GetRotateToAngleRate()
+{
+	return this->dRotateToAngleRate;
 }
 
 /**
@@ -350,11 +358,19 @@ void DriveTrain::SetEncoders()
 }
 
 /**
+ *
+ */
+void DriveTrain::SetRotateToAngleRate(double dRate)
+{
+	this->dRotateToAngleRate = dRate;
+}
+
+/**
  * Used by Autonomous Commands
  */
-void DriveTrain::SetSetpoint(double setpoint)
+void DriveTrain::SetSetpoint(double dSetpoint)
 {
-    this->pTurnController->SetSetpoint(setpoint);
+    this->pTurnController->SetSetpoint(dSetpoint);
 
     return;
 }
@@ -450,9 +466,7 @@ void DriveTrain::Trace(WPI_TalonSRX* pTalonSRX, const std::string name)
 /* based upon navX MXP yaw angle input and PID Coefficients.    */
 void DriveTrain::PIDWrite(double output)
 {
-    this->dRotateToAngleRate = output;
-
-    LOG("[DriveTrain] PIDWrite: " << output);
+    SetRotateToAngleRate(output);
 
     return;
 }

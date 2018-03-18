@@ -37,6 +37,7 @@ public:
 	can::WPI_TalonSRX* GetRightFrontMotor(); // Needed by Motion Profiler
 	double GetLeftPosition(void);
 	double GetRightPosition(void);
+	double GetRotateToAngleRate(void);
 	double GetTargetPosition(void);
 	int    GetVelocity(void);
 
@@ -48,6 +49,7 @@ public:
 	void ResetGyro(void);
 
 	void SetEncoders(void);
+	void SetRotateToAngleRate(double rate);
 	void SetSetpoint(double setpoint);
 	void SetTargetPosition(double target);
 

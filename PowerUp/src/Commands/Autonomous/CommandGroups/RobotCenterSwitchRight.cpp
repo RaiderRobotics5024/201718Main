@@ -19,12 +19,12 @@ RobotCenterSwitchRight::RobotCenterSwitchRight()
 	AddSequential(new DriveWithEncoders( 80.57, 1.0));
 	AddSequential(new RotateWithGyro   (-37.41     ));
 	AddParallel  (new DriveWithEncoders( 19.00, 1.0));
-	AddSequential(new MoveElevator(Height::SWITCH));
+//	AddSequential(new MoveElevator(Height::SWITCH));
 	AddSequential(new ToggleIntake     ( -1.00     ));
 
 	// Second cube
 	AddParallel  (new DriveWithEncoders(-48.00, 1.0));
-	AddSequential(new MoveElevator(Height::BOTTOM));
+//	AddSequential(new MoveElevator(Height::BOTTOM));
 
 	AddParallel  (new RotateWithGyro   (-90.00     ));
 	AddSequential(new ToggleGripper    (Action::OPEN));
@@ -41,7 +41,7 @@ RobotCenterSwitchRight::RobotCenterSwitchRight()
 	AddSequential(new DriveWithEncoders( 52.44, 1.0));
 	AddSequential(new RotateWithGyro   (-90.00     ));
 	AddParallel  (new DriveWithEncoders( 48.00, 1.0));
-	AddSequential(new MoveElevator(Height::SWITCH));
+//	AddSequential(new MoveElevator(Height::SWITCH));
 
 	AddSequential(new ToggleIntake     ( -1.00     ));
 }
