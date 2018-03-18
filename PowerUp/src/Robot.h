@@ -47,12 +47,6 @@ public:
 	void TestInit() override;
 	void TestPeriodic() override;
 
-	// declare the commands
-//	ClimbScale*         pClimbScale;
-//	ControlElevator*	pControlElevator;
-//	DriveWithJoystick*	pDriveWithJoystick;
-//	ControlIntake*		pControlIntake;
-
 	MPRobotCenterSwitchRightCG* pMotionProfileCommand;
 
 private:

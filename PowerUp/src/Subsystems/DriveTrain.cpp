@@ -360,6 +360,52 @@ void DriveTrain::SetEncoders()
 /**
  *
  */
+void DriveTrain::SetGyroPID(double p, double i, double d, double f)
+{
+	this->pTurnController->SetPID(p, i, d, f);
+
+	return;
+}
+
+/**
+ *
+ */
+void DriveTrain::SetTalonPID(double p, double i, double d, double f)
+{
+	this->pLeftFrontMotor->Config_kP(SLOT_INDEX, p, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kI(SLOT_INDEX, i, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kD(SLOT_INDEX, d, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kF(SLOT_INDEX, f, TIMEOUT_MS);
+
+	this->pRightFrontMotor->Config_kP(SLOT_INDEX, p, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kI(SLOT_INDEX, i, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kD(SLOT_INDEX, d, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kF(SLOT_INDEX, f, TIMEOUT_MS);
+
+	return;
+}
+
+/**
+ *
+ */
+void DriveTrain::SetMPPID(double p, double i, double d, double f)
+{
+	this->pLeftFrontMotor->Config_kP(SLOT_INDEX, p, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kI(SLOT_INDEX, i, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kD(SLOT_INDEX, d, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kF(SLOT_INDEX, f, TIMEOUT_MS);
+
+	this->pRightFrontMotor->Config_kP(SLOT_INDEX, p, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kI(SLOT_INDEX, i, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kD(SLOT_INDEX, d, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kF(SLOT_INDEX, f, TIMEOUT_MS);
+
+	return;
+}
+
+/**
+ *
+ */
 void DriveTrain::SetRotateToAngleRate(double dRate)
 {
 	this->dRotateToAngleRate = dRate;

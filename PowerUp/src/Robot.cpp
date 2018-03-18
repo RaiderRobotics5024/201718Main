@@ -1,5 +1,6 @@
 #include "Robot.h"
 #include "Utilities/Log.h"
+#include "RobotMap.h"
 #include <string>
 #include "Commands/Autonomous/CommandGroups/JustDriveForward.h"
 #include "Commands/Autonomous/CommandGroups/RobotLeftSwitchLeft.h"
@@ -28,19 +29,15 @@ void Robot::RobotInit()
 {
 	LOG("[Robot] Initialized");
 
-	// setup smartdashboard robot positions
-	scRobotPosition.AddDefault("Centre", RobotPosition::CENTER);
-	scRobotPosition.AddObject("Left", RobotPosition::LEFT);
-	scRobotPosition.AddObject("Right", RobotPosition::RIGHT);
-	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
+	SmartDashboard::PutNumber("Talon P:", TALON_PID_P);
+	SmartDashboard::PutNumber("Talon I:", TALON_PID_I);
+	SmartDashboard::PutNumber("Talon D:", TALON_PID_D);
+	SmartDashboard::PutNumber("Talon F:", TALON_PID_F);
 
-	// setup override auto if we are left/right and scale and switch are opposite
-	// and our opposite alliance partner can go for scale.  we don't want to collide
-	// with them.  we should let them get the scale
-	scOverrideAuto.AddDefault("No Override", 0);
-	scOverrideAuto.AddObject("Go through switch area", 98);
-	scOverrideAuto.AddObject("Just drive forward", 99);
-	frc::SmartDashboard::PutData("Autonomous Override", &scOverrideAuto);
+	SmartDashboard::PutNumber("Gyro P:", GYRO_PID_P);
+	SmartDashboard::PutNumber("Gyro I:", GYRO_PID_I);
+	SmartDashboard::PutNumber("Gyro D:", GYRO_PID_D);
+	SmartDashboard::PutNumber("Gyro F:", GYRO_PID_F);
 
 	return;
 }
@@ -180,9 +177,6 @@ void Robot::TeleopPeriodic()
  */
 void Robot::TestInit()
 {
-	this->pMotionProfileCommand = new MPRobotCenterSwitchRightCG();
-	this->pMotionProfileCommand->Start();
-
 	return;
 }
 

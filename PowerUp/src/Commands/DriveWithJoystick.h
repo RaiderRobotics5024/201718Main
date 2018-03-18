@@ -18,7 +18,9 @@ public:
 	void Interrupted() override;
 
 private:
-	bool isReverse;
+	bool isDriveTest = true;
+	double dDistance = 0.0;
+	double dSetpoint = 0.0;
 };
 
 #endif

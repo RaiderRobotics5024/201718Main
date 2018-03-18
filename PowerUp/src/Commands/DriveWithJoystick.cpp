@@ -2,6 +2,7 @@
 #include "../Utilities/Log.h"
 #include <math.h>
 #include "../RobotMap.h"
+#include <SmartDashboard/SmartDashboard.h>
 
 /**
  *
@@ -39,7 +40,11 @@ void DriveWithJoystick::Initialize()
 {
 	LOG("[DriveWithJoystick] Initialized");
 
-	this->isReverse = false;
+	CommandBase::pDriveTrain->ResetGyro();
+	CommandBase::pDriveTrain->ResetEncoders();
+	CommandBase::pDriveTrain->InitAutonomousMode(true); // invert right front motor
+
+	SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 
 	return;
 }
@@ -51,29 +56,73 @@ void DriveWithJoystick::Execute()
 {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
-	if (pJoyDrive->GetXButtonReleased())
+	if (pJoyDrive->GetBumperPressed(XboxController::kLeftHand))
 	{
-		this->isReverse = !this->isReverse;
+		this->isDriveTest = !this->isDriveTest;
+		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 	}
 
-	double xSpeed    = pJoyDrive->GetX(XboxController::kLeftHand);
-	double zRotation = pJoyDrive->GetY(XboxController::kLeftHand);
-
-	double dSlow = (pJoyDrive->GetBumper(XboxController::kRightHand)) ? 0.5 : 1;
-	double dReverse = (this->isReverse) ? -1 : 1;
-
-	if (fabs(xSpeed) <= XBOX_DEADZONE_LEFT_JOY)
+	if (pJoyDrive->GetYButtonPressed())
 	{
-		xSpeed = 0.0;
+		this->dDistance = 19.0;
+		this->dSetpoint =  0.0;
+	}
+	else if (pJoyDrive->GetBButtonPressed())
+	{
+		this->dDistance = 80.0;
+		this->dSetpoint = 90.0;
+	}
+	else if (pJoyDrive->GetAButtonPressed())
+	{
+		this->dDistance = 170.0;
+		this->dSetpoint = 180.0;
+	}
+	else if (pJoyDrive->GetXButtonPressed())
+	{
+		this->dDistance = 230.0;
+		this->dSetpoint = -90.0;
 	}
 
-	if (fabs(zRotation) <= XBOX_DEADZONE_LEFT_JOY)
+	if (pJoyDrive->GetBumperPressed(XboxController::kRightHand))
 	{
-		zRotation = 0.0;
+		if (this->isDriveTest)
+		{
+			double tp = SmartDashboard::GetNumber("Talon P:", 0.0);
+			double ti = SmartDashboard::GetNumber("Talon I:", 0.0);
+			double td = SmartDashboard::GetNumber("Talon D:", 0.0);
+			double tf = SmartDashboard::GetNumber("Talon F:", 0.0);
+			CommandBase::pDriveTrain->SetTalonPID(tp, ti, td, tf);
+
+			CommandBase::pDriveTrain->Drive(dDistance, 1.0);
+		}
+		else
+		{
+			double gp = SmartDashboard::GetNumber("Gyro P:", 0.0);
+			double gi = SmartDashboard::GetNumber("Gyro I:", 0.0);
+			double gd = SmartDashboard::GetNumber("Gyro D:", 0.0);
+			double gf = SmartDashboard::GetNumber("Gyro F:", 0.0);
+			CommandBase::pDriveTrain->SetGyroPID(gp, gi, gd, gf);
+
+			CommandBase::pDriveTrain->SetSetpoint(dSetpoint);
+			CommandBase::pDriveTrain->Turn();
+		}
 	}
 
-//	CommandBase::pDriveTrain->ArcadeDrive(xSpeed, zRotation);
-	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow));
+	if (this->isDriveTest)
+	{
+		LOG("[DriveWithJoystick] Target Distance: " << this->dDistance
+				<< " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition()
+				<< " Current Postion: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " Velocity: " << CommandBase::pDriveTrain->GetVelocity()
+				<< " P: " << SmartDashboard::GetNumber("Talon P:", 0.0));
+	}
+	else
+	{
+		LOG("[DriveWithJoystick] Set Point: " << this->dSetpoint
+				<< " Current Angle: " << CommandBase::pDriveTrain->GetAngle()
+				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
+				<< " P: " << SmartDashboard::GetNumber("Gyro P:", 0.0));
+	}
 
 	return;
 }
