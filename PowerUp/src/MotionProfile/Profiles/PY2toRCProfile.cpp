@@ -3,7 +3,7 @@
 /**
  *
  */
-PY2toRCProfile::PY2toRCProfile(TalonSRX & talonLeft, TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&PY2toRCProfile::PeriodicTask, this)
+PY2toRCProfile::PY2toRCProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&PY2toRCProfile::PeriodicTask, this)
 {
 	_pos = 0, _vel = 0, _heading = 0, _state = 0;
 	_loopTimeout = 30;

@@ -15,10 +15,8 @@
  */
 Robot::~Robot()
 {
-	delete this->pDriveWithJoystick;
-	delete this->pControlIntake;
-	delete this->pControlElevator;
-	delete this->pAutonomousCommand;
+	if (this->pAutonomousCommand    != nullptr) delete this->pAutonomousCommand;
+	if (this->pMotionProfileCommand != nullptr) delete this->pMotionProfileCommand;
 
 	return;
 }
@@ -29,12 +27,6 @@ Robot::~Robot()
 void Robot::RobotInit()
 {
 	LOG("[Robot] Initialized");
-
-	// intialize the commands
-	this->pClimbScale = new ClimbScale();
-	this->pControlElevator = new ControlElevator();
-	this->pDriveWithJoystick = new DriveWithJoystick();
-	this->pControlIntake = new ControlIntake();
 
 	// setup smartdashboard robot positions
 	scRobotPosition.AddDefault("Centre", RobotPosition::CENTER);

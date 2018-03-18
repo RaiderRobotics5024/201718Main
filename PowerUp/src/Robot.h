@@ -6,10 +6,6 @@
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
-#include "Commands/ClimbScale.h"
-#include "Commands/ControlElevator.h"
-#include "Commands/DriveWithJoystick.h"
-#include "Commands/ControlIntake.h"
 
 #include "MotionProfile/CommandGroups/MPRobotCenterSwitchRightCG.h"
 
@@ -23,7 +19,6 @@ struct RobotPosition
 	} RP;
 };
 
-// Switch Positions
 struct SwitchPosition
 {
 	typedef enum
@@ -53,10 +48,10 @@ public:
 	void TestPeriodic() override;
 
 	// declare the commands
-	ClimbScale*         pClimbScale;
-	ControlElevator*	pControlElevator;
-	DriveWithJoystick*	pDriveWithJoystick;
-	ControlIntake*		pControlIntake;
+//	ClimbScale*         pClimbScale;
+//	ControlElevator*	pControlElevator;
+//	DriveWithJoystick*	pDriveWithJoystick;
+//	ControlIntake*		pControlIntake;
 
 	MPRobotCenterSwitchRightCG* pMotionProfileCommand;
 

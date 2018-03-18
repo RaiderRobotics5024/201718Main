@@ -14,7 +14,7 @@
 class RRtoSLProfile
 {
 public:
-	RRtoSLProfile(TalonSRX & leftTalon, TalonSRX & rightTalon);
+	RRtoSLProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

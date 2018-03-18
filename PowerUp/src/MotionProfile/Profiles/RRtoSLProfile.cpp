@@ -3,7 +3,7 @@
 /**
  *
  */
-RRtoSLProfile::RRtoSLProfile(TalonSRX & talonLeft, TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&RRtoSLProfile::PeriodicTask, this)
+RRtoSLProfile::RRtoSLProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&RRtoSLProfile::PeriodicTask, this)
 {
 	_pos = 0, _vel = 0, _heading = 0, _state = 0;
 	_loopTimeout = 30;

@@ -14,7 +14,7 @@
 class SRtoRCProfile
 {
 public:
-	SRtoRCProfile(TalonSRX & leftTalon, TalonSRX & rightTalon);
+	SRtoRCProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

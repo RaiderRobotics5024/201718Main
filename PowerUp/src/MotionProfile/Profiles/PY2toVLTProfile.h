@@ -1,20 +1,20 @@
-#ifndef _PY2TORCPROFILE_HG_
-#define _PY2TORCPROFILE_HG_
+#ifndef _PY2TOVLTPROFILE_HG_
+#define _PY2TOVLTPROFILE_HG_
 
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../Instrumentation.h"
 #include "../../RobotMap.h"
 
-#include "../Paths/PY2toRCPath.h"
+#include "../Paths/PY2toVLTPath.h"
 
 /**
  *
  */
-class PY2toRCProfile
+class PY2toVLTProfile
 {
 public:
-	PY2toRCProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
+	PY2toVLTProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

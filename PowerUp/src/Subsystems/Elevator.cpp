@@ -57,26 +57,6 @@ void Elevator::InitDefaultCommand()
 /**
  *
  */
-void Elevator::Reset()
-{
-	this->pElevatorMotor->Set(0.0);
-
-	return;
-}
-
-/**
- *
- */
-void Elevator::ResetCounters()
-{
-	this->pTopCounter->Reset();
-	this->pMiddleCounter->Reset();
-	this->pBottomCounter->Reset();
-}
-
-/**
- *
- */
 bool Elevator::IsTopSwitchAligned()
 {
 	// the Get returns 1 if magnets are not aligned, 0 if magnets are aligned
@@ -102,6 +82,26 @@ bool Elevator::IsBottomSwitchAligned()
 	// the Get returns 1 if magnets are not aligned, 0 if magnets are aligned
 	// so we return the opposite of the Get
 	return this->pBottomCounter->Get() > 0;
+}
+
+/**
+ *
+ */
+void Elevator::Reset()
+{
+	this->pElevatorMotor->Set(0.0);
+
+	return;
+}
+
+/**
+ *
+ */
+void Elevator::ResetCounters()
+{
+	this->pTopCounter->Reset();
+	this->pMiddleCounter->Reset();
+	this->pBottomCounter->Reset();
 }
 
 /**
