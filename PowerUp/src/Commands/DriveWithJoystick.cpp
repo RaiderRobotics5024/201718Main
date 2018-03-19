@@ -44,11 +44,8 @@ void DriveWithJoystick::Initialize()
 {
 	LOG("[DriveWithJoystick] Initialized");
 
-	CommandBase::pDriveTrain->ResetGyro();
-	CommandBase::pDriveTrain->ResetEncoders();
-	CommandBase::pDriveTrain->InitAutonomousMode(true); // invert right front motor
-
 	SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
+	SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
 
 	return;
 }
@@ -65,6 +62,12 @@ void DriveWithJoystick::Execute()
 	{
 		this->isDriveTest = !this->isDriveTest;
 		this->isTurnTest = false;
+		
+		if (this->isDriveTest)
+		{
+			CommandBase::pDriveTrain->ResetEncoders();
+		}
+		
 		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 		SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
 
@@ -75,6 +78,12 @@ void DriveWithJoystick::Execute()
 	{
 		this->isTurnTest = !this->isTurnTest;
 		this->isDriveTest = false;
+		
+		if (this->isTurnTest)
+		{
+			CommandBase::pDriveTrain->ResetGyro();
+		}
+		
 		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 		SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
 	}
