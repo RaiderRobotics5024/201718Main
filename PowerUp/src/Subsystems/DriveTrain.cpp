@@ -246,7 +246,7 @@ can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
  */
 double DriveTrain::GetLeftDistance()
 {
-	return (GetLeftPosition / TICKS_PER_REVOLUTION) * INCHES_PER_REVOLUTION;
+	return GetLeftPosition() / TICKS_PER_REVOLUTION * INCHES_PER_REVOLUTION;
 }
 
 /**
