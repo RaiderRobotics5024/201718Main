@@ -60,11 +60,23 @@ void DriveWithJoystick::Execute()
 {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
-	// use left bumper to switch between drive test and rotation test
-	if (pJoyDrive->GetBumperPressed(XboxController::kLeftHand))
+	// use right bumper to turn on/off drive test
+	if (pJoyDrive->GetBumperPressed(XboxController::kRightHand))
 	{
 		this->isDriveTest = !this->isDriveTest;
+		this->isTurnTest = false;
 		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
+		SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
+
+	}
+
+	// use left bumper to turn on/off turn test
+	if (pJoyDrive->GetBumperPressed(XboxController::kLeftHand))
+	{
+		this->isTurnTest = !this->isTurnTest;
+		this->isDriveTest = false;
+		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
+		SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
 	}
 
 	// Y, B, A, X buttons set test distances and angles
@@ -89,12 +101,9 @@ void DriveWithJoystick::Execute()
 		this->dSetpoint = -90.0;
 	}
 
-	// use right bumper to get/set the PID values and start the drive or rotation test
-	if (pJoyDrive->GetBumperPressed(XboxController::kRightHand))
+	// use right trigger to get/set the PID values and start the drive or turn test
+	if (pJoyDrive->GetTriggerAxis(frc::XboxController::kRightHand);)
 	{
-		this->pTimer->Reset();
-		this->pTimer->Start();
-
 		if (this->isDriveTest)
 		{
 			double tp = SmartDashboard::GetNumber("Talon P:", 0.0);
@@ -103,9 +112,12 @@ void DriveWithJoystick::Execute()
 			double tf = SmartDashboard::GetNumber("Talon F:", 0.0);
 			CommandBase::pDriveTrain->SetTalonPID(tp, ti, td, tf);
 
+			this->pTimer->Reset();
+			this->pTimer->Start();
+			
 			CommandBase::pDriveTrain->Drive(dDistance, 1.0);
 		}
-		else
+		else if (this->isTurnTest)
 		{
 			double gp = SmartDashboard::GetNumber("Gyro P:", 0.0);
 			double gi = SmartDashboard::GetNumber("Gyro I:", 0.0);
@@ -113,10 +125,32 @@ void DriveWithJoystick::Execute()
 			double gf = SmartDashboard::GetNumber("Gyro F:", 0.0);
 			CommandBase::pDriveTrain->SetGyroPID(gp, gi, gd, gf);
 
+			this->pTimer->Reset();
+			this->pTimer->Start();
+			
 			CommandBase::pDriveTrain->SetSetpoint(dSetpoint);
 			CommandBase::pDriveTrain->Turn();
 		}
 	}
+	
+	// drive the bot as usual if not drive test and not turn test
+	if (!this->isDriveTest && !this->isTurnTest)
+	{
+		double xSpeed    = pJoyDrive->GetX(XboxController::kLeftHand);
+		double zRotation = pJoyDrive->GetY(XboxController::kLeftHand);
+
+		if (fabs(xSpeed) <= XBOX_DEADZONE_LEFT_JOY)
+		{
+			xSpeed = 0.0;
+		}
+
+		if (fabs(zRotation) <= XBOX_DEADZONE_LEFT_JOY)
+		{
+			zRotation = 0.0;
+		}
+
+		CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow));
+	}		
 
 	// log the test results
 	if (this->isDriveTest)
@@ -128,7 +162,7 @@ void DriveWithJoystick::Execute()
 				<< " P: " << SmartDashboard::GetNumber("Talon P:", 0.0)
 				<< " Time: " << this->pTimer->Get());
 	}
-	else
+	else if (this->isTurnTest)
 	{
 		LOG("[DriveWithJoystick] Set Point: " << this->dSetpoint
 				<< " Current Angle: " << CommandBase::pDriveTrain->GetAngle()
