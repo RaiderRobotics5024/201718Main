@@ -19,7 +19,8 @@ public:
 
 private:
 	Timer* pTimer;
-	bool   isDriveTest = true;
+	bool   isDriveTest = false;
+	bool   isTurnTest  = false;
 	double dDistance = 0.0;
 	double dSetpoint = 0.0;
 };
