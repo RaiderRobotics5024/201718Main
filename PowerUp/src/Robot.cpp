@@ -12,7 +12,10 @@
 #include "Commands/Autonomous/CommandGroups/TestAutonomous.h"
 
 /**
- *
+ * This branch is used for PID tuning of the drivetrain motors and gyro rotation
+ * PID values can be set on the smartdashboard then tested using the drive joystick
+ * The only change here is sending the intial PID values to the smartdashboard,
+ * all the real work is done in DriveWithJoystick.cpp
  */
 Robot::~Robot()
 {
