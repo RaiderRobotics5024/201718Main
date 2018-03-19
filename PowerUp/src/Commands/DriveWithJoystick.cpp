@@ -60,12 +60,14 @@ void DriveWithJoystick::Execute()
 {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
+	// use left bumper to switch between drive test and rotation test
 	if (pJoyDrive->GetBumperPressed(XboxController::kLeftHand))
 	{
 		this->isDriveTest = !this->isDriveTest;
 		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 	}
 
+	// Y, B, A, X buttons set test distances and angles
 	if (pJoyDrive->GetYButtonPressed())
 	{
 		this->dDistance = 19.0;
@@ -87,6 +89,7 @@ void DriveWithJoystick::Execute()
 		this->dSetpoint = -90.0;
 	}
 
+	// use right bumper to get/set the PID values and start the drive or rotation test
 	if (pJoyDrive->GetBumperPressed(XboxController::kRightHand))
 	{
 		this->pTimer->Reset();
@@ -115,6 +118,7 @@ void DriveWithJoystick::Execute()
 		}
 	}
 
+	// log the test results
 	if (this->isDriveTest)
 	{
 		LOG("[DriveWithJoystick] Target Distance: " << this->dDistance
