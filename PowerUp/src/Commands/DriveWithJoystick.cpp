@@ -157,6 +157,7 @@ void DriveWithJoystick::Execute()
 	if (this->isDriveTest)
 	{
 		LOG("[DriveWithJoystick] Target Distance: " << this->dDistance
+		    		<< " Current Distance: " << CommandBase::pDriveTrain->GetLeftDistance()
 				<< " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition()
 				<< " Current Postion: " << CommandBase::pDriveTrain->GetLeftPosition()
 				<< " Velocity: " << CommandBase::pDriveTrain->GetVelocity()
