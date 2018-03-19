@@ -20,6 +20,8 @@ DriveWithJoystick::DriveWithJoystick()
 		LOG("[DriveWithJoystick] driveTrain is null!");
 	}
 
+	this->pTimer = new Timer();
+
 	return;
 }
 
@@ -29,6 +31,8 @@ DriveWithJoystick::DriveWithJoystick()
 DriveWithJoystick::~DriveWithJoystick()
 {
 	LOG("[DriveWithJoystick] Destroyed");
+
+	delete this->pTimer;
 
 	return;
 }
@@ -85,6 +89,9 @@ void DriveWithJoystick::Execute()
 
 	if (pJoyDrive->GetBumperPressed(XboxController::kRightHand))
 	{
+		this->pTimer->Reset();
+		this->pTimer->Start();
+
 		if (this->isDriveTest)
 		{
 			double tp = SmartDashboard::GetNumber("Talon P:", 0.0);
@@ -114,14 +121,16 @@ void DriveWithJoystick::Execute()
 				<< " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition()
 				<< " Current Postion: " << CommandBase::pDriveTrain->GetLeftPosition()
 				<< " Velocity: " << CommandBase::pDriveTrain->GetVelocity()
-				<< " P: " << SmartDashboard::GetNumber("Talon P:", 0.0));
+				<< " P: " << SmartDashboard::GetNumber("Talon P:", 0.0)
+				<< " Time: " << this->pTimer->Get());
 	}
 	else
 	{
 		LOG("[DriveWithJoystick] Set Point: " << this->dSetpoint
 				<< " Current Angle: " << CommandBase::pDriveTrain->GetAngle()
 				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
-				<< " P: " << SmartDashboard::GetNumber("Gyro P:", 0.0));
+				<< " P: " << SmartDashboard::GetNumber("Gyro P:", 0.0)
+				<< " Time: " << this->pTimer->Get());
 	}
 
 	return;
