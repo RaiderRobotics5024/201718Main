@@ -244,6 +244,14 @@ can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
 /**
  *
  */
+double DriveTrain::GetLeftDistance()
+{
+	return (GetLeftPosition / TICKS_PER_REVOLUTION) * INCHES_PER_REVOLUTION;
+}
+
+/**
+ *
+ */
 double DriveTrain::GetLeftPosition()
 {
 	return this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
