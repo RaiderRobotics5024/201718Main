@@ -149,7 +149,7 @@ void DriveWithJoystick::Execute()
 			zRotation = 0.0;
 		}
 
-		CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow));
+		CommandBase::pDriveTrain->ArcadeDrive((xSpeed), (zRotation));
 	}		
 
 	// log the test results
