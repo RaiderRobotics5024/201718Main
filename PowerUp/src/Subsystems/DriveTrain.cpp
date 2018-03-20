@@ -80,6 +80,18 @@ DriveTrain::~DriveTrain()
 	return;
 }
 
+void DriveTrain::ReverseDrive(bool reverse){
+	this->pRightFrontMotor->SetInverted(!reverse);
+	this->pRightRearMotor->SetInverted(!reverse);
+	this->pLeftFrontMotor->SetInverted(reverse);
+	this->pLeftRearMotor->SetInverted(reverse);
+	isReversed = reverse;
+}
+
+void DriveTrain::IsReversed(){
+	return isReversed;
+}
+
 /**
  *
  */
@@ -137,18 +149,17 @@ void DriveTrain::Drive(double distance, double speed)
 /**
  * Used by Autonomous Commands
  */
-void DriveTrain::Turn(double setpoint)
+void DriveTrain::Turn()
 {
-    this->pTurnController->SetSetpoint(setpoint);
     this->pTurnController->Enable();
 
-    double dSpeed = 0.1;
+    double dSpeed = this->dRotateToAngleRate;
 
-    if (setpoint < 0.0) dSpeed = dSpeed * -1;
+    if (this->pTurnController->GetSetpoint() < 0.0) dSpeed = dSpeed * -1;
 
     this->pRobotDrive->CurvatureDrive(dSpeed, 0.0, true);
 
-	return;
+    return;
 }
 
 /**
@@ -306,6 +317,17 @@ void DriveTrain::SetEncoders()
 
 	return;
 }
+
+/**
+ *
+ */
+void DriveTrain::SetSetpoint(double setpoint)
+{
+	this->pTurnController->SetSetpoint(setpoint);
+
+	return;
+}
+
 /**
  *
  */
