@@ -46,8 +46,11 @@ void Robot::SetMotor(int motor_id)
 	this->pTalonSRX->SetInverted(false);
 	this->pTalonSRX->SetSensorPhase(true);
 	
+	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
+
 	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
-	this->pTalonSRX->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
+// 	this->pTalonSRX->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
 
 	this->pFaults = new Faults();
 	pTalonSRX->GetFaults(*pFaults);
@@ -77,11 +80,11 @@ void Robot::TestPeriodic()
 	}
 
 	// invert the motor with the X/B buttons
-	if (this->pXboxController->GetXButton())
+	if (this->pXboxController->GetXButtonPressed())
 	{
 		this->pTalonSRX->SetInverted(false);
 	}
-	else if (this->pXboxController->GetBButton())
+	else if (this->pXboxController->GetBButtonPressed())
 	{
 		this->pTalonSRX->SetInverted(true);
 	}
@@ -99,8 +102,18 @@ void Robot::TestPeriodic()
 	{
 		dMotorSpeed = 0.0;
 	}
+	
+	if (dMotorSpeed >= -1.0)
+	{
+		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
+	}
 
-	pTalonSRX->Set(dMotorSpeed);
+	if (this->pXboxController->GetStartButtonPressed)
+	{
+		dMotorSpeed = -10.0; // so motor doesn't switch back to PercentOutput until Y/A pressed
+		double targetPositionRotations = 10.0 * 4096; /* 10 Rotations in either direction */
+		this->pTalonSRX->Set(ControlMode::Position, targetPositionRotations); /* 10 rotations in either direction */
+	}
 
 	if (iCounter++ == 10)
 	{
