@@ -71,7 +71,6 @@ void DriveWithJoystick::Execute()
 	double zRotation = pJoyDrive->GetY(XboxController::kLeftHand);
 
 	double dSlow = (pJoyDrive->GetBumper(XboxController::kRightHand)) ? 0.5 : 1;
-	double dReverse = (this->isReverse) ? -1 : 1;
 
 	if (fabs(xSpeed) <= XBOX_DEADZONE_LEFT_JOY)
 	{
@@ -82,9 +81,10 @@ void DriveWithJoystick::Execute()
 	{
 		zRotation = 0.0;
 	}
-
+[A
 //	CommandBase::pDriveTrain->ArcadeDrive(xSpeed, zRotation);
-	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow));
+	CommandBase::pDriveTrain->IsReversed(isReverse);
+	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow), (zRotation * dSlow));
 
 	return;
 }

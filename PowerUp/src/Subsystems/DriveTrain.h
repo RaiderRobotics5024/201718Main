@@ -38,6 +38,7 @@ public:
 
 	bool IsDriving(void);
 	bool IsTurning(void);
+	bool isReversed;
 
 	void ResetDrive(void);
 	void ResetEncoders(void);
