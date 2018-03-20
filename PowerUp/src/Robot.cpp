@@ -10,7 +10,9 @@ Robot::Robot()
 {
 	SmartDashboard::init();
 
-	iMotorId = 0;
+	LOG("ROBOT Constructed");
+
+	iMotorId = 1;
 	iCounter = 0;
 	dMotorSpeed = 0.0;
 	SetMotor(iMotorId);
@@ -37,6 +39,8 @@ Robot::~Robot()
  */
 void Robot::SetMotor(int motor_id)
 {
+	LOG("Setting ID: " << motor_id);
+
 	if (this->pTalonSRX != nullptr)
 	{
 		this->pTalonSRX->Set(ControlMode::PercentOutput, 0);
@@ -51,7 +55,7 @@ void Robot::SetMotor(int motor_id)
 	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
 	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
 
-	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
+	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 100);
 // 	this->pTalonSRX->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
 
 	this->pFaults = new Faults();
@@ -63,15 +67,13 @@ void Robot::SetMotor(int motor_id)
 /**
  *
  */
-void Robot::TestPeriodic()
+void Robot::TeleopPeriodic()
 {
-	SmartDashboard::PutNumber("Motor ID", iMotorId);
-
 	// switch the motor with the left/right bumpers
 	if (pXboxController->GetBumperPressed(XboxController::kLeftHand))
 	{
 		iMotorId--;
-		if (iMotorId < 0) iMotorId = 0;
+		if (iMotorId < 1) iMotorId = 1;
 		SetMotor(iMotorId);
 	}
 	else if (pXboxController->GetBumperPressed(XboxController::kRightHand))
@@ -108,7 +110,13 @@ void Robot::TestPeriodic()
 
 	if (iCounter++ == 10)
 	{
-		Robot::Trace();
+//		Robot::Trace();
+		LOG("ID: " << iMotorId
+				<< " QP: " << pTalonSRX->GetSensorCollection().GetQuadraturePosition()
+				<< " QV: " << pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
+				<< " SP: " << pTalonSRX->GetSelectedSensorPosition(0)
+				<< " SV: " << pTalonSRX->GetSelectedSensorVelocity(0)
+				);
 		iCounter = 0;
 	}
 

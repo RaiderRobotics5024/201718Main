@@ -16,7 +16,7 @@ public:
 	Robot();
 	~Robot();
 	void SetMotor(int);
-	void TestPeriodic();
+	void TeleopPeriodic();
 	void Trace();
 
 private:
