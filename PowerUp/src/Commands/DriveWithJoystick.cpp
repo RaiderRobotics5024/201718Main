@@ -63,6 +63,14 @@ void DriveWithJoystick::Execute()
 		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 		SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
 
+		if(this->isDriveTest)
+		{
+			CommandBase::pDriveTrain->InitAutonomousMode(true);
+		}
+		else
+		{
+			CommandBase::pDriveTrain->ResetDrive();
+		}
 	}
 
 	// use left bumper to turn on/off turn test
@@ -73,6 +81,15 @@ void DriveWithJoystick::Execute()
 		
 		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 		SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
+
+		if(this->isTurnTest)
+		{
+			CommandBase::pDriveTrain->InitAutonomousMode(false);
+		}
+		else
+		{
+			CommandBase::pDriveTrain->ResetDrive();
+		}
 	}
 
 	// Y, B, A, X buttons set test distances and angles
@@ -135,7 +152,7 @@ void DriveWithJoystick::Execute()
 			zRotation = 0.0;
 		}
 
-		CommandBase::pDriveTrain->ArcadeDrive((xSpeed), (zRotation));
+		CommandBase::pDriveTrain->ArcadeDrive(xSpeed, zRotation);
 	}		
 
 	// log the test results
