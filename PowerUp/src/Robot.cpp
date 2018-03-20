@@ -4,7 +4,6 @@
 /**
  *
  */
-
 Robot::Robot()
 {
 	SmartDashboard::init();
@@ -22,7 +21,6 @@ Robot::Robot()
 /**
  *
  */
-
 Robot::~Robot()
 {
 	delete this->pXboxController;
@@ -35,7 +33,6 @@ Robot::~Robot()
 /**
  *
  */
-
 void Robot::SetMotor(int motor_id)
 {
 	if (this->pTalonSRX != nullptr)
@@ -48,6 +45,9 @@ void Robot::SetMotor(int motor_id)
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
 	this->pTalonSRX->SetSensorPhase(true);
+	
+	this->pTalonSRX->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
+
 	this->pFaults = new Faults();
 	pTalonSRX->GetFaults(*pFaults);
 
@@ -57,7 +57,6 @@ void Robot::SetMotor(int motor_id)
 /**
  *
  */
-
 void Robot::TestPeriodic()
 {
 	SmartDashboard::PutNumber("Motor ID", iMotorId);
@@ -114,9 +113,12 @@ void Robot::TestPeriodic()
 /**
  *
  */
-
 void Robot::Trace()
 {
+	if (iCounter++ < 20 ) return;
+	
+	iCounter = 0;
+	
 	int baseId = pTalonSRX->GetBaseID();
 	int version = pTalonSRX->GetFirmwareVersion();
 	bool isInverted = pTalonSRX->GetInverted();
