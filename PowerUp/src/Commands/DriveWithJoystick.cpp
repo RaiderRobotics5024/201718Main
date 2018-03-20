@@ -56,8 +56,8 @@ void DriveWithJoystick::Execute()
 		this->isReverse = !this->isReverse;
 	}
 
-	double xSpeed    = pJoyDrive->GetX(XboxController::kLeftHand);
-	double zRotation = pJoyDrive->GetY(XboxController::kLeftHand);
+	double xSpeed    = pJoyDrive->GetY(XboxController::kLeftHand);
+	double zRotation = pJoyDrive->GetX(XboxController::kLeftHand);
 
 	double dSlow = (pJoyDrive->GetBumper(XboxController::kRightHand)) ? 0.5 : 1;
 	double dReverse = (this->isReverse) ? -1 : 1;
