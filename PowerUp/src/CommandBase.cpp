@@ -36,22 +36,22 @@ CommandBase::CommandBase() : Command()
 
 	if (CommandBase::pIntake == nullptr)
 	{
-		CommandBase::pIntake = new Intake();
+// 		CommandBase::pIntake = new Intake();
 	}
 
 	if (CommandBase::pElevator == nullptr)
 	{
-		CommandBase::pElevator = new Elevator();
+// 		CommandBase::pElevator = new Elevator();
 	}
 
 	if (CommandBase::pClimbSystem == nullptr)
 	{
-		CommandBase::pClimbSystem = new ClimbSystem();
+// 		CommandBase::pClimbSystem = new ClimbSystem();
 	}
 
 	if (CommandBase::pCompressorSystem == nullptr)
 	{
-		CommandBase::pCompressorSystem = new CompressorSystem();
+// 		CommandBase::pCompressorSystem = new CompressorSystem();
 	}
 
 	return;
