@@ -15,17 +15,18 @@ class Robot : public frc::IterativeRobot
 public:
 	Robot();
 	~Robot();
-	void TeleopPeriodic();
 	void SetMotor(int);
+	void TestPeriodic();
 	void Trace();
 
 private:
-	int iMotorId;
-	int iCounter;
+	int    iMotorId;
+	int    iCounter;
 	double dMotorSpeed;
 
 	WPI_TalonSRX* pTalonSRX;
 	Faults* pFaults;
+
 	frc::XboxController* pXboxController;
 };
 
