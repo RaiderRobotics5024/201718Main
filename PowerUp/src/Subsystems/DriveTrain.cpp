@@ -81,8 +81,8 @@ DriveTrain::~DriveTrain()
 }
 
 void DriveTrain::ReverseDrive(bool reverse){
-	this->pRightFrontMotor->SetInverted(reverse);
-	this->pRightRearMotor->SetInverted(reverse);
+	this->pRightFrontMotor->SetInverted(!reverse);
+	this->pRightRearMotor->SetInverted(!reverse);
 	this->pLeftFrontMotor->SetInverted(reverse);
 	this->pLeftRearMotor->SetInverted(reverse);
 	isReversed = reverse;
