@@ -1,6 +1,8 @@
 #include "Robot.h"
 #include <iostream>
 
+#define LOG(x) { std::cout << x << std::endl; }
+
 /**
  *
  */
@@ -89,28 +91,17 @@ void Robot::TestPeriodic()
 		this->pTalonSRX->SetInverted(true);
 	}
 
-	// run forward/backward with Y/A buttons
-	if (this->pXboxController->GetYButton())
-	{
-		dMotorSpeed = 1.0;
-	}
-	else if (this->pXboxController->GetAButton())
-	{
-		dMotorSpeed = -1.0;
-	}
-	else
-	{
-		dMotorSpeed = 0.0;
-	}
+	// run forward/backward with Y axis
+	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand);
 	
-	if (dMotorSpeed >= -1.0)
+	if (this->pXboxController->GetYButton())
 	{
 		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
 	}
 
-	if (this->pXboxController->GetStartButtonPressed)
+	// start position closed loop 
+	if (this->pXboxController->GetStartButtonPressed())
 	{
-		dMotorSpeed = -10.0; // so motor doesn't switch back to PercentOutput until Y/A pressed
 		double targetPositionRotations = 10.0 * 4096; /* 10 Rotations in either direction */
 		this->pTalonSRX->Set(ControlMode::Position, targetPositionRotations); /* 10 rotations in either direction */
 	}
