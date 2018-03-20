@@ -46,6 +46,7 @@ void Robot::SetMotor(int motor_id)
 	this->pTalonSRX->SetInverted(false);
 	this->pTalonSRX->SetSensorPhase(true);
 	
+	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
 	this->pTalonSRX->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
 
 	this->pFaults = new Faults();
