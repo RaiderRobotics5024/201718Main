@@ -178,7 +178,7 @@ void DriveTrain::Turn()
 {
     this->pTurnController->Enable();
 
-    double dTurnRate = this->dRotateToAngleRate;
+    double dTurnRate = GetRotateToAngleRate();
 
     if (this->pTurnController->GetSetpoint() < 0.0) dTurnRate = dTurnRate * -1;
 
