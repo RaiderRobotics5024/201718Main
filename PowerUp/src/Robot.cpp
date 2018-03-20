@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "Utilities/Log.h"
 #include <string>
+#include <SmartDashboard/SmartDashboard.h>
 #include "Commands/Autonomous/CommandGroups/JustDriveForward.h"
 #include "Commands/Autonomous/CommandGroups/RobotLeftSwitchLeft.h"
 #include "Commands/Autonomous/CommandGroups/RobotLeftSwitchRight.h"
@@ -15,6 +16,12 @@
  */
 Robot::~Robot()
 {
+	delete this->pClimbScale;
+	delete this->pControlElevator;
+	delete this->pControlIntake;
+	delete this->pDriveWithJoystick;
+	delete this->pToggleCompressor;
+
 	if (this->pAutonomousCommand    != nullptr) delete this->pAutonomousCommand;
 	if (this->pMotionProfileCommand != nullptr) delete this->pMotionProfileCommand;
 
@@ -27,6 +34,13 @@ Robot::~Robot()
 void Robot::RobotInit()
 {
 	LOG("[Robot] Initialized");
+
+	// intialize the commands
+	this->pClimbScale = new ClimbScale();
+	this->pControlElevator = new ControlElevator();
+	this->pControlIntake = new ControlIntake();
+	this->pDriveWithJoystick = new DriveWithJoystick();
+	this->pToggleCompressor = new ToggleCompressor();
 
 	// setup smartdashboard robot positions
 	scRobotPosition.AddDefault("Centre", RobotPosition::CENTER);
@@ -156,10 +170,36 @@ void Robot::TeleopInit()
 	LOG("[Robot] Teleop Initialized");
 
 	// Stop the Autonomous Command
-	if (pAutonomousCommand != nullptr)
+	if (this->pAutonomousCommand != nullptr)
 	{
-		pAutonomousCommand->Cancel();
-		pAutonomousCommand = nullptr;
+		this->pAutonomousCommand->Cancel();
+		this->pAutonomousCommand = nullptr;
+	}
+
+	// Start the Teleop Commands
+	if (this->pClimbScale != nullptr)
+	{
+		this->pClimbScale->Start();
+	}
+
+	if (this->pControlElevator != nullptr)
+	{
+		this->pControlElevator->Start();
+	}
+
+	if (this->pControlIntake != nullptr)
+	{
+		this->pControlIntake->Start();
+	}
+
+	if (this->pDriveWithJoystick != nullptr)
+	{
+		this->pDriveWithJoystick->Start();
+	}
+
+	if (this->pToggleCompressor != nullptr)
+	{
+		this->pToggleCompressor->Start();
 	}
 
 	return;
