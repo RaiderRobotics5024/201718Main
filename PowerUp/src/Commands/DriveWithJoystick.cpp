@@ -44,9 +44,6 @@ void DriveWithJoystick::Initialize()
 {
 	LOG("[DriveWithJoystick] Initialized");
 
-	SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
-	SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
-
 	return;
 }
 
@@ -105,12 +102,6 @@ void DriveWithJoystick::Execute()
 	{
 		if (this->isDriveTest)
 		{
-			double tp = SmartDashboard::GetNumber("Talon P:", 0.0);
-			double ti = SmartDashboard::GetNumber("Talon I:", 0.0);
-			double td = SmartDashboard::GetNumber("Talon D:", 0.0);
-			double tf = SmartDashboard::GetNumber("Talon F:", 0.0);
-			CommandBase::pDriveTrain->SetTalonPID(tp, ti, td, tf);
-
 			this->pTimer->Reset();
 			this->pTimer->Start();
 			
@@ -119,12 +110,6 @@ void DriveWithJoystick::Execute()
 		}
 		else if (this->isTurnTest)
 		{
-			double gp = SmartDashboard::GetNumber("Gyro P:", 0.0);
-			double gi = SmartDashboard::GetNumber("Gyro I:", 0.0);
-			double gd = SmartDashboard::GetNumber("Gyro D:", 0.0);
-			double gf = SmartDashboard::GetNumber("Gyro F:", 0.0);
-			CommandBase::pDriveTrain->SetGyroPID(gp, gi, gd, gf);
-
 			this->pTimer->Reset();
 			this->pTimer->Start();
 			
@@ -161,7 +146,6 @@ void DriveWithJoystick::Execute()
 				<< " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition()
 				<< " Current Postion: " << CommandBase::pDriveTrain->GetLeftPosition()
 				<< " Velocity: " << CommandBase::pDriveTrain->GetVelocity()
-				<< " P: " << SmartDashboard::GetNumber("Talon P:", 0.0)
 				<< " Time: " << this->pTimer->Get());
 	}
 	else if (this->isTurnTest)
@@ -169,7 +153,6 @@ void DriveWithJoystick::Execute()
 		LOG("[DriveWithJoystick] Set Point: " << this->dSetpoint
 				<< " Current Angle: " << CommandBase::pDriveTrain->GetAngle()
 				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
-				<< " P: " << SmartDashboard::GetNumber("Gyro P:", 0.0)
 				<< " Time: " << this->pTimer->Get());
 	}
 

@@ -254,7 +254,8 @@ double DriveTrain::GetLeftDistance()
  */
 double DriveTrain::GetLeftPosition()
 {
-	return this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+	return this->pLeftFrontMotor->GetClosedLoopTarget(SLOT_INDEX);
+//	return this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
 }
 
 /**

@@ -6,6 +6,7 @@
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
+#include "Commands/DriveWithJoystick.h"
 
 #include "MotionProfile/CommandGroups/MPRobotCenterSwitchRightCG.h"
 
@@ -50,6 +51,7 @@ public:
 	MPRobotCenterSwitchRightCG* pMotionProfileCommand;
 
 private:
+	DriveWithJoystick*	pDriveWithJoystick;
 
 	int GetAutoType();
 

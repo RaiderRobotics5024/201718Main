@@ -19,6 +19,8 @@
  */
 Robot::~Robot()
 {
+	delete this->pDriveWithJoystick;
+
 	if (this->pAutonomousCommand    != nullptr) delete this->pAutonomousCommand;
 	if (this->pMotionProfileCommand != nullptr) delete this->pMotionProfileCommand;
 
@@ -32,15 +34,8 @@ void Robot::RobotInit()
 {
 	LOG("[Robot] Initialized");
 
-	SmartDashboard::PutNumber("Talon P:", TALON_PID_P);
-	SmartDashboard::PutNumber("Talon I:", TALON_PID_I);
-	SmartDashboard::PutNumber("Talon D:", TALON_PID_D);
-	SmartDashboard::PutNumber("Talon F:", TALON_PID_F);
-
-	SmartDashboard::PutNumber("Gyro P:", GYRO_PID_P);
-	SmartDashboard::PutNumber("Gyro I:", GYRO_PID_I);
-	SmartDashboard::PutNumber("Gyro D:", GYRO_PID_D);
-	SmartDashboard::PutNumber("Gyro F:", GYRO_PID_F);
+	SmartDashboard::PutBoolean("Is Drive Test:", false);
+	SmartDashboard::PutBoolean("Is Turn  Test:", false);
 
 	return;
 }
@@ -180,6 +175,9 @@ void Robot::TeleopPeriodic()
  */
 void Robot::TestInit()
 {
+	this->pDriveWithJoystick = new DriveWithJoystick();
+	pDriveWithJoystick->Start();
+
 	return;
 }
 

@@ -63,6 +63,7 @@ void DriveWithEncoders::Execute()
 				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
 				<< " CP: " << CommandBase::pDriveTrain->GetLeftPosition()
 				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
+//				<< " P : " << CommandBase::pDriveTrain->GetLeftFrontMotor()->GetClosedLoopTarget()
 				<< " Time: " << this->pTimer->Get());
 
 		iCounter = 0;
