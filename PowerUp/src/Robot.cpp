@@ -51,10 +51,10 @@ void Robot::RobotInit()
 	// setup override auto if we are left/right and scale and switch are opposite
 	// and our opposite alliance partner can go for scale.  we don't want to collide
 	// with them.  we should let them get the scale
-	scOverrideAuto.AddDefault("No Override", 0);
-	scOverrideAuto.AddObject("Go through switch area", 98);
-	scOverrideAuto.AddObject("Just drive forward", 99);
-	frc::SmartDashboard::PutData("Autonomous Override", &scOverrideAuto);
+	scOverrideAuto.AddDefault("Normal Operation", 0);
+	scOverrideAuto.AddObject("Don't Do Opposite", 98);
+	scOverrideAuto.AddObject("Just Drive Forward", 99);
+	frc::SmartDashboard::PutData("Autonomous Operation", &scOverrideAuto);
 
 	return;
 }
@@ -77,6 +77,8 @@ int Robot::GetAutoType()
 	int _SP = 0;
 	std::string _GSM = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 
+	if (_OA == 99 ) return _OA; // Just Drive Forward
+	
 	if (_GSM.length() > 0)
 	{
 		if (_GSM[0] == 'L')
