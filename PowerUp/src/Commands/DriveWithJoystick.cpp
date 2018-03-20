@@ -139,8 +139,8 @@ void DriveWithJoystick::Execute()
 	// drive the bot as usual if not drive test and not turn test
 	if (!this->isDriveTest && !this->isTurnTest)
 	{
-		double xSpeed    = pJoyDrive->GetX(XboxController::kLeftHand);
-		double zRotation = pJoyDrive->GetY(XboxController::kLeftHand);
+		double xSpeed    = pJoyDrive->GetY(XboxController::kLeftHand);
+		double zRotation = pJoyDrive->GetX(XboxController::kLeftHand);
 
 		if (fabs(xSpeed) <= XBOX_DEADZONE_LEFT_JOY)
 		{
