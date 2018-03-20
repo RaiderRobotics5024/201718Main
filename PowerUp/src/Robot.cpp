@@ -54,7 +54,7 @@ void Robot::RobotInit()
 	scOverrideAuto.AddDefault("Normal Operation", 0);
 	scOverrideAuto.AddObject("Don't Do Opposite", 98);
 	scOverrideAuto.AddObject("Just Drive Forward", 99);
-	frc::SmartDashboard::PutData("Autonomous Operation", &scOverrideAuto);
+	frc::SmartDashboard::PutData("Autonomous Mode", &scOverrideAuto);
 
 	return;
 }
