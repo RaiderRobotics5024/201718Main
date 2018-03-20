@@ -65,7 +65,6 @@ void DriveWithJoystick::Execute()
 
 		if(this->isDriveTest)
 		{
-			CommandBase::pDriveTrain->SetEncoders();
 			CommandBase::pDriveTrain->InitAutonomousMode(true);
 		}
 		else
