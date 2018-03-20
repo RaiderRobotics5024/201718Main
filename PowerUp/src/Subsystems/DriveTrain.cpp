@@ -178,11 +178,11 @@ void DriveTrain::Turn()
 {
     this->pTurnController->Enable();
 
-    double dSpeed = this->dRotateToAngleRate;
+    double dTurnRate = this->dRotateToAngleRate;
 
-    if (this->pTurnController->GetSetpoint() < 0.0) dSpeed = dSpeed * -1;
+    if (this->pTurnController->GetSetpoint() < 0.0) dTurnRate = dTurnRate * -1;
 
-    this->pRobotDrive->ArcadeDrive(0.0, dSpeed);
+    this->pRobotDrive->ArcadeDrive(0.0, dTurnRate);
 
     return;
 }
@@ -192,7 +192,7 @@ void DriveTrain::Turn()
  */
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation)
 {
-	this->pRobotDrive->ArcadeDrive(xSpeed, zRotation);
+	this->pRobotDrive->ArcadeDrive(zRotation, xSpeed); // API parameter order is incorrect!
 
 	return;
 }
