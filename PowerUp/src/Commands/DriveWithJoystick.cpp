@@ -114,8 +114,8 @@ void DriveWithJoystick::Execute()
 		this->dSetpoint = -90.0;
 	}
 
-	// use right trigger to get/set the PID values and start the drive or turn test
-	if (pJoyDrive->GetTriggerAxis(frc::XboxController::kRightHand))
+	// use start button to start the drive or turn test
+	if (pJoyDrive->GetStartButtonPressed())
 	{
 		if (this->isDriveTest)
 		{
