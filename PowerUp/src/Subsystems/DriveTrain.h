@@ -35,6 +35,7 @@ public:
 	double GetAngle(void);
 	can::WPI_TalonSRX* GetLeftFrontMotor();  // Needed by Motion Profiler
 	can::WPI_TalonSRX* GetRightFrontMotor(); // Needed by Motion Profiler
+	double GetLeftDistance(void);
 	double GetLeftPosition(void);
 	double GetRightPosition(void);
 	double GetRotateToAngleRate(void);

@@ -58,10 +58,12 @@ void DriveWithEncoders::Execute()
 	{
 		CommandBase::pDriveTrain->Trace();
 
-		LOG("[DriveWithEncoders] Position Target: " << CommandBase::pDriveTrain->GetTargetPosition()
-				<< " Current: " << CommandBase::pDriveTrain->GetLeftPosition()
-				<< " Velocity: " << CommandBase::pDriveTrain->GetVelocity()
-				<< " Time: "  << this->pTimer->Get());
+		LOG("[DriveWithEncoders] TD: " << this->dDistance
+				<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
+				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+				<< " CP: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
+				<< " Time: " << this->pTimer->Get());
 
 		iCounter = 0;
 	}
