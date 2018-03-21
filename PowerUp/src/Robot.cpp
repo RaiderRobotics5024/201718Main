@@ -43,17 +43,17 @@ void Robot::RobotInit()
 	this->pToggleCompressor = new ToggleCompressor();
 
 	// setup smartdashboard robot positions
-	scRobotPosition.AddDefault("Centre", RobotPosition::CENTER);
-	scRobotPosition.AddObject("Left", RobotPosition::LEFT);
-	scRobotPosition.AddObject("Right", RobotPosition::RIGHT);
+	scRobotPosition.AddObject("1. Left", RobotPosition::LEFT);
+	scRobotPosition.AddDefault("2. Centre", RobotPosition::CENTER);
+	scRobotPosition.AddObject("3. Right", RobotPosition::RIGHT);
 	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
 
 	// setup override auto if we are left/right and scale and switch are opposite
 	// and our opposite alliance partner can go for scale.  we don't want to collide
 	// with them.  we should let them get the scale
-	scOverrideAuto.AddDefault("Normal Operation", 0);
-	scOverrideAuto.AddObject("Don't Do Opposite", 98);
-	scOverrideAuto.AddObject("Just Drive Forward", 99);
+	scOverrideAuto.AddDefault("1. Normal Operation", 0);
+	scOverrideAuto.AddObject("2. Don't Do Opposite", 98);
+	scOverrideAuto.AddObject("3. Just Drive Forward", 99);
 	frc::SmartDashboard::PutData("Autonomous Mode", &scOverrideAuto);
 
 	return;
@@ -131,21 +131,21 @@ void Robot::AutonomousInit()
 
 	switch (autoType)
 	{
-	case 10: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
-	case 11: pAutonomousCommand = new RobotLeftSwitchLeft   (); break;
-	case 12: pAutonomousCommand = new RobotLeftSwitchRight  (); break;
-	case 13: pAutonomousCommand = new TestAutonomous        (); break;
-	case 20: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
-	case 21: pAutonomousCommand = new RobotCenterSwitchLeft (); break;
-	case 22: pAutonomousCommand = new RobotCenterSwitchRight(); break;
-	case 23: pAutonomousCommand = new TestAutonomous        (); break;
-	case 30: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
-	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
-	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
-	case 33: pAutonomousCommand = new TestAutonomous        (); break;
+	case 10: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 11: pAutonomousCommand = new RobotLeftSwitchLeft       (); break;
+	case 12: pAutonomousCommand = new RobotLeftSwitchRight      (); break;
+	case 13: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
+	case 20: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 21: pAutonomousCommand = new RobotCenterSwitchLeft     (); break;
+	case 22: pAutonomousCommand = new RobotCenterSwitchRight    (); break;
+	case 23: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
+	case 30: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 31: pAutonomousCommand = new RobotRightSwitchLeft      (); break;
+	case 32: pAutonomousCommand = new RobotRightSwitchRight     (); break;
+	case 33: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
 	case 98:
 	case 99:
-	default: pAutonomousCommand = new JustDriveForward      (); break;
+	default: pAutonomousCommand = new JustDriveForward          (); break;
 	}
 
 	LOG("[Robot] Starting autonomous");
@@ -222,9 +222,6 @@ void Robot::TeleopPeriodic()
  */
 void Robot::TestInit()
 {
-	this->pMotionProfileCommand = new MPRobotCenterSwitchRightCG();
-	this->pMotionProfileCommand->Start();
-
 	return;
 }
 
@@ -233,8 +230,6 @@ void Robot::TestInit()
  */
 void Robot::TestPeriodic()
 {
-	frc::Scheduler::GetInstance()->Run();
-
 	return;
 }
 

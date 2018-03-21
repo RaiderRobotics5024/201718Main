@@ -15,8 +15,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
 
-	this->pLeftFrontMotor->SetInverted(false);
-	this->pLeftRearMotor->SetInverted(false);
+	this->pLeftFrontMotor->SetInverted(true); // change this based on test or production robot
+	this->pLeftRearMotor->SetInverted(true); // change this based on test or production robot
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -27,8 +27,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(true);
-	this->pRightRearMotor->SetInverted(true);
+	this->pRightFrontMotor->SetInverted(false); // change this based on test or production robot
+	this->pRightRearMotor->SetInverted(false); // change this based on test or production robot
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -100,11 +100,13 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 	pLeftFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
-	pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, TALON_PID_P, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, TALON_PID_I, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, TALON_PID_D, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, TALON_PID_F, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.5, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
 
+//	pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
+//	pRightFrontMotor->SetSensorPhase(true);
 	pRightFrontMotor->Follow(*pLeftFrontMotor);
 	pRightFrontMotor->SetInverted(inverted);
 
@@ -137,11 +139,13 @@ void DriveTrain::InitMotionProfiling()
 	pLeftFrontMotor->Config_kD(SLOT_INDEX, MP_PID_D, TIMEOUT_MS);
 	pLeftFrontMotor->Config_kF(SLOT_INDEX, MP_PID_F, TIMEOUT_MS);
 
+	pLeftFrontMotor->SetInverted(true); // change this based on test or production robot
+
 	pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(5, TIMEOUT_MS); //Our profile uses 5 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	pLeftFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 5, TIMEOUT_MS);
 
-	pRightFrontMotor->SetInverted(true);
+	pRightFrontMotor->SetInverted(false); // change this based on test or production robot
 
 	pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, PID_LOOP_INDEX, TIMEOUT_MS);
 	pRightFrontMotor->SetSensorPhase(true);
@@ -166,7 +170,8 @@ void DriveTrain::Drive(double distance, double speed)
 
 	SetTargetPosition(targetPositionRotations * speed);
 
-	pLeftFrontMotor->Set(ControlMode::Position, GetTargetPosition());
+	pLeftFrontMotor->Set(ControlMode::Position, GetTargetPosition() * -1);
+//	pRightFrontMotor->Set(ControlMode::Position, GetTargetPosition());
 
 	return;
 }
@@ -358,9 +363,11 @@ void DriveTrain::ResetGyro()
  */
 void DriveTrain::SetEncoders()
 {
-	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	int absLeftPosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	int absRightPosition = pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
 	/* use the low level API to set the quad encoder signal */
-	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
+	pLeftFrontMotor->SetSelectedSensorPosition(absLeftPosition, PID_LOOP_INDEX, TIMEOUT_MS);
+	pRightFrontMotor->SetSelectedSensorPosition(absRightPosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
 }

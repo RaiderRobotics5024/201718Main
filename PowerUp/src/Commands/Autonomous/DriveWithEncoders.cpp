@@ -44,7 +44,7 @@ void DriveWithEncoders::Initialize()
 	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->ResetEncoders();
-	CommandBase::pDriveTrain->InitAutonomousMode(true); // invert right front motor
+	CommandBase::pDriveTrain->InitAutonomousMode(false); // change this based on test or production robot
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 	return;
 }
@@ -61,7 +61,8 @@ void DriveWithEncoders::Execute()
 		LOG("[DriveWithEncoders] TD: " << this->dDistance
 				<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
 				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
-				<< " CP: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
 				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
 				<< " Time: " << this->pTimer->Get());
 
@@ -83,9 +84,16 @@ bool DriveWithEncoders::IsFinished()
 		return true;
 	}
 
-	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition() - 500.0))
+	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
 	{
-		LOG("[DriveWithEncoder] Reached Target");
+		LOG("[DriveWithEncoder] Reached Target by Left");
+
+		return true;
+	}
+
+	if (CommandBase::pDriveTrain->GetRightPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
+	{
+		LOG("[DriveWithEncoder] Reached Target by Right");
 
 		return true;
 	}

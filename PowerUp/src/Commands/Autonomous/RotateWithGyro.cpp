@@ -34,6 +34,7 @@ void RotateWithGyro::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
+	CommandBase::pDriveTrain->InitAutonomousMode(true); // change this based on test or production robot
 	CommandBase::pDriveTrain->ResetGyro();
 	CommandBase::pDriveTrain->SetSetpoint(dSetPoint);
 
@@ -70,7 +71,7 @@ void RotateWithGyro::Execute()
  */
 bool RotateWithGyro::IsFinished()
 {
-	if (this->pTimer->Get() > 4.0) // stop after 2 seconds no matter what
+	if (this->pTimer->Get() > 1.5) // stop after 2 seconds no matter what
 	{
 		LOG("[RotateWithEncoders] Timed out");
 
