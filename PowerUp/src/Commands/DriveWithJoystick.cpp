@@ -158,17 +158,17 @@ void DriveWithJoystick::Execute()
 	// log the test results
 	if (this->isDriveTest)
 	{
-		LOG("[DriveWithJoystick] Target Distance: " << this->dDistance
-		    		<< " Current Distance: " << CommandBase::pDriveTrain->GetLeftDistance()
-				<< " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition()
-				<< " Current Postion: " << CommandBase::pDriveTrain->GetLeftPosition()
-				<< " Velocity: " << CommandBase::pDriveTrain->GetVelocity()
+		LOG("[DriveWithJoystick] TD: " << this->dDistance
+		    	<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
+				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+				<< " CP: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
 				<< " Time: " << this->pTimer->Get());
 	}
 	else if (this->isTurnTest)
 	{
-		LOG("[DriveWithJoystick] Set Point: " << this->dSetpoint
-				<< " Current Angle: " << CommandBase::pDriveTrain->GetAngle()
+		LOG("[DriveWithJoystick] TA: " << this->dSetpoint
+				<< " CA: " << CommandBase::pDriveTrain->GetAngle()
 				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
 				<< " Time: " << this->pTimer->Get());
 	}
