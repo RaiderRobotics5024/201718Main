@@ -54,15 +54,9 @@ void DriveWithEncoders::Initialize()
  */
 void DriveWithEncoders::Execute()
 {
-	if (iCounter++ == 2)
+	if (iCounter++ == 5)
 	{
-		LOG("[DriveWithEncoders] TD: " << this->dDistance
-				<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
-				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
-				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
-				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
-				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
-				<< " Time: " << this->pTimer->Get());
+		DriveWithEncoders::Trace();
 
 		iCounter = 0;
 	}
@@ -106,6 +100,8 @@ void DriveWithEncoders::End()
 {
 	LOG("[DriveWithEncoders] Ended" );
 
+	DriveWithEncoders::Trace();
+
 	CommandBase::pDriveTrain->ResetDrive();
 
 	return;
@@ -119,6 +115,22 @@ void DriveWithEncoders::Interrupted()
 	LOG("[DriveWithEncoders] Interrupted" );
 
 	CommandBase::pDriveTrain->ResetDrive();
+
+	return;
+}
+
+/**
+ *
+ */
+void DriveWithEncoders::Trace()
+{
+	LOG("[DriveWithEncoders] TD: " << this->dDistance
+			<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
+			<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+			<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+			<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
+			<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
+			<< " Time: " << this->pTimer->Get());
 
 	return;
 }
