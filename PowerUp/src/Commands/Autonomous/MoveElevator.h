@@ -18,6 +18,7 @@ public:
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+	void Trace();
 
 private:
 	Timer* pTimer;

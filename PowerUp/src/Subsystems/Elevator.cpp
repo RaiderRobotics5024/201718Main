@@ -15,10 +15,6 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	this->pMiddleSwitch = new frc::DigitalInput(ELEVATOR_MID_SWITCH_ID);
 	this->pBottomSwitch = new frc::DigitalInput(ELEVATOR_BOTTOM_SWITCH_ID);
 
-	this->pTopCounter    = new Counter(pTopSwitch);
-	this->pMiddleCounter = new Counter(pMiddleSwitch);
-	this->pBottomCounter = new Counter(pBottomSwitch);
-
 	return;
 }
 
@@ -34,10 +30,6 @@ Elevator::~Elevator()
 	delete this->pTopSwitch;
 	delete this->pMiddleSwitch;
 	delete this->pBottomSwitch;
-
-	delete this->pTopCounter;
-	delete this->pMiddleCounter;
-	delete this->pBottomCounter;
 
 	return;
 }
@@ -61,7 +53,8 @@ bool Elevator::IsTopSwitchAligned()
 {
 	// the Get returns 1 if magnets are not aligned, 0 if magnets are aligned
 	// so we return the opposite of the Get
-	return this->pTopCounter->Get() > 0;
+//	return this->pTopCounter->Get() > 0;
+	return !this->pTopSwitch->Get();
 }
 
 /**
@@ -71,7 +64,8 @@ bool Elevator::IsMiddleSwitchAligned()
 {
 	// the Get returns 1 if magnets are not aligned, 0 if magnets are aligned
 	// so we return the opposite of the Get
-	return this->pMiddleCounter->Get() > 0;
+//	return this->pMiddleCounter->Get() > 0;
+	return !this->pMiddleSwitch->Get();
 }
 
 /**
@@ -81,7 +75,8 @@ bool Elevator::IsBottomSwitchAligned()
 {
 	// the Get returns 1 if magnets are not aligned, 0 if magnets are aligned
 	// so we return the opposite of the Get
-	return this->pBottomCounter->Get() > 0;
+//	return this->pBottomCounter->Get() > 0;
+	return !this->pBottomSwitch->Get();
 }
 
 /**
@@ -92,16 +87,6 @@ void Elevator::Reset()
 	this->pElevatorMotor->Set(0.0);
 
 	return;
-}
-
-/**
- *
- */
-void Elevator::ResetCounters()
-{
-	this->pTopCounter->Reset();
-	this->pMiddleCounter->Reset();
-	this->pBottomCounter->Reset();
 }
 
 /**

@@ -4,6 +4,8 @@
 #include <math.h>
 
 //Drive Train
+const bool IS_QBERT = true; // change this to false if using the test bot
+
 const int DRIVETRAIN_LEFT_FRONT_MOTOR_ID = 1;
 const int DRIVETRAIN_LEFT_REAR_MOTOR_ID = 2;
 const int DRIVETRAIN_RIGHT_FRONT_MOTOR_ID = 3;
@@ -45,9 +47,9 @@ const double GRIPPER_SPEED_ADJUSTMENT_RATIO = 0.75;
 
 // Elevator
 const int ELEVATOR_MOTOR_ID = 5;
-const int ELEVATOR_TOP_SWITCH_ID = 1;
+const int ELEVATOR_TOP_SWITCH_ID = 3;
 const int ELEVATOR_MID_SWITCH_ID = 2;
-const int ELEVATOR_BOTTOM_SWITCH_ID = 3;
+const int ELEVATOR_BOTTOM_SWITCH_ID = 4;
 
 // ClimbSystem
 const int CLIMBSYSTEM_MOTOR_ID = 10;

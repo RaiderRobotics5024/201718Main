@@ -42,6 +42,7 @@ void Robot::RobotInit()
 	this->pToggleCompressor = new ToggleCompressor();
 
 	// setup smartdashboard robot positions
+	frc::SmartDashboard::init();
 	scRobotPosition.AddObject("1. Left", RobotPosition::LEFT);
 	scRobotPosition.AddDefault("2. Centre", RobotPosition::CENTER);
 	scRobotPosition.AddObject("3. Right", RobotPosition::RIGHT);

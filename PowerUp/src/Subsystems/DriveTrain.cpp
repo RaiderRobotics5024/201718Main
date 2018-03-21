@@ -15,25 +15,25 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
 
-	this->pLeftFrontMotor->SetInverted(false); // change this based on (false) production or (true) test robot
-	this->pLeftRearMotor->SetInverted(false); // change this based on (false) production or (true) test robot
+	this->pLeftFrontMotor->SetInverted(IS_QBERT); // change this based on (false) production or (true) test robot
+	this->pLeftRearMotor->SetInverted(IS_QBERT); // change this based on (false) production or (true) test robot
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
-	this->pLeftFrontMotor->SetSensorPhase(true);
-	this->pLeftRearMotor->SetSensorPhase(true);
+	this->pLeftFrontMotor->SetSensorPhase(false);
+	this->pLeftRearMotor->SetSensorPhase(false);
 
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(true); // change this based on (true) production or (false) test robot
-	this->pRightRearMotor->SetInverted(true); // change this based on (true) production or (false) test robot
+	this->pRightFrontMotor->SetInverted(!IS_QBERT); // change this based on (true) production or (false) test robot
+	this->pRightRearMotor->SetInverted(!IS_QBERT); // change this based on (true) production or (false) test robot
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
 
-	this->pRightFrontMotor->SetSensorPhase(true);
-	this->pRightRearMotor->SetSensorPhase(true);
+	this->pRightFrontMotor->SetSensorPhase(false);
+	this->pRightRearMotor->SetSensorPhase(false);
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
