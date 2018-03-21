@@ -116,6 +116,7 @@ void Robot::TeleopPeriodic()
 				<< " QV: " << pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
 				<< " SP: " << pTalonSRX->GetSelectedSensorPosition(0)
 				<< " SV: " << pTalonSRX->GetSelectedSensorVelocity(0)
+		    		<< " MS: " << dMotorSpeed
 				);
 		iCounter = 0;
 	}
