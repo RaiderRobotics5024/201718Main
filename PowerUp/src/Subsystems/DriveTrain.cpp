@@ -9,14 +9,16 @@
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
 	LOG("[DriveTrain] Constructed");
+	
+	bool isProduction = false; // Set this to true if the code is in production or false if it is on the test robot
 
 	// Initialize the motors
 	this->pLeftFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
 
-	this->pLeftFrontMotor->SetInverted(false); // change this based on (false) production or (true) test robot
-	this->pLeftRearMotor->SetInverted(false); // change this based on (false) production or (true) test robot
+	this->pLeftFrontMotor->SetInverted(!isProduction);
+	this->pLeftRearMotor->SetInverted(!isProduction);
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -27,8 +29,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(true); // change this based on (true) production or (false) test robot
-	this->pRightRearMotor->SetInverted(true); // change this based on (true) production or (false) test robot
+	this->pRightFrontMotor->SetInverted(isProduction);
+	this->pRightRearMotor->SetInverted(isProduction);
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
 
