@@ -3,7 +3,7 @@
 
 #include <Timer.h>
 #include <WPILib.h>
-#include "../CommandBase.h"
+#include "../../CommandBase.h"
 
 
 /**
@@ -22,7 +22,7 @@ public:
 
 private:
 	Timer* pTimer;
-	int iCounter = 0;
+	int    iCounter = 0;
 	double dDistance = 0;
 	double dSpeed = 0;
 };

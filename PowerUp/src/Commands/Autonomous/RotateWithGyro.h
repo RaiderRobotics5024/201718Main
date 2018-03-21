@@ -2,7 +2,7 @@
 #define _ROTATE_WITH_GYRO_HG_
 
 #include <Timer.h>
-#include "../CommandBase.h"
+#include "../../CommandBase.h"
 
 class RotateWithGyro : public CommandBase
 {

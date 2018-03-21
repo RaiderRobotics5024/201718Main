@@ -1,6 +1,6 @@
 #include "RotateWithEncoders.h"
-#include "../Utilities/Log.h"
-#include "../RobotMap.h"
+#include "../../Utilities/Log.h"
+#include "../../RobotMap.h"
 
 /**
  *
@@ -57,9 +57,7 @@ void RotateWithEncoders::Execute()
 {
 	if (iCounter++ == 10)
 	{
-		CommandBase::pDriveTrain->Trace();
-
-		LOG("[RotateWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
+		LOG("[RotateWithEncoders] CP: " << CommandBase::pDriveTrain->GetLeftPosition() << " TP: " << CommandBase::pDriveTrain->GetTargetPosition());
 
 		iCounter = 0;
 	}

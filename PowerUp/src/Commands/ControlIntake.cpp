@@ -1,4 +1,4 @@
-#include "Gripper.h"
+#include "ControlIntake.h"
 #include "../Utilities/Log.h"
 #include <math.h>
 #include "../RobotMap.h"
@@ -6,9 +6,9 @@
 /**
  *
  */
-Gripper::Gripper()
+ControlIntake::ControlIntake()
 {
-	LOG("[Gripper] Constructed");
+	LOG("[ControlIntake] Constructed");
 
 	if ( CommandBase::pIntake != nullptr )
 	{
@@ -16,7 +16,7 @@ Gripper::Gripper()
 	}
 	else
 	{
-		LOG("[Gripper] intake is NULL!");
+		LOG("[ControlIntake] intake is NULL!");
 	}
 
 	return;
@@ -25,9 +25,9 @@ Gripper::Gripper()
 /**
  *
  */
-void Gripper::Initialize()
+void ControlIntake::Initialize()
 {
-	LOG("[Gripper] Initialize");
+	LOG("[ControlIntake] Initialize");
 
 	return;
 }
@@ -35,7 +35,7 @@ void Gripper::Initialize()
 /**
  *
  */
-void Gripper::Execute()
+void ControlIntake::Execute()
 {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
@@ -60,7 +60,7 @@ void Gripper::Execute()
 /**
  *
  */
-bool Gripper::IsFinished()
+bool ControlIntake::IsFinished()
 {
 	return false;
 }
@@ -68,9 +68,9 @@ bool Gripper::IsFinished()
 /**
  *
  */
-void Gripper::End()
+void ControlIntake::End()
 {
-	LOG("[Gripper] Ended");
+	LOG("[ControlIntake] Ended");
 
 	return;
 }
@@ -78,9 +78,9 @@ void Gripper::End()
 /**
  *
  */
-void Gripper::Interrupted()
+void ControlIntake::Interrupted()
 {
-	LOG("[Gripper] Interrupted");
+	LOG("[ControlIntake] Interrupted");
 
 	return;
 }

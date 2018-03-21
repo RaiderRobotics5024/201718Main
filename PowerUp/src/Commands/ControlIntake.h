@@ -1,13 +1,13 @@
-#ifndef SRC_COMMANDS_GRIPPER_H_
-#define SRC_COMMANDS_GRIPPER_H_
+#ifndef _CONTROLINTAKE_HG_
+#define _CONTROLINTAKE_HG_
 
 #include <WPILib.h>
 #include "../CommandBase.h"
 
-class Gripper : public CommandBase
+class ControlIntake : public CommandBase
 {
 public:
-	Gripper();
+	ControlIntake();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -16,6 +16,4 @@ public:
 
 };
 
-
-
-#endif /* SRC_COMMANDS_GRIPPER_H_ */
+#endif

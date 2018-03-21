@@ -1,5 +1,5 @@
 #include "RotateWithGyro.h"
-#include "../Utilities/Log.h"
+#include "../../Utilities/Log.h"
 #include <math.h>
 
 /**
@@ -34,6 +34,7 @@ void RotateWithGyro::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
+	CommandBase::pDriveTrain->InitAutonomousMode(false); // change this based on test or (false) production or (true) test robot
 	CommandBase::pDriveTrain->ResetGyro();
 	CommandBase::pDriveTrain->SetSetpoint(dSetPoint);
 
@@ -49,11 +50,13 @@ void RotateWithGyro::Execute()
 
 	if (iCounter++ == 10)
 	{
-		CommandBase::pDriveTrain->Trace();
-
 		double dCurrentAngle = CommandBase::pDriveTrain->GetAngle();
 
-		LOG("[RotateWithGyro] Set Point: " << dSetPoint << " Angle: " << dCurrentAngle);
+		LOG("[RotateWithGyro] Set Point: " << dSetPoint
+				<< " Angle: " << dCurrentAngle
+				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
+				<< " Time: "  << this->pTimer->Get());
+
 
 		iCounter = 0;
 	}
@@ -66,7 +69,7 @@ void RotateWithGyro::Execute()
  */
 bool RotateWithGyro::IsFinished()
 {
-	if (this->pTimer->Get() > 4.0) // stop after 2 seconds no matter what
+	if (this->pTimer->Get() > 1.5) // stop after 2 seconds no matter what
 	{
 		LOG("[RotateWithEncoders] Timed out");
 

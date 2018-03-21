@@ -15,8 +15,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
 
-	this->pLeftFrontMotor->SetInverted(false);
-	this->pLeftRearMotor->SetInverted(false);
+	this->pLeftFrontMotor->SetInverted(false); // change this based on (false) production or (true) test robot
+	this->pLeftRearMotor->SetInverted(false); // change this based on (false) production or (true) test robot
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -27,8 +27,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(true);
-	this->pRightRearMotor->SetInverted(true);
+	this->pRightFrontMotor->SetInverted(true); // change this based on (true) production or (false) test robot
+	this->pRightRearMotor->SetInverted(true); // change this based on (true) production or (false) test robot
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -100,11 +100,13 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 	pLeftFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
-	pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, TALON_PID_P, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, TALON_PID_I, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, TALON_PID_D, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, TALON_PID_F, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.5, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+	pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
 
+	pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
+	pRightFrontMotor->SetSensorPhase(true);
 	pRightFrontMotor->Follow(*pLeftFrontMotor);
 	pRightFrontMotor->SetInverted(inverted);
 
@@ -128,8 +130,12 @@ void DriveTrain::InitDefaultCommand()
  */
 void DriveTrain::Drive(double distance, double speed)
 {
-	this->dTargetPostionRotations = (distance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
-	pLeftFrontMotor->Set(ControlMode::Position, speed * dTargetPostionRotations);
+	double targetPositionRotations = (distance / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
+
+	SetTargetPosition(targetPositionRotations * speed);
+
+//	pLeftFrontMotor->Set(ControlMode::Position, GetTargetPosition() * -1);
+	pRightFrontMotor->Set(ControlMode::Position, GetTargetPosition());
 
 	return;
 }
@@ -141,11 +147,11 @@ void DriveTrain::Turn()
 {
     this->pTurnController->Enable();
 
-    double dSpeed = this->dRotateToAngleRate;
+    double dTurnRate = this->dRotateToAngleRate;
 
-    if (this->pTurnController->GetSetpoint() < 0.0) dSpeed = dSpeed * -1;
+    if (this->pTurnController->GetSetpoint() < 0.0) dTurnRate = dTurnRate * -1;
 
-    this->pRobotDrive->CurvatureDrive(dSpeed, 0.0, true);
+    this->pRobotDrive->ArcadeDrive(0.0, dTurnRate);
 
     return;
 }
@@ -155,7 +161,7 @@ void DriveTrain::Turn()
  */
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation)
 {
-	this->pRobotDrive->ArcadeDrive(xSpeed, zRotation);
+	this->pRobotDrive->ArcadeDrive(zRotation, xSpeed); // API parameter order is incorrect
 
 	return;
 }
@@ -183,24 +189,23 @@ void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
 /**
  *
  */
-double DriveTrain::GetAngle()
-{
-	return pGyro->GetAngle();
-}
-
-/*
- *
- */
-
 AHRS* DriveTrain::GetAHRS()
 {
-	return this->pGyro ;
+	return this->pGyro;
 }
 
 /**
  *
  */
-can::WPI_TalonSRX* DriveTrain::GetFrontLeftMotor()
+double DriveTrain::GetAngle()
+{
+	return pGyro->GetAngle();
+}
+
+/**
+ *
+ */
+can::WPI_TalonSRX* DriveTrain::GetLeftFrontMotor()
 {
 	return this->pLeftFrontMotor;
 }
@@ -208,9 +213,25 @@ can::WPI_TalonSRX* DriveTrain::GetFrontLeftMotor()
 /**
  *
  */
+can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
+{
+	return this->pRightFrontMotor;
+}
+
+/**
+ *
+ */
+double DriveTrain::GetLeftDistance()
+{
+	return GetLeftPosition() / TICKS_PER_REVOLUTION * INCHES_PER_REVOLUTION;
+}
+
+/**
+ *
+ */
 double DriveTrain::GetLeftPosition()
 {
-	return pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+	return this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
 }
 
 /**
@@ -218,7 +239,15 @@ double DriveTrain::GetLeftPosition()
  */
 double DriveTrain::GetRightPosition()
 {
-	return pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+	return this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+double DriveTrain::GetRotateToAngleRate()
+{
+	return this->dRotateToAngleRate;
 }
 
 /**
@@ -229,6 +258,13 @@ double DriveTrain::GetTargetPosition()
 	return this->dTargetPostionRotations;
 }
 
+/**
+ *
+ */
+int DriveTrain::GetVelocity()
+{
+	return pRightFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
+}
 /**
  *
  */
@@ -299,9 +335,11 @@ void DriveTrain::ResetGyro()
  */
 void DriveTrain::SetEncoders()
 {
-	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	int absLeftPosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	int absRightPosition = pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
 	/* use the low level API to set the quad encoder signal */
-	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
+	pLeftFrontMotor->SetSelectedSensorPosition(absLeftPosition, PID_LOOP_INDEX, TIMEOUT_MS);
+	pRightFrontMotor->SetSelectedSensorPosition(absRightPosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
 }
@@ -309,78 +347,27 @@ void DriveTrain::SetEncoders()
 /**
  *
  */
-void DriveTrain::SetSetpoint(double setpoint)
+void DriveTrain::SetRotateToAngleRate(double dRate)
 {
-	this->pTurnController->SetSetpoint(setpoint);
+	this->dRotateToAngleRate = dRate;
+}
 
-	return;
+/**
+ * Used by Autonomous Commands
+ */
+void DriveTrain::SetSetpoint(double dSetpoint)
+{
+    this->pTurnController->SetSetpoint(dSetpoint);
+
+    return;
 }
 
 /**
  *
  */
-void DriveTrain::Trace()
+void DriveTrain::SetTargetPosition(double dTargetPosition)
 {
-	Trace(this->pLeftFrontMotor, "Left Front");
-	Trace(this->pLeftRearMotor, "Left Rear");
-
-	Trace(this->pRightFrontMotor, "Right Front");
-	Trace(this->pRightRearMotor, "Right Rear");
-
-	SmartDashboard::PutNumber("Gyro Angle", pGyro->GetAngle());
-}
-
-/**
- *
- */
-void DriveTrain::Trace(WPI_TalonSRX* pTalonSRX, const std::string name)
-{
-	int baseId = pTalonSRX->GetBaseID();
-	int version = pTalonSRX->GetFirmwareVersion();
-	bool isInverted = pTalonSRX->GetInverted();
-
-	double currentAmps = pTalonSRX->GetOutputCurrent();
-	double outputV = pTalonSRX->GetMotorOutputVoltage();
-	double busV = pTalonSRX->GetBusVoltage();
-	double outputPerc = pTalonSRX->GetMotorOutputPercent();
-
-	int quadPos = pTalonSRX->GetSensorCollection().GetQuadraturePosition();
-	int quadVel = pTalonSRX->GetSensorCollection().GetQuadratureVelocity();
-
-	int analogPos = pTalonSRX->GetSensorCollection().GetAnalogIn();
-	int analogVel = pTalonSRX->GetSensorCollection().GetAnalogInVel();
-
-	int selectedSensorPos = pTalonSRX->GetSelectedSensorPosition(SLOT_INDEX); /* sensor selected for PID Loop 0 */
-	int selectedSensorVel = pTalonSRX->GetSelectedSensorVelocity(SLOT_INDEX); /* sensor selected for PID Loop 0 */
-	int closedLoopErr = pTalonSRX->GetClosedLoopError(SLOT_INDEX); /* sensor selected for PID Loop 0 */
-	double closedLoopAccum = pTalonSRX->GetIntegralAccumulator(SLOT_INDEX); /* sensor selected for PID Loop 0 */
-	double derivErr = pTalonSRX->GetErrorDerivative(SLOT_INDEX);  /* sensor selected for PID Loop 0 */
-
-	Faults faults;
-	pTalonSRX->GetFaults(faults);
-
-	SmartDashboard::PutNumber(name + " Base ID", baseId);
-	SmartDashboard::PutNumber(name + " Version", version);
-	SmartDashboard::PutBoolean(name + " Is Inverted", isInverted);
-
-	SmartDashboard::PutNumber(name + " Current Amps", currentAmps);
-	SmartDashboard::PutNumber(name + " Output Voltage", outputV);
-	SmartDashboard::PutNumber(name + " Bus Voltage", busV);
-	SmartDashboard::PutNumber(name + " Output Percent", outputPerc);
-
-	SmartDashboard::PutNumber(name + " Quad Position", quadPos);
-	SmartDashboard::PutNumber(name + " Quad Velocity", quadVel);
-
-	SmartDashboard::PutNumber(name + " Analog In Position", analogPos);
-	SmartDashboard::PutNumber(name + " Analog In Velocity", analogVel);
-
-	SmartDashboard::PutNumber(name + " SS Position", selectedSensorPos);
-	SmartDashboard::PutNumber(name + " SS Velocity", selectedSensorVel);
-	SmartDashboard::PutNumber(name + " SS Closed Loop Error", closedLoopErr);
-	SmartDashboard::PutNumber(name + " Integral Accumulator", closedLoopAccum);
-	SmartDashboard::PutNumber(name + " Error Derivative", derivErr);
-
-	SmartDashboard::PutBoolean(name + " Has Faults", faults.HasAnyFault());
+	this->dTargetPostionRotations = dTargetPosition;
 
 	return;
 }
@@ -389,7 +376,7 @@ void DriveTrain::Trace(WPI_TalonSRX* pTalonSRX, const std::string name)
 /* based upon navX MXP yaw angle input and PID Coefficients.    */
 void DriveTrain::PIDWrite(double output)
 {
-    this->dRotateToAngleRate = output;
+    SetRotateToAngleRate(output);
 
     return;
 }

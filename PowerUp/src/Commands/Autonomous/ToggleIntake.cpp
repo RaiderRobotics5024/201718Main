@@ -1,13 +1,13 @@
-#include "EjectCube.h"
-#include "../Utilities/Log.h"
-#include "../RobotMap.h"
+#include "ToggleIntake.h"
+#include "../../Utilities/Log.h"
+#include "../../RobotMap.h"
 
 /**
  * speed from -1 to 1
  */
-EjectCube::EjectCube(double speed)
+ToggleIntake::ToggleIntake(double speed)
 {
-	LOG("[EjectCube] Constructed");
+	LOG("[ToggleIntake] Constructed");
 
 	if (CommandBase::pIntake != nullptr)
 	{
@@ -16,7 +16,7 @@ EjectCube::EjectCube(double speed)
 	}
 	else
 	{
-		LOG("[EjectCube] inTake is null!");
+		LOG("[ToggleIntake] inTake is null!");
 	}
 
 	this->pTimer = new Timer();
@@ -27,9 +27,9 @@ EjectCube::EjectCube(double speed)
 /**
  *
  */
-void EjectCube::Initialize()
+void ToggleIntake::Initialize()
 {
-	LOG("[EjectCube] Initialized");
+	LOG("[ToggleIntake] Initialized");
 
 	this->pTimer->Reset();
 	this->pTimer->Start();
@@ -40,7 +40,7 @@ void EjectCube::Initialize()
 /**
  *
  */
-void EjectCube::Execute()
+void ToggleIntake::Execute()
 {
 	CommandBase::pIntake->SetSpeed(dSpeed);
 
@@ -50,11 +50,11 @@ void EjectCube::Execute()
 /**
  *
  */
-bool EjectCube::IsFinished()
+bool ToggleIntake::IsFinished()
 {
 	if (this->pTimer->Get() > 0.5) // stop after 2 seconds no matter what
 	{
-		LOG("[EjectCube] Timed Out");
+		LOG("[ToggleIntake] Timed Out");
 
 		return true;
 	}
@@ -65,9 +65,9 @@ bool EjectCube::IsFinished()
 /**
  *
  */
-void EjectCube::End()
+void ToggleIntake::End()
 {
-	LOG("[EjectCube] Ended");
+	LOG("[ToggleIntake] Ended");
 
 	CommandBase::pIntake->Reset();
 
@@ -77,9 +77,9 @@ void EjectCube::End()
 /**
  *
  */
-void EjectCube::Interrupted()
+void ToggleIntake::Interrupted()
 {
-	LOG("[EjectCube] Interrupted" );
+	LOG("[ToggleIntake] Interrupted" );
 
 	CommandBase::pIntake->Reset();
 

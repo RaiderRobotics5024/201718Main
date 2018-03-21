@@ -1,17 +1,17 @@
-#ifndef _EJECTCUBE_HG_
-#define _EJECTCUBE_HG_
+#ifndef _TOGGLEINTAKE_HG_
+#define _TOGGLEINTAKE_HG_
 
 #include <WPILib.h>
 #include <Timer.h>
-#include "../CommandBase.h"
+#include "../../CommandBase.h"
 
 /**
  *
  */
-class EjectCube : public CommandBase
+class ToggleIntake : public CommandBase
 {
 public:
-	EjectCube(double speed);
+	ToggleIntake(double speed);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

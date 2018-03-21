@@ -1,22 +1,27 @@
 #include "Robot.h"
 #include "Utilities/Log.h"
 #include <string>
-#include "Commands/Autonomous/RobotLeftSwitchLeft.h"
-#include "Commands/Autonomous/RobotLeftSwitchRight.h"
-#include "Commands/Autonomous/RobotCenterSwitchLeft.h"
-#include "Commands/Autonomous/RobotCenterSwitchRight.h"
-#include "Commands/Autonomous/RobotRightSwitchLeft.h"
-#include "Commands/Autonomous/RobotRightSwitchRight.h"
-#include "Commands/Autonomous/TestAutonomous.h"
+#include <SmartDashboard/SmartDashboard.h>
+#include "Commands/Autonomous/CommandGroups/JustDriveForward.h"
+#include "Commands/Autonomous/CommandGroups/RobotLeftSwitchLeft.h"
+#include "Commands/Autonomous/CommandGroups/RobotLeftSwitchRight.h"
+#include "Commands/Autonomous/CommandGroups/RobotCenterSwitchLeft.h"
+#include "Commands/Autonomous/CommandGroups/RobotCenterSwitchRight.h"
+#include "Commands/Autonomous/CommandGroups/RobotRightSwitchLeft.h"
+#include "Commands/Autonomous/CommandGroups/RobotRightSwitchRight.h"
+#include "Commands/Autonomous/CommandGroups/TestAutonomous.h"
 
 /**
  *
  */
 Robot::~Robot()
 {
-	delete this->pDriveWithJoystick;
-	delete this->pGripper;
+	delete this->pClimbScale;
 	delete this->pControlElevator;
+	delete this->pControlIntake;
+	delete this->pDriveWithJoystick;
+	delete this->pToggleCompressor;
+
 	delete this->pAutonomousCommand;
 
 	return;
@@ -32,8 +37,23 @@ void Robot::RobotInit()
 	// intialize the commands
 	this->pClimbScale = new ClimbScale();
 	this->pControlElevator = new ControlElevator();
+	this->pControlIntake = new ControlIntake();
 	this->pDriveWithJoystick = new DriveWithJoystick();
-	this->pGripper = new Gripper();
+	this->pToggleCompressor = new ToggleCompressor();
+
+	// setup smartdashboard robot positions
+	scRobotPosition.AddObject("1. Left", RobotPosition::LEFT);
+	scRobotPosition.AddDefault("2. Centre", RobotPosition::CENTER);
+	scRobotPosition.AddObject("3. Right", RobotPosition::RIGHT);
+	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
+
+	// setup override auto if we are left/right and scale and switch are opposite
+	// and our opposite alliance partner can go for scale.  we don't want to collide
+	// with them.  we should let them get the scale
+	scOverrideAuto.AddDefault("1. Normal Operation", 0);
+	scOverrideAuto.AddObject("2. Don't Do Opposite", 98);
+	scOverrideAuto.AddObject("3. Just Drive Forward", 99);
+	frc::SmartDashboard::PutData("Autonomous Mode", &scOverrideAuto);
 
 	return;
 }
@@ -51,39 +71,39 @@ void Robot::DisabledInit()
 // but override that if we get game specific message
 int Robot::GetAutoType()
 {
-	int _RP = 10; // 10 = Left, 20 = Center, 30 = Right
-	int _SP =  1;  // 1 = Left, 2 = Right
+	int _OA = scOverrideAuto.GetSelected();
+	int _RP = scRobotPosition.GetSelected();
+	int _SP = 0;
+	std::string _GSM = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 
-	DriverStation& driverStation = frc::DriverStation::GetInstance();
+	if (_OA == 99 ) return _OA; // Just Drive Forward
 
-	_RP = driverStation.GetLocation() * 10;
-
-	std::string _GSM = driverStation.GetGameSpecificMessage();
 	if (_GSM.length() > 0)
 	{
 		if (_GSM[0] == 'L')
 		{
-			_SP = 1; // switch is on the left
+			_SP = SwitchPosition::LEFT; // switch is on the left
 		}
 		else if (_GSM[0] == 'R')
 		{
-			_SP = 2; // switch is on the right
+			_SP = SwitchPosition::RIGHT; // switch is on the right
 		}
 		else if (_GSM[0] == 'T')
 		{
-			_SP = 3; // this is test auto
+			_SP = SwitchPosition::TEST; // used for testing autonomous scenarios without affecting real autonmous
 		}
-		else
-		{
-			_SP = 2; // default to right
-		}
-	}
-	else
-	{
-		_SP = 2; // go for right if GSM is empty
 	}
 
-	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP);
+	// do the override if robot left/switch right or robot right/switch left
+	if ((_RP == RobotPosition::LEFT  && _SP == SwitchPosition::RIGHT && _OA > 0) ||
+	    (_RP == RobotPosition::RIGHT && _SP == SwitchPosition::LEFT  && _OA > 0))
+	{
+		LOG("[Robot] Override Autonomous: " << _OA);
+
+		return _OA;
+	}
+
+	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP << " - Game Data: " << _GSM);
 
 	return _RP + _SP;
 }
@@ -110,16 +130,21 @@ void Robot::AutonomousInit()
 
 	switch (autoType)
 	{
-	case 11: pAutonomousCommand = new RobotCenterSwitchLeft   (); break;
-	case 12: pAutonomousCommand = new RobotCenterSwitchRight  (); break;
+	case 10: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
+	case 11: pAutonomousCommand = new RobotLeftSwitchLeft   (); break;
+	case 12: pAutonomousCommand = new RobotLeftSwitchRight  (); break;
 	case 13: pAutonomousCommand = new TestAutonomous        (); break;
+	case 20: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
 	case 21: pAutonomousCommand = new RobotCenterSwitchLeft (); break;
 	case 22: pAutonomousCommand = new RobotCenterSwitchRight(); break;
 	case 23: pAutonomousCommand = new TestAutonomous        (); break;
-	case 31: pAutonomousCommand = new RobotCenterSwitchLeft  (); break;
-	case 32: pAutonomousCommand = new RobotCenterSwitchRight (); break;
+	case 30: pAutonomousCommand = new JustDriveForward      (); break; // we didn't get the switch position from the FMS
+	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
+	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
 	case 33: pAutonomousCommand = new TestAutonomous        (); break;
-	default: pAutonomousCommand = new RobotCenterSwitchRight(); break;
+	case 98:
+	case 99:
+	default: pAutonomousCommand = new JustDriveForward          (); break;
 	}
 
 	LOG("[Robot] Starting autonomous");
@@ -146,35 +171,36 @@ void Robot::TeleopInit()
 	LOG("[Robot] Teleop Initialized");
 
 	// Stop the Autonomous Command
-	if (pAutonomousCommand != nullptr)
+	if (this->pAutonomousCommand != nullptr)
 	{
-		pAutonomousCommand->Cancel();
-		pAutonomousCommand = nullptr;
+		this->pAutonomousCommand->Cancel();
+		this->pAutonomousCommand = nullptr;
 	}
 
 	// Start the Teleop Commands
-	if (pClimbScale != nullptr)
+	if (this->pClimbScale != nullptr)
 	{
-		LOG("[Robot] Starting pClimbScale");
-		pClimbScale->Start();
+		this->pClimbScale->Start();
 	}
 
-	if (pControlElevator != nullptr)
+	if (this->pControlElevator != nullptr)
 	{
-		LOG("[Robot] Starting pControlElevator");
-		pControlElevator->Start();
+		this->pControlElevator->Start();
 	}
 
-	if (pDriveWithJoystick != nullptr)
+	if (this->pControlIntake != nullptr)
 	{
-		LOG("[Robot] Starting DriveWithJoystick");
-		pDriveWithJoystick->Start();
+		this->pControlIntake->Start();
 	}
 
-	if ( pGripper != nullptr )
+	if (this->pDriveWithJoystick != nullptr)
 	{
-		LOG("[Robot] Starting Gripper");
-		pGripper->Start();
+		this->pDriveWithJoystick->Start();
+	}
+
+	if (this->pToggleCompressor != nullptr)
+	{
+		this->pToggleCompressor->Start();
 	}
 
 	return;

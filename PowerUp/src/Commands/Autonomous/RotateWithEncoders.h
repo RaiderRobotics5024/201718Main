@@ -3,7 +3,7 @@
 
 #include <Timer.h>
 #include <WPILib.h>
-#include "../CommandBase.h"
+#include "../../CommandBase.h"
 
 class RotateWithEncoders : public CommandBase
 {

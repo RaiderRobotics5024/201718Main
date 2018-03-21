@@ -1,6 +1,6 @@
 #include "DriveWithEncoders.h"
-#include "../Utilities/Log.h"
-#include "../RobotMap.h"
+#include "../../Utilities/Log.h"
+#include "../../RobotMap.h"
 
 /**
  * distance in inches, speed from -1 to 1
@@ -44,7 +44,7 @@ void DriveWithEncoders::Initialize()
 	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->ResetEncoders();
-	CommandBase::pDriveTrain->InitAutonomousMode(true); // invert right front motor
+	CommandBase::pDriveTrain->InitAutonomousMode(true); // change this based on test or production (true) robot, (false) test robot
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 	return;
 }
@@ -54,13 +54,15 @@ void DriveWithEncoders::Initialize()
  */
 void DriveWithEncoders::Execute()
 {
-	if (iCounter++ == 10)
+	if (iCounter++ == 2)
 	{
-		CommandBase::pDriveTrain->Trace();
-
-		LOG("[DriveWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
-
-		LOG("[DriveWithEncoders] Time: "  << this->pTimer->Get());
+		LOG("[DriveWithEncoders] TD: " << this->dDistance
+				<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
+				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
+				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
+				<< " Time: " << this->pTimer->Get());
 
 		iCounter = 0;
 	}
@@ -73,18 +75,23 @@ void DriveWithEncoders::Execute()
  */
 bool DriveWithEncoders::IsFinished()
 {
-//	return CommandBase::pDriveTrain->IsDriving();
-
-	if (this->pTimer->Get() > 5.0) // stop after 4 seconds no matter what
+	if (this->pTimer->Get() > 5.0) // stop after 5 seconds no matter what
 	{
 		LOG("[DriveWithEncoder] Timed out");
 
 		return true;
 	}
 
-	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition() - 500.0))
+	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
 	{
-		LOG("[DriveWithEncoder] Reached Target");
+		LOG("[DriveWithEncoder] Reached Target by Left");
+
+		return true;
+	}
+
+	if (CommandBase::pDriveTrain->GetRightPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
+	{
+		LOG("[DriveWithEncoder] Reached Target by Right");
 
 		return true;
 	}

@@ -6,6 +6,16 @@
 #include <ctre/Phoenix.h>
 #include "../RobotMap.h"
 
+struct Height
+{
+	typedef enum
+	{
+		BOTTOM = 0, // elevator at the bottom or one cube height
+		CUBEX2,     // elevator at cube on top of another cube height to intake - 19"
+		SWITCH      // elevator at height to put cube in switch - 33"
+	} ElevatorHeight;
+};
+
 /**
  *
  */
@@ -22,6 +32,7 @@ public:
 	bool IsBottomSwitchAligned(void);
 	void ResetCounters(void);
 	void SetMotorSpeed(double speed);
+
 
 private:
 	can::WPI_TalonSRX* pElevatorMotor;
