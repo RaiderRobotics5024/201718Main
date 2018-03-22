@@ -10,30 +10,31 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
 	LOG("[DriveTrain] Constructed");
 
-	// Initialize the motors
+	// Initialize the left motors
 	this->pLeftFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
 
-	this->pLeftFrontMotor->SetInverted(false);
-	this->pLeftRearMotor->SetInverted(false);
+	this->pLeftFrontMotor->SetInverted(true);
+	this->pLeftRearMotor->SetInverted(true);
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
-	this->pLeftFrontMotor->SetSensorPhase(true);
-	this->pLeftRearMotor->SetSensorPhase(true);
+	this->pLeftFrontMotor->SetSensorPhase(false);
+	this->pLeftRearMotor->SetSensorPhase(false);
 
+	// Initialize the right motors
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(true);
-	this->pRightRearMotor->SetInverted(true);
+	this->pRightFrontMotor->SetInverted(false);
+	this->pRightRearMotor->SetInverted(false);
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
 
-	this->pRightFrontMotor->SetSensorPhase(true);
-	this->pRightRearMotor->SetSensorPhase(true);
+	this->pRightFrontMotor->SetSensorPhase(false);
+	this->pRightRearMotor->SetSensorPhase(false);
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
@@ -42,8 +43,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightFrontMotor->SetSafetyEnabled(false);
 	this->pRightRearMotor->SetSafetyEnabled(false);
 	this->pRobotDrive->SetSafetyEnabled(false);
-
-	DriveTrain::ResetEncoders();
 
 	// Initialize the gyro
 	// (See comment here about which port. We are using MXP, the one physically on top of the RoboRio
@@ -87,26 +86,56 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 {
 	LOG("[DriveTrain] Autonomous Initialized");
 
-	SetEncoders();
-
 	/* choose the sensor and sensor direction */
-	pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
-	pLeftFrontMotor->SetSensorPhase(false);
+	this->pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
+	this->pLeftFrontMotor->SetSensorPhase(false);
 
 	/* set the peak and nominal outputs, 12V means full */
-	pLeftFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
-	pLeftFrontMotor->ConfigNominalOutputReverse(0, TIMEOUT_MS);
-	pLeftFrontMotor->ConfigPeakOutputForward(1, TIMEOUT_MS);
-	pLeftFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigNominalOutputReverse(0, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigPeakOutputForward(1, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
+
+	this->pLeftFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
-	pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, TALON_PID_P, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, TALON_PID_I, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, TALON_PID_D, TIMEOUT_MS);
-	pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, TALON_PID_F, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.05, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 
-	pRightFrontMotor->Follow(*pLeftFrontMotor);
-	pRightFrontMotor->SetInverted(inverted);
+//	int abLeftPosition = this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
+	int abLeftPosition = this->pLeftFrontMotor->GetSensorCollection().GetPulseWidthPosition();
+	this->pLeftFrontMotor->SetSelectedSensorPosition(abLeftPosition, PID_LOOP_INDEX, TIMEOUT_MS);
+
+	/* choose the sensor and sensor direction */
+	this->pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
+	this->pRightFrontMotor->SetSensorPhase(false);
+
+	/* set the peak and nominal outputs, 12V means full */
+	this->pRightFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigNominalOutputReverse(0, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigPeakOutputForward(1, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
+
+	this->pRightFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
+
+	/* set closed loop gains in slot0 */
+	this->pRightFrontMotor->Config_kP(PID_LOOP_INDEX, 0.05, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
+
+	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
+//	pRightFrontMotor->Follow(*pLeftFrontMotor);
+//	pRightFrontMotor->SetInverted(!pRightFrontMotor->GetInverted());
+
+	LOG("[DriveTrain] SSP: " << (this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF)
+			<< " PWP: " << this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition());
+
+//	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
+	int abRightPosition = this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition();
+	this->pRightFrontMotor->SetSelectedSensorPosition(abRightPosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
 }
@@ -166,7 +195,7 @@ void DriveTrain::Drive(double distance, double speed)
 
 	SetTargetPosition(targetPositionRotations * speed);
 
-	pLeftFrontMotor->Set(ControlMode::Position, targetPositionRotations);
+	this->pRightFrontMotor->Set(ControlMode::Position, GetTargetPosition());
 
 	return;
 }
@@ -236,9 +265,9 @@ can::WPI_TalonSRX* DriveTrain::GetLeftFrontMotor()
 /**
  *
  */
-can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
+int DriveTrain::GetLeftClosedLoopError()
 {
-	return this->pRightFrontMotor;
+	return this->pLeftFrontMotor->GetClosedLoopError(SLOT_INDEX);
 }
 
 /**
@@ -254,8 +283,31 @@ double DriveTrain::GetLeftDistance()
  */
 double DriveTrain::GetLeftPosition()
 {
-//	return this->pLeftFrontMotor->GetClosedLoopTarget(SLOT_INDEX);
 	return this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
+{
+	return this->pRightFrontMotor;
+}
+
+/**
+ *
+ */
+int DriveTrain::GetRightCosedLoopError()
+{
+	return this->pRightFrontMotor->GetClosedLoopError(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+double DriveTrain::GetRightDistance()
+{
+	return GetRightPosition() / TICKS_PER_REVOLUTION * INCHES_PER_REVOLUTION;
 }
 
 /**
@@ -285,7 +337,15 @@ double DriveTrain::GetTargetPosition()
 /**
  *
  */
-int DriveTrain::GetVelocity()
+int DriveTrain::GetLeftVelocity()
+{
+	return pLeftFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+int DriveTrain::GetRightVelocity()
 {
 	return pRightFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
 }
@@ -312,18 +372,8 @@ void DriveTrain::ResetDrive()
 {
 	LOG("[DriveTrain] Resetting the motors");
 
-	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0);
-	this->pLeftRearMotor->Set(ControlMode::PercentOutput, 0);
-	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0);
-	this->pRightRearMotor->Set(ControlMode::PercentOutput, 0);
-
-	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
-	this->pLeftFrontMotor->SetInverted(false);
-	this->pLeftRearMotor->SetInverted(false);
-
-	this->pRightRearMotor->Follow(*pRightFrontMotor);
-	this->pRightFrontMotor->SetInverted(true);
-	this->pRightRearMotor->SetInverted(true);
+	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0.0);
+	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0.0);
 
 	return;
 }
@@ -335,8 +385,13 @@ void DriveTrain::ResetEncoders()
 {
 	LOG("[DriveTrain] Resetting encoders");
 
-	this->pLeftFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, TIMEOUT_MS);
-	this->pRightFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, TIMEOUT_MS);
+//	int abLeftPosition = this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
+//	this->pLeftFrontMotor->SetSelectedSensorPosition(abLeftPosition, PID_LOOP_INDEX, 100);
+//	this->pLeftFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, 100);
+
+//	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
+//	this->pRightFrontMotor->SetSelectedSensorPosition(abRightPosition, PID_LOOP_INDEX, 100);
+//	this->pRightFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, 100);
 
 	return;
 }
@@ -359,9 +414,6 @@ void DriveTrain::ResetGyro()
  */
 void DriveTrain::SetEncoders()
 {
-	int absolutePosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-	/* use the low level API to set the quad encoder signal */
-	pLeftFrontMotor->SetSelectedSensorPosition(absolutePosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
 }
@@ -445,75 +497,6 @@ void DriveTrain::SetTargetPosition(double dTargetPosition)
  */
 void DriveTrain::Trace()
 {
-	if (!TRACE_ENABLED) return;
-
-	LOG("[Robot] Tracing");
-
-	Trace(this->pLeftFrontMotor, "Left Front");
-	Trace(this->pLeftRearMotor, "Left Rear");
-
-	Trace(this->pRightFrontMotor, "Right Front");
-	Trace(this->pRightRearMotor, "Right Rear");
-
-	SmartDashboard::PutNumber("Gyro Angle", pGyro->GetAngle());
-
-	return;
-}
-
-/**
- *
- */
-void DriveTrain::Trace(WPI_TalonSRX* pTalonSRX, const std::string name)
-{
-	LOG("[Robot] Tracing: " << name);
-
-	int baseId = pTalonSRX->GetBaseID();
-	int version = pTalonSRX->GetFirmwareVersion();
-	bool isInverted = pTalonSRX->GetInverted();
-
-	double currentAmps = pTalonSRX->GetOutputCurrent();
-	double outputV = pTalonSRX->GetMotorOutputVoltage();
-	double busV = pTalonSRX->GetBusVoltage();
-	double outputPerc = pTalonSRX->GetMotorOutputPercent();
-
-	int quadPos = pTalonSRX->GetSensorCollection().GetQuadraturePosition();
-	int quadVel = pTalonSRX->GetSensorCollection().GetQuadratureVelocity();
-
-	int analogPos = pTalonSRX->GetSensorCollection().GetAnalogIn();
-	int analogVel = pTalonSRX->GetSensorCollection().GetAnalogInVel();
-
-	int selectedSensorPos = pTalonSRX->GetSelectedSensorPosition(SLOT_INDEX); /* sensor selected for PID Loop 0 */
-	int selectedSensorVel = pTalonSRX->GetSelectedSensorVelocity(SLOT_INDEX); /* sensor selected for PID Loop 0 */
-	int closedLoopErr = pTalonSRX->GetClosedLoopError(SLOT_INDEX); /* sensor selected for PID Loop 0 */
-	double closedLoopAccum = pTalonSRX->GetIntegralAccumulator(SLOT_INDEX); /* sensor selected for PID Loop 0 */
-	double derivErr = pTalonSRX->GetErrorDerivative(SLOT_INDEX);  /* sensor selected for PID Loop 0 */
-
-	Faults faults;
-	pTalonSRX->GetFaults(faults);
-
-	SmartDashboard::PutNumber(name + " Base ID", baseId);
-	SmartDashboard::PutNumber(name + " Version", version);
-	SmartDashboard::PutBoolean(name + " Is Inverted", isInverted);
-
-	SmartDashboard::PutNumber(name + " Current Amps", currentAmps);
-	SmartDashboard::PutNumber(name + " Output Voltage", outputV);
-	SmartDashboard::PutNumber(name + " Bus Voltage", busV);
-	SmartDashboard::PutNumber(name + " Output Percent", outputPerc);
-
-	SmartDashboard::PutNumber(name + " Quad Position", quadPos);
-	SmartDashboard::PutNumber(name + " Quad Velocity", quadVel);
-
-	SmartDashboard::PutNumber(name + " Analog In Position", analogPos);
-	SmartDashboard::PutNumber(name + " Analog In Velocity", analogVel);
-
-	SmartDashboard::PutNumber(name + " SS Position", selectedSensorPos);
-	SmartDashboard::PutNumber(name + " SS Velocity", selectedSensorVel);
-	SmartDashboard::PutNumber(name + " SS Closed Loop Error", closedLoopErr);
-	SmartDashboard::PutNumber(name + " Integral Accumulator", closedLoopAccum);
-	SmartDashboard::PutNumber(name + " Error Derivative", derivErr);
-
-	SmartDashboard::PutBoolean(name + " Has Faults", faults.HasAnyFault());
-
 	return;
 }
 

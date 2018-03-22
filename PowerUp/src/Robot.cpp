@@ -150,12 +150,8 @@ void Robot::TeleopInit()
 {
 	LOG("[Robot] Teleop Initialized");
 
-	// Stop the Autonomous Command
-	if (pAutonomousCommand != nullptr)
-	{
-		pAutonomousCommand->Cancel();
-		pAutonomousCommand = nullptr;
-	}
+	this->pDriveWithJoystick = new DriveWithJoystick();
+	pDriveWithJoystick->Start();
 
 	return;
 }
@@ -175,9 +171,6 @@ void Robot::TeleopPeriodic()
  */
 void Robot::TestInit()
 {
-	this->pDriveWithJoystick = new DriveWithJoystick();
-	pDriveWithJoystick->Start();
-
 	return;
 }
 

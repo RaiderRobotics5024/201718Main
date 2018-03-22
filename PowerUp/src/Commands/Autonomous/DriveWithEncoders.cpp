@@ -62,7 +62,7 @@ void DriveWithEncoders::Execute()
 				<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
 				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
 				<< " CP: " << CommandBase::pDriveTrain->GetLeftPosition()
-				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
+				<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
 //				<< " P : " << CommandBase::pDriveTrain->GetLeftFrontMotor()->GetClosedLoopTarget()
 				<< " Time: " << this->pTimer->Get());
 

@@ -23,6 +23,8 @@ private:
 	bool   isTurnTest  = false;
 	double dDistance = 0.0;
 	double dSetpoint = 0.0;
+	double dSpeed = 0.0;
+	double dRotation = 0.0;
 };
 
 #endif

@@ -122,7 +122,6 @@ void DriveWithJoystick::Execute()
 			this->pTimer->Reset();
 			this->pTimer->Start();
 			
-			CommandBase::pDriveTrain->ResetEncoders();
 			CommandBase::pDriveTrain->Drive(dDistance, 1.0);
 		}
 		else if (this->isTurnTest)
@@ -139,30 +138,37 @@ void DriveWithJoystick::Execute()
 	// drive the bot as usual if not drive test and not turn test
 	if (!this->isDriveTest && !this->isTurnTest)
 	{
-		double xSpeed    = pJoyDrive->GetY(XboxController::kLeftHand);
-		double zRotation = pJoyDrive->GetX(XboxController::kLeftHand);
+		dSpeed    = pJoyDrive->GetY(XboxController::kLeftHand);
+		dRotation = pJoyDrive->GetX(XboxController::kLeftHand);
 
-		if (fabs(xSpeed) <= XBOX_DEADZONE_LEFT_JOY)
+		if (fabs(dSpeed) <= XBOX_DEADZONE_LEFT_JOY)
 		{
-			xSpeed = 0.0;
+			dSpeed = 0.0;
 		}
 
-		if (fabs(zRotation) <= XBOX_DEADZONE_LEFT_JOY)
+		if (fabs(dRotation) <= XBOX_DEADZONE_LEFT_JOY)
 		{
-			zRotation = 0.0;
+			dRotation = 0.0;
 		}
 
-		CommandBase::pDriveTrain->ArcadeDrive(xSpeed, zRotation);
+		CommandBase::pDriveTrain->ArcadeDrive(dSpeed, dRotation);
 	}		
 
 	// log the test results
 	if (this->isDriveTest)
 	{
 		LOG("[DriveWithJoystick] TD: " << this->dDistance
-		    	<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
 				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
-				<< " CP: " << CommandBase::pDriveTrain->GetLeftPosition()
-				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
+		    	<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
+				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
+				<< " RE: " << CommandBase::pDriveTrain->GetRightCosedLoopError()
+				<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
+		    	<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
+				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
+				<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
+				<< " MS: " << dSpeed
+				<< " RS: " << dRotation
 				<< " Time: " << this->pTimer->Get());
 	}
 	else if (this->isTurnTest)
@@ -181,6 +187,19 @@ void DriveWithJoystick::Execute()
  */
 bool DriveWithJoystick::IsFinished()
 {
+	if (CommandBase::pDriveTrain->GetLeftPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
+	{
+		LOG("[DriveWithJoystick] Reached Left Target");
+		CommandBase::pDriveTrain->ResetDrive();
+		return true;
+	}
+
+	if (CommandBase::pDriveTrain->GetRightPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
+	{
+		LOG("[DriveWithJoystick] Reached Right Target");
+		CommandBase::pDriveTrain->ResetDrive();
+		return true;
+	}
 	return false;
 }
 
