@@ -1,40 +1,26 @@
 #include "PID.h"
 
-PID::PID(double P, double I, double D, double BZ) : Subsystem("PID")
+PID::PID(double P, double I, double D, double BZ) : frc::Subsystem("PID")
 {
+	LOG("[PID] Constructed with PIDB params: "<<P<<" | "<<I<<" | "<<D<<" | "<<BZ) ;
 	this->tweakP = P ;
-	frc::SmartDashboard::PutNumber("DB/String 0", P) ;
 	this->tweakI = I ;
-	frc::SmartDashboard::PutNumber("DB/String 1", I) ;
 	this->tweakD = D ;
-	frc::SmartDashboard::PutNumber("DB/String 2", D) ;
-	this->buffer = BZ ;
-	frc::SmartDashboard::PutNumber("DB/String 3", BZ) ;
-	frc::SmartDashboard::PutString("DB/String 4", "^ P, I, D, and Buffer ^") ;
-
-	this->err = 0.0 ;
-	this->Ierr = 0.0 ;
-	this->Derr = 0.0 ;
-	this->prevErr = 0.0 ;
-	this->target = 0.0 ;
-	this->current = 0.0 ;
-
+	this->buffer = BZ;
+	this->err 	= 0.0 ;
+	this->Ierr 	= 0.0 ;
+	this->Derr 	= 0.0 ;
+	this->prevErr 	= 0.0 ;
+	this->target 	= 0.0 ;
+	this->current 	= 0.0 ;
 	return ;
 }
-
 void PID::InitDefaultCommand()
 {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
+	//Nee
 }
-
 double PID::calcPID(double current)
 {
-	this->tweakP = frc::SmartDashboard::GetNumber("DB/String 0", 0.0) ;
-	this->tweakI = frc::SmartDashboard::GetNumber("DB/String 1", 0.0) ;
-	this->tweakD = frc::SmartDashboard::GetNumber("DB/String 2", 0.0) ;
-	this->buffer = frc::SmartDashboard::GetNumber("DB/String 3", 0.0) ;
-
 	this->current = current ;
 
 	//Calculate err
@@ -50,77 +36,57 @@ double PID::calcPID(double current)
 
 	double pid = this->tweakP * this->err + this->tweakI * this->Ierr + this->tweakD * this->Derr ;
 
-	printf("PID: %-5.5f | Current: %-5.2f | Err: %-5.2f | Integral: %-5.2f | Derivative: %-5.2f \n",
-			pid, this->current, this->err, this->Ierr, this->Derr) ;
-
-	if (abs(pid) > 1.0)
+	if (fabs(pid) > 2.0) {
+		LOG("[PID::calcPID] Calculation ("<<pid<<"), greater than 1.0, returning 0.0") ;
 		return 0.0 ;
+	}
 	return pid ;
 }
-
+void PID::reset()
+{
+	this->current = 0.0 ;
+	this->target = 0.0 ;
+	this->err = 0.0 ;
+	this->prevErr = 0.0 ;
+	this->Ierr = 0.0 ;
+	this->Derr = 0.0 ;
+	return ;
+}
 void PID::zeroDistance()
 {
 	this->current = 0.0 ;
 	return ;
 }
-
 void PID::zeroIntegral()
 {
 	this->Ierr = 0.0 ;
 }
-
-bool PID::setTarget(double target)
+void PID::setTarget(double target)
 {
-	if (this->target != 0)
-	{
 		this->target = target;
-		return true ;
-	}
-	this->target = target ;
-	return false ;
+		return ;
 }
-
-double PID::getTarget()
-{
-	return this->target ;
-}
-
-double PID::getDistance()
-{
-	return this->current ;
-}
-
-/* Returns one of the following depending on the param,
- * or returns -1 on out_of_range param
- *
- * P tweak	-	0
- * I tweak	-	1
- * D tweak	-	2
- * buffer	-	3
- * err		-	4
- * Ierr		-	5
- * Derr		-	6
- * prevErr	-	7
- */
-double PID::getValue(unsigned char n)
-{
-	switch (n)
-	{
-		case 0 :	return this->tweakP ;
-		case 1 :	return this->tweakI ;
-		case 2 :	return this->tweakD ;
-		case 3 :	return this->buffer ;
-		case 4 :	return this->err ;
-		case 5 :	return this->Ierr ;
-		case 6 :	return this->Derr ;
-		case 7 :	return this->prevErr ;
-		default:	return -1.0 ;
-	}
-}
+/********************************************************
+ * 			GETTERS				*
+ *******************************************************/
+double PID::getDistance()	{ return this->current ;}
+double PID::getTarget()		{ return this->target ;	}
+double PID::getP()		{ return this->tweakP ;	}
+double PID::getI()		{ return this->tweakI ;	}
+double PID::getD()		{ return this->tweakD ;	}
+double PID::getBuffer()		{ return this->buffer ;	}
+double PID::getErr()		{ return this->err ;	}
+double PID::getIerr()		{ return this->Ierr ;	}
+double PID::getDerr()		{ return this->Derr ;	}
+double PID::getPrevErr()	{ return this->prevErr ;}
+/********************************************************
+ *******************************************************/
 
 bool PID::isFinished()
 {
-	if( abs(this->err) < this->buffer)
+	if( abs(this->err) < this->buffer) {
+		LOG("[PID::isFinished] True, at angle:"<<this->current) ;
 		return true ;
+	}
 	return false ;
 }

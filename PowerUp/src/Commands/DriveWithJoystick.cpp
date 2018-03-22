@@ -59,12 +59,19 @@ void DriveWithJoystick::Execute()
 		this->isReverse = !this->isReverse;
 	}
 
-	if (pJoyDrive->GetYButtonPressed())
+	if (pJoyDrive->GetYButtonReleased())
 	{
+		LOG("[DWJ::Execute] Y button pressed")
 		if (!pStaticTurn->IsRunning())
+		{
+			LOG("[DWJ::Execute] Starting 180deg turn")
 			pStaticTurn->Start();
+		}
 		else
-			pStaticTurn->End();
+		{
+			LOG("[DWJ::Execute] Canceling turn") ;
+			pStaticTurn->Cancel();
+		}
 	}
 
 	double xSpeed    = pJoyDrive->GetY(XboxController::kLeftHand);
