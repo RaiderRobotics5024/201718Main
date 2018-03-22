@@ -38,20 +38,25 @@ void ControlElevator::Execute()
 	frc::XboxController* pJoyOperator = CommandBase::pOI->GetJoystickOperator();
 
 	double rightOpTriggerAxis = pJoyOperator->GetTriggerAxis(frc::XboxController::kRightHand);
-	double leftOpTriggerAxis = pJoyOperator->GetTriggerAxis(frc::XboxController::kLeftHand);
+	double leftOpTriggerAxis  = pJoyOperator->GetTriggerAxis(frc::XboxController::kLeftHand);
 
 	double dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
 
-	if (CommandBase::pElevator->IsTopSwitchAligned() && dMotorSpeed > 0.0)
+	if (CommandBase::pElevator->IsTopSwitchAligned() && dMotorSpeed < 0.0)
 	{
 		LOG("[ControlElevator] At the top" );
 
-		dMotorSpeed = 0; // don't let the motor go passed the top switch
+		dMotorSpeed = 0.0; // don't let the motor go passed the top switch
+	}
+
+	if (CommandBase::pElevator->IsBottomSwitchAligned() && dMotorSpeed > 0.0)
+	{
+		LOG("[ControlElevator] At the bottom" );
+
+		dMotorSpeed = 0.0; // don't let the motor go passed the bottom switch
 	}
 
 	CommandBase::pElevator->SetMotorSpeed(dMotorSpeed);
-
-//	ControlElevator::Trace(dMotorSpeed);
 
 	return;
 }
