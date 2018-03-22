@@ -17,16 +17,18 @@ RobotCenterSwitchLeft::RobotCenterSwitchLeft()
 	LOG("[RobotCenterSwitchLeft] Constructed");
 
 	// FIRST CUBE
-	AddSequential(new TankDriveWithEncoders ( 19.00));
+	AddSequential(new TankDriveWithEncoders ( 39.50));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            (-41.15));
-	AddSequential(new TankDriveWithEncoders ( 85.00));
+	AddSequential(new TankDriveWithEncoders ( 81.00));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            ( 41.15));
-	AddSequential(new TankDriveWithEncoders ( 19.00));
+	AddSequential(new TankDriveWithEncoders ( 37.00));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new MoveElevator  (Height::SWITCH));
 	AddSequential(new ToggleIntake          ( -1.00));
+
+	//AddSequential(new TankDriveWithEncoders ());
 
 	// FIRST CUBE
 //	AddSequential(new DriveWithEncoders( 19.00, 1.0));
