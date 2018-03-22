@@ -82,20 +82,21 @@ void TankDriveWithEncoders::Execute()
 	SmartDashboard::PutNumber("Right Inches Traveled", rightInchesTraveled);
 
 	if(fabs(leftInchesTraveled) < fabs(accelTarget)){
-		dLeftSpeed = minSpeed + (0.1*leftInchesTraveled);
+		dLeftSpeed = fabs(minSpeed) + fabs(0.05*leftInchesTraveled);
 	}else{
-		dLeftSpeed = ((dDistance -  leftInchesTraveled)/dDistance);
+		dLeftSpeed = ((fabs(dDistance) -  fabs(0.5*leftInchesTraveled))/fabs(dDistance));
+		if(dLeftSpeed < minSpeed) dLeftSpeed = minSpeed;
 	}
 
-	if(dLeftSpeed < minSpeed) dLeftSpeed = minSpeed;
 
 	if(fabs(rightInchesTraveled) < fabs(accelTarget)){
-			dRightSpeed = minSpeed + (0.1 * rightInchesTraveled);
-		}else{
-			dRightSpeed = ((dDistance -  rightInchesTraveled)/dDistance);
+			dRightSpeed = fabs(minSpeed)  + fabs(0.05 * rightInchesTraveled);
+		}else {
+			dRightSpeed = ((fabs(dDistance) -  fabs(0.5*rightInchesTraveled))/fabs(dDistance));
+			if(dRightSpeed < minSpeed) dRightSpeed = minSpeed;
 		}
 
-	if(dRightSpeed < minSpeed) dRightSpeed = minSpeed;
+
 
 	if(fabs(rightInchesTraveled)>= fabs(dDistance)){
 		dRightSpeed = 0;

@@ -14,7 +14,7 @@ const int DRIVETRAIN_RIGHT_REAR_MOTOR_ID = 4;
 const double WHEEL_RADIUS = 3.0;
 const double WHEEL_TO_WHEEL = 19.75;
 const double HALF_ROBOT_LENGTH = 19.00;
-const int TICKS_PER_REVOLUTION = 2048; //4096;
+const int TICKS_PER_REVOLUTION = 8152; //4096;
 const double INCHES_PER_REVOLUTION = 2.0 * M_PI * WHEEL_RADIUS;
 const double INCHES_PER_TICK = INCHES_PER_REVOLUTION / TICKS_PER_REVOLUTION;
 const int SLOT_INDEX = 0;
@@ -23,7 +23,7 @@ const int TIMEOUT_MS = 100;
 const int BASE_TRAJECTORY_PERIOD_MS = 0;
 const int NEUTRAL_DEADBAND_PERCENT = 1;
 
-const double TALON_PID_P = 0.03;
+const double TALON_PID_P = 0.03f;
 const double TALON_PID_I = 0.00;
 const double TALON_PID_D = 0.00;
 const double TALON_PID_F = 0.00;
