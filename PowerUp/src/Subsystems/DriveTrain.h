@@ -33,14 +33,21 @@ public:
 	void TankDrive(double leftSpeed, double rightSpeed);
 
 	double GetAngle(void);
+	
 	can::WPI_TalonSRX* GetLeftFrontMotor();  // Needed by Motion Profiler
-	can::WPI_TalonSRX* GetRightFrontMotor(); // Needed by Motion Profiler
+	int    GetLeftClosedLoopError(void);
 	double GetLeftDistance(void);
 	double GetLeftPosition(void);
+	int    GetLeftVelocity(void);
+	
+	can::WPI_TalonSRX* GetRightFrontMotor(); // Needed by Motion Profiler
+	int    GetRightClosedLoopError(void);
+	doubld GetRightDistance(void);
 	double GetRightPosition(void);
+	int    GetRightVelocity(void);
+
 	double GetRotateToAngleRate(void);
 	double GetTargetPosition(void);
-	int    GetVelocity(void);
 
 	bool IsDriving(void);
 	bool IsTurning(void);
