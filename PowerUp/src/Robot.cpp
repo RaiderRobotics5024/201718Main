@@ -15,6 +15,7 @@ Robot::Robot()
 	iMotorId = 1;
 	iCounter = 0;
 	dMotorSpeed = 0.0;
+	IsPhase = false;
 	SetMotor(iMotorId);
 
 	this->pXboxController = new XboxController(0);
@@ -50,7 +51,7 @@ void Robot::SetMotor(int motor_id)
 
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
-	this->pTalonSRX->SetSensorPhase(true);
+	this->pTalonSRX->SetSensorPhase(false);
 	
 	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
 	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
@@ -101,6 +102,11 @@ void Robot::TeleopPeriodic()
 		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
 	}
 
+	if (this->pXboxController->GetAButtonPressed()){
+		IsPhase = !IsPhase;
+		this->pTalonSRX->SetSensorPhase(IsPhase);
+	}
+
 	// start position closed loop 
 	if (this->pXboxController->GetStartButtonPressed())
 	{
@@ -116,6 +122,7 @@ void Robot::TeleopPeriodic()
 				<< " QV: " << pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
 				<< " SP: " << pTalonSRX->GetSelectedSensorPosition(0)
 				<< " SV: " << pTalonSRX->GetSelectedSensorVelocity(0)
+				<< " IP: " << IsPhase
 		    		<< " MS: " << dMotorSpeed
 				);
 		iCounter = 0;
