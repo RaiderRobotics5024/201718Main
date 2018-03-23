@@ -15,25 +15,19 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
 
-	this->pLeftFrontMotor->SetInverted(IS_QBERT); // change this based on (false) production or (true) test robot
-	this->pLeftRearMotor->SetInverted(IS_QBERT); // change this based on (false) production or (true) test robot
+	this->pLeftFrontMotor->SetInverted(true); // change this based on (false) production or (true) test robot
+	this->pLeftRearMotor->SetInverted(true); // change this based on (false) production or (true) test robot
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
-
-	this->pLeftFrontMotor->SetSensorPhase(false);
-	this->pLeftRearMotor->SetSensorPhase(false);
 
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(!IS_QBERT); // change this based on (true) production or (false) test robot
-	this->pRightRearMotor->SetInverted(!IS_QBERT); // change this based on (true) production or (false) test robot
+	this->pRightFrontMotor->SetInverted(false); // change this based on (true) production or (false) test robot
+	this->pRightRearMotor->SetInverted(false); // change this based on (true) production or (false) test robot
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
-
-	this->pRightFrontMotor->SetSensorPhase(false);
-	this->pRightRearMotor->SetSensorPhase(false);
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
@@ -87,8 +81,6 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 {
 	LOG("[DriveTrain] Autonomous Initialized");
 
-	SetEncoders();
-
 	/* choose the sensor and sensor direction */
 	pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
 	pLeftFrontMotor->SetSensorPhase(false);
@@ -105,10 +97,31 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 	pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
 	pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
 
+//	int absLeftPosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	int abLeftPosition = this->pLeftFrontMotor->GetSensorCollection().GetPulseWidthPosition();
+	this->pLeftFrontMotor->SetSelectedSensorPosition(abLeftPosition, PID_LOOP_INDEX, TIMEOUT_MS);
+
 	pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
-	pRightFrontMotor->SetSensorPhase(true);
-	pRightFrontMotor->Follow(*pLeftFrontMotor);
-	pRightFrontMotor->SetInverted(inverted);
+	pRightFrontMotor->SetSensorPhase(false);
+
+	/* set the peak and nominal outputs, 12V means full */
+	pRightFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
+	pRightFrontMotor->ConfigNominalOutputReverse(0, TIMEOUT_MS);
+	pRightFrontMotor->ConfigPeakOutputForward(1, TIMEOUT_MS);
+	pRightFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
+
+	/* set closed loop gains in slot0 */
+	pRightFrontMotor->Config_kP(PID_LOOP_INDEX, 0.5, TIMEOUT_MS);
+	pRightFrontMotor->Config_kI(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+	pRightFrontMotor->Config_kD(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+	pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.0, TIMEOUT_MS);
+
+//	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
+	int abRightPosition = this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition();
+	this->pRightFrontMotor->SetSelectedSensorPosition(abRightPosition, PID_LOOP_INDEX, TIMEOUT_MS);
+
+//	pRightFrontMotor->Follow(*pLeftFrontMotor);
+//	pRightFrontMotor->SetInverted(inverted);
 
 	return;
 }
@@ -161,7 +174,7 @@ void DriveTrain::Turn()
  */
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation)
 {
-	this->pRobotDrive->ArcadeDrive(zRotation, xSpeed); // API parameter order is incorrect
+	this->pRobotDrive->ArcadeDrive(zRotation * -1, xSpeed); // API parameter order is incorrect
 
 	return;
 }
@@ -294,12 +307,12 @@ void DriveTrain::ResetDrive()
 	this->pRightRearMotor->Set(ControlMode::PercentOutput, 0);
 
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
-	this->pLeftFrontMotor->SetInverted(false);
-	this->pLeftRearMotor->SetInverted(false);
+	this->pLeftFrontMotor->SetInverted(true);
+	this->pLeftRearMotor->SetInverted(true);
 
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
-	this->pRightFrontMotor->SetInverted(true);
-	this->pRightRearMotor->SetInverted(true);
+	this->pRightFrontMotor->SetInverted(false);
+	this->pRightRearMotor->SetInverted(false);
 
 	return;
 }
@@ -309,7 +322,7 @@ void DriveTrain::ResetDrive()
  */
 void DriveTrain::ResetEncoders()
 {
-	LOG("[DriveTrain] Resetting encoders");
+//	LOG("[DriveTrain] Resetting encoders");
 
 	this->pLeftFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, TIMEOUT_MS);
 	this->pRightFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, TIMEOUT_MS);
@@ -326,20 +339,6 @@ void DriveTrain::ResetGyro()
 
 	pGyro->Reset();
 	pGyro->ZeroYaw();
-
-	return;
-}
-
-/**
- *
- */
-void DriveTrain::SetEncoders()
-{
-	int absLeftPosition = pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-	int absRightPosition = pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-	/* use the low level API to set the quad encoder signal */
-	pLeftFrontMotor->SetSelectedSensorPosition(absLeftPosition, PID_LOOP_INDEX, TIMEOUT_MS);
-	pRightFrontMotor->SetSelectedSensorPosition(absRightPosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
 }

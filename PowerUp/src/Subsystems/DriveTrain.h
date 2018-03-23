@@ -49,7 +49,6 @@ public:
 	void ResetEncoders(void);
 	void ResetGyro(void);
 
-	void SetEncoders(void);
 	void SetRotateToAngleRate(double rate);
 	void SetSetpoint(double setpoint);
 	void SetTargetPosition(double target);

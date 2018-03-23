@@ -65,7 +65,7 @@ bool MoveElevator::IsFinished()
 	{
 	case Height::BOTTOM :
 		if (CommandBase::pElevator->IsBottomSwitchAligned()) return true;
-		return this->pTimer->Get() > 3; // it should take a maximum of 3 seconds to reach the bottom from any position
+		return this->pTimer->Get() > 1; // it should take a maximum of 3 seconds to reach the bottom from any position
 
 	case Height::CUBEX2 :
 		if (CommandBase::pElevator->IsMiddleSwitchAligned()) return true;
@@ -74,6 +74,7 @@ bool MoveElevator::IsFinished()
 
 	case Height::SWITCH :
 		if (CommandBase::pElevator->IsTopSwitchAligned()) return true;
+		return this->pTimer->Get() > 2; // it should take a maximum of 3 seconds to reach the bottom from any position
 
 	default: return false;
 	}

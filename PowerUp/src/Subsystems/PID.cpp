@@ -33,11 +33,14 @@ double PID::calcPID(double current)
 
 	// speed = distance traveled / time
 	this->Derr = ((this->err - this->prevErr) / CYCLE_TIME) ;
+	if (fabs(this->Derr) > 1000.0)
+		this->Derr = 0.0 ;
 
 	double pid = this->tweakP * this->err + this->tweakI * this->Ierr + this->tweakD * this->Derr ;
 
-	if (fabs(pid) > 2.0) {
-		LOG("[PID::calcPID] Calculation ("<<pid<<"), greater than 1.0, returning 0.0") ;
+	double limit = 6.0 ;
+	if (fabs(pid) > limit) {
+		LOG("[PID::calcPID] Calculation ("<<pid<<"), larger than "<<limit<<", returning 0.0") ;
 		return 0.0 ;
 	}
 	return pid ;

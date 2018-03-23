@@ -23,9 +23,10 @@ RobotCenterSwitchRight::RobotCenterSwitchRight()
 	AddSequential(new TankDriveWithEncoders ( 80.57));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            (-37.41));
+	AddSequential(new MoveElevator  (Height::SWITCH));
+	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new TankDriveWithEncoders ( 19.00));
 	AddSequential(new ResetEncodersWithPause(  0.50));
-	AddSequential(new MoveElevator  (Height::SWITCH));
 	AddSequential(new ToggleIntake          ( -1.00));
 
 	// FIRST CUBE

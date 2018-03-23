@@ -21,7 +21,11 @@ StaticTurn::StaticTurn(double angleDeg)
 	LOG("[StaticTurn] Constructed with angle: "<<angleDeg) ;
 	Requires(CommandBase::pDriveTrain) ;
 	this->m_pTimer = new Timer() ;
-	this->m_pPID = new PID(PROPORTIONAL, INTEGRAL, DERIVATIVE, BUFFER_ZONE) ;
+	double val = fabs(1.0 / angleDeg) ;
+	val =  floor(val) * 1000 / 1000 ;
+	LOG("[StaticTurn] Tweaked value is "<<val) ;
+	// Replace val and val*0.6 with PROPORTIONAL and INTEGRAL if it doesn't work
+	this->m_pPID = new PID(val, val*0.6, DERIVATIVE, BUFFER_ZONE) ;
 	this->target = angleDeg ;
 	this->yawOffset = 0.0 ;
 	this->counter = 13 ;
@@ -58,13 +62,13 @@ void StaticTurn::Initialize()
 void StaticTurn::Execute()
 {
 	double yaw = pDriveTrain->GetAngle() ;
-	double calcPID = m_pPID->calcPID(yaw) ;
+	double calcPID = m_pPID->calcPID(yaw) * 0.75  ;
 
 /*		v	Code for printing out PID values if debugging/tweaking is needed	v	*/
-/*	if (this->counter++ >= 12)
+	if (this->counter++ >= 12)
 		printf("[StaticTurn::Execute] CalcPID_%4.2f | Yaw: %+6.2f | Err: %4.2f | Ierr: %5.2f | Derr: %+3.1f | Time: %3.2f\n",
 			calcPID , yaw , m_pPID->getErr() , m_pPID->getIerr() , m_pPID->getDerr() , m_pTimer->Get()) ;
-*/
+
 	CommandBase::pDriveTrain->ArcadeDrive(0, calcPID) ;
 	return ;
 }

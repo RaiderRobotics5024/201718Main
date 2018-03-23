@@ -45,6 +45,8 @@ void TankDriveWithEncoders::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
+	CommandBase::pDriveTrain->InitAutonomousMode(false);
+
 //	if (dDistance > 0){
 //		dSpeed = dSpeed*-1;
 //	}
@@ -82,20 +84,20 @@ void TankDriveWithEncoders::Execute()
 	SmartDashboard::PutNumber("Right Inches Traveled", rightInchesTraveled);
 
 	if(fabs(leftInchesTraveled) < fabs(accelTarget)){
-		dLeftSpeed = minSpeed + (0.1*leftInchesTraveled);
+		dLeftSpeed = fabs(minSpeed) + fabs(0.05 * leftInchesTraveled);
 	}else{
-		dLeftSpeed = ((dDistance -  leftInchesTraveled)/dDistance);
+		dLeftSpeed = ((fabs(dDistance) -  fabs(0.5 * leftInchesTraveled))/fabs(dDistance));
+		if(dLeftSpeed < minSpeed) dLeftSpeed = minSpeed;
 	}
 
-	if(dLeftSpeed < minSpeed) dLeftSpeed = minSpeed;
 
 	if(fabs(rightInchesTraveled) < fabs(accelTarget)){
-			dRightSpeed = minSpeed + (0.1 * rightInchesTraveled);
+			dRightSpeed = fabs(minSpeed) + fabs(0.05 * rightInchesTraveled);
 		}else{
-			dRightSpeed = ((dDistance -  rightInchesTraveled)/dDistance);
+			dRightSpeed = ((fabs(dDistance) -  fabs(0.5 * rightInchesTraveled))/fabs(dDistance));
+			if(dRightSpeed < minSpeed) dRightSpeed = minSpeed;
 		}
 
-	if(dRightSpeed < minSpeed) dRightSpeed = minSpeed;
 
 	if(fabs(rightInchesTraveled)>= fabs(dDistance)){
 		dRightSpeed = 0;
@@ -114,7 +116,7 @@ void TankDriveWithEncoders::Execute()
 	}
 //	if (iCounter++ > 10)
 //		LOG("dLeftSpeed: "<<dLeftSpeed<<" | dRightSpeed: "<<dRightSpeed) ;
-	CommandBase::pDriveTrain->TankDrive(dLeftSpeed,-dRightSpeed);
+	CommandBase::pDriveTrain->TankDrive(-dRightSpeed, dRightSpeed);
 
 	this->m_ExecuteCalledCount++;
 
@@ -137,7 +139,7 @@ bool TankDriveWithEncoders::IsFinished()
 		return true;
 	}
 
-	if((fabs(rightInchesTraveled)>= fabs(dDistance)) && (fabs(leftInchesTraveled)) >= fabs(dDistance)){
+	if(fabs(rightInchesTraveled)>= fabs(dDistance)){
 		LOG("[TankDriveWithEncoder] Surpassed distance");
 		LOG("\t" << (unsigned int)this );
 
@@ -155,7 +157,7 @@ bool TankDriveWithEncoders::IsFinished()
  */
 void TankDriveWithEncoders::End()
 {
-	LOG("[DriveWithEncoders] Ended " << (unsigned int)this);
+	LOG("[TankDriveWithEncoders] Ended " << (unsigned int)this);
 
 	CommandBase::pDriveTrain->ResetDrive();
 
@@ -167,7 +169,7 @@ void TankDriveWithEncoders::End()
  */
 void TankDriveWithEncoders::Interrupted()
 {
-	LOG("[DriveWithEncoders] Interrupted" );
+	LOG("[TankDriveWithEncoders] Interrupted" );
 
 	CommandBase::pDriveTrain->ResetDrive();
 

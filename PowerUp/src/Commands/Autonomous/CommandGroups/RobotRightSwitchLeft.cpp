@@ -23,6 +23,8 @@ RobotRightSwitchLeft::RobotRightSwitchLeft()
 	AddSequential(new TankDriveWithEncoders (168.94));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            (-90.00));
+	AddSequential(new MoveElevator  (Height::SWITCH));
+	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new TankDriveWithEncoders ( 13.74));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new ToggleIntake          ( -1.00));

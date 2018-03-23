@@ -8,10 +8,10 @@
 
 class StaticTurn : public CommandBase
 {
-	#define PROPORTIONAL	0.005 // Tweaked value (Raw values when target=90 were ~90 decreasing to ~0 approaching target)
-	#define INTEGRAL	0.004 // Tweaked value (Raw values when target=90 were ~0 increasing to ~90  approaching target)
-	#define DERIVATIVE	0.002 // Tweaked value (Raw values when target=90 were ~0-~500 before values were tweaked(motors were at max speed))
-	#define BUFFER_ZONE	0.3//Degrees
+	#define PROPORTIONAL	0.020 // Tweaked value (Raw values when target=90 were ~90 decreasing to ~0 approaching target)
+	#define INTEGRAL	0.012 // Tweaked value (Raw values when target=90 were ~0 increasing to ~90  approaching target)
+	#define DERIVATIVE	0.000 // Tweaked value (Raw values when target=90 were ~0-~500 before values were tweaked(motors were at max speed))
+	#define BUFFER_ZONE	0.4//Degrees
 	#define TIMEOUT		3.0//Seconds
 
 	Timer* m_pTimer ; /* Timer for timing out command if stuck */
