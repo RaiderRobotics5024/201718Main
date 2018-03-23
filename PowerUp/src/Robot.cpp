@@ -51,13 +51,30 @@ void Robot::SetMotor(int motor_id)
 
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
-	this->pTalonSRX->SetSensorPhase(false);
-	
-	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
 
 	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 100);
-// 	this->pTalonSRX->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
+	this->pTalonSRX->SetSensorPhase(false);
+
+	/* set the peak and nominal outputs, 12V means full */
+	this->pTalonSRX->ConfigNominalOutputForward(0, 100);
+	this->pTalonSRX->ConfigNominalOutputReverse(0, 100);
+	this->pTalonSRX->ConfigPeakOutputForward(1, 100);
+	this->pTalonSRX->ConfigPeakOutputReverse(-1, 100);
+
+	this->pTalonSRX->ConfigAllowableClosedloopError(0, 0, 100);
+	
+//	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+//	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
+
+//	int absolutePosition = this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
+	int absolutePosition = this->pTalonSRX->GetSensorCollection().GetPulseWidthPosition();
+	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
+
+	/* set closed loop gains in slot0 */
+	this->pTalonSRX->Config_kP(0, 0.00, 100);
+	this->pTalonSRX->Config_kI(0, 0.00, 100);
+	this->pTalonSRX->Config_kD(0, 0.00, 100);
+	this->pTalonSRX->Config_kF(0, 0.00, 100);
 
 	this->pFaults = new Faults();
 	pTalonSRX->GetFaults(*pFaults);
@@ -123,8 +140,8 @@ void Robot::TeleopPeriodic()
 				<< " SP: " << pTalonSRX->GetSelectedSensorPosition(0)
 				<< " SV: " << pTalonSRX->GetSelectedSensorVelocity(0)
 				<< " IP: " << IsPhase
-		    		<< " MS: " << dMotorSpeed
-				);
+				<< " MS: " << dMotorSpeed
+		);
 		iCounter = 0;
 	}
 
