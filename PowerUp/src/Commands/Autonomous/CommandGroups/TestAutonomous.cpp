@@ -18,22 +18,6 @@ TestAutonomous::TestAutonomous()
 	LOG("[TestAutonomous] Constructed");
 
 	// DRIVE A BOX PATTERN
-//	AddSequential(new ResetEncodersWithPause(  0.50));
-//	AddSequential(new TankDriveWithEncoders (100.00));
-//	AddSequential(new ResetEncodersWithPause(  0.50));
-//	AddSequential(new StaticTurn            (-90.00));
-//	AddSequential(new TankDriveWithEncoders (100.00));
-
-//	AddSequential(new ResetEncodersWithPause(  0.50));
-//	AddSequential(new TankDriveWithEncoders (100.00));
-//	AddSequential(new ResetEncodersWithPause(  0.50));
-//	AddSequential(new StaticTurn            (-90.00));
-//	AddSequential(new TankDriveWithEncoders (100.00));
-//	AddSequential(new ResetEncodersWithPause(  0.50));
-//	AddSequential(new StaticTurn            (-90.00));
-//	AddSequential(new TankDriveWithEncoders (100.00));
-//	AddSequential(new ResetEncodersWithPause(  0.50));
-//	AddSequential(new StaticTurn            (-90.00));
 //	AddSequential(new TankDriveWithEncoders (100.00));
 //	AddSequential(new ResetEncodersWithPause(  0.50));
 //	AddSequential(new StaticTurn            (-90.00));

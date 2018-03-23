@@ -42,7 +42,7 @@ DriveWithJoystick::~DriveWithJoystick()
 void DriveWithJoystick::Initialize()
 {
 	LOG("[DriveWithJoystick] Initialized");
-	this->isReverse = false;
+	this->isReverse = true;
 
 	return;
 }
@@ -91,7 +91,7 @@ void DriveWithJoystick::Execute()
 	}
 
 //	CommandBase::pDriveTrain->ArcadeDrive(xSpeed, zRotation);
-	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow));
+	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation  * dSlow));
 
 	 double leftEncoderPosition =  CommandBase::pDriveTrain->GetLeftPosition();
 

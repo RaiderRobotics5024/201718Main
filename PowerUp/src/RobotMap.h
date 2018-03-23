@@ -23,7 +23,7 @@ const int TIMEOUT_MS = 100;
 const int BASE_TRAJECTORY_PERIOD_MS = 0;
 const int NEUTRAL_DEADBAND_PERCENT = 1;
 
-const double TALON_PID_P = 0.03;
+const double TALON_PID_P = 0.03f;
 const double TALON_PID_I = 0.00;
 const double TALON_PID_D = 0.00;
 const double TALON_PID_F = 0.00;
