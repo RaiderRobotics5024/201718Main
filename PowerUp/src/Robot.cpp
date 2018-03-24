@@ -143,9 +143,9 @@ void Robot::AutonomousInit()
 	case 31: pAutonomousCommand = new RobotRightSwitchLeft  (); break;
 	case 32: pAutonomousCommand = new RobotRightSwitchRight (); break;
 	case 33: pAutonomousCommand = new TestAutonomous        (); break;
-	case 98:
-	case 99:
-	default: pAutonomousCommand = new JustDriveForward          (); break;
+	case 98: pAutonomousCommand = new JustDriveForward      (); break;
+	case 99: pAutonomousCommand = new JustDriveForward      (); break;
+	default: pAutonomousCommand = new JustDriveForward      (); break;
 	}
 
 	LOG("[Robot] Starting autonomous");

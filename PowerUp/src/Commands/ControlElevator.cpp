@@ -44,15 +44,11 @@ void ControlElevator::Execute()
 
 	if (CommandBase::pElevator->IsTopSwitchAligned() && dMotorSpeed < 0.0)
 	{
-		LOG("[ControlElevator] At the top" );
-
 		dMotorSpeed = 0.0; // don't let the motor go passed the top switch
 	}
 
 	if (CommandBase::pElevator->IsBottomSwitchAligned() && dMotorSpeed > 0.0)
 	{
-		LOG("[ControlElevator] At the bottom" );
-
 		dMotorSpeed = 0.0; // don't let the motor go passed the bottom switch
 	}
 

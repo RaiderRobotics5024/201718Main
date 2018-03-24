@@ -10,6 +10,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	LOG("[Elevator] Constructed");
 
 	this->pElevatorMotor = new can::WPI_TalonSRX(ELEVATOR_MOTOR_ID);
+	this->pElevatorMotor->SetNeutralMode(NeutralMode::Brake);
+
 
 	this->pTopSwitch    = new frc::DigitalInput(ELEVATOR_TOP_SWITCH_ID);
 	this->pMiddleSwitch = new frc::DigitalInput(ELEVATOR_MID_SWITCH_ID);

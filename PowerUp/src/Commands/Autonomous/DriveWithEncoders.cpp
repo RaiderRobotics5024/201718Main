@@ -43,8 +43,9 @@ void DriveWithEncoders::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
+	CommandBase::pDriveTrain->InitAutonomousMode(true);
 	CommandBase::pDriveTrain->ResetEncoders();
-	CommandBase::pDriveTrain->InitAutonomousMode(true); // change this based on test or production (true) robot, (false) test robot
+	CommandBase::pDriveTrain->DriveSetup();
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 	return;
 }
@@ -69,19 +70,19 @@ void DriveWithEncoders::Execute()
  */
 bool DriveWithEncoders::IsFinished()
 {
-	if (this->pTimer->Get() > 5.0) // stop after 5 seconds no matter what
+	if (this->pTimer->Get() > 3.0) // stop afte 3 seconds no matter what
 	{
 		LOG("[DriveWithEncoder] Timed out");
 
 		return true;
 	}
 
-	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
-	{
-		LOG("[DriveWithEncoder] Reached Target by Left");
-
-		return true;
-	}
+//	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
+//	{
+//		LOG("[DriveWithEncoder] Reached Target by Left");
+//
+//		return true;
+//	}
 
 	if (CommandBase::pDriveTrain->GetRightPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
 	{
@@ -125,11 +126,15 @@ void DriveWithEncoders::Interrupted()
 void DriveWithEncoders::Trace()
 {
 	LOG("[DriveWithEncoders] TD: " << this->dDistance
-			<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
 			<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+			<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
 			<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+			<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
+			<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
 			<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
-			<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
+			<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
+			<< " RE: " << CommandBase::pDriveTrain->GetRightClosedLoopError()
+			<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
 			<< " Time: " << this->pTimer->Get());
 
 	return;

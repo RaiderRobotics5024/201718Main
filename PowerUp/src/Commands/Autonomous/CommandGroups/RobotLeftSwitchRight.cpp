@@ -24,11 +24,10 @@ RobotLeftSwitchRight::RobotLeftSwitchRight()
 	AddSequential(new TankDriveWithEncoders (168.94));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            ( 90.00));
+	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new MoveElevator  (Height::SWITCH));
-	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new TankDriveWithEncoders ( 13.74));
-	AddSequential(new ResetEncodersWithPause(  0.50));
-	AddSequential(new ToggleIntake          ( -1.00));
+	AddSequential(new ToggleIntake          (  1.00));
 
 	// FIRST CUBE
 //	AddSequential(new DriveWithEncoders(228.74, 1.0));

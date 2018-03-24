@@ -37,7 +37,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor->SetSafetyEnabled(false);
 	this->pRobotDrive->SetSafetyEnabled(false);
 
-	DriveTrain::ResetEncoders();
+//	DriveTrain::ResetEncoders();
 
 	// Initialize the gyro
 	// (See comment here about which port. We are using MXP, the one physically on top of the RoboRio
@@ -139,6 +139,17 @@ void DriveTrain::InitDefaultCommand()
 }
 
 /**
+ *
+ */
+void DriveTrain::DriveSetup()
+{
+	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
+	this->pRightFrontMotor->SetInverted(false);
+
+	return;
+}
+
+/**
  * Used by Autonomous Commands
  */
 void DriveTrain::Drive(double distance, double speed)
@@ -148,7 +159,18 @@ void DriveTrain::Drive(double distance, double speed)
 	SetTargetPosition(targetPositionRotations * speed);
 
 //	pLeftFrontMotor->Set(ControlMode::Position, GetTargetPosition() * -1);
-	pRightFrontMotor->Set(ControlMode::Position, GetTargetPosition());
+	this->pRightFrontMotor->Set(ControlMode::Position, GetTargetPosition());
+
+	return;
+}
+
+/**
+ *
+ */
+void DriveTrain::TurnSetup()
+{
+	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
+	this->pRightFrontMotor->SetInverted(true);
 
 	return;
 }
@@ -163,7 +185,6 @@ void DriveTrain::Turn()
     double dTurnRate = this->dRotateToAngleRate;
 
     if (this->pTurnController->GetSetpoint() < 0.0) dTurnRate = dTurnRate * -1;
-
     this->pRobotDrive->ArcadeDrive(0.0, dTurnRate);
 
     return;
@@ -226,9 +247,9 @@ can::WPI_TalonSRX* DriveTrain::GetLeftFrontMotor()
 /**
  *
  */
-can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
+int DriveTrain::GetLeftClosedLoopError()
 {
-	return this->pRightFrontMotor;
+	return this->pLeftFrontMotor->GetClosedLoopError(SLOT_INDEX);
 }
 
 /**
@@ -250,9 +271,49 @@ double DriveTrain::GetLeftPosition()
 /**
  *
  */
+int DriveTrain::GetLeftVelocity()
+{
+	return pLeftFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
+{
+	return this->pRightFrontMotor;
+}
+
+/**
+ *
+ */
+int DriveTrain::GetRightClosedLoopError()
+{
+	return this->pRightFrontMotor->GetClosedLoopError(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+double DriveTrain::GetRightDistance()
+{
+	return GetRightPosition() / TICKS_PER_REVOLUTION * INCHES_PER_REVOLUTION;
+}
+
+/**
+ *
+ */
 double DriveTrain::GetRightPosition()
 {
 	return this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX);
+}
+
+/**
+ *
+ */
+int DriveTrain::GetRightVelocity()
+{
+	return pRightFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
 }
 
 /**
@@ -271,13 +332,6 @@ double DriveTrain::GetTargetPosition()
 	return this->dTargetPostionRotations;
 }
 
-/**
- *
- */
-int DriveTrain::GetVelocity()
-{
-	return pRightFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
-}
 /**
  *
  */

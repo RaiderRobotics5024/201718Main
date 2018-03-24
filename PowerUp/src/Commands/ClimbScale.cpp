@@ -42,7 +42,7 @@ void ClimbScale::Execute()
 		CommandBase::pClimbSystem->ExtendArm(true);
 	}
 	
-	if (pJoyOperator->GetBButton())
+	if (pJoyOperator->GetBButton() && pJoyOperator->GetBumper(XboxController::kRightHand))
 	{
 		CommandBase::pClimbSystem->RetractArm(1.0);
 	}

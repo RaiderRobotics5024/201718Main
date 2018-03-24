@@ -8,13 +8,14 @@
 
 class StaticTurn : public CommandBase
 {
-	#define PROPORTIONAL	0.020 // Tweaked value (Raw values when target=90 were ~90 decreasing to ~0 approaching target)
-	#define INTEGRAL	0.012 // Tweaked value (Raw values when target=90 were ~0 increasing to ~90  approaching target)
-	#define DERIVATIVE	0.000 // Tweaked value (Raw values when target=90 were ~0-~500 before values were tweaked(motors were at max speed))
+	#define PROPORTIONAL	0.020 // Tweaked value (Raw values are = target decreasing to 0 when approaching target)
+	#define INTEGRAL	0.012 // Tweaked value (Raw values are 0 increasing the further away from target)
+	#define DERIVATIVE	0.002 // Tweaked value (Raw values depend on speed at instance. Init val will be ~5000 while gyro is resetting)
 	#define BUFFER_ZONE	0.4//Degrees
 	#define TIMEOUT		3.0//Seconds
 
-	Timer* m_pTimer ; /* Timer for timing out command if stuck */
+	/* Timer for timing out command if stuck */
+	Timer* m_pTimer ;
 
 	/* Personal PID for calculations */
 	PID* m_pPID ;

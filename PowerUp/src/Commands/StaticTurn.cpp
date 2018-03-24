@@ -22,7 +22,7 @@ StaticTurn::StaticTurn(double angleDeg)
 	Requires(CommandBase::pDriveTrain) ;
 	this->m_pTimer = new Timer() ;
 	double val = fabs(1.0 / angleDeg) ;
-	val =  floor(val) * 1000 / 1000 ;
+	val =  floor(val * 1000) / 1000 ;
 	LOG("[StaticTurn] Tweaked value is "<<val) ;
 	// Replace val and val*0.6 with PROPORTIONAL and INTEGRAL if it doesn't work
 	this->m_pPID = new PID(val, val*0.6, DERIVATIVE, BUFFER_ZONE) ;

@@ -87,7 +87,14 @@ void MoveElevator::End()
 {
 	LOG("[MoveElevator] Ended");
 
-	CommandBase::pElevator->Reset();
+	if (ehHeight == Height::SWITCH)
+	{
+		CommandBase::pElevator->SetMotorSpeed(-0.05); // Keep elevator at the top until interrupted
+	}
+	else
+	{
+		CommandBase::pElevator->Reset();
+	}
 
 	return;
 }
