@@ -86,6 +86,8 @@ bool Elevator::IsBottomSwitchAligned()
  */
 void Elevator::Reset()
 {
+	LOG("[Elevator] Resetting");
+
 	this->pElevatorMotor->Set(0.0);
 
 	return;

@@ -1,6 +1,7 @@
 #include "RobotCenterSwitchLeft.h"
 #include "../../../Utilities/Log.h"
 #include "../DriveWithEncoders.h"
+#include "../KeepElevatorAtTop.h"
 #include "../ResetEncodersWithPause.h"
 #include "../RotateWithGyro.h"
 #include "../MoveElevator.h"
@@ -17,15 +18,16 @@ RobotCenterSwitchLeft::RobotCenterSwitchLeft()
 	LOG("[RobotCenterSwitchLeft] Constructed");
 
 	// FIRST CUBE
-	AddSequential(new TankDriveWithEncoders ( 19.00));
-	AddSequential(new ResetEncodersWithPause(  0.50));
-	AddSequential(new StaticTurn            (-41.15));
-	AddSequential(new TankDriveWithEncoders ( 80.00));
+	AddSequential(new TankDriveWithEncoders ( 19.00, 2.0));
+	AddSequential(new ResetEncodersWithPause(       0.50));
+	AddSequential(new StaticTurn            (     -41.15));
+	AddSequential(new MoveElevator       (Height::SWITCH));
+	AddParallel  (new KeepElevatorAtTop                ());
+	AddSequential(new TankDriveWithEncoders (  80.00, 4.0));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            ( 41.15));
-	AddSequential(new MoveElevator  (Height::SWITCH));
 	AddSequential(new ResetEncodersWithPause(  0.50));
-	AddSequential(new TankDriveWithEncoders ( 19.00));
+	AddSequential(new TankDriveWithEncoders ( 19.00, 2.0));
 	AddSequential(new ToggleIntake          (  1.00));
 
 	// FIRST CUBE

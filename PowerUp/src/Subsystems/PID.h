@@ -10,6 +10,7 @@
 class PID : public frc::Subsystem
 {
 	#define CYCLE_TIME	0.02
+	#define LIMIT 6.0
 	double tweakP, tweakI, tweakD, buffer, err, Ierr, Derr, prevErr, target, current ;
 
 public:

@@ -12,7 +12,7 @@
 class DriveWithEncoders : public CommandBase
 {
 public:
-	DriveWithEncoders(double distance, double speed);
+	DriveWithEncoders(double distance, double speed, double timeout);
 	~DriveWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;
@@ -26,6 +26,7 @@ private:
 	int    iCounter = 0;
 	double dDistance = 0;
 	double dSpeed = 0;
+	double dTimeout = 5.0; // default to 5 second timeout
 };
 
 #endif

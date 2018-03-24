@@ -5,11 +5,12 @@
 /**
  * distance in inches, speed from -1 to 1
  */
-TankDriveWithEncoders::TankDriveWithEncoders(double distance)
+TankDriveWithEncoders::TankDriveWithEncoders(double distance, double timeout)
 {
 	LOG("[TankDriveWithEncoders] Constructed: " << (unsigned int)this );
 	SmartDashboard::PutNumber("distance", distance);
 	this->dDistance = distance;
+	this->dTimeout = timeout;
 	if (CommandBase::pDriveTrain != nullptr)
 	{
 		Requires(CommandBase::pDriveTrain);
@@ -132,9 +133,9 @@ bool TankDriveWithEncoders::IsFinished()
 
 	this->m_IsFinishedCalledCount++;
 
-	if (this->pTimer->Get() > 5.0) // stop after 5 seconds no matter what
+	if (this->pTimer->Get() > dTimeout) // stop after dTimeout seconds no matter what
 	{
-		LOG("[TankDriveWithEncoder] Timed out");
+		LOG("[TankDriveWithEncoder] Timed out: " << dTimeout);
 
 		return true;
 	}

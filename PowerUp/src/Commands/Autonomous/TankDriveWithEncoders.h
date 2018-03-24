@@ -12,7 +12,7 @@
 class TankDriveWithEncoders : public CommandBase
 {
 public:
-	TankDriveWithEncoders(double distance);
+	TankDriveWithEncoders(double distance, double timeout);
 	~TankDriveWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;
@@ -26,6 +26,7 @@ private:
 	double dDistance = 0;
 	double dLeftSpeed = 0;
 	double dRightSpeed = 0;
+	double dTimeout = 5.0;
 	double rightInchesTraveled = 0;
 	double leftInchesTraveled = 0;
 //	double startingPosition;

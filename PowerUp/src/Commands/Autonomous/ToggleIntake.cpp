@@ -42,6 +42,8 @@ void ToggleIntake::Initialize()
  */
 void ToggleIntake::Execute()
 {
+	LOG("[ToggleIntake] Executing: " << dSpeed);
+
 	CommandBase::pIntake->SetSpeed(dSpeed);
 
 	return;
@@ -52,7 +54,7 @@ void ToggleIntake::Execute()
  */
 bool ToggleIntake::IsFinished()
 {
-	if (this->pTimer->Get() > 0.5) // stop after 2 seconds no matter what
+	if (this->pTimer->Get() > 1.0) // stop after 1 seconds no matter what
 	{
 		LOG("[ToggleIntake] Timed Out");
 

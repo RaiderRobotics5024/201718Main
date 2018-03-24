@@ -96,12 +96,12 @@ int Robot::GetAutoType()
 	}
 
 	// do the override if robot left/switch right or robot right/switch left
-	if ((_RP == RobotPosition::LEFT  && _SP == SwitchPosition::RIGHT && _OA > 0) ||
-	    (_RP == RobotPosition::RIGHT && _SP == SwitchPosition::LEFT  && _OA > 0))
+	if ((_RP == RobotPosition::LEFT  && _SP == SwitchPosition::RIGHT) ||
+	    (_RP == RobotPosition::RIGHT && _SP == SwitchPosition::LEFT))
 	{
 		LOG("[Robot] Override Autonomous: " << _OA);
 
-		return _OA;
+		return 99;
 	}
 
 	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP << " - Game Data: " << _GSM);

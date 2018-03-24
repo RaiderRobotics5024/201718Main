@@ -12,7 +12,7 @@ StaticTurn::StaticTurn()
 	//Default NULL, target is NULL if the this objects target is dynamic (not the same everytime)
 	this->target = 0.0 ;
 	this->yawOffset = 0.0 ;
-	this->counter = 13 ;
+	this->counter = 999 ;
 	return ;
 }
 
@@ -21,14 +21,14 @@ StaticTurn::StaticTurn(double angleDeg)
 	LOG("[StaticTurn] Constructed with angle: "<<angleDeg) ;
 	Requires(CommandBase::pDriveTrain) ;
 	this->m_pTimer = new Timer() ;
-	double val = fabs(1.0 / angleDeg) ;
+	double val = fabs(0.75 / angleDeg) ;
 	val =  floor(val * 1000) / 1000 ;
 	LOG("[StaticTurn] Tweaked value is "<<val) ;
 	// Replace val and val*0.6 with PROPORTIONAL and INTEGRAL if it doesn't work
-	this->m_pPID = new PID(val, val*0.6, DERIVATIVE, BUFFER_ZONE) ;
+	this->m_pPID = new PID(val, val*0.65, DERIVATIVE, BUFFER_ZONE) ;
 	this->target = angleDeg ;
 	this->yawOffset = 0.0 ;
-	this->counter = 13 ;
+	this->counter = 999 ;
 	return ;
 }
 
@@ -62,11 +62,11 @@ void StaticTurn::Initialize()
 void StaticTurn::Execute()
 {
 	double yaw = pDriveTrain->GetAngle() ;
-	double calcPID = m_pPID->calcPID(yaw) * 0.75  ;
+	double calcPID = m_pPID->calcPID(yaw) ;
 
 /*		v	Code for printing out PID values if debugging/tweaking is needed	v	*/
-	if (this->counter++ >= 12)
-		printf("[StaticTurn::Execute] CalcPID_%4.2f | Yaw: %+6.2f | Err: %4.2f | Ierr: %5.2f | Derr: %+3.1f | Time: %3.2f\n",
+	if (this->counter++ >= 15)
+		printf("[StaticTurn::Execute] CalcPID: %4.2f | Yaw: %+7.2f | Err: %4.2f | Ierr: %5.2f | Derr: %+3.1f | Time: %3.2f\n",
 			calcPID , yaw , m_pPID->getErr() , m_pPID->getIerr() , m_pPID->getDerr() , m_pTimer->Get()) ;
 
 	CommandBase::pDriveTrain->ArcadeDrive(0, calcPID) ;
@@ -92,6 +92,7 @@ bool StaticTurn::IsFinished()
 // Called once after isFinished returns true
 void StaticTurn::End()
 {
+	CommandBase::pDriveTrain->ArcadeDrive(0,0) ;
 	this->m_pPID->reset() ;
 	this->m_pTimer->Stop() ;
 	this->m_pTimer->Reset() ;
@@ -113,5 +114,6 @@ StaticTurn::~StaticTurn()
 void StaticTurn::Interrupted()
 {
 	LOG("[StaticTurn::Interrupted] Nothing will be done otherwise.") ;
+	CommandBase::pDriveTrain->ArcadeDrive(0,0) ;
 	return ;
 }

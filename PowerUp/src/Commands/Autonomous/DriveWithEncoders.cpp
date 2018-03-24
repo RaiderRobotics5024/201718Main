@@ -5,7 +5,7 @@
 /**
  * distance in inches, speed from -1 to 1
  */
-DriveWithEncoders::DriveWithEncoders(double distance, double speed)
+DriveWithEncoders::DriveWithEncoders(double distance, double speed, double timeout)
 {
 	LOG("[DriveWithEncoders] Constructed");
 
@@ -14,6 +14,7 @@ DriveWithEncoders::DriveWithEncoders(double distance, double speed)
 		Requires(CommandBase::pDriveTrain);
 		this->dDistance = distance;
 		this->dSpeed = speed;
+		this->dTimeout = timeout;
 	}
 	else
 	{
@@ -70,7 +71,7 @@ void DriveWithEncoders::Execute()
  */
 bool DriveWithEncoders::IsFinished()
 {
-	if (this->pTimer->Get() > 3.0) // stop afte 3 seconds no matter what
+	if (this->pTimer->Get() > dTimeout) // stop afte 3 seconds no matter what
 	{
 		LOG("[DriveWithEncoder] Timed out");
 
