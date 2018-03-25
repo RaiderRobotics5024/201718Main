@@ -1,6 +1,6 @@
 #include "DriveTrain.h"
+#include "DriveTrainMap.h"
 #include "../Utilities/Log.h"
-#include "../RobotMap.h"
 #include "../Commands/DriveWithJoystick.h"
 
 /**

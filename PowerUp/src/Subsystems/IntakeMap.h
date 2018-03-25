@@ -1,0 +1,13 @@
+#ifndef _INTAKE_MAP_HG_
+#define _INTAKE_MAP_HG_
+
+const int INTAKE_LEFT_MOTOR_ID = 7;
+const int INTAKE_RIGHT_MOTOR_ID = 6;
+
+//Gripper:
+const int GRIPPER_SOLENOID_CAN_ID = 8;
+const int GRIPPER_SOLENOID_FORWARDCHANNEL_ID = 2;
+const int GRIPPER_SOLENOID_REVERSECHANNEL_ID = 1;
+const double GRIPPER_SPEED_ADJUSTMENT_RATIO = 0.95;
+
+#endif

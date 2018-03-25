@@ -1,4 +1,5 @@
 #include "Intake.h"
+#include "IntakeMap.h"
 #include "../Utilities/Log.h"
 #include "../Commands/ControlIntake.h"
 

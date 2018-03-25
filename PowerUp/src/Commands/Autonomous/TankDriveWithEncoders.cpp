@@ -1,6 +1,6 @@
 #include "TankDriveWithEncoders.h"
+#include "../../Subsystems/DriveTrainMap.h"
 #include "../../Utilities/Log.h"
-#include "../../RobotMap.h"
 
 /**
  * distance in inches, speed from -1 to 1

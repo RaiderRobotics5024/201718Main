@@ -1,4 +1,5 @@
 #include "Elevator.h"
+#include "ElevatorMap.h"
 #include "../Utilities/Log.h"
 #include "../Commands/ControlElevator.h"
 

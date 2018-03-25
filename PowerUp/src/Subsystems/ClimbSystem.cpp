@@ -1,4 +1,5 @@
 #include "ClimbSystem.h"
+#include "ClimbSystemMap.h"
 #include "../Utilities/Log.h"
 #include "../Commands/ClimbScale.h"
 

@@ -1,6 +1,7 @@
+#include "CompressorSystem.h"
+#include "CompressorSystemMap.h"
 #include "../Utilities/Log.h"
 #include <Commands/ToggleCompressor.h>
-#include <Subsystems/CompressorSystem.h>
 
 /**
  *
