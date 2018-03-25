@@ -6,15 +6,17 @@
 #include <ctre/Phoenix.h>
 #include "../RobotMap.h"
 
-struct Height
+typedef enum eElevatorHeight
 {
-	typedef enum
-	{
-		BOTTOM = 1, // elevator at the bottom or one cube height
-		CUBEX2,     // elevator at cube on top of another cube height to intake - 19"
-		SWITCH      // elevator at height to put cube in switch - 33"
-	} ElevatorHeight;
-};
+	BOTTOM = 1, // elevator at the bottom or one cube height
+	CUBEX2,     // elevator at cube on top of another cube height to intake - 19"
+	SWITCH      // elevator at height to put cube in switch - 33"
+} ElevatorHeight;
+
+// Global Elevator Height variable
+// Set this variable in any command and the elevator
+// service will move the elevator to that height
+extern ElevatorHeight gElevatorHeight;
 
 /**
  *

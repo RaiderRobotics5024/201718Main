@@ -12,7 +12,7 @@
 class ToggleGripper : public CommandBase
 {
 public:
-	ToggleGripper(Action::GripperAction state);
+	ToggleGripper(GripperAction state);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -21,7 +21,7 @@ public:
 
 private:
 	Timer* pTimer;
-	Action::GripperAction gsState;
+	GripperAction gsState;
 };
 
 #endif

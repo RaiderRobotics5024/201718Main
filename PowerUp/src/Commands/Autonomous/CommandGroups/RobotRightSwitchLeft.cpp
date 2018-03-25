@@ -1,10 +1,9 @@
 #include "RobotRightSwitchLeft.h"
 #include "../../../Utilities/Log.h"
 #include "../DriveWithEncoders.h"
-#include "../KeepElevatorAtTop.h"
+#include "../ElevatorService.h"
 #include "../ResetEncodersWithPause.h"
 #include "../RotateWithGyro.h"
-#include "../MoveElevator.h"
 #include "../ToggleGripper.h"
 #include "../ToggleIntake.h"
 #include "../TankDriveWithEncoders.h"
@@ -17,12 +16,13 @@ RobotRightSwitchLeft::RobotRightSwitchLeft()
 {
 	LOG("[RobotRightSwitchLeft] Constructed");
 
+	// Start the elevator service
+	AddParallel(new ElevatorService());
+
 	// FIRST CUBE
 	AddSequential(new TankDriveWithEncoders (228.74, 5.0));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            (-90.00));
-	AddSequential(new MoveElevator  (Height::SWITCH));
-	AddParallel  (new KeepElevatorAtTop           ());
 	AddSequential(new TankDriveWithEncoders (168.94, 4.0));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            (-90.00));

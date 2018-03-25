@@ -5,7 +5,7 @@
 /**
  * speed from -1 to 1
  */
-ToggleGripper::ToggleGripper(Action::GripperAction state)
+ToggleGripper::ToggleGripper(GripperAction state)
 {
 	LOG("[ToggleGripper] Constructed");
 
@@ -42,11 +42,11 @@ void ToggleGripper::Initialize()
  */
 void ToggleGripper::Execute()
 {
-	if (gsState == Action::OPEN)
+	if (gsState == OPEN)
 	{
 		CommandBase::pIntake->OpenGripper();
 	}
-	else if (gsState == Action::CLOSE)
+	else if (gsState == CLOSE)
 	{
 		CommandBase::pIntake->CloseGripper();
 	}

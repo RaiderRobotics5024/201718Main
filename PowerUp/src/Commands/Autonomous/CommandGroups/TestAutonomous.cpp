@@ -2,10 +2,9 @@
 #include "../../../Utilities/Log.h"
 #include "../../../RobotMap.h"
 #include "../DriveWithEncoders.h"
-#include "../KeepElevatorAtTop.h"
+#include "../ElevatorService.h"
 #include "../ResetEncodersWithPause.h"
 #include "../RotateWithGyro.h"
-#include "../MoveElevator.h"
 #include "../ToggleGripper.h"
 #include "../ToggleIntake.h"
 #include "../TankDriveWithEncoders.h"
@@ -18,11 +17,10 @@ TestAutonomous::TestAutonomous()
 {
 	LOG("[TestAutonomous] Constructed");
 
-	AddSequential(new MoveElevator  (Height::SWITCH));
-	AddParallel  (new KeepElevatorAtTop           ());
+	AddParallel  (new ElevatorService());
+	AddSequential(new TankDriveWithEncoders(100.00, 3.0));
 
 	// LEFT/LEFT CUBE
-//	AddParallel(new TankDriveWithEncoders (160.00));
 //
 //	AddSequential(new ResetEncodersWithPause(  0.50));
 //	AddSequential(new StaticTurn            ( 90.00));

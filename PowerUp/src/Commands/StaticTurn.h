@@ -26,7 +26,7 @@ class StaticTurn : public CommandBase
 	/* Angle to subtract the getYaw instead of zeroeing it to allow parallel use of the gyro */
 	double yawOffset ;
 
-	unsigned char counter ;
+	int counter ;
 
 public:
 	StaticTurn();

@@ -7,14 +7,11 @@
 #include <DoubleSolenoid.h>
 #include "../RobotMap.h"
 
-struct Action
+typedef enum eGripperAction
 {
-	typedef enum
-	{
-		OPEN = 0,
-		CLOSE
-	} GripperAction;
-};
+	OPEN = 0,
+	CLOSE
+} GripperAction;
 
 /**
  *

@@ -2,6 +2,9 @@
 #include "../Utilities/Log.h"
 #include "../Commands/ControlElevator.h"
 
+// Define our global variable to set elevator height
+ElevatorHeight gElevatorHeight = BOTTOM;
+
 /**
  *
  */

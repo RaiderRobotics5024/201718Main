@@ -1,18 +1,17 @@
-#ifndef _KEEPELEVATORATTOP_HG_
-#define _KEEPELEVATORATTOP_HG_
+#ifndef _ELEVATORSERVICE_HG_
+#define _ELEVATORSERVICE_HG_
 
 #include <WPILib.h>
 #include <Timer.h>
 #include "../../CommandBase.h"
-#include "../../Subsystems/Elevator.h"
 
 /**
  *
  */
-class KeepElevatorAtTop : public CommandBase
+class ElevatorService : public CommandBase
 {
 public:
-	KeepElevatorAtTop();
+	ElevatorService();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -20,7 +19,10 @@ public:
 	void Interrupted() override;
 
 private:
+	Timer* pTimer;
 	double dMotorSpeed = 0.0;
+	ElevatorHeight ehCalledTo = BOTTOM;
+	bool   bArrived = false;
 };
 
 #endif

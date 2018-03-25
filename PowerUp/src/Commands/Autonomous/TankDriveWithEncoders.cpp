@@ -1,6 +1,7 @@
 #include "TankDriveWithEncoders.h"
 #include "../../Utilities/Log.h"
 #include "../../RobotMap.h"
+#include "../../Subsystems/Elevator.h"
 
 /**
  * distance in inches, speed from -1 to 1
@@ -65,6 +66,9 @@ void TankDriveWithEncoders::Initialize()
  */
 void TankDriveWithEncoders::Execute()
 {
+	// ask elevator service to move to switch
+	gElevatorHeight = SWITCH;
+
 //	::SmartDashboard::PutNumber("StartingPosition", startingPosition);
 
 
