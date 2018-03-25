@@ -17,8 +17,11 @@ TestAutonomous::TestAutonomous()
 {
 	LOG("[TestAutonomous] Constructed");
 
-	AddParallel  (new ElevatorService());
-	AddSequential(new TankDriveWithEncoders(100.00, 3.0));
+	// Start the elevator service. This handles calls from the other
+	// commands to move the elevator.  It runs throughout autonomous mode
+	AddParallel(new ElevatorService());
+
+	AddSequential(new TankDriveWithEncoders(100.00, SWITCH, 3.0));
 
 	// LEFT/LEFT CUBE
 //

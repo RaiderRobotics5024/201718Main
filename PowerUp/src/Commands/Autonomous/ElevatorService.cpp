@@ -46,6 +46,8 @@ void ElevatorService::Execute()
 
 	switch (ehCalledTo)
 	{
+	case NONE   : break; // don't move the elevator
+
 	case BOTTOM :
 		if (CommandBase::pElevator->IsBottomSwitchAligned())
 		{

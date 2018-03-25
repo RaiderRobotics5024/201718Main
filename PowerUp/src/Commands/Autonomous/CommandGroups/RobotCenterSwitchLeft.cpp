@@ -16,18 +16,19 @@ RobotCenterSwitchLeft::RobotCenterSwitchLeft()
 {
 	LOG("[RobotCenterSwitchLeft] Constructed");
 
-	// Start the elevator service
+	// Start the elevator service. This handles calls from the other
+	// commands to move the elevator.  It runs throughout autonomous mode
 	AddParallel(new ElevatorService());
 
 	// FIRST CUBE
-	AddSequential(new TankDriveWithEncoders ( 19.00, 2.0));
+	AddSequential(new TankDriveWithEncoders ( 19.00, SWITCH, 2.0));
 	AddSequential(new ResetEncodersWithPause(       0.50));
 	AddSequential(new StaticTurn            (     -41.15));
-	AddSequential(new TankDriveWithEncoders (  80.00, 4.0));
+	AddSequential(new TankDriveWithEncoders (  80.00, NONE, 4.0));
 	AddSequential(new ResetEncodersWithPause(  0.50));
 	AddSequential(new StaticTurn            ( 41.15));
 	AddSequential(new ResetEncodersWithPause(  0.50));
-	AddSequential(new TankDriveWithEncoders ( 19.00, 2.0));
+	AddSequential(new TankDriveWithEncoders ( 19.00, NONE, 2.0));
 	AddSequential(new ToggleIntake          (  1.00));
 
 	// FIRST CUBE

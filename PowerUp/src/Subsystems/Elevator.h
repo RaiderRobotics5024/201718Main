@@ -8,9 +8,10 @@
 
 typedef enum eElevatorHeight
 {
-	BOTTOM = 1, // elevator at the bottom or one cube height
-	CUBEX2,     // elevator at cube on top of another cube height to intake - 19"
-	SWITCH      // elevator at height to put cube in switch - 33"
+	NONE = 0, // doesn't matter where the elevator is, don't move it
+	BOTTOM,   // elevator at the bottom or one cube height
+	CUBEX2,   // elevator at cube on top of another cube height to intake - 19"
+	SWITCH    // elevator at height to put cube in switch - 33"
 } ElevatorHeight;
 
 // Global Elevator Height variable

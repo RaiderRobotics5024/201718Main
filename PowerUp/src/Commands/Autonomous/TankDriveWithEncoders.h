@@ -12,7 +12,7 @@
 class TankDriveWithEncoders : public CommandBase
 {
 public:
-	TankDriveWithEncoders(double distance, double timeout);
+	TankDriveWithEncoders(double distance, ElevatorHeight height, double timeout);
 	~TankDriveWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;
@@ -24,6 +24,7 @@ private:
 	Timer* pTimer;
 	int iCounter = 11;
 	double dDistance = 0;
+	ElevatorHeight ehHeight;
 	double dLeftSpeed = 0;
 	double dRightSpeed = 0;
 	double dTimeout = 5.0;

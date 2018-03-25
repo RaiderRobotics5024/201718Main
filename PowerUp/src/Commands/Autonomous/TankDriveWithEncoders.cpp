@@ -6,11 +6,12 @@
 /**
  * distance in inches, speed from -1 to 1
  */
-TankDriveWithEncoders::TankDriveWithEncoders(double distance, double timeout)
+TankDriveWithEncoders::TankDriveWithEncoders(double distance, ElevatorHeight height, double timeout)
 {
 	LOG("[TankDriveWithEncoders] Constructed: " << (unsigned int)this );
 	SmartDashboard::PutNumber("distance", distance);
 	this->dDistance = distance;
+	this->ehHeight = height;
 	this->dTimeout = timeout;
 	if (CommandBase::pDriveTrain != nullptr)
 	{
@@ -67,7 +68,7 @@ void TankDriveWithEncoders::Initialize()
 void TankDriveWithEncoders::Execute()
 {
 	// ask elevator service to move to switch
-	gElevatorHeight = SWITCH;
+	gElevatorHeight = this->ehHeight;
 
 //	::SmartDashboard::PutNumber("StartingPosition", startingPosition);
 

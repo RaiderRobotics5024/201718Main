@@ -12,7 +12,7 @@ JustDriveForward::JustDriveForward()
 {
 	LOG("[JustDriveForward] Constructed");
 
-	AddSequential(new TankDriveWithEncoders (101.00, 4.0));
+	AddSequential(new TankDriveWithEncoders (101.0, NONE, 4.0));
 	AddSequential(new ResetEncodersWithPause(  10.0));
 	LOG("[JustDriveForward] Finished!") ;
 	return ;
