@@ -13,7 +13,7 @@ RRtoSRProfile::RRtoSRProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & 
 	_talonLeft.ChangeMotionControlFramePeriod(5);
 	_talonRight.ChangeMotionControlFramePeriod(5);
 
-	_notifer.StartPeriodic(0.005);
+	_notifer.StartPeriodic(0.025);
 
 	return;
 }

@@ -42,7 +42,7 @@ public:
 	
 	can::WPI_TalonSRX* GetRightFrontMotor(); // Needed by Motion Profiler
 	int    GetRightClosedLoopError(void);
-	doubld GetRightDistance(void);
+	double GetRightDistance(void);
 	double GetRightPosition(void);
 	int    GetRightVelocity(void);
 

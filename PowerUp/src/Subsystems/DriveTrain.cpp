@@ -262,7 +262,7 @@ can::WPI_TalonSRX* DriveTrain::GetLeftFrontMotor()
 /**
  *
  */
-int DriveTrain::GetLeftCosedLoopError()
+int DriveTrain::GetLeftClosedLoopError()
 {
 	return this->pLeftFrontMotor->GetClosedLoopError(SLOT_INDEX);
 }
@@ -302,7 +302,7 @@ can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
 /**
  *
  */
-int DriveTrain::GetRightCosedLoopError()
+int DriveTrain::GetRightClosedLoopError()
 {
 	return this->pRightFrontMotor->GetClosedLoopError(SLOT_INDEX);
 }
