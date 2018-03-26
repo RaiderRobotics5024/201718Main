@@ -82,7 +82,7 @@ DriveTrain::~DriveTrain()
 /**
  *
  */
-void DriveTrain::InitAutonomousMode(bool inverted)
+void DriveTrain::InitAutonomousMode()
 {
 	LOG("[DriveTrain] Autonomous Initialized");
 
@@ -125,13 +125,6 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 	this->pRightFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
-
-	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
-//	pRightFrontMotor->Follow(*pLeftFrontMotor);
-//	pRightFrontMotor->SetInverted(!pRightFrontMotor->GetInverted());
-
-	LOG("[DriveTrain] SSP: " << (this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF)
-			<< " PWP: " << this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition());
 
 //	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
 	int abRightPosition = this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition();
@@ -187,6 +180,17 @@ void DriveTrain::InitMotionProfiling()
 }
 
 /**
+ *
+ */
+void DriveTrain::DriveSetup()
+{
+	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
+	this->pRightFrontMotor->SetInverted(false);
+
+	return;
+}
+
+/**
  * Used by Autonomous Commands
  */
 void DriveTrain::Drive(double distance, double speed)
@@ -196,6 +200,17 @@ void DriveTrain::Drive(double distance, double speed)
 	SetTargetPosition(targetPositionRotations * speed);
 
 	this->pRightFrontMotor->Set(ControlMode::Position, GetTargetPosition());
+
+	return;
+}
+
+/**
+ *
+ */
+void DriveTrain::TurnSetup()
+{
+	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
+	this->pRightFrontMotor->SetInverted(true);
 
 	return;
 }
@@ -372,8 +387,18 @@ void DriveTrain::ResetDrive()
 {
 	LOG("[DriveTrain] Resetting the motors");
 
-	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0.0);
-	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0.0);
+	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0);
+	this->pLeftRearMotor->Set(ControlMode::PercentOutput, 0);
+	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0);
+	this->pRightRearMotor->Set(ControlMode::PercentOutput, 0);
+
+	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
+	this->pLeftFrontMotor->SetInverted(true);
+	this->pLeftRearMotor->SetInverted(true);
+
+	this->pRightRearMotor->Follow(*pRightFrontMotor);
+	this->pRightFrontMotor->SetInverted(false);
+	this->pRightRearMotor->SetInverted(false);
 
 	return;
 }

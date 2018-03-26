@@ -65,7 +65,8 @@ void DriveWithJoystick::Execute()
 
 		if(this->isDriveTest)
 		{
-			CommandBase::pDriveTrain->InitAutonomousMode(true);
+			CommandBase::pDriveTrain->InitAutonomousMode();
+			CommandBase::pDriveTrain->DriveSetup();
 		}
 		else
 		{
@@ -84,7 +85,8 @@ void DriveWithJoystick::Execute()
 
 		if(this->isTurnTest)
 		{
-			CommandBase::pDriveTrain->InitAutonomousMode(false);
+			CommandBase::pDriveTrain->InitAutonomousMode();
+			CommandBase::pDriveTrain->TurnSetup();
 		}
 		else
 		{

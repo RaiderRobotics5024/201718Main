@@ -44,7 +44,8 @@ void DriveWithEncoders::Initialize()
 	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->ResetEncoders();
-	CommandBase::pDriveTrain->InitAutonomousMode(true); // invert right front motor
+	CommandBase::pDriveTrain->InitAutonomousMode();
+	CommandBase::pDriveTrain->DriveSetup();
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 	return;
 }
