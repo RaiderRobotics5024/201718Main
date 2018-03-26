@@ -1,6 +1,5 @@
 #include "TestAutonomous.h"
 #include "../../../Utilities/Log.h"
-#include "../../../RobotMap.h"
 #include "../DriveWithEncoders.h"
 #include "../RotateWithEncoders.h"
 #include "../RotateWithGyro.h"
@@ -13,7 +12,7 @@ TestAutonomous::TestAutonomous()
 {
 	LOG("[TestAutonomous] Constructed");
 
-	AddSequential(new DriveWithEncoders( 40.00 - HALF_ROBOT_LENGTH, -1.0));
+	AddSequential(new DriveWithEncoders( 40.00, -1.0));
 	AddSequential(new RotateWithGyro   (-20.00      ));
 	AddSequential(new DriveWithEncoders( 60.00, -1.0));
 	AddSequential(new RotateWithGyro   ( 20.00      ));
