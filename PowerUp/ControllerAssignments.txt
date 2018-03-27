@@ -15,7 +15,7 @@ Back Button    :
 
 Operator Controller
 Button A + LB  : ClimbScale - Extend Arm by Solenoid
-Button B + RB  : ClimbScale - Extend Arm by Motor
+Button B + RB  : ClimbScale - Retract Arm by Motor
 Button X       : 
 Button Y       :
 Left Stick     :
