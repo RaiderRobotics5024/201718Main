@@ -56,7 +56,6 @@ public:
 	void ResetEncoders(void);
 	void ResetGyro(void);
 
-	void SetEncoders(void);
 	void SetGyroPID(double p, double i, double d, double f);
 	void SetTalonPID(double p, double i, double d, double f);
 	void SetMPPID(double p, double i, double d, double f);

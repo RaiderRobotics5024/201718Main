@@ -427,15 +427,6 @@ void DriveTrain::ResetGyro()
 /**
  *
  */
-void DriveTrain::SetEncoders()
-{
-
-	return;
-}
-
-/**
- *
- */
 void DriveTrain::SetGyroPID(double p, double i, double d, double f)
 {
 	this->pTurnController->SetPID(p, i, d, f);
