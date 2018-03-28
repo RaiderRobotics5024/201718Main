@@ -1,7 +1,7 @@
 #include "ControlIntake.h"
+#include "../Subsystems/IntakeMap.h"
 #include "../Utilities/Log.h"
 #include <math.h>
-#include "../RobotMap.h"
 
 /**
  *

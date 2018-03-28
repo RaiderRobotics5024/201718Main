@@ -35,6 +35,12 @@ const double TALON_PID_I = 0.00;
 const double TALON_PID_D = 0.00;
 const double TALON_PID_F = 0.00;
 
+// Motion Profile PIDF Settings
+const double MP_PID_P = 0.03f;
+const double MP_PID_I = 0.00;
+const double MP_PID_D = 0.00;
+const double MP_PID_F = 0.00;
+
 //Gyro PIDF Settings:
 const static double GYRO_PID_P = 0.005f;
 const static double GYRO_PID_I = 0.004f;
