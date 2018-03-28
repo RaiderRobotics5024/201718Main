@@ -20,9 +20,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
-	this->pLeftFrontMotor->SetSensorPhase(false);
-	this->pLeftRearMotor->SetSensorPhase(false);
-
 	// Initialize the right motors
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
@@ -32,9 +29,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor->SetInverted(false);
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
-
-	this->pRightFrontMotor->SetSensorPhase(false);
-	this->pRightRearMotor->SetSensorPhase(false);
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
