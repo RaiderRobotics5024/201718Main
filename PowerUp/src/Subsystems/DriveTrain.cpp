@@ -178,6 +178,7 @@ void DriveTrain::InitMotionProfiling()
  */
 void DriveTrain::DriveSetup()
 {
+	// Call ResetEncoders() ?????
 	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
 	this->pRightFrontMotor->SetInverted(false);
 
