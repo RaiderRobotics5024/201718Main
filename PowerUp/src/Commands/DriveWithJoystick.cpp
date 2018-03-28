@@ -157,21 +157,21 @@ void DriveWithJoystick::Execute()
 	}		
 
 	// log the test results
-	if (this->isDriveTest)
+	if (!this->isTurnTest)
 	{
 		LOG("[DriveWithJoystick] TD: " << this->dDistance
-				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+			<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
 		    	<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
-				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
-				<< " RE: " << CommandBase::pDriveTrain->GetRightCosedLoopError()
-				<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
+			<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
+			<< " RE: " << CommandBase::pDriveTrain->GetRightCosedLoopError()
+			<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
 		    	<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
-				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
-				<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
-				<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
-				<< " MS: " << dSpeed
-				<< " RS: " << dRotation
-				<< " Time: " << this->pTimer->Get());
+			<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+			<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
+			<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
+			<< " MS: " << dSpeed
+			<< " RS: " << dRotation
+			<< " Time: " << this->pTimer->Get());
 	}
 	else if (this->isTurnTest)
 	{
