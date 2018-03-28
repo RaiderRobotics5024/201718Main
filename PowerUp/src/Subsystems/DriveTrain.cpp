@@ -404,13 +404,8 @@ void DriveTrain::ResetEncoders()
 {
 	LOG("[DriveTrain] Resetting encoders");
 
-//	int abLeftPosition = this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
-//	this->pLeftFrontMotor->SetSelectedSensorPosition(abLeftPosition, PID_LOOP_INDEX, 100);
-//	this->pLeftFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, 100);
-
-//	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
-//	this->pRightFrontMotor->SetSelectedSensorPosition(abRightPosition, PID_LOOP_INDEX, 100);
-//	this->pRightFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, 100);
+	this->pLeftFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, TIMEOUT_MS);
+	this->pRightFrontMotor->SetSelectedSensorPosition(0, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
 }
