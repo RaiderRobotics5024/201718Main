@@ -157,7 +157,7 @@ void DriveWithJoystick::Execute()
 	}		
 
 	// log the test results
-	if (!this->isTurnTest)
+	if (this->isDriveTest)
 	{
 		LOG("[DriveWithJoystick] TD: " << this->dDistance
 			<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
