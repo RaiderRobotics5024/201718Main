@@ -15,8 +15,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
 
-	this->pLeftFrontMotor->SetInverted(true);
-	this->pLeftRearMotor->SetInverted(true);
+	this->pLeftFrontMotor->SetInverted(false);
+	this->pLeftRearMotor->SetInverted(false);
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -25,8 +25,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(false);
-	this->pRightRearMotor->SetInverted(false);
+	this->pRightFrontMotor->SetInverted(true);
+	this->pRightRearMotor->SetInverted(true);
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -45,10 +45,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pGyro->Reset();
 
 	// Initialize the turn controller
-	this->pTurnController = new PIDController(GYRO_PID_P, GYRO_PID_I, GYRO_PID_D, GYRO_PID_F, pGyro, this, 0.5);
+	this->pTurnController = new PIDController(0.002, -0.01, 0.000005, 0.0, pGyro, this, 0.05);
 	this->pTurnController->SetInputRange(-180.0f,  180.0f);
 	this->pTurnController->SetOutputRange(-1.0, 1.0);
-	this->pTurnController->SetAbsoluteTolerance(GYRO_TOLERANCE_DEGREES);
+	this->pTurnController->SetAbsoluteTolerance(5.0);
 	this->pTurnController->SetContinuous(true);
 
 	this->dRotateToAngleRate = 0.0f;
@@ -82,7 +82,7 @@ void DriveTrain::InitAutonomousMode()
 
 	/* choose the sensor and sensor direction */
 	this->pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
-	this->pLeftFrontMotor->SetSensorPhase(false);
+	this->pLeftFrontMotor->SetSensorPhase(true);
 
 	/* set the peak and nominal outputs, 12V means full */
 	this->pLeftFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
@@ -104,7 +104,7 @@ void DriveTrain::InitAutonomousMode()
 
 	/* choose the sensor and sensor direction */
 	this->pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
-	this->pRightFrontMotor->SetSensorPhase(false);
+	this->pRightFrontMotor->SetSensorPhase(true);
 
 	/* set the peak and nominal outputs, 12V means full */
 	this->pRightFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
@@ -180,8 +180,8 @@ void DriveTrain::DriveSetup()
 {
 	// Call ResetEncoders() ?????
 	DriveTrain::ResetEncoders();
-	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
-	this->pRightFrontMotor->SetInverted(false);
+	this->pRightFrontMotor->Follow(*pLeftFrontMotor);
+//	this->pRightFrontMotor->SetInverted(false);
 
 	return;
 }
@@ -195,7 +195,7 @@ void DriveTrain::Drive(double distance, double speed)
 
 	SetTargetPosition(targetPositionRotations * speed);
 
-	this->pRightFrontMotor->Set(ControlMode::Position, GetTargetPosition());
+	this->pLeftFrontMotor->Set(ControlMode::Position, GetTargetPosition());
 
 	return;
 }
@@ -205,8 +205,8 @@ void DriveTrain::Drive(double distance, double speed)
  */
 void DriveTrain::TurnSetup()
 {
-	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
-	this->pRightFrontMotor->SetInverted(true);
+//	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
+//	this->pRightFrontMotor->SetInverted(true);
 
 	return;
 }
@@ -222,7 +222,7 @@ void DriveTrain::Turn()
 
     if (this->pTurnController->GetSetpoint() < 0.0) dTurnRate = dTurnRate * -1;
 
-    this->pRobotDrive->ArcadeDrive(0.0, dTurnRate);
+    DriveTrain::ArcadeDrive(0.0, dTurnRate);
 
     return;
 }
@@ -389,12 +389,12 @@ void DriveTrain::ResetDrive()
 	this->pRightRearMotor->Set(ControlMode::PercentOutput, 0);
 
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
-	this->pLeftFrontMotor->SetInverted(true);
-	this->pLeftRearMotor->SetInverted(true);
+	this->pLeftFrontMotor->SetInverted(false);
+	this->pLeftRearMotor->SetInverted(false);
 
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
-	this->pRightFrontMotor->SetInverted(false);
-	this->pRightRearMotor->SetInverted(false);
+	this->pRightFrontMotor->SetInverted(true);
+	this->pRightRearMotor->SetInverted(true);
 
 	return;
 }
