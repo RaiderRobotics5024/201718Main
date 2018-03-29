@@ -96,6 +96,7 @@ void Robot::TeleopPeriodic()
 		iMotorId++;
 		if (iMotorId > 8) iMotorId = 8;
 		SetMotor(iMotorId);
+		IsPhase = false;
 	}
 
 	// invert the motor with the X/B buttons
@@ -109,7 +110,7 @@ void Robot::TeleopPeriodic()
 	}
 
 	// run forward/backward with Y axis
-	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand); // * -1; // positive motor speed to go forward
+	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand) * -1; // positive motor speed to go forward
 	
 	if (this->pXboxController->GetYButton())
 	{
@@ -125,7 +126,7 @@ void Robot::TeleopPeriodic()
 	if (this->pXboxController->GetStartButtonPressed())
 	{
 		this->pTalonSRX->SetSelectedSensorPosition(0, 0, 100);
-		double targetPositionRotations = 10.0 * 4096; /* 10 Rotations in either direction */
+		double targetPositionRotations = 5.0 * 8192; /* 10 Rotations in either direction */
 		this->pTalonSRX->Set(ControlMode::Position, targetPositionRotations); /* 10 rotations in either direction */
 	}
 
@@ -137,9 +138,9 @@ void Robot::TeleopPeriodic()
 			<< " QV: " << this->pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
 			<< " SP: " << this->pTalonSRX->GetSelectedSensorPosition(0)
 			<< " SV: " << this->pTalonSRX->GetSelectedSensorVelocity(0)
-		    	<< " IN: " << (this->pTalonSRX->GetInverted() ? "True" : "False")
-			<< " IP: " << IsPhase
-		    	<< " MS: " << dMotorSpeed
+		    << " IN: " << (this->pTalonSRX->GetInverted() ? "True" : "False")
+			<< " IP: " << (IsPhase ? "True" : "False")
+		    << " MS: " << dMotorSpeed
 		);
 		iCounter = 0;
 	}
