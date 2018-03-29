@@ -134,10 +134,11 @@ void Robot::TeleopPeriodic()
 	{
 //		Robot::Trace();
 		LOG("ID: " << iMotorId
-			<< " QP: " << pTalonSRX->GetSensorCollection().GetQuadraturePosition()
-			<< " QV: " << pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
-			<< " SP: " << pTalonSRX->GetSelectedSensorPosition(0)
-			<< " SV: " << pTalonSRX->GetSelectedSensorVelocity(0)
+			<< " QP: " << this->pTalonSRX->GetSensorCollection().GetQuadraturePosition()
+			<< " QV: " << this->pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
+			<< " SP: " << this->pTalonSRX->GetSelectedSensorPosition(0)
+			<< " SV: " << this->pTalonSRX->GetSelectedSensorVelocity(0)
+		    	<< " IN: " << (this->pTalonSRX->GetInverted() ? "True" : "False")
 			<< " IP: " << IsPhase
 		    	<< " MS: " << dMotorSpeed
 		);
