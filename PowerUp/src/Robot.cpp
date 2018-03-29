@@ -52,13 +52,28 @@ void Robot::SetMotor(int motor_id)
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
 	this->pTalonSRX->SetSensorPhase(false);
-	
-	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
 
 	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 100);
 // 	this->pTalonSRX->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
 
+	/* set the peak and nominal outputs, 12V means full */
+	this->pTalonSRX->ConfigNominalOutputForward(0, 100);
+	this->pTalonSRX->ConfigNominalOutputReverse(0, 100);
+	this->pTalonSRX->ConfigPeakOutputForward(1, 100);
+	this->pTalonSRX->ConfigPeakOutputReverse(-1, 100);
+
+	this->pTalonSRX->ConfigAllowableClosedloopError(0, 0, 100);
+
+	/* set closed loop gains in slot0 */
+	this->pTalonSRX->Config_kP(PID_LOOP_INDEX, 0.05, 100);
+	this->pTalonSRX->Config_kI(PID_LOOP_INDEX, 0.00, 100);
+	this->pTalonSRX->Config_kD(PID_LOOP_INDEX, 0.00, 100);
+	this->pTalonSRX->Config_kF(PID_LOOP_INDEX, 0.00, 100);
+
+// 	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	int abLeftPosition = this->pTalonSRX->GetSensorCollection().GetPulseWidthPosition();
+	this->pTalonSRX->SetSelectedSensorPosition(abLeftPosition, 0, 100);
+	
 	this->pFaults = new Faults();
 	pTalonSRX->GetFaults(*pFaults);
 
@@ -95,7 +110,7 @@ void Robot::TeleopPeriodic()
 	}
 
 	// run forward/backward with Y axis
-	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand);
+	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand); // * -1; // positive motor speed to go forward
 	
 	if (this->pXboxController->GetYButton())
 	{
@@ -110,6 +125,7 @@ void Robot::TeleopPeriodic()
 	// start position closed loop 
 	if (this->pXboxController->GetStartButtonPressed())
 	{
+		this->pTalonSRX->SetSelectedSensorPosition(0, 0, 100);
 		double targetPositionRotations = 10.0 * 4096; /* 10 Rotations in either direction */
 		this->pTalonSRX->Set(ControlMode::Position, targetPositionRotations); /* 10 rotations in either direction */
 	}
@@ -118,13 +134,13 @@ void Robot::TeleopPeriodic()
 	{
 //		Robot::Trace();
 		LOG("ID: " << iMotorId
-				<< " QP: " << pTalonSRX->GetSensorCollection().GetQuadraturePosition()
-				<< " QV: " << pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
-				<< " SP: " << pTalonSRX->GetSelectedSensorPosition(0)
-				<< " SV: " << pTalonSRX->GetSelectedSensorVelocity(0)
-				<< " IP: " << IsPhase
-		    		<< " MS: " << dMotorSpeed
-				);
+			<< " QP: " << pTalonSRX->GetSensorCollection().GetQuadraturePosition()
+			<< " QV: " << pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
+			<< " SP: " << pTalonSRX->GetSelectedSensorPosition(0)
+			<< " SV: " << pTalonSRX->GetSelectedSensorVelocity(0)
+			<< " IP: " << IsPhase
+		    	<< " MS: " << dMotorSpeed
+		);
 		iCounter = 0;
 	}
 
