@@ -51,10 +51,9 @@ void Robot::SetMotor(int motor_id)
 
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
-	this->pTalonSRX->SetSensorPhase(false);
 
 	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 100);
-// 	this->pTalonSRX->SetSelectedSensorPosition(0 & 0xFFF, 0, 100);
+	this->pTalonSRX->SetSensorPhase(false);
 
 	/* set the peak and nominal outputs, 12V means full */
 	this->pTalonSRX->ConfigNominalOutputForward(0, 100);
@@ -71,8 +70,8 @@ void Robot::SetMotor(int motor_id)
 	this->pTalonSRX->Config_kF(PID_LOOP_INDEX, 0.00, 100);
 
 // 	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-	int abLeftPosition = this->pTalonSRX->GetSensorCollection().GetPulseWidthPosition();
-	this->pTalonSRX->SetSelectedSensorPosition(abLeftPosition, 0, 100);
+	int absolutePosition = this->pTalonSRX->GetSensorCollection().GetPulseWidthPosition();
+	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
 	
 	this->pFaults = new Faults();
 	pTalonSRX->GetFaults(*pFaults);
