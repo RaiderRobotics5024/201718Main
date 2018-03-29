@@ -34,7 +34,7 @@ void RotateWithGyro::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
-	CommandBase::pDriveTrain->InitAutonomousMode(true); // change this based on test or production robot
+	CommandBase::pDriveTrain->InitAutonomousMode();
 	CommandBase::pDriveTrain->ResetGyro();
 	CommandBase::pDriveTrain->SetSetpoint(dSetPoint);
 

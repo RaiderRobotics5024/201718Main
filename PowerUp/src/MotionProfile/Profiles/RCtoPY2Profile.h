@@ -4,7 +4,6 @@
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../Instrumentation.h"
-#include "../../RobotMap.h"
 
 #include "../Paths/RCtoPY2Path.h"
 

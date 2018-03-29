@@ -5,7 +5,6 @@
 #include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include <DoubleSolenoid.h>
-#include "../RobotMap.h"
 
 struct Action
 {

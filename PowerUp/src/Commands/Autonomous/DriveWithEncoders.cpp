@@ -43,8 +43,8 @@ void DriveWithEncoders::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
-	CommandBase::pDriveTrain->ResetEncoders();
-	CommandBase::pDriveTrain->InitAutonomousMode(false); // change this based on test or production robot
+	CommandBase::pDriveTrain->InitAutonomousMode();
+	CommandBase::pDriveTrain->DriveSetup();
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 	return;
 }

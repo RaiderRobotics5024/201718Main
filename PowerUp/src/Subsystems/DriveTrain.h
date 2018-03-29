@@ -19,12 +19,14 @@ public:
 	DriveTrain();
 	~DriveTrain();
 
-	void InitAutonomousMode(bool inverted);
+	void InitAutonomousMode(void);
 	void InitDefaultCommand(void) override;
 	void InitMotionProfiling(void);
 
 	// Used for autonomous mode
+	void DriveSetup(void);
 	void Drive(double distance, double speed);
+	void TurnSetup(void);
 	void Turn (void);
 
 	// These are the same as the DifferentialDrive class:

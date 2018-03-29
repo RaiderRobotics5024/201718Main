@@ -1,6 +1,6 @@
 #include "DriveTrain.h"
+#include "DriveTrainMap.h"
 #include "../Utilities/Log.h"
-#include "../RobotMap.h"
 #include "../Commands/DriveWithJoystick.h"
 
 /**
@@ -15,8 +15,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_LEFT_REAR_MOTOR_ID);
 	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
 
-	this->pLeftFrontMotor->SetInverted(true); // change this based on test or production robot
-	this->pLeftRearMotor->SetInverted(true); // change this based on test or production robot
+	this->pLeftFrontMotor->SetInverted(false); // change this based on test or production robot
+	this->pLeftRearMotor->SetInverted(false); // change this based on test or production robot
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -27,8 +27,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(false); // change this based on test or production robot
-	this->pRightRearMotor->SetInverted(false); // change this based on test or production robot
+	this->pRightFrontMotor->SetInverted(true); // change this based on test or production robot
+	this->pRightRearMotor->SetInverted(true); // change this based on test or production robot
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
 
@@ -42,8 +42,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightFrontMotor->SetSafetyEnabled(false);
 	this->pRightRearMotor->SetSafetyEnabled(false);
 	this->pRobotDrive->SetSafetyEnabled(false);
-
-	DriveTrain::ResetEncoders();
 
 	// Initialize the gyro
 	// (See comment here about which port. We are using MXP, the one physically on top of the RoboRio
@@ -83,12 +81,12 @@ DriveTrain::~DriveTrain()
 /**
  *
  */
-void DriveTrain::InitAutonomousMode(bool inverted)
+void DriveTrain::InitAutonomousMode()
 {
 	LOG("[DriveTrain] Autonomous Initialized");
 	/* choose the sensor and sensor direction */
 	this->pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
-	this->pLeftFrontMotor->SetSensorPhase(false);
+	this->pLeftFrontMotor->SetSensorPhase(true);
 
 	/* set the peak and nominal outputs, 12V means full */
 	this->pLeftFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
@@ -110,7 +108,7 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 
 	/* choose the sensor and sensor direction */
 	this->pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
-	this->pRightFrontMotor->SetSensorPhase(false);
+	this->pRightFrontMotor->SetSensorPhase(true);
 
 	/* set the peak and nominal outputs, 12V means full */
 	this->pRightFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
@@ -125,13 +123,6 @@ void DriveTrain::InitAutonomousMode(bool inverted)
 	this->pRightFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
-
-	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
-//	pRightFrontMotor->Follow(*pLeftFrontMotor);
-//	pRightFrontMotor->SetInverted(!pRightFrontMotor->GetInverted());
-
-	LOG("[DriveTrain] SSP: " << (this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF)
-			<< " PWP: " << this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition());
 
 //	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
 	int abRightPosition = this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition();
@@ -183,6 +174,17 @@ void DriveTrain::InitMotionProfiling()
 }
 
 /**
+ *
+ */
+void DriveTrain::DriveSetup()
+{
+	DriveTrain::ResetEncoders();
+	this->pRightFrontMotor->Follow(*pLeftFrontMotor);
+
+	return;
+}
+
+/**
  * Used by Autonomous Commands
  */
 void DriveTrain::Drive(double distance, double speed)
@@ -198,17 +200,28 @@ void DriveTrain::Drive(double distance, double speed)
 }
 
 /**
+ *
+ */
+void DriveTrain::TurnSetup()
+{
+//	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
+//	this->pRightFrontMotor->SetInverted(true);
+
+	return;
+}
+
+/**
  * Used by Autonomous Commands
  */
 void DriveTrain::Turn()
 {
     this->pTurnController->Enable();
 
-    double dTurnRate = this->dRotateToAngleRate;
+    double dTurnRate = GetRotateToAngleRate();
 
     if (this->pTurnController->GetSetpoint() < 0.0) dTurnRate = dTurnRate * -1;
 
-    this->pRobotDrive->ArcadeDrive(0.0, dTurnRate);
+    DriveTrain::ArcadeDrive(0.0, dTurnRate);
 
     return;
 }
@@ -372,14 +385,16 @@ void DriveTrain::ResetDrive()
 
 	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0);
 	this->pLeftRearMotor->Set(ControlMode::PercentOutput, 0);
-	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
-	
 	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0);
 	this->pRightRearMotor->Set(ControlMode::PercentOutput, 0);
-	this->pRightRearMotor->Follow(*pRightFrontMotor);
 
-	this->pRightFrontMotor->SetInverted(false);
-	this->pRightRearMotor->SetInverted(false);
+	this->pLeftRearMotor->Follow(*pLeftFrontMotor);
+	this->pLeftFrontMotor->SetInverted(false);
+	this->pLeftRearMotor->SetInverted(false);
+
+	this->pRightRearMotor->Follow(*pRightFrontMotor);
+	this->pRightFrontMotor->SetInverted(true);
+	this->pRightRearMotor->SetInverted(true);
 
 	return;
 }

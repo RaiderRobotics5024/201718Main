@@ -56,7 +56,9 @@ void DriveWithJoystick::Execute()
 		this->isReverse = !this->isReverse;
 	}
 
-	double xSpeed    = pJoyDrive->GetY(XboxController::kLeftHand);
+	// The Y-axis goes from -1 (forward) to 1 (backwards) but we want to
+	// set motor from 1 (forward) to -1 (reverse) so multiply by -1
+	double xSpeed    = pJoyDrive->GetY(XboxController::kLeftHand) * -1;
 	double zRotation = pJoyDrive->GetX(XboxController::kLeftHand);
 
 	double dSlow = (pJoyDrive->GetBumper(XboxController::kRightHand)) ? 0.5 : 1;
@@ -72,7 +74,6 @@ void DriveWithJoystick::Execute()
 		zRotation = 0.0;
 	}
 
-//	CommandBase::pDriveTrain->ArcadeDrive(xSpeed, zRotation);
 	CommandBase::pDriveTrain->ArcadeDrive((xSpeed * dSlow * dReverse), (zRotation * dSlow));
 
 	return;
