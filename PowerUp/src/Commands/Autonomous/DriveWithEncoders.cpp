@@ -63,9 +63,11 @@ void DriveWithEncoders::Execute()
 				<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
 				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
 				<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
+				<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
 				<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
 				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
 				<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
+				<< " RE: " << CommandBase::pDriveTrain->GetRightClosedLoopError()
 				<< " Time: " << this->pTimer->Get());
 
 		iCounter = 0;
