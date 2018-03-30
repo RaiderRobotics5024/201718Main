@@ -15,10 +15,11 @@ public:
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+	void Trace(void);
 
 private:
 	Timer* pTimer;
-	int iCounter = 0;
+	int    iCounter = 0;
 	double dDistance = 0;
 	double dSpeed = 0;
 };

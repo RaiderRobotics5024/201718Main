@@ -50,7 +50,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pGyro->Reset();
 
 	// Initialize the turn controller
-	this->pTurnController = new PIDController(GYRO_PID_P, GYRO_PID_I, GYRO_PID_D, GYRO_PID_F, pGyro, this, 0.5);
+	this->pTurnController = new PIDController(GYRO_PID_P, GYRO_PID_I, GYRO_PID_D, GYRO_PID_F, pGyro, this);
 	this->pTurnController->SetInputRange(-180.0f,  180.0f);
 	this->pTurnController->SetOutputRange(-1.0, 1.0);
 	this->pTurnController->SetAbsoluteTolerance(GYRO_TOLERANCE_DEGREES);
@@ -171,6 +171,8 @@ void DriveTrain::InitMotionProfiling()
 	pRightFrontMotor->ConfigMotionProfileTrajectoryPeriod(5, TIMEOUT_MS); //Our profile uses 5 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	pRightFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 5, TIMEOUT_MS);
+
+	return;
 }
 
 /**
@@ -179,6 +181,7 @@ void DriveTrain::InitMotionProfiling()
 void DriveTrain::DriveSetup()
 {
 	DriveTrain::ResetEncoders();
+
 	this->pRightFrontMotor->Follow(*pLeftFrontMotor);
 
 	return;
@@ -204,9 +207,6 @@ void DriveTrain::Drive(double distance, double speed)
  */
 void DriveTrain::TurnSetup()
 {
-//	this->pLeftFrontMotor->Follow(*pRightFrontMotor);
-//	this->pRightFrontMotor->SetInverted(true);
-
 	return;
 }
 
@@ -218,8 +218,6 @@ void DriveTrain::Turn()
     this->pTurnController->Enable();
 
     double dTurnRate = GetRotateToAngleRate();
-
-    if (this->pTurnController->GetSetpoint() < 0.0) dTurnRate = dTurnRate * -1;
 
     DriveTrain::ArcadeDrive(0.0, dTurnRate);
 
@@ -381,8 +379,7 @@ bool DriveTrain::IsTurning()
  */
 void DriveTrain::ResetDrive()
 {
-	LOG("[DriveTrain] Resetting the motors");
-
+	// reset the motors
 	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0);
 	this->pLeftRearMotor->Set(ControlMode::PercentOutput, 0);
 	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0);
@@ -395,6 +392,9 @@ void DriveTrain::ResetDrive()
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 	this->pRightFrontMotor->SetInverted(true);
 	this->pRightRearMotor->SetInverted(true);
+
+	// Disable the turn controller
+	this->pTurnController->Disable();
 
 	return;
 }
@@ -417,9 +417,6 @@ void DriveTrain::ResetEncoders()
  */
 void DriveTrain::ResetGyro()
 {
-	LOG("[DriveTrain] Resetting the gyro");
-
-	pGyro->Reset();
 	pGyro->ZeroYaw();
 
 	return;
@@ -439,6 +436,8 @@ void DriveTrain::SetEncoders()
 void DriveTrain::SetRotateToAngleRate(double dRate)
 {
 	this->dRotateToAngleRate = dRate;
+
+	return;
 }
 
 /**
@@ -475,6 +474,11 @@ void DriveTrain::Trace()
 void DriveTrain::PIDWrite(double output)
 {
     SetRotateToAngleRate(output);
+
+    if (this->pTurnController->IsEnabled())
+    {
+    	DriveTrain::Turn();
+    }
 
     return;
 }

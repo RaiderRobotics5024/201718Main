@@ -55,15 +55,6 @@ void RotateWithEncoders::Initialize()
  */
 void RotateWithEncoders::Execute()
 {
-	if (iCounter++ == 10)
-	{
-		CommandBase::pDriveTrain->Trace();
-
-		LOG("[RotateWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
-
-		iCounter = 0;
-	}
-
 	return;
 }
 
@@ -72,14 +63,14 @@ void RotateWithEncoders::Execute()
  */
 bool RotateWithEncoders::IsFinished()
 {
-	if (this->pTimer->Get() > 3.0) // stop after 2 seconds no matter what
+	if (this->pTimer->Get() > 3.0) // stop after 3 seconds no matter what
 	{
 		LOG("[RotateWithEncoders] Timed out");
 
 		return true;
 	}
 
-	if (CommandBase::pDriveTrain->IsTurning())
+	if (!CommandBase::pDriveTrain->IsTurning() && this->pTimer->Get() > 0)
 	{
 		LOG("[RotateWithEncoders] Angle Reached");
 
@@ -108,6 +99,23 @@ void RotateWithEncoders::End()
 void RotateWithEncoders::Interrupted()
 {
 	LOG("[RotateWithEncoders] Interrupted");
+
+	return;
+}
+
+/**
+ *
+ */
+void RotateWithEncoders::Trace()
+{
+	if (iCounter++ == 10)
+	{
+		CommandBase::pDriveTrain->Trace();
+
+		LOG("[RotateWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
+
+		iCounter = 0;
+	}
 
 	return;
 }

@@ -1,5 +1,6 @@
 #include "RotateWithGyro.h"
 #include "../../Utilities/Log.h"
+#include "../../Subsystems/DriveTrainMap.h"
 #include <math.h>
 
 /**
@@ -12,7 +13,7 @@ RotateWithGyro::RotateWithGyro(double setpoint)
 	if (CommandBase::pDriveTrain != nullptr)
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->dSetPoint = setpoint;
+		this->dSetpoint = setpoint;
 	}
 	else
 	{
@@ -34,9 +35,10 @@ void RotateWithGyro::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
-	CommandBase::pDriveTrain->InitAutonomousMode();
 	CommandBase::pDriveTrain->ResetGyro();
-	CommandBase::pDriveTrain->SetSetpoint(dSetPoint);
+	CommandBase::pDriveTrain->TurnSetup();
+	CommandBase::pDriveTrain->SetSetpoint(dSetpoint);
+	CommandBase::pDriveTrain->Turn();
 
 	return;
 }
@@ -46,22 +48,7 @@ void RotateWithGyro::Initialize()
  */
 void RotateWithGyro::Execute()
 {
-	CommandBase::pDriveTrain->Turn();
-	
-	if (iCounter++ == 10)
-	{
-		CommandBase::pDriveTrain->Trace();
-
-		double dCurrentAngle = CommandBase::pDriveTrain->GetAngle();
-
-		LOG("[RotateWithGyro] Set Point: " << dSetPoint
-				<< " Angle: " << dCurrentAngle
-				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
-				<< " Time: "  << this->pTimer->Get());
-
-
-		iCounter = 0;
-	}
+	RotateWithGyro::Trace();
 
 	return;
 }
@@ -71,17 +58,18 @@ void RotateWithGyro::Execute()
  */
 bool RotateWithGyro::IsFinished()
 {
-	if (this->pTimer->Get() > 1.5) // stop after 2 seconds no matter what
+	if (this->pTimer->Get() > 2) // stop after 2 seconds no matter what
 	{
 		LOG("[RotateWithEncoders] Timed out");
 
 		return true;
 	}
 
-	double dCurrentAngle = CommandBase::pDriveTrain->GetAngle();
-
-	if (fabs(dCurrentAngle) >= fabs(dSetPoint))
+	if (CommandBase::pDriveTrain->GetAngle() >= (this->dSetpoint - GYRO_TOLERANCE_DEGREES) &&
+	    CommandBase::pDriveTrain->GetAngle() <= (this->dSetpoint + GYRO_TOLERANCE_DEGREES) && pTimer->Get() > 0)
 	{
+		LOG("[RotateWithEncoders] Reached Turn Angle");
+
 		return true;
 	}
 
@@ -104,6 +92,27 @@ void RotateWithGyro::End()
 void RotateWithGyro::Interrupted()
 {
 	LOG("[RotateWithGyro] Interrupted");
+
+	return;
+}
+
+/**
+ *
+ */
+void RotateWithGyro::Trace()
+{
+	if (iCounter++ == 10)
+	{
+		CommandBase::pDriveTrain->Trace();
+
+		LOG("[RotateWithGyro] TA: " << dSetpoint
+				<< " CA: "   << CommandBase::pDriveTrain->GetAngle()
+				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
+				<< " Time: " << this->pTimer->Get());
+
+
+		iCounter = 0;
+	}
 
 	return;
 }

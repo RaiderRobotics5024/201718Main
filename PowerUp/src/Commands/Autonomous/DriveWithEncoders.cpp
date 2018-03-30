@@ -1,6 +1,5 @@
 #include "DriveWithEncoders.h"
 #include "../../Utilities/Log.h"
-#include "../../RobotMap.h"
 
 /**
  * distance in inches, speed from -1 to 1
@@ -54,24 +53,7 @@ void DriveWithEncoders::Initialize()
  */
 void DriveWithEncoders::Execute()
 {
-	if (iCounter++ == 2)
-	{
-		CommandBase::pDriveTrain->Trace();
-
-		LOG("[DriveWithEncoders] TD: " << this->dDistance
-				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
-				<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
-				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
-				<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
-				<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
-				<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
-				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
-				<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
-				<< " RE: " << CommandBase::pDriveTrain->GetRightClosedLoopError()
-				<< " Time: " << this->pTimer->Get());
-
-		iCounter = 0;
-	}
+	DriveWithEncoders::Trace();
 
 	return;
 }
@@ -125,6 +107,33 @@ void DriveWithEncoders::Interrupted()
 	LOG("[DriveWithEncoders] Interrupted" );
 
 	CommandBase::pDriveTrain->ResetDrive();
+
+	return;
+}
+
+/**
+ *
+ */
+void DriveWithEncoders::Trace()
+{
+	if (iCounter++ == 2)
+	{
+		CommandBase::pDriveTrain->Trace();
+
+		LOG("[DriveWithEncoders] TD: " << this->dDistance
+				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+				<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
+				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
+				<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
+				<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
+				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
+				<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
+				<< " RE: " << CommandBase::pDriveTrain->GetRightClosedLoopError()
+				<< " Time: " << this->pTimer->Get());
+
+		iCounter = 0;
+	}
 
 	return;
 }
