@@ -45,10 +45,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pGyro->Reset();
 
 	// Initialize the turn controller
-	this->pTurnController = new PIDController(0.03f, 0.00f, 0.00f, 0.00f, pGyro, this);
+	this->pTurnController = new PIDController(0.00f, 0.00f, 0.00f, 0.00f, pGyro, this);
 	this->pTurnController->SetInputRange(-180.0f,  180.0f);
 	this->pTurnController->SetOutputRange(-1.0, 1.0);
-	this->pTurnController->SetAbsoluteTolerance(2.0f);
+	this->pTurnController->SetAbsoluteTolerance(GYRO_TOLERANCE_DEGREES);
 	this->pTurnController->SetContinuous(true);
 
 	this->dRotateToAngleRate = 0.0f;
@@ -93,7 +93,7 @@ void DriveTrain::InitAutonomousMode()
 	this->pLeftFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
-	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.05, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
@@ -115,7 +115,7 @@ void DriveTrain::InitAutonomousMode()
 	this->pRightFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
-	this->pRightFrontMotor->Config_kP(PID_LOOP_INDEX, 0.05, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kP(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
@@ -178,10 +178,9 @@ void DriveTrain::InitMotionProfiling()
  */
 void DriveTrain::DriveSetup()
 {
-	// Call ResetEncoders() ?????
 	DriveTrain::ResetEncoders();
+
 	this->pRightFrontMotor->Follow(*pLeftFrontMotor);
-//	this->pRightFrontMotor->SetInverted(false);
 
 	return;
 }
@@ -219,8 +218,6 @@ void DriveTrain::Turn()
     this->pTurnController->Enable();
 
     double dTurnRate = GetRotateToAngleRate();
-
-    if (this->pTurnController->GetSetpoint() < 0.0) dTurnRate = dTurnRate * -1;
 
     DriveTrain::ArcadeDrive(0.0, dTurnRate);
 
@@ -389,8 +386,7 @@ bool DriveTrain::IsTurnEnabled()
  */
 void DriveTrain::ResetDrive()
 {
-	LOG("[DriveTrain] Resetting the motors");
-
+	// Reset the motors
 	this->pLeftFrontMotor->Set(ControlMode::PercentOutput, 0);
 	this->pLeftRearMotor->Set(ControlMode::PercentOutput, 0);
 	this->pRightFrontMotor->Set(ControlMode::PercentOutput, 0);
@@ -403,6 +399,9 @@ void DriveTrain::ResetDrive()
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
 	this->pRightFrontMotor->SetInverted(true);
 	this->pRightRearMotor->SetInverted(true);
+
+	// Disable the turn controller
+	this->pTurnController->Disable();
 
 	return;
 }
@@ -428,52 +427,6 @@ void DriveTrain::ResetGyro()
 	LOG("[DriveTrain] Zeroing the Yaw");
 
 	pGyro->ZeroYaw();
-
-	return;
-}
-
-/**
- *
- */
-void DriveTrain::SetGyroPID(double p, double i, double d, double f)
-{
-	this->pTurnController->SetPID(p, i, d, f);
-
-	return;
-}
-
-/**
- *
- */
-void DriveTrain::SetTalonPID(double p, double i, double d, double f)
-{
-	this->pLeftFrontMotor->Config_kP(SLOT_INDEX, p, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kI(SLOT_INDEX, i, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kD(SLOT_INDEX, d, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kF(SLOT_INDEX, f, TIMEOUT_MS);
-
-	this->pRightFrontMotor->Config_kP(SLOT_INDEX, p, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kI(SLOT_INDEX, i, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kD(SLOT_INDEX, d, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kF(SLOT_INDEX, f, TIMEOUT_MS);
-
-	return;
-}
-
-/**
- *
- */
-void DriveTrain::SetMPPID(double p, double i, double d, double f)
-{
-	this->pLeftFrontMotor->Config_kP(SLOT_INDEX, p, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kI(SLOT_INDEX, i, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kD(SLOT_INDEX, d, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kF(SLOT_INDEX, f, TIMEOUT_MS);
-
-	this->pRightFrontMotor->Config_kP(SLOT_INDEX, p, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kI(SLOT_INDEX, i, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kD(SLOT_INDEX, d, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kF(SLOT_INDEX, f, TIMEOUT_MS);
 
 	return;
 }
@@ -519,6 +472,11 @@ void DriveTrain::Trace()
 void DriveTrain::PIDWrite(double output)
 {
     SetRotateToAngleRate(output);
+
+    if (this->pTurnController->IsEnabled())
+    {
+    	DriveTrain::Turn();
+    }
 
     return;
 }

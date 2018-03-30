@@ -58,9 +58,6 @@ public:
 	void ResetEncoders(void);
 	void ResetGyro(void);
 
-	void SetGyroPID(double p, double i, double d, double f);
-	void SetTalonPID(double p, double i, double d, double f);
-	void SetMPPID(double p, double i, double d, double f);
 	void SetRotateToAngleRate(double rate);
 	void SetSetpoint(double setpoint);
 	void SetTargetPosition(double target);

@@ -2,6 +2,7 @@
 #include "../Utilities/Log.h"
 #include <math.h>
 #include "../RobotMap.h"
+#include "../Subsystems/DriveTrainMap.h"
 #include <SmartDashboard/SmartDashboard.h>
 
 /**
@@ -135,11 +136,6 @@ void DriveWithJoystick::Execute()
 			CommandBase::pDriveTrain->Turn();
 		}
 	}
-	
-	if (this->isTurnTest && CommandBase::pDriveTrain->IsTurnEnabled())
-	{
-		CommandBase::pDriveTrain->Turn();
-	}
 
 	// drive the bot as usual if not drive test and not turn test
 	if (!this->isDriveTest && !this->isTurnTest)
@@ -200,27 +196,30 @@ bool DriveWithJoystick::IsFinished()
 		if (CommandBase::pDriveTrain->GetLeftPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
 		{
 			LOG("[DriveWithJoystick] Reached Left Target");
-			CommandBase::pDriveTrain->ResetDrive();
-			return true;
+//			CommandBase::pDriveTrain->ResetDrive();
+//			return true;
 		}
 
 		if (CommandBase::pDriveTrain->GetRightPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
 		{
 			LOG("[DriveWithJoystick] Reached Right Target");
-			CommandBase::pDriveTrain->ResetDrive();
-			return true;
-		}
-	}
-//	else if (this->isTurnTest)
-//	{
-//		if (fabs(CommandBase::pDriveTrain->GetAngle()) >= fabs(this->dSetpoint) && pTimer->Get() > 0)
-//		{
-//			LOG("[DriveWithJoystick] Reached Turn Angle");
 //			CommandBase::pDriveTrain->ResetDrive();
 //			return true;
-//		}
-//	}
+		}
+	}
+	else if (this->isTurnTest)
+	{
+		if (CommandBase::pDriveTrain->GetAngle() >= (this->dSetpoint - GYRO_TOLERANCE_DEGREES)
+		 && CommandBase::pDriveTrain->GetAngle() <= (this->dSetpoint + GYRO_TOLERANCE_DEGREES) && pTimer->Get() > 0)
+		{
+			LOG("[DriveWithJoystick] Reached Turn Angle");
+//			CommandBase::pDriveTrain->ResetDrive();
+//			return true;
+		}
+	}
 
+
+	// We want the command to run until we stop it manually
 	return false;
 }
 
