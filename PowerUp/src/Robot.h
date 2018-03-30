@@ -20,7 +20,18 @@ struct RobotPosition
 		LEFT   = 10,
 		CENTER = 20,
 		RIGHT  = 30
-	} RP;
+	} Type;
+};
+
+struct RobotRole
+{
+	typedef enum
+	{
+		NONE         = 100,
+		VAULT        = 200,
+		OUR_SWITCH   = 300,
+		THEIR_SWITCH = 400
+	} Type;
 };
 
 struct SwitchPosition
@@ -30,7 +41,7 @@ struct SwitchPosition
 		LEFT  = 1,
 		RIGHT = 2,
 		TEST  = 3
-	} SP;
+	} Type;
 };
 
 /**
@@ -65,6 +76,7 @@ private:
 	int GetAutoType();
 
 	frc::SendableChooser<int> scRobotPosition;
+	frc::SendableChooser<int> scRobotRole;
 	frc::SendableChooser<int> scOverrideAuto;
 	frc::Command* pAutonomousCommand;
 };

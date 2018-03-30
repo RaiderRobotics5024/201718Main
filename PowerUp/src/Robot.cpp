@@ -43,17 +43,24 @@ void Robot::RobotInit()
 	this->pToggleCompressor = new ToggleCompressor();
 
 	// setup smartdashboard robot positions
-	scRobotPosition.AddObject("1. Left", RobotPosition::LEFT);
+	scRobotPosition.AddObject ("1. Left"  , RobotPosition::LEFT);
 	scRobotPosition.AddDefault("2. Centre", RobotPosition::CENTER);
-	scRobotPosition.AddObject("3. Right", RobotPosition::RIGHT);
+	scRobotPosition.AddObject ("3. Right" , RobotPosition::RIGHT);
 	frc::SmartDashboard::PutData("Robot Position", &scRobotPosition);
+
+	// setup smartdashboard robot roles
+	scRobotRole.AddDefault("1. None"        , RobotRole::NONE);
+	scRobotRole.AddObject ("2. Vault"       , RobotRole::VAULT);
+	scRobotRole.AddObject ("3. Our Switch"  , RobotRole::OUR_SWITCH);
+	scRobotRole.AddObject ("4. Their Switch", RobotRole::THEIR_SWITCH);
+	frc::SmartDashboard::PutData("Robot Role", &scRobotRole);
 
 	// setup override auto if we are left/right and scale and switch are opposite
 	// and our opposite alliance partner can go for scale.  we don't want to collide
 	// with them.  we should let them get the scale
-	scOverrideAuto.AddDefault("1. Normal Operation", 0);
-	scOverrideAuto.AddObject("2. Don't Do Opposite", 98);
-	scOverrideAuto.AddObject("3. Just Drive Forward", 99);
+	scOverrideAuto.AddDefault("1. Normal Operation"  ,   0);
+	scOverrideAuto.AddObject ("2. Don't Do Opposite" , 888);
+	scOverrideAuto.AddObject ("3. Just Drive Forward", 999);
 	frc::SmartDashboard::PutData("Autonomous Mode", &scOverrideAuto);
 
 	return;
@@ -74,10 +81,11 @@ int Robot::GetAutoType()
 {
 	int _OA = scOverrideAuto.GetSelected();
 	int _RP = scRobotPosition.GetSelected();
+	int _RR = scRobotRole.GetSelected();
 	int _SP = 0;
 	std::string _GSM = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 
-	if (_OA == 99 ) return _OA; // Just Drive Forward
+	if (_OA == 999 ) return _OA; // Just Drive Forward
 	
 	if (_GSM.length() > 0)
 	{
@@ -106,7 +114,7 @@ int Robot::GetAutoType()
 
 	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP << " - Game Data: " << _GSM);
 
-	return _RP + _SP;
+	return _RP + _SP + _RR;
 }
 
 /**
@@ -131,21 +139,24 @@ void Robot::AutonomousInit()
 
 	switch (autoType)
 	{
-	case 10: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
-	case 11: pAutonomousCommand = new RobotLeftSwitchLeft       (); break;
-	case 12: pAutonomousCommand = new RobotLeftSwitchRight      (); break;
-	case 13: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
-	case 20: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
-	case 21: pAutonomousCommand = new RobotCenterSwitchLeft     (); break;
-	case 22: pAutonomousCommand = new RobotCenterSwitchRight    (); break;
-	case 23: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
-	case 30: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
-	case 31: pAutonomousCommand = new RobotRightSwitchLeft      (); break;
-	case 32: pAutonomousCommand = new RobotRightSwitchRight     (); break;
-	case 33: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
-	case 98:
-	case 99:
-	default: pAutonomousCommand = new JustDriveForward          (); break;
+	case 010: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 011: pAutonomousCommand = new RobotLeftSwitchLeft       (); break;
+	case 012: pAutonomousCommand = new RobotLeftSwitchRight      (); break;
+	case 013: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
+
+	case 020: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 021: pAutonomousCommand = new RobotCenterSwitchLeft     (); break;
+	case 022: pAutonomousCommand = new RobotCenterSwitchRight    (); break;
+	case 023: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
+
+	case 030: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 031: pAutonomousCommand = new RobotRightSwitchLeft      (); break;
+	case 032: pAutonomousCommand = new RobotRightSwitchRight     (); break;
+	case 033: pAutonomousCommand = new MPRobotCenterSwitchRightCG(); break;
+
+	case 888:
+	case 999:
+	default : pAutonomousCommand = new JustDriveForward          (); break;
 	}
 
 	LOG("[Robot] Starting autonomous");
