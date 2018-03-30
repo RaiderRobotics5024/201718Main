@@ -1,5 +1,5 @@
-#ifndef _MOVEELEVATOR_HG_
-#define _MOVEELEVATOR_HG_
+#ifndef _ELEVATORSERVICE_HG_
+#define _ELEVATORSERVICE_HG_
 
 #include <WPILib.h>
 #include <Timer.h>
@@ -9,10 +9,10 @@
 /**
  *
  */
-class MoveElevator : public CommandBase
+class ElevatorService : public CommandBase
 {
 public:
-	MoveElevator(Height::ElevatorHeight height);
+	ElevatorService();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -21,8 +21,9 @@ public:
 
 private:
 	Timer* pTimer;
-	Height::ElevatorHeight ehHeight;
 	double dMotorSpeed = 0.0;
+	ElevatorHeight ehCalledTo = BOTTOM;
+	bool   bArrived = false;
 };
 
 #endif

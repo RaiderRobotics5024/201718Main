@@ -17,8 +17,6 @@ ControlElevator::ControlElevator()
 		LOG("[ControlElevator] elevator is NULL!");
 	}
 
-	CommandBase::pElevator->ResetCounters();
-
 	return;
 }
 
@@ -49,7 +47,6 @@ void ControlElevator::Execute()
 		LOG("[ControlElevator] At the top" );
 
 		dMotorSpeed = 0; // don't let the motor go passed the top switch
-		CommandBase::pElevator->ResetCounters();
 	}
 
 	CommandBase::pElevator->SetMotorSpeed(dMotorSpeed);

@@ -14,11 +14,11 @@ RobotCenterSwitchRight::RobotCenterSwitchRight()
 	LOG("[RobotCenterSwitchRight] Constructed");
 
 	// First cube
-	AddSequential(new DriveWithEncoders( 19.00, 1.0));
+	AddSequential(new DriveWithEncoders( 19.00, 1.0, Height::NONE, 5.0));
 	AddSequential(new RotateWithGyro   ( 37.41     ));
-	AddSequential(new DriveWithEncoders( 80.57, 1.0));
+	AddSequential(new DriveWithEncoders( 80.57, 1.0, Height::NONE, 5.0));
 	AddSequential(new RotateWithGyro   (-37.41     ));
-	AddParallel  (new DriveWithEncoders( 19.00, 1.0));
+	AddParallel  (new DriveWithEncoders( 19.00, 1.0, Height::NONE, 5.0));
 /*	AddSequential(new MoveElevator(Height::SWITCH));
 	AddSequential(new ToggleIntake     ( -1.00     ));
 

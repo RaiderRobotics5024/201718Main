@@ -9,9 +9,10 @@ struct Height
 {
 	typedef enum
 	{
-		BOTTOM = 0, // elevator at the bottom or one cube height
-		CUBEX2,     // elevator at cube on top of another cube height to intake - 19"
-		SWITCH      // elevator at height to put cube in switch - 33"
+		NONE = 0, // doesn't matter where the elevator is, don't move it
+		BOTTOM,   // elevator at the bottom or one cube height
+		CUBEX2,   // elevator at cube on top of another cube height to intake - 19"
+		SWITCH    // elevator at height to put cube in switch - 33"
 	} ElevatorHeight;
 };
 
@@ -29,7 +30,6 @@ public:
 	bool IsTopSwitchAligned(void);
 	bool IsMiddleSwitchAligned(void);
 	bool IsBottomSwitchAligned(void);
-	void ResetCounters(void);
 	void SetMotorSpeed(double speed);
 
 
@@ -39,9 +39,6 @@ private:
 	frc::DigitalInput* pTopSwitch;
 	frc::DigitalInput* pMiddleSwitch;
 	frc::DigitalInput* pBottomSwitch;
-	Counter* pTopCounter;
-	Counter* pMiddleCounter;
-	Counter* pBottomCounter;
 };
 
 #endif

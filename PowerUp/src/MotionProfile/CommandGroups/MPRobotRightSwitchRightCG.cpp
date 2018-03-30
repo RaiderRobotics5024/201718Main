@@ -1,6 +1,5 @@
 #include "MPRobotRightSwitchRightCG.h"
 #include "../Commands/RRtoSRCommand.h"
-#include "../../Commands/Autonomous/MoveElevator.h"
 #include "../../Commands/Autonomous/ToggleIntake.h"
 #include "../../Commands/Autonomous/ToggleGripper.h"
 

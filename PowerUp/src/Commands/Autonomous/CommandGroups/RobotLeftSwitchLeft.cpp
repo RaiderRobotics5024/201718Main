@@ -11,8 +11,8 @@ RobotLeftSwitchLeft::RobotLeftSwitchLeft()
 {
 	LOG("[RobotLeftSwitchLeft] Constructed");
 
-	AddSequential(new DriveWithEncoders(168.00, 1.0));
+	AddSequential(new DriveWithEncoders(168.00, 1.0, Height::NONE, 5.0));
 	AddSequential(new RotateWithGyro   ( 90.00     ));
-	AddSequential(new DriveWithEncoders( 21.06, 1.0));
+	AddSequential(new DriveWithEncoders( 21.06, 1.0, Height::NONE, 5.0));
 	AddSequential(new ToggleIntake     ( -1.00     ));
 }

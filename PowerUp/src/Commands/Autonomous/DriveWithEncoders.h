@@ -4,6 +4,7 @@
 #include <Timer.h>
 #include <WPILib.h>
 #include "../../CommandBase.h"
+#include "../../Subsystems/Elevator.h"
 
 
 /**
@@ -12,7 +13,7 @@
 class DriveWithEncoders : public CommandBase
 {
 public:
-	DriveWithEncoders(double distance, double speed);
+	DriveWithEncoders(double distance, double speed, ElevatorHeight height, double timeout);
 	~DriveWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;
@@ -26,6 +27,8 @@ private:
 	int    iCounter = 0;
 	double dDistance = 0;
 	double dSpeed = 0;
+	ElevatorHeight ehHeight;
+	double dTimeout = 5.0;
 };
 
 #endif
