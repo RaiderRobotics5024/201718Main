@@ -22,7 +22,7 @@ public:
 private:
 	Timer* pTimer;
 	double dMotorSpeed = 0.0;
-	ElevatorHeight ehCalledTo = BOTTOM;
+	Height::Type ehCalledTo = Height::BOTTOM;
 	bool   bArrived = false;
 };
 

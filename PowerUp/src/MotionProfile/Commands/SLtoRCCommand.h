@@ -12,7 +12,7 @@
 class SLtoRCCommand : public CommandBase
 {
 public:
-	SLtoRCCommand();
+	SLtoRCCommand(Height::Type height = Height::NONE);
 	~SLtoRCCommand();
 	void Initialize() override;
 	void Execute() override;
@@ -21,8 +21,9 @@ public:
 	void Interrupted() override;
 
 private:
-	Timer* pTimer;
 	SLtoRCProfile* pMotionProfiler;
+	Height::Type htHeight = Height::NONE;
+	Timer* pTimer;
 };
 
 #endif

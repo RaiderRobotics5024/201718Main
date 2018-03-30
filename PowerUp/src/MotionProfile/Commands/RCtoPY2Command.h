@@ -12,7 +12,7 @@
 class RCtoPY2Command : public CommandBase
 {
 public:
-	RCtoPY2Command();
+	RCtoPY2Command(Height::Type height = Height::NONE);
 	~RCtoPY2Command();
 	void Initialize() override;
 	void Execute() override;
@@ -21,8 +21,9 @@ public:
 	void Interrupted() override;
 
 private:
-	Timer* pTimer;
 	RCtoPY2Profile* pMotionProfiler;
+	Height::Type htHeight = Height::NONE;
+	Timer* pTimer;
 };
 
 #endif

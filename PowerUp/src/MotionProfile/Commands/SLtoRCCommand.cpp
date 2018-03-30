@@ -4,7 +4,7 @@
 /**
  *
  */
-SLtoRCCommand::SLtoRCCommand()
+SLtoRCCommand::SLtoRCCommand(Height::Type height)
 {
 	LOG("[SLtoRCCommand] Constructed");
 
@@ -12,6 +12,7 @@ SLtoRCCommand::SLtoRCCommand()
 	{
 		Requires(CommandBase::pDriveTrain);
 		this->pMotionProfiler = new SLtoRCProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
+		this->htHeight = height;
 	}
 	else
 	{
@@ -65,6 +66,9 @@ void SLtoRCCommand::Execute()
 	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 
 	this->pMotionProfiler->start();
+
+	// ask elevator service to move to our set height
+	gElevatorHeight = this->htHeight;
 
 	return;
 }

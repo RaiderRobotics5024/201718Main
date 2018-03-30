@@ -4,7 +4,7 @@
 /**
  *
  */
-PY2toRCCommand::PY2toRCCommand()
+PY2toRCCommand::PY2toRCCommand(Height::Type height)
 {
 	LOG("[PY2toRCCommand] Constructed");
 
@@ -12,6 +12,7 @@ PY2toRCCommand::PY2toRCCommand()
 	{
 		Requires(CommandBase::pDriveTrain);
 		this->pMotionProfiler = new PY2toRCProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
+		this->htHeight = height;
 	}
 	else
 	{
@@ -65,6 +66,9 @@ void PY2toRCCommand::Execute()
 	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 
 	this->pMotionProfiler->start();
+
+	// ask elevator service to move to our set height
+	gElevatorHeight = this->htHeight;
 
 	return;
 }

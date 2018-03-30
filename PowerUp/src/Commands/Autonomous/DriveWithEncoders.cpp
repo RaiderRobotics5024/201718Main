@@ -4,7 +4,7 @@
 /**
  * distance in inches, speed from -1 to 1
  */
-DriveWithEncoders::DriveWithEncoders(double distance, double speed, ElevatorHeight height, double timeout)
+DriveWithEncoders::DriveWithEncoders(double distance, double speed, Height::Type height, double timeout)
 {
 	LOG("[DriveWithEncoders] Constructed");
 
@@ -13,7 +13,7 @@ DriveWithEncoders::DriveWithEncoders(double distance, double speed, ElevatorHeig
 		Requires(CommandBase::pDriveTrain);
 		this->dDistance = distance;
 		this->dSpeed = speed;
-		this->ehHeight = height;
+		this->htHeight = height;
 		this->dTimeout = timeout;
 	}
 	else
@@ -55,6 +55,9 @@ void DriveWithEncoders::Initialize()
  */
 void DriveWithEncoders::Execute()
 {
+	// ask elevator service to move to our set height
+	gElevatorHeight = this->htHeight;
+
 	DriveWithEncoders::Trace();
 
 	return;

@@ -3,11 +3,12 @@
 
 #include <Timer.h>
 #include "../../CommandBase.h"
+#include "../../Subsystems/Elevator.h"
 
 class RotateWithGyro : public CommandBase
 {
 public:
-	RotateWithGyro(double setpoint);
+	RotateWithGyro(double setpoint, Height::Type height = Height::NONE, double timeout = 3.0);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -19,6 +20,8 @@ private:
 	Timer* pTimer;
 	int    iCounter = 0;
 	double dSetpoint;
+	Height::Type htHeight = Height::NONE;
+	double dTimeout = 3.0;
 };
 
 #endif

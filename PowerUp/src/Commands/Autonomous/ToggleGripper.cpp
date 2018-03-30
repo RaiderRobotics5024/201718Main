@@ -5,14 +5,14 @@
 /**
  * speed from -1 to 1
  */
-ToggleGripper::ToggleGripper(Action::GripperAction state)
+ToggleGripper::ToggleGripper(Action::Type action)
 {
 	LOG("[ToggleGripper] Constructed");
 
 	if (CommandBase::pIntake != nullptr)
 	{
 		Requires(CommandBase::pIntake);
-		this->gsState = state;
+		this->atAction = action;
 	}
 	else
 	{
@@ -42,17 +42,13 @@ void ToggleGripper::Initialize()
  */
 void ToggleGripper::Execute()
 {
-	if (gsState == Action::OPEN)
+	if (atAction == Action::OPEN)
 	{
 		CommandBase::pIntake->OpenGripper();
 	}
-	else if (gsState == Action::CLOSE)
+	else if (atAction == Action::CLOSE)
 	{
 		CommandBase::pIntake->CloseGripper();
-	}
-	else
-	{
-		LOG("[ToggleGripper] invalid input. use 1 for grip and -1 for release");
 	}
 
 	return;

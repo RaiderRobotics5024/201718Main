@@ -48,11 +48,9 @@ void Intake::InitDefaultCommand()
 /**
  *
  */
-void Intake::Reset()
+void Intake::CloseGripper(void)
 {
-	LOG("[Intake] Resetting the motors");
-
-	this->pLeftMotor->Set(0.0);
+	this->pGripperSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
 
 	return;
 }
@@ -60,9 +58,9 @@ void Intake::Reset()
 /**
  *
  */
-void Intake::CloseGripper(void)
+void Intake::EjectCube(void)
 {
-	this->pGripperSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+	this->pLeftMotor->Set(-0.75);
 
 	return;
 }
@@ -80,9 +78,29 @@ void Intake::OpenGripper(void)
 /**
  *
  */
-void Intake::SetSpeed(double dSpeed)
+void Intake::Reset()
 {
-	this->pLeftMotor->Set(dSpeed);
+	this->pLeftMotor->Set(0.0);
+
+	return;
+}
+
+/**
+ *
+ */
+void Intake::SetSpeed(double speed)
+{
+	this->pLeftMotor->Set(speed);
+
+	return;
+}
+
+/**
+ *
+ */
+void Intake::TakeInCube(void)
+{
+	this->pLeftMotor->Set(0.75);
 
 	return;
 }

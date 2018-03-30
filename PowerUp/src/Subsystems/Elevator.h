@@ -13,8 +13,13 @@ struct Height
 		BOTTOM,   // elevator at the bottom or one cube height
 		CUBEX2,   // elevator at cube on top of another cube height to intake - 19"
 		SWITCH    // elevator at height to put cube in switch - 33"
-	} ElevatorHeight;
+	} Type;
 };
+
+// Global Elevator Height variable
+// Set this variable in any command and the elevator
+// service will move the elevator to that height
+extern Height::Type gElevatorHeight;
 
 /**
  *

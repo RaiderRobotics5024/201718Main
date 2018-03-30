@@ -12,7 +12,16 @@ struct Action
 	{
 		OPEN = 0,
 		CLOSE
-	} GripperAction;
+	} Type;
+};
+
+struct Cube
+{
+	typedef enum
+	{
+		EJECT = 0,
+		TAKEIN
+	} Type;
 };
 
 /**
@@ -28,7 +37,10 @@ public:
 
 	void CloseGripper(void);
 	void OpenGripper(void);
-	void SetSpeed(double);
+	void EjectCube(void);
+	void TakeInCube(void);
+
+	void SetSpeed(double speed);
 
 private:
 	can::WPI_TalonSRX* pLeftMotor;

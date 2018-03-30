@@ -45,9 +45,9 @@ void ElevatorService::Execute()
 
 	switch (ehCalledTo)
 	{
-	case NONE   : break; // don't move the elevator
+	case Height::NONE   : break; // don't move the elevator
 
-	case BOTTOM :
+	case Height::BOTTOM :
 		if (CommandBase::pElevator->IsBottomSwitchAligned())
 		{
 			dMotorSpeed = 0.0; // we arrived at the bottom so turn off the motor
@@ -59,7 +59,7 @@ void ElevatorService::Execute()
 		}
 		break;
 
-	case CUBEX2 :
+	case Height::CUBEX2 :
 		if (CommandBase::pElevator->IsMiddleSwitchAligned())
 		{
 			dMotorSpeed = 0.0;
@@ -75,7 +75,7 @@ void ElevatorService::Execute()
 		}
 		break;
 
-	case SWITCH :
+	case Height::SWITCH :
 		if (CommandBase::pElevator->IsTopSwitchAligned())
 		{
 			dMotorSpeed = 0.0; // we arrived at the switch so turn off the motor

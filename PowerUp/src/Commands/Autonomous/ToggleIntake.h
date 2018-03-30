@@ -4,6 +4,7 @@
 #include <WPILib.h>
 #include <Timer.h>
 #include "../../CommandBase.h"
+#include "../../Subsystems/Intake.h"
 
 /**
  *
@@ -11,7 +12,7 @@
 class ToggleIntake : public CommandBase
 {
 public:
-	ToggleIntake(double speed);
+	ToggleIntake(Cube::Type cube);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -20,7 +21,7 @@ public:
 
 private:
 	Timer* pTimer;
-	double dSpeed = 0;
+	Cube::Type ctCube;
 };
 
 #endif

@@ -17,5 +17,5 @@ RobotLeftSwitchRight::RobotLeftSwitchRight()
 	AddSequential(new DriveWithEncoders(168.94, 1.0, Height::NONE, 5.0));
 	AddSequential(new RotateWithGyro   ( 90.00     ));
 	AddSequential(new DriveWithEncoders( 13.74, 1.0, Height::NONE, 5.0));
-	AddSequential(new ToggleIntake     ( -1.00     ));
+	AddSequential(new ToggleIntake     (Cube::EJECT));
 }

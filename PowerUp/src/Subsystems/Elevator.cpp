@@ -4,7 +4,7 @@
 #include "../Commands/ControlElevator.h"
 
 // Define our global variable to set elevator height
-ElevatorHeight gElevatorHeight = BOTTOM;
+Height::Type gElevatorHeight = Height::BOTTOM;
 
 /**
  *

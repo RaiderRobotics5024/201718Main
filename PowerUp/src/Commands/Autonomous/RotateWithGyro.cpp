@@ -6,7 +6,7 @@
 /**
  *
  */
-RotateWithGyro::RotateWithGyro(double setpoint)
+RotateWithGyro::RotateWithGyro(double setpoint, Height::Type height, double timeout)
 {
 	LOG("[RotateWithGyro] Constructed");
 
@@ -14,6 +14,8 @@ RotateWithGyro::RotateWithGyro(double setpoint)
 	{
 		Requires(CommandBase::pDriveTrain);
 		this->dSetpoint = setpoint;
+		this->htHeight = height;
+		this->dTimeout = timeout;
 	}
 	else
 	{
@@ -48,6 +50,9 @@ void RotateWithGyro::Initialize()
  */
 void RotateWithGyro::Execute()
 {
+	// ask elevator service to move to our set height
+	gElevatorHeight = this->htHeight;
+
 	RotateWithGyro::Trace();
 
 	return;
@@ -58,7 +63,7 @@ void RotateWithGyro::Execute()
  */
 bool RotateWithGyro::IsFinished()
 {
-	if (this->pTimer->Get() > 2) // stop after 2 seconds no matter what
+	if (this->pTimer->Get() > dTimeout) // stop after dTimeout seconds no matter what
 	{
 		LOG("[RotateWithEncoders] Timed out");
 

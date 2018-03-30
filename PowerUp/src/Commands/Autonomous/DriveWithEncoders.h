@@ -13,7 +13,7 @@
 class DriveWithEncoders : public CommandBase
 {
 public:
-	DriveWithEncoders(double distance, double speed, ElevatorHeight height, double timeout);
+	DriveWithEncoders(double distance, double speed, Height::Type height = Height::NONE, double timeout = 5.0);
 	~DriveWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;
@@ -27,7 +27,7 @@ private:
 	int    iCounter = 0;
 	double dDistance = 0;
 	double dSpeed = 0;
-	ElevatorHeight ehHeight;
+	Height::Type htHeight = Height::NONE;
 	double dTimeout = 5.0;
 };
 

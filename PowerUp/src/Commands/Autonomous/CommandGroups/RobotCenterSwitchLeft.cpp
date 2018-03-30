@@ -1,8 +1,8 @@
 #include "RobotCenterSwitchLeft.h"
 #include "../../../Utilities/Log.h"
 #include "../DriveWithEncoders.h"
+#include "../ElevatorService.h"
 #include "../RotateWithGyro.h"
-#include "../MoveElevator.h"
 #include "../ToggleIntake.h"
 #include "../ToggleGripper.h"
 
@@ -13,13 +13,17 @@ RobotCenterSwitchLeft::RobotCenterSwitchLeft()
 {
 	LOG("[RobotCenterSwitchLeft] Constructed");
 
+	// Start the elevator service. This handles calls from the other
+	// commands to move the elevator.  It runs throughout autonomous mode
+	AddParallel(new ElevatorService());
+
 	// First cube
-	AddSequential(new DriveWithEncoders( 19.00, 1.0, Height::NONE, 5.0));
-	AddSequential(new RotateWithGyro   (-41.15     ));
-	AddSequential(new DriveWithEncoders( 85.00, 1.0, Height::NONE, 5.0));
-	AddSequential(new RotateWithGyro   ( 41.15     ));
-	AddParallel  (new DriveWithEncoders( 19.00, 1.0, Height::NONE, 5.0));
-	AddSequential(new ToggleIntake     ( -1.00     ));
+	AddSequential(new DriveWithEncoders( 19.00, 1.0, Height::NONE, 2.0));
+	AddSequential(new RotateWithGyro   (-41.15));
+	AddSequential(new DriveWithEncoders( 85.00, 1.0, Height::SWITCH, 4.0));
+	AddSequential(new RotateWithGyro   ( 41.15));
+	AddParallel  (new DriveWithEncoders( 19.00, 1.0, Height::NONE, 2.0));
+	AddSequential(new ToggleIntake     (Cube::EJECT));
 
 	//Second cube
 //	AddParallel  (new DriveWithEncoders(-48.00, 1.0));

@@ -12,7 +12,7 @@
 class RLtoSLCommand : public CommandBase
 {
 public:
-	RLtoSLCommand();
+	RLtoSLCommand(Height::Type height = Height::NONE);
 	~RLtoSLCommand();
 	void Initialize() override;
 	void Execute() override;
@@ -21,8 +21,9 @@ public:
 	void Interrupted() override;
 
 private:
-	Timer* pTimer;
 	RLtoSLProfile* pMotionProfiler;
+	Height::Type htHeight = Height::NONE;
+	Timer* pTimer;
 };
 
 #endif

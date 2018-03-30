@@ -12,7 +12,7 @@
 class PY2toVLTCommand : public CommandBase
 {
 public:
-	PY2toVLTCommand();
+	PY2toVLTCommand(Height::Type height = Height::NONE);
 	~PY2toVLTCommand();
 	void Initialize() override;
 	void Execute() override;
@@ -21,8 +21,9 @@ public:
 	void Interrupted() override;
 
 private:
-	Timer* pTimer;
 	PY2toVLTProfile* pMotionProfiler;
+	Height::Type htHeight = Height::NONE;
+	Timer* pTimer;
 };
 
 #endif

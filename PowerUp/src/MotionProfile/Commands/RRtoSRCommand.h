@@ -12,7 +12,7 @@
 class RRtoSRCommand : public CommandBase
 {
 public:
-	RRtoSRCommand();
+	RRtoSRCommand(Height::Type height = Height::NONE);
 	~RRtoSRCommand();
 	void Initialize() override;
 	void Execute() override;
@@ -21,8 +21,9 @@ public:
 	void Interrupted() override;
 
 private:
-	Timer* pTimer;
 	RRtoSRProfile* pMotionProfiler;
+	Height::Type htHeight = Height::NONE;
+	Timer* pTimer;
 };
 
 #endif

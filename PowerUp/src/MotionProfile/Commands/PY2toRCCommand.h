@@ -12,7 +12,7 @@
 class PY2toRCCommand : public CommandBase
 {
 public:
-	PY2toRCCommand();
+	PY2toRCCommand(Height::Type height = Height::NONE);
 	~PY2toRCCommand();
 	void Initialize() override;
 	void Execute() override;
@@ -21,8 +21,9 @@ public:
 	void Interrupted() override;
 
 private:
-	Timer* pTimer;
 	PY2toRCProfile* pMotionProfiler;
+	Height::Type htHeight = Height::NONE;
+	Timer* pTimer;
 };
 
 #endif

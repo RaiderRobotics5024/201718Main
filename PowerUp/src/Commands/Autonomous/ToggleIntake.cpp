@@ -5,14 +5,14 @@
 /**
  * speed from -1 to 1
  */
-ToggleIntake::ToggleIntake(double speed)
+ToggleIntake::ToggleIntake(Cube::Type cube)
 {
 	LOG("[ToggleIntake] Constructed");
 
 	if (CommandBase::pIntake != nullptr)
 	{
 		Requires(CommandBase::pIntake);
-		this->dSpeed = speed;
+		this->ctCube = cube;
 	}
 	else
 	{
@@ -42,7 +42,14 @@ void ToggleIntake::Initialize()
  */
 void ToggleIntake::Execute()
 {
-	CommandBase::pIntake->SetSpeed(dSpeed);
+	if (ctCube == Cube::TAKEIN)
+	{
+		CommandBase::pIntake->OpenGripper();
+	}
+	else if (ctCube == Cube::EJECT)
+	{
+		CommandBase::pIntake->CloseGripper();
+	}
 
 	return;
 }
