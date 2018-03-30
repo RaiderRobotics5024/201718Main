@@ -52,6 +52,7 @@ public:
 
 	bool IsDriving(void);
 	bool IsTurning(void);
+	bool IsTurnEnabled(void);
 
 	void ResetDrive(void);
 	void ResetEncoders(void);

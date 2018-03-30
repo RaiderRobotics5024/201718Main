@@ -45,10 +45,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pGyro->Reset();
 
 	// Initialize the turn controller
-	this->pTurnController = new PIDController(0.002, -0.01, 0.000005, 0.0, pGyro, this, 0.05);
+	this->pTurnController = new PIDController(0.03f, 0.00f, 0.00f, 0.00f, pGyro, this);
 	this->pTurnController->SetInputRange(-180.0f,  180.0f);
 	this->pTurnController->SetOutputRange(-1.0, 1.0);
-	this->pTurnController->SetAbsoluteTolerance(5.0);
+	this->pTurnController->SetAbsoluteTolerance(2.0f);
 	this->pTurnController->SetContinuous(true);
 
 	this->dRotateToAngleRate = 0.0f;
@@ -379,6 +379,14 @@ bool DriveTrain::IsTurning()
 /**
  *
  */
+bool DriveTrain::IsTurnEnabled()
+{
+	return this->pTurnController->IsEnabled();
+}
+
+/**
+ *
+ */
 void DriveTrain::ResetDrive()
 {
 	LOG("[DriveTrain] Resetting the motors");
@@ -417,9 +425,8 @@ void DriveTrain::ResetEncoders()
  */
 void DriveTrain::ResetGyro()
 {
-	LOG("[DriveTrain] Resetting the gyro");
+	LOG("[DriveTrain] Zeroing the Yaw");
 
-	pGyro->Reset();
 	pGyro->ZeroYaw();
 
 	return;
