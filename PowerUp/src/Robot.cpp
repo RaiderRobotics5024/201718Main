@@ -109,8 +109,9 @@ void Robot::TeleopPeriodic()
 		this->pTalonSRX->SetInverted(true);
 	}
 
-	// run forward/backward with Y axis
-	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand) * -1; // positive motor speed to go forward
+	// Y-axis goes from -1 (forward) to 1 (backward) but we want
+	// the motor speed to be from 1 (forward) to -1 (reverse) so multiply by -1
+	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand) * -1;
 	
 	if (this->pXboxController->GetYButton())
 	{
@@ -126,8 +127,8 @@ void Robot::TeleopPeriodic()
 	if (this->pXboxController->GetStartButtonPressed())
 	{
 		this->pTalonSRX->SetSelectedSensorPosition(0, 0, 100);
-		double targetPositionRotations = 5.0 * 8192; /* 10 Rotations in either direction */
-		this->pTalonSRX->Set(ControlMode::Position, targetPositionRotations); /* 10 rotations in either direction */
+		double targetPositionRotations = 5.0 * 8192; /* 5 Rotations in either direction */
+		this->pTalonSRX->Set(ControlMode::Position, targetPositionRotations);
 	}
 
 	if (iCounter++ == 10)
