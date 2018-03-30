@@ -31,20 +31,20 @@ const int NEUTRAL_DEADBAND_PERCENT = 1;
 
 // Talon PIDF Settings
 const double TALON_PID_P = 0.03f;
-const double TALON_PID_I = 0.00;
-const double TALON_PID_D = 0.00;
-const double TALON_PID_F = 0.00;
+const double TALON_PID_I = 0.00f;
+const double TALON_PID_D = 0.00f;
+const double TALON_PID_F = 0.00f;
 
 // Motion Profile PIDF Settings
 const double MP_PID_P = 0.03f;
-const double MP_PID_I = 0.00;
-const double MP_PID_D = 0.00;
-const double MP_PID_F = 0.00;
+const double MP_PID_I = 0.00f;
+const double MP_PID_D = 0.00f;
+const double MP_PID_F = 0.00f;
 
 //Gyro PIDF Settings:
 const static double GYRO_PID_P = 2.0f;
 const static double GYRO_PID_I = 0.0f;
-const static double GYRO_PID_D = 0.0;
+const static double GYRO_PID_D = 0.0f;
 const static double GYRO_PID_F = 0.0f;
 
 const static double GYRO_TOLERANCE_DEGREES = 1.0f;

@@ -38,20 +38,16 @@ void ControlElevator::Execute()
 	frc::XboxController* pJoyOperator = CommandBase::pOI->GetJoystickOperator();
 
 	double rightOpTriggerAxis = pJoyOperator->GetTriggerAxis(frc::XboxController::kRightHand);
-	double leftOpTriggerAxis = pJoyOperator->GetTriggerAxis(frc::XboxController::kLeftHand);
+	double leftOpTriggerAxis  = pJoyOperator->GetTriggerAxis(frc::XboxController::kLeftHand);
 
 	double dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
 
 	if (CommandBase::pElevator->IsTopSwitchAligned() && dMotorSpeed > 0.0)
 	{
-		LOG("[ControlElevator] At the top" );
-
 		dMotorSpeed = 0; // don't let the motor go passed the top switch
 	}
 
 	CommandBase::pElevator->SetMotorSpeed(dMotorSpeed);
-
-//	ControlElevator::Trace(dMotorSpeed);
 
 	return;
 }
@@ -71,6 +67,8 @@ void ControlElevator::End()
 {
 	LOG("[ControlElevator] Ended");
 
+	CommandBase::pElevator->Reset();
+
 	return;
 }
 
@@ -81,6 +79,8 @@ void ControlElevator::Interrupted()
 {
 	LOG("[ControlElevator] Interrupted" );
 
+	CommandBase::pElevator->Reset();
+
 	return;
 }
 
@@ -89,7 +89,6 @@ void ControlElevator::Interrupted()
  */
 void ControlElevator::Trace(double dMotorSpeed)
 {
-
 	if (iCounter++ == 10)
 	{
 		SmartDashboard::PutNumber( "Elevator Motorspeed", dMotorSpeed );

@@ -89,15 +89,15 @@ void DriveTrain::InitAutonomousMode()
 	this->pLeftFrontMotor->SetSensorPhase(true);
 
 	/* set the peak and nominal outputs, 12V means full */
-	this->pLeftFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
-	this->pLeftFrontMotor->ConfigNominalOutputReverse(0, TIMEOUT_MS);
-	this->pLeftFrontMotor->ConfigPeakOutputForward(1, TIMEOUT_MS);
-	this->pLeftFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigNominalOutputForward( 0, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigNominalOutputReverse( 0, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigPeakOutputForward   ( 1, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigPeakOutputReverse   (-1, TIMEOUT_MS);
 
 	this->pLeftFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
-	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.05, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
@@ -111,15 +111,15 @@ void DriveTrain::InitAutonomousMode()
 	this->pRightFrontMotor->SetSensorPhase(true);
 
 	/* set the peak and nominal outputs, 12V means full */
-	this->pRightFrontMotor->ConfigNominalOutputForward(0, TIMEOUT_MS);
-	this->pRightFrontMotor->ConfigNominalOutputReverse(0, TIMEOUT_MS);
-	this->pRightFrontMotor->ConfigPeakOutputForward(1, TIMEOUT_MS);
-	this->pRightFrontMotor->ConfigPeakOutputReverse(-1, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigNominalOutputForward( 0, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigNominalOutputReverse( 0, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigPeakOutputForward   ( 1, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigPeakOutputReverse   (-1, TIMEOUT_MS);
 
 	this->pRightFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
-	this->pRightFrontMotor->Config_kP(PID_LOOP_INDEX, 0.05, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kP(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
