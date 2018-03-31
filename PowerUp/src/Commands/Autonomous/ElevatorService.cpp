@@ -2,7 +2,9 @@
 #include "../../Utilities/Log.h"
 
 /**
- *
+ * We were having an issue with the elevator motor where once it got to it's desired height and the motor
+ * was switched off, the elevator arms would drop due to gravity.  This service command runs
+ * in parallel to other commands and will hold the elevator at requested height
  */
 ElevatorService::ElevatorService()
 {

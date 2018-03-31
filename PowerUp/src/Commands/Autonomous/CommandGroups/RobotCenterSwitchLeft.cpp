@@ -18,11 +18,8 @@ RobotCenterSwitchLeft::RobotCenterSwitchLeft()
 	AddParallel(new ElevatorService());
 
 	// FIRST CUBE
-	AddSequential(new DriveWithEncoders( 19.00, 1.0, Height::NONE, 2.0));
-	AddSequential(new RotateWithGyro   (-41.15));
-	AddSequential(new DriveWithEncoders( 85.00, 1.0, Height::SWITCH, 4.0));
-	AddSequential(new RotateWithGyro   ( 41.15));
-	AddParallel  (new DriveWithEncoders( 19.00, 1.0, Height::NONE, 2.0));
+	AddSequential(new DriveWithEncoders(110.00, 1.0, Height::SWITCH, 4.0));
+	AddSequential(new RotateWithGyro   ( 30.00));
 	AddSequential(new ToggleIntake     (Cube::EJECT));
 
 	// SECOND CUBE
