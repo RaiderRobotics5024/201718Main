@@ -17,7 +17,7 @@ RobotCenterSwitchLeft::RobotCenterSwitchLeft()
 	// commands to move the elevator.  It runs throughout autonomous mode
 	AddParallel(new ElevatorService());
 
-	// First cube
+	// FIRST CUBE
 	AddSequential(new DriveWithEncoders( 19.00, 1.0, Height::NONE, 2.0));
 	AddSequential(new RotateWithGyro   (-41.15));
 	AddSequential(new DriveWithEncoders( 85.00, 1.0, Height::SWITCH, 4.0));
@@ -25,7 +25,7 @@ RobotCenterSwitchLeft::RobotCenterSwitchLeft()
 	AddParallel  (new DriveWithEncoders( 19.00, 1.0, Height::NONE, 2.0));
 	AddSequential(new ToggleIntake     (Cube::EJECT));
 
-	//Second cube
+	// SECOND CUBE
 //	AddParallel  (new DriveWithEncoders(-48.00, 1.0));
 //	AddSequential(new MoveElevator(Height::BOTTOM));
 //

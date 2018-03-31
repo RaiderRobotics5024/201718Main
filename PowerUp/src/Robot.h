@@ -11,7 +11,7 @@
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/ToggleCompressor.h"
 
-#include "MotionProfile/CommandGroups/MPRobotCenterSwitchRightCG.h"
+#include "MotionProfile/CommandGroups/MPTestAutonomousCG.h"
 
 struct RobotPosition
 {
@@ -69,7 +69,7 @@ public:
 	DriveWithJoystick*	pDriveWithJoystick;
 	ToggleCompressor*   pToggleCompressor;
 
-	MPRobotCenterSwitchRightCG* pMotionProfileCommand;
+	MPTestAutonomousCG* pMotionProfileCommand;
 
 private:
 

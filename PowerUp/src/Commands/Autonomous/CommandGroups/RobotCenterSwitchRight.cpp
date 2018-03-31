@@ -1,8 +1,8 @@
 #include "RobotCenterSwitchRight.h"
 #include "../../../Utilities/Log.h"
 #include "../DriveWithEncoders.h"
+#include "../ElevatorService.h"
 #include "../RotateWithGyro.h"
-//#include "../MoveElevator.h"
 #include "../ToggleIntake.h"
 #include "../ToggleGripper.h"
 
@@ -12,6 +12,10 @@
 RobotCenterSwitchRight::RobotCenterSwitchRight()
 {
 	LOG("[RobotCenterSwitchRight] Constructed");
+
+	// Start the elevator service. This handles calls from the other
+	// commands to move the elevator.  It runs throughout autonomous mode
+	AddParallel(new ElevatorService());
 
 	// First cube
 	AddSequential(new DriveWithEncoders( 19.00, 1.0, Height::NONE, 5.0));
