@@ -39,7 +39,7 @@ void ElevatorService::Initialize()
  */
 void ElevatorService::Execute()
 {
-	if (ehCalledTo != gElevatorHeight)
+	if (ehCalledTo != gElevatorHeight && gElevatorHeight != Height::NONE)
 	{
 		ehCalledTo = gElevatorHeight;
 		bArrived = false;
