@@ -24,7 +24,7 @@ private:
 	int    iCounter;
 	double dMotorSpeed;
 	bool   IsInverted;
-	bool   IsPhase;
+	bool   IsPhased;
 
 	WPI_TalonSRX* pTalonSRX;
 	Faults* pFaults;
