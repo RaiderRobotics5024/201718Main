@@ -43,6 +43,7 @@ void Robot::SetMotor(int motor_id)
 {
 	LOG("Setting ID: " << motor_id);
 
+	// delete previous motor if initialized
 	if (this->pTalonSRX != nullptr)
 	{
 		this->pTalonSRX->Set(ControlMode::PercentOutput, 0);
