@@ -15,6 +15,7 @@ Robot::Robot()
 	iMotorId = 1;
 	iCounter = 0;
 	dMotorSpeed = 0.0;
+	IsInverted = false;
 	IsPhase = false;
 	SetMotor(iMotorId);
 
@@ -51,9 +52,11 @@ void Robot::SetMotor(int motor_id)
 
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
+	this->IsInverted = false;
 
 	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 100);
 	this->pTalonSRX->SetSensorPhase(false);
+	this->IsPhased = false;
 
 	/* set the peak and nominal outputs, 12V means full */
 	this->pTalonSRX->ConfigNominalOutputForward(0, 100);
@@ -96,34 +99,33 @@ void Robot::TeleopPeriodic()
 		iMotorId++;
 		if (iMotorId > 8) iMotorId = 8;
 		SetMotor(iMotorId);
-		IsPhase = false;
 	}
 
-	// invert the motor with the X/B buttons
-	if (this->pXboxController->GetXButtonPressed())
+	// invert the motor with the A button
+	if (this->pXboxController->GetAButtonPressed())
 	{
-		this->pTalonSRX->SetInverted(false);
+		this->IsInverted = !this->IsInverted;
+		this->pTalonSRX->SetInverted(this->IsInverted);
 	}
-	else if (this->pXboxController->GetBButtonPressed())
+
+	// change the phase with the B Button
+	if (this->pXboxController->GetBButtonPressed())
 	{
-		this->pTalonSRX->SetInverted(true);
+		IsPhase = !IsPhase;
+		this->pTalonSRX->SetSensorPhase(IsPhase);
 	}
 
 	// Y-axis goes from -1 (forward) to 1 (backward) but we want
 	// the motor speed to be from 1 (forward) to -1 (reverse) so multiply by -1
 	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand) * -1;
 	
+	// drive with joystick when Y button pressed
 	if (this->pXboxController->GetYButton())
 	{
 		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
 	}
 
-	if (this->pXboxController->GetAButtonPressed()){
-		IsPhase = !IsPhase;
-		this->pTalonSRX->SetSensorPhase(IsPhase);
-	}
-
-	// start position closed loop 
+	// enter position closed loop when start button pressed
 	if (this->pXboxController->GetStartButtonPressed())
 	{
 		this->pTalonSRX->SetSelectedSensorPosition(0, 0, 100);
@@ -139,9 +141,9 @@ void Robot::TeleopPeriodic()
 			<< " QV: " << this->pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
 			<< " SP: " << this->pTalonSRX->GetSelectedSensorPosition(0)
 			<< " SV: " << this->pTalonSRX->GetSelectedSensorVelocity(0)
-		    << " IN: " << (this->pTalonSRX->GetInverted() ? "True" : "False")
+		    	<< " IN: " << (this->pTalonSRX->GetInverted() ? "True" : "False")
 			<< " IP: " << (IsPhase ? "True" : "False")
-		    << " MS: " << dMotorSpeed
+		    	<< " MS: " << dMotorSpeed
 		);
 		iCounter = 0;
 	}
@@ -154,10 +156,6 @@ void Robot::TeleopPeriodic()
  */
 void Robot::Trace()
 {
-	if (iCounter++ < 20 ) return;
-	
-	iCounter = 0;
-	
 	int baseId = pTalonSRX->GetBaseID();
 	int version = pTalonSRX->GetFirmwareVersion();
 	bool isInverted = pTalonSRX->GetInverted();
