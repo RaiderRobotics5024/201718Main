@@ -104,7 +104,9 @@ void Robot::TeleopPeriodic()
 		SetMotor(iMotorId);
 	}
 
-	// invert the motor with the A button
+	// invert the talon with the A button
+	// when dMotorSpeed is positive the motor should be running forward
+	// use the trace to confirm
 	if (this->pXboxController->GetAButtonPressed())
 	{
 		this->IsInverted = !this->IsInverted;
@@ -112,6 +114,9 @@ void Robot::TeleopPeriodic()
 	}
 
 	// change the phase with the B Button
+	// if the talon has an encoder use the trace to check the position
+	// the position number should increase/decrease when the motor is running forward/reverse
+	// use the trace to confirm
 	if (this->pXboxController->GetBButtonPressed())
 	{
 		IsPhase = !IsPhase;
@@ -119,6 +124,7 @@ void Robot::TeleopPeriodic()
 	}
 
 	// enter position closed loop when start button pressed
+	// this will only work if the talon has an encoder
 	if (this->pXboxController->GetStartButtonPressed())
 	{
 		this->pTalonSRX->SetSelectedSensorPosition(0, 0, 100);
