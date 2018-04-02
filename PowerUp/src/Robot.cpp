@@ -138,9 +138,11 @@ void Robot::TeleopPeriodic()
 	}
 	else if (!this->IsClosedMode)
 	{
-		double righTriggerAxis = this->pXboxController->GetTriggerAxis(frc::XboxController::kRightHand);
-		double leftTriggerAxis = this->pXboxController->GetTriggerAxis(frc::XboxController::kLeftHand);
+		double rightTriggerAxis = this->pXboxController->GetTriggerAxis(frc::XboxController::kRightHand);
+		double leftTriggerAxis  = this->pXboxController->GetTriggerAxis(frc::XboxController::kLeftHand);
 
+		// dMotorSpeed should be positive when only right trigger is pressed
+		// confirm this with the trace.  if negative, multply by -1 to make it positive
 		this->dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
 		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
 	}		
