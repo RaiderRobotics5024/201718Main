@@ -17,6 +17,7 @@ Robot::Robot()
 	dMotorSpeed = 0.0;
 	IsInverted = false;
 	IsPhase = false;
+	IsClosedMode = false;
 	SetMotor(iMotorId);
 
 	this->pXboxController = new XboxController(0);
@@ -76,6 +77,7 @@ void Robot::SetMotor(int motor_id)
 // 	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
 	int absolutePosition = this->pTalonSRX->GetSensorCollection().GetPulseWidthPosition();
 	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
+	this->IsClosedMode = false;
 	
 	this->pFaults = new Faults();
 	pTalonSRX->GetFaults(*pFaults);
@@ -132,7 +134,16 @@ void Robot::TeleopPeriodic()
 		this->pTalonSRX->SetSelectedSensorPosition(0, 0, 100);
 		double targetPositionRotations = 5.0 * 8192; /* 5 Rotations in either direction */
 		this->pTalonSRX->Set(ControlMode::Position, targetPositionRotations);
+		this->IsClosedMode = true;
 	}
+	else if (!this->IsClosedMode)
+	{
+		double righTriggerAxis = this->pXboxController->GetTriggerAxis(frc::XboxController::kRightHand);
+		double leftTriggerAxis = this->pXboxController->GetTriggerAxis(frc::XboxController::kLeftHand);
+
+		this->dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
+		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
+	}		
 
 	if (iCounter++ == 10)
 	{
