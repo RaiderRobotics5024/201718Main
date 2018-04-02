@@ -25,6 +25,7 @@ private:
 	double dMotorSpeed;
 	bool   IsInverted;
 	bool   IsPhased;
+	bool   IsClosedMode;
 
 	WPI_TalonSRX* pTalonSRX;
 	Faults* pFaults;
