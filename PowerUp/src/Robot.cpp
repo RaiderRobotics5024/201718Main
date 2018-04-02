@@ -118,16 +118,6 @@ void Robot::TeleopPeriodic()
 		this->pTalonSRX->SetSensorPhase(IsPhase);
 	}
 
-	// Y-axis goes from -1 (forward) to 1 (backward) but we want
-	// the motor speed to be from 1 (forward) to -1 (reverse) so multiply by -1
-	dMotorSpeed = this->pXboxController->GetY(XboxController::kLeftHand) * -1;
-	
-	// drive with joystick when Y button pressed
-	if (this->pXboxController->GetYButton())
-	{
-		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
-	}
-
 	// enter position closed loop when start button pressed
 	if (this->pXboxController->GetStartButtonPressed())
 	{
@@ -142,7 +132,9 @@ void Robot::TeleopPeriodic()
 		double leftTriggerAxis  = this->pXboxController->GetTriggerAxis(frc::XboxController::kLeftHand);
 
 		// dMotorSpeed should be positive when only right trigger is pressed
-		// confirm this with the trace.  if negative, multply by -1 to make it positive
+		// we also want the motor to run forward when dMotorSpeed is positive so it may
+		// need to be inverted. confirm this with the trace.  
+		// if dMotorSpeed is negative, multply by -1 to make it positive
 		this->dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
 		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
 	}		
