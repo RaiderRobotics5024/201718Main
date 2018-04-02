@@ -16,7 +16,7 @@ Robot::Robot()
 	iCounter = 0;
 	dMotorSpeed = 0.0;
 	IsInverted = false;
-	IsPhase = false;
+	IsPhased = false;
 	IsClosedMode = false;
 	SetMotor(iMotorId);
 
@@ -110,7 +110,7 @@ void Robot::TeleopPeriodic()
 	if (this->pXboxController->GetAButtonPressed())
 	{
 		this->IsInverted = !this->IsInverted;
-		this->pTalonSRX->SetInverted(this->IsInverted);
+		this->pTalonSRX->SetInverted(IsInverted);
 	}
 
 	// change the phase with the B Button
@@ -153,8 +153,9 @@ void Robot::TeleopPeriodic()
 			<< " QV: " << this->pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
 			<< " SP: " << this->pTalonSRX->GetSelectedSensorPosition(0)
 			<< " SV: " << this->pTalonSRX->GetSelectedSensorVelocity(0)
-		    	<< " IN: " << (this->pTalonSRX->GetInverted() ? "True" : "False")
-			<< " IP: " << (IsPhase ? "True" : "False")
+		    	<< " IN: " << (IsInverted ? "True" : "False")
+			<< " IP: " << (IsPhased ? "True" : "False")
+		    	<< " IC: " << (IsClosedMode ? "True" : "False")
 		    	<< " MS: " << dMotorSpeed
 		);
 		iCounter = 0;
