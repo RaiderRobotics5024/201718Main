@@ -462,6 +462,22 @@ void DriveTrain::SetTargetPosition(double dTargetPosition)
 /**
  *
  */
+void SetTalonPID(double P, double I, double D)
+{
+	return;
+}
+
+/**
+ *
+ */
+void SetGyroPID(double P, double I, double d)
+{
+	return;
+}
+
+/**
+ *
+ */
 void DriveTrain::Trace()
 {
 	return;
