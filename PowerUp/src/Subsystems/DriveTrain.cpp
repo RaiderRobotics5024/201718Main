@@ -462,7 +462,7 @@ void DriveTrain::SetTargetPosition(double dTargetPosition)
 /**
  *
  */
-void SetTalonPID(double dP, double dI, double dD)
+void DriveTrain::SetTalonPID(double dP, double dI, double dD)
 {
 	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, dP, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, dI, TIMEOUT_MS);
@@ -478,7 +478,7 @@ void SetTalonPID(double dP, double dI, double dD)
 /**
  *
  */
-void SetGyroPID(double dP, double dI, double dD)
+void DriveTrain::SetGyroPID(double dP, double dI, double dD)
 {
 	this->pTurnController->SetPID(dP, dI, dD);
 	

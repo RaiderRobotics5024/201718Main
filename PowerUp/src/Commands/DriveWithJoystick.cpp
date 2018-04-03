@@ -120,7 +120,7 @@ void DriveWithJoystick::Execute()
 	// set the PID values using the POV stick
 	if (pJoyDrive->GetPOV(0) > -1)
 	{
-		if (this->IsDriveTest())
+		if (this->isDriveTest)
 		{
 			switch (pJoyDrive->GetPOV(0))
 			{
@@ -134,7 +134,7 @@ void DriveWithJoystick::Execute()
 			}
 			CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
 		}
-		else if (this->IsTurnTest())
+		else if (this->isTurnTest)
 		{
 			switch (pJoyDrive->GetPOV(0))
 			{
