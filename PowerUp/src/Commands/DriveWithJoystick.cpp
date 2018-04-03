@@ -173,6 +173,9 @@ void DriveWithJoystick::Execute()
 			<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
 			<< " MS: " << dSpeed
 			<< " RS: " << dRotation
+			<< " P : " << this->dTalon_P
+			<< " I : " << this->dTalon_I
+			<< " D : " << this->dTalon_D
 			<< " Time: " << this->pTimer->Get());
 	}
 	else if (this->isTurnTest)
@@ -180,6 +183,9 @@ void DriveWithJoystick::Execute()
 		LOG("[DriveWithJoystick] TA: " << this->dSetpoint
 				<< " CA: " << CommandBase::pDriveTrain->GetAngle()
 				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
+		    		<< " P : " << this->dGyro_P
+		    		<< " I : " << this->dGyro_I
+		    		<< " D : " << this->dGyro_D
 				<< " Time: " << this->pTimer->Get());
 	}
 
