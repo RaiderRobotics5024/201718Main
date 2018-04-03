@@ -26,12 +26,12 @@ private:
 	double dSpeed = 0.0;
 	double dRotation = 0.0;
 	
-	double dTalon_P;
-	double dTalon_I;
-	double dTalon_D;
-	double dGyro_P;
-	double dGyro_I;
-	double dGyro_D;
+	double dTalon_P = 0.0;
+	double dTalon_I = 0.0;
+	double dTalon_D = 0.0;
+	double dGyro_P = 0.0;
+	double dGyro_I = 0.0;
+	double dGyro_D = 0.0;
 };
 
 #endif
