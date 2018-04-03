@@ -1,79 +1,219 @@
 #include "Robot.h"
+#include <iostream>
+
+#define LOG(x) { std::cout << x << std::endl; }
 
 /**
  *
  */
-
 Robot::Robot()
 {
 	SmartDashboard::init();
 
-	this->motor_id = 1;
-	this->motor_speed = 0.0;
-	SetMotor(motor_id);
+	iMotorId = 1;
+	iCounter = 0;
+	dMotorSpeed = 0.0;
+	IsInverted = false;
+	IsPhased = false;
+	IsClosedMode = false;
+	SetMotor(iMotorId);
 
 	this->pXboxController = new XboxController(0);
+
+	return;
 }
 
 /**
  *
  */
-
 Robot::~Robot()
 {
 	delete this->pXboxController;
 	delete this->pTalonSRX;
+	delete this->pFaults;
+
+	return;
 }
 
 /**
  *
  */
-
 void Robot::SetMotor(int motor_id)
 {
+	LOG("Setting ID: " << motor_id);
+
+	// delete previous motor if initialized
 	if (this->pTalonSRX != nullptr)
 	{
 		this->pTalonSRX->Set(ControlMode::PercentOutput, 0);
 		delete this->pTalonSRX;
+		delete this->pFaults;
 	}
 
 	this->pTalonSRX = new WPI_TalonSRX(motor_id);
 	this->pTalonSRX->SetInverted(false);
-	this->pTalonSRX->SetSensorPhase(true);
+	this->IsInverted = false;
+
+	this->pTalonSRX->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 100);
+	this->pTalonSRX->SetSensorPhase(false);
+	this->IsPhased = false;
+
+	/* set the peak and nominal outputs, 12V means full */
+	this->pTalonSRX->ConfigNominalOutputForward(0, 100);
+	this->pTalonSRX->ConfigNominalOutputReverse(0, 100);
+	this->pTalonSRX->ConfigPeakOutputForward(1, 100);
+	this->pTalonSRX->ConfigPeakOutputReverse(-1, 100);
+
+	this->pTalonSRX->ConfigAllowableClosedloopError(0, 0, 100);
+
+	/* set closed loop gains in slot0 */
+	this->pTalonSRX->Config_kP(0, 0.05, 100);
+	this->pTalonSRX->Config_kI(0, 0.00, 100);
+	this->pTalonSRX->Config_kD(0, 0.00, 100);
+	this->pTalonSRX->Config_kF(0, 0.00, 100);
+
+// 	int absolutePosition = this->pTalonSRX->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+	int absolutePosition = this->pTalonSRX->GetSensorCollection().GetPulseWidthPosition();
+	this->pTalonSRX->SetSelectedSensorPosition(absolutePosition, 0, 100);
+	this->IsClosedMode = false;
+	
+	this->pFaults = new Faults();
+	pTalonSRX->GetFaults(*pFaults);
+
+	return;
 }
 
 /**
  *
  */
-
 void Robot::TeleopPeriodic()
 {
-	SmartDashboard::PutNumber("Motor ID", motor_id);
-
-	if (pXboxController->GetBumperPressed(XboxController::kLeftHand)) {
-		motor_id = (motor_id > 1) ? motor_id-- : 1;
-		SetMotor(motor_id);
-	} else if (pXboxController->GetBumperPressed(XboxController::kRightHand)) {
-		motor_id = (motor_id < 8) ? motor_id++ : 8;
-		SetMotor(motor_id);
+	// switch the motor with the left/right bumpers
+	if (pXboxController->GetBumperPressed(XboxController::kLeftHand))
+	{
+		iMotorId--;
+		if (iMotorId < 1) iMotorId = 1;
+		SetMotor(iMotorId);
+	}
+	else if (pXboxController->GetBumperPressed(XboxController::kRightHand))
+	{
+		iMotorId++;
+		if (iMotorId > 8) iMotorId = 8;
+		SetMotor(iMotorId);
 	}
 
-	if (this->pXboxController->GetXButton()) {
-		this->pTalonSRX->SetInverted(false);
-	} else if (this->pXboxController->GetBButton()) {
-		this->pTalonSRX->SetInverted(true);
+	// invert the talon with the A button
+	// when dMotorSpeed is positive the motor should be running forward
+	// use the trace to confirm
+	if (this->pXboxController->GetAButtonPressed())
+	{
+		this->IsInverted = !this->IsInverted;
+		this->pTalonSRX->SetInverted(IsInverted);
 	}
 
-	if (this->pXboxController->GetYButton()) {
-		motor_speed = 1.0;
-	} else if (this->pXboxController->GetAButton()) {
-		motor_speed = -1.0;
-	} else {
-		motor_speed = 0.0;
+	// change the phase with the B Button
+	// if the talon has an encoder use the trace to check the position
+	// the position number should increase/decrease when the motor is running forward/reverse
+	// use the trace to confirm
+	if (this->pXboxController->GetBButtonPressed())
+	{
+		IsPhase = !IsPhase;
+		this->pTalonSRX->SetSensorPhase(IsPhase);
 	}
 
-	pTalonSRX->Set(motor_speed);
+	// enter position closed loop when start button pressed
+	// this will only work if the talon has an encoder
+	if (this->pXboxController->GetStartButtonPressed())
+	{
+		this->pTalonSRX->SetSelectedSensorPosition(0, 0, 100);
+		double targetPositionRotations = 5.0 * 8192; /* 5 Rotations in either direction */
+		this->pTalonSRX->Set(ControlMode::Position, targetPositionRotations);
+		this->IsClosedMode = true;
+	}
+	else if (!this->IsClosedMode)
+	{
+		double rightTriggerAxis = this->pXboxController->GetTriggerAxis(frc::XboxController::kRightHand);
+		double leftTriggerAxis  = this->pXboxController->GetTriggerAxis(frc::XboxController::kLeftHand);
 
+		// dMotorSpeed should be positive when only right trigger is pressed
+		// we also want the motor to run forward when dMotorSpeed is positive so it may
+		// need to be inverted. confirm this with the trace.  
+		// if dMotorSpeed is negative, multply by -1 to make it positive
+		this->dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
+		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
+	}		
+
+	if (iCounter++ == 10)
+	{
+//		Robot::Trace();
+		LOG("ID: " << iMotorId
+			<< " QP: " << this->pTalonSRX->GetSensorCollection().GetQuadraturePosition()
+			<< " QV: " << this->pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
+			<< " SP: " << this->pTalonSRX->GetSelectedSensorPosition(0)
+			<< " SV: " << this->pTalonSRX->GetSelectedSensorVelocity(0)
+		    	<< " IN: " << (IsInverted ? "True" : "False")
+			<< " IP: " << (IsPhased ? "True" : "False")
+		    	<< " IC: " << (IsClosedMode ? "True" : "False")
+		    	<< " MS: " << dMotorSpeed
+		);
+		iCounter = 0;
+	}
+
+	return;
+}
+
+/**
+ *
+ */
+void Robot::Trace()
+{
+	int baseId = pTalonSRX->GetBaseID();
+	int version = pTalonSRX->GetFirmwareVersion();
+	bool isInverted = pTalonSRX->GetInverted();
+
+	double currentAmps = pTalonSRX->GetOutputCurrent();
+	double outputV = pTalonSRX->GetMotorOutputVoltage();
+	double busV = pTalonSRX->GetBusVoltage();
+	double outputPerc = pTalonSRX->GetMotorOutputPercent();
+
+	int quadPos = pTalonSRX->GetSensorCollection().GetQuadraturePosition();
+	int quadVel = pTalonSRX->GetSensorCollection().GetQuadratureVelocity();
+
+	int analogPos = pTalonSRX->GetSensorCollection().GetAnalogIn();
+	int analogVel = pTalonSRX->GetSensorCollection().GetAnalogInVel();
+
+	int selectedSensorPos = pTalonSRX->GetSelectedSensorPosition(0); /* sensor selected for PID Loop 0 */
+	int selectedSensorVel = pTalonSRX->GetSelectedSensorVelocity(0); /* sensor selected for PID Loop 0 */
+	int closedLoopErr = pTalonSRX->GetClosedLoopError(0); /* sensor selected for PID Loop 0 */
+	double closedLoopAccum = pTalonSRX->GetIntegralAccumulator(0); /* sensor selected for PID Loop 0 */
+	double derivErr = pTalonSRX->GetErrorDerivative(0);  /* sensor selected for PID Loop 0 */
+
+
+	SmartDashboard::PutNumber("Motor ID", iMotorId);
+	SmartDashboard::PutNumber("Base ID", baseId);
+	SmartDashboard::PutNumber("Version", version);
+	SmartDashboard::PutBoolean("Is Inverted", isInverted);
+
+	SmartDashboard::PutNumber("Current Amps", currentAmps);
+	SmartDashboard::PutNumber("Output Voltage", outputV);
+	SmartDashboard::PutNumber("Bus Voltage", busV);
+	SmartDashboard::PutNumber("Output Percent", outputPerc);
+
+	SmartDashboard::PutNumber("Quad Position", quadPos);
+	SmartDashboard::PutNumber("Quad Velocity", quadVel);
+
+	SmartDashboard::PutNumber("Analog In Position", analogPos);
+	SmartDashboard::PutNumber("Analog In Velocity", analogVel);
+
+	SmartDashboard::PutNumber("SS Position", selectedSensorPos);
+	SmartDashboard::PutNumber("SS Velocity", selectedSensorVel);
+	SmartDashboard::PutNumber("SS Closed Loop Error", closedLoopErr);
+	SmartDashboard::PutNumber("Integral Accumulator", closedLoopAccum);
+	SmartDashboard::PutNumber("Error Derivative", derivErr);
+
+	SmartDashboard::PutBoolean("Has Faults", pFaults->HasAnyFault());
+
+	return;
 }
 
 START_ROBOT_CLASS(Robot)
