@@ -25,6 +25,13 @@ private:
 	double dSetpoint = 0.0;
 	double dSpeed = 0.0;
 	double dRotation = 0.0;
+	
+	double dTalon_P;
+	double dTalon_I;
+	double dTalon_D;
+	double dGyro_P;
+	double dGyro_I;
+	double dGyro_D;
 };
 
 #endif
