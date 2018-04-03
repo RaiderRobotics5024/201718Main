@@ -61,6 +61,9 @@ public:
 	void SetRotateToAngleRate(double rate);
 	void SetSetpoint(double setpoint);
 	void SetTargetPosition(double target);
+	
+	void SetTalonPID(double P, double I, double D);
+	void SetGyroPID(double P, double I, double D);
 
 	// Send motor data to SmartDashboard
 	void Trace(void);
