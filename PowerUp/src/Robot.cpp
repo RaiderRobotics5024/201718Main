@@ -117,8 +117,8 @@ void Robot::TeleopPeriodic()
 	// use the trace to confirm
 	if (this->pXboxController->GetBButtonPressed())
 	{
-		IsPhase = !IsPhase;
-		this->pTalonSRX->SetSensorPhase(IsPhase);
+		IsPhased = !IsPhased;
+		this->pTalonSRX->SetSensorPhase(IsPhased);
 	}
 
 	// enter position closed loop when start button pressed
@@ -139,7 +139,7 @@ void Robot::TeleopPeriodic()
 		// we also want the motor to run forward when dMotorSpeed is positive so it may
 		// need to be inverted. confirm this with the trace.  
 		// if dMotorSpeed is negative, multply by -1 to make it positive
-		this->dMotorSpeed = rightOpTriggerAxis - leftOpTriggerAxis;
+		this->dMotorSpeed = rightTriggerAxis - leftTriggerAxis;
 		this->pTalonSRX->Set(ControlMode::PercentOutput, dMotorSpeed);
 	}		
 
@@ -151,10 +151,10 @@ void Robot::TeleopPeriodic()
 			<< " QV: " << this->pTalonSRX->GetSensorCollection().GetQuadratureVelocity()
 			<< " SP: " << this->pTalonSRX->GetSelectedSensorPosition(0)
 			<< " SV: " << this->pTalonSRX->GetSelectedSensorVelocity(0)
-		    	<< " IN: " << (IsInverted ? "True" : "False")
+			<< " IN: " << (IsInverted ? "True" : "False")
 			<< " IP: " << (IsPhased ? "True" : "False")
-		    	<< " IC: " << (IsClosedMode ? "True" : "False")
-		    	<< " MS: " << dMotorSpeed
+			<< " IC: " << (IsClosedMode ? "True" : "False")
+			<< " MS: " << dMotorSpeed
 		);
 		iCounter = 0;
 	}
