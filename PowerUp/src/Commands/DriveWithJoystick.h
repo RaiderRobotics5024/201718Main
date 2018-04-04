@@ -25,6 +25,8 @@ private:
 	double dSetpoint = 0.0;
 	double dSpeed = 0.0;
 	double dRotation = 0.0;
+	double dLastDistance = 0.0;
+	double dLastSetpoint = 0.0;
 	
 	double dTalon_P = 0.0;
 	double dTalon_I = 0.0;
