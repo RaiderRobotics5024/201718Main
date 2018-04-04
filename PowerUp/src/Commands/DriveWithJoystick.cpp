@@ -241,8 +241,6 @@ bool DriveWithJoystick::IsFinished()
 		if (CommandBase::pDriveTrain->GetLeftPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
 		{
 			LOG("[DriveWithJoystick] Reached Left Target");
-//			CommandBase::pDriveTrain->ResetDrive();
-//			return true;
 		}
 
 		if (CommandBase::pDriveTrain->GetRightPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
@@ -260,6 +258,7 @@ bool DriveWithJoystick::IsFinished()
 	}
 
 	// We want the command to run until we stop it manually
+	// by toggling drive/turn test bumper
 	return false;
 }
 
