@@ -150,8 +150,8 @@ void DriveWithJoystick::Execute()
 		}
 	}
 		    
-	// use start button to start the drive or turn test
-	if (pJoyDrive->GetStartButtonPressed() || this->dLastDistance != this->dDistance || this->dLastSetpoint != this->dSetpoint)
+	// the drive/turn test will start if we are in test mode and the distance/setpoint has changed
+	if (this->dLastDistance != this->dDistance || this->dLastSetpoint != this->dSetpoint)
 	{
 		if (this->isDriveTest)
 		{
