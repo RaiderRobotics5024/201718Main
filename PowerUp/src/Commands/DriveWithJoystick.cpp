@@ -154,7 +154,7 @@ void DriveWithJoystick::Execute()
 				case 135: dGyro_D -= 0.01; if (dGyro_D < 0.0 ) dGyro_D = 0.0; break;
 				default : break;
 			}
-			CommandBase::pDriveTrain->SetGyroPID(dTalon_P, dTalon_I, dTalon_D);
+			CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
 		}
 	}
 		    
