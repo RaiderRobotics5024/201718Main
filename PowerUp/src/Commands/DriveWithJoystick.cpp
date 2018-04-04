@@ -68,6 +68,10 @@ void DriveWithJoystick::Execute()
 		{
 			CommandBase::pDriveTrain->InitAutonomousMode();
 			CommandBase::pDriveTrain->DriveSetup();
+						
+			this->dDistance = 0.0;
+			this->dLastDistance = 0.0;
+
 		}
 		else
 		{
@@ -88,6 +92,9 @@ void DriveWithJoystick::Execute()
 		{
 			CommandBase::pDriveTrain->ResetGyro();
 			CommandBase::pDriveTrain->TurnSetup();
+						
+			this->dSetpoint = 0.0;
+			this->dLastSetpoint = 0.0;
 		}
 		else
 		{
