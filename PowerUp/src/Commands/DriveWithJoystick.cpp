@@ -242,8 +242,6 @@ bool DriveWithJoystick::IsFinished()
 		if (CommandBase::pDriveTrain->GetRightPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
 		{
 			LOG("[DriveWithJoystick] Reached Right Target");
-//			CommandBase::pDriveTrain->ResetDrive();
-//			return true;
 		}
 	}
 	else if (this->isTurnTest)
@@ -252,11 +250,8 @@ bool DriveWithJoystick::IsFinished()
 		 && CommandBase::pDriveTrain->GetAngle() <= (this->dSetpoint + GYRO_TOLERANCE_DEGREES) && pTimer->Get() > 0)
 		{
 			LOG("[DriveWithJoystick] Reached Turn Angle");
-//			CommandBase::pDriveTrain->ResetDrive();
-//			return true;
 		}
 	}
-
 
 	// We want the command to run until we stop it manually
 	return false;
