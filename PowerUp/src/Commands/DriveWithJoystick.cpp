@@ -124,12 +124,12 @@ void DriveWithJoystick::Execute()
 		{
 			switch (pJoyDrive->GetPOV(0))
 			{
-				case 315: dTalon_P -= 0.01; if (dTalon_P < 0.0 ) dTalon_P = 0.0; break;
-				case   0: dTalon_I -= 0.01; if (dTalon_I < 0.0 ) dTalon_I = 0.0; break;
-				case  45: dTalon_D -= 0.01; if (dTalon_D < 0.0 ) dTalon_D = 0.0; break;
-				case 225: dTalon_P += 0.01; break;
-				case 180: dTalon_I += 0.01; break;
-				case 135: dTalon_D += 0.01; break;
+				case 315: dTalon_P += 0.01; break;
+				case   0: dTalon_I += 0.01; break;
+				case  45: dTalon_D += 0.01; break;
+				case 225: dTalon_P -= 0.01; if (dTalon_P < 0.0 ) dTalon_P = 0.0; break;
+				case 180: dTalon_I -= 0.01; if (dTalon_I < 0.0 ) dTalon_I = 0.0; break;
+				case 135: dTalon_D -= 0.01; if (dTalon_D < 0.0 ) dTalon_D = 0.0; break;
 				default : break;
 			}
 			CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
@@ -138,12 +138,12 @@ void DriveWithJoystick::Execute()
 		{
 			switch (pJoyDrive->GetPOV(0))
 			{
-				case 315: dGyro_P -= 0.01; if (dGyro_P < 0.0 ) dGyro_P = 0.0; break;
-				case   0: dGyro_I -= 0.01; if (dGyro_I < 0.0 ) dGyro_I = 0.0; break;
-				case  45: dGyro_D -= 0.01; if (dGyro_D < 0.0 ) dGyro_D = 0.0; break;
-				case 225: dGyro_P += 0.01; break;
-				case 180: dGyro_I += 0.01; break;
-				case 135: dGyro_D += 0.01; break;
+				case 315: dGyro_P += 0.01; break;
+				case   0: dGyro_I += 0.01; break;
+				case  45: dGyro_D += 0.01; break;
+				case 225: dGyro_P -= 0.01; if (dGyro_P < 0.0 ) dGyro_P = 0.0; break;
+				case 180: dGyro_I -= 0.01; if (dGyro_I < 0.0 ) dGyro_I = 0.0; break;
+				case 135: dGyro_D -= 0.01; if (dGyro_D < 0.0 ) dGyro_D = 0.0; break;
 				default : break;
 			}
 			CommandBase::pDriveTrain->SetGyroPID(dTalon_P, dTalon_I, dTalon_D);
