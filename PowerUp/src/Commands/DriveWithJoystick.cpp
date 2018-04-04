@@ -151,7 +151,7 @@ void DriveWithJoystick::Execute()
 	}
 		    
 	// use start button to start the drive or turn test
-	if (pJoyDrive->GetStartButtonPressed())
+	if (pJoyDrive->GetStartButtonPressed() || this->dLastDistance != this->dDistance || this->dLastSetpoint != this->dSetpoint)
 	{
 		if (this->isDriveTest)
 		{
@@ -159,6 +159,7 @@ void DriveWithJoystick::Execute()
 			this->pTimer->Start();
 			
 			CommandBase::pDriveTrain->Drive(dDistance, 1.0);
+			this->dLastDistance = dDistance;
 		}
 		else if (this->isTurnTest)
 		{
@@ -167,6 +168,7 @@ void DriveWithJoystick::Execute()
 			
 			CommandBase::pDriveTrain->SetSetpoint(dSetpoint);
 			CommandBase::pDriveTrain->Turn();
+			this->dLastSetpoint = dSetpoint;
 		}
 	}
 
