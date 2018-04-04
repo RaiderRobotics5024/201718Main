@@ -159,7 +159,9 @@ void DriveWithJoystick::Execute()
 			this->pTimer->Start();
 			
 			CommandBase::pDriveTrain->Drive(dDistance, 1.0);
+			
 			this->dLastDistance = dDistance;
+			this->dLastSetpoint = dSetpoint;
 		}
 		else if (this->isTurnTest)
 		{
@@ -168,6 +170,8 @@ void DriveWithJoystick::Execute()
 			
 			CommandBase::pDriveTrain->SetSetpoint(dSetpoint);
 			CommandBase::pDriveTrain->Turn();
+			
+			this->dLastDistance = dDistance;
 			this->dLastSetpoint = dSetpoint;
 		}
 	}
