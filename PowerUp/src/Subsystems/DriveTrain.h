@@ -21,7 +21,7 @@ public:
 
 	void InitAutonomousMode(void);
 	void InitDefaultCommand(void) override;
-	void InitMotionProfiling(void);
+	void InitMotionProfilingMode(void);
 
 	// Used for autonomous mode
 	void DriveSetup(void);

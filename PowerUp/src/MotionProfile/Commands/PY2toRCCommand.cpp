@@ -45,7 +45,7 @@ void PY2toRCCommand::Initialize()
 	this->pTimer->Reset();
 	this->pTimer->Start();
 
-	CommandBase::pDriveTrain->InitMotionProfiling();
+	CommandBase::pDriveTrain->InitMotionProfilingMode();
 
 	return;
 }

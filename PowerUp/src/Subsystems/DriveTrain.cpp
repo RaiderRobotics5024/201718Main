@@ -77,7 +77,7 @@ DriveTrain::~DriveTrain()
  */
 void DriveTrain::InitAutonomousMode()
 {
-	LOG("[DriveTrain] Autonomous Initialized");
+	LOG("[DriveTrain] Autonomous Mode Initialized");
 
 	/* choose the sensor and sensor direction */
 	this->pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
@@ -141,9 +141,9 @@ void DriveTrain::InitDefaultCommand()
 /**
  *
  */
-void DriveTrain::InitMotionProfiling()
+void DriveTrain::InitMotionProfilingMode()
 {
-	LOG("[DriveTrain] Motion Profiling Initialized");
+	LOG("[DriveTrain] Motion Profiling Mode Initialized");
 
 	this->pLeftFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
 	this->pLeftFrontMotor->SetSensorPhase(true);
