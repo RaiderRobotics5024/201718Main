@@ -20,9 +20,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
-	this->pLeftFrontMotor->SetSensorPhase(true);
-	this->pLeftRearMotor->SetSensorPhase(true);
-
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
 	this->pRightRearMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_REAR_MOTOR_ID);
 	this->pRightRearMotor->Follow(*pRightFrontMotor);
@@ -31,9 +28,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	this->pRightRearMotor->SetInverted(true); // change this based on test or production robot
 	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
 	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
-
-	this->pRightFrontMotor->SetSensorPhase(true);
-	this->pRightRearMotor->SetSensorPhase(true);
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
@@ -155,10 +149,10 @@ void DriveTrain::InitMotionProfiling()
 	this->pLeftFrontMotor->SetSensorPhase(true);
 	this->pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
-	this->pLeftFrontMotor->Config_kP(SLOT_INDEX,  2.0  , TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kP(SLOT_INDEX,  0.5  , TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(SLOT_INDEX,  0.0  , TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kD(SLOT_INDEX, 20.0  , TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kF(SLOT_INDEX,  0.076, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kD(SLOT_INDEX,  0.0  , TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kF(SLOT_INDEX,  0.0  , TIMEOUT_MS);
 
 	this->pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(50, TIMEOUT_MS); //Our profile uses 5 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
@@ -168,10 +162,10 @@ void DriveTrain::InitMotionProfiling()
 	this->pRightFrontMotor->SetSensorPhase(true);
 	this->pRightFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
-	this->pRightFrontMotor->Config_kP(SLOT_INDEX,  2.0  , TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kP(SLOT_INDEX,  0.5  , TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kI(SLOT_INDEX,  0.0  , TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kD(SLOT_INDEX, 20.0  , TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kF(SLOT_INDEX,  0.076, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kD(SLOT_INDEX,  0.0  , TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kF(SLOT_INDEX,  0.0  , TIMEOUT_MS);
 
 	this->pRightFrontMotor->ConfigMotionProfileTrajectoryPeriod(50, TIMEOUT_MS); //Our profile uses 5 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */

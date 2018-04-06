@@ -78,12 +78,12 @@ void RCtoSRCommand::Execute()
  */
 bool RCtoSRCommand::IsFinished()
 {
-	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
-	{
-		LOG("[RCtoSRCommand] Timed out");
-
-		return true;
-	}
+//	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
+//	{
+//		LOG("[RCtoSRCommand] Timed out");
+//
+//		return true;
+//	}
 
 	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetLeftFrontMotor()->GetActiveTrajectoryVelocity() == 0)
 	{
