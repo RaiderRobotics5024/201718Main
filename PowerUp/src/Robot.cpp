@@ -114,7 +114,7 @@ int Robot::GetAutoType()
 
 	LOG("[Robot] Robot Position: " << _RP << " - Switch Position: " << _SP << " - Game Data: " << _GSM);
 
-	return _RP + _SP + _RR;
+	return _RP + _SP; // + _RR;
 }
 
 /**
@@ -139,20 +139,20 @@ void Robot::AutonomousInit()
 
 	switch (autoType)
 	{
-	case 010: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
-	case 011: pAutonomousCommand = new RobotLeftSwitchLeft       (); break;
-	case 012: pAutonomousCommand = new RobotLeftSwitchRight      (); break;
-	case 013: pAutonomousCommand = new MPTestAutonomousCG        (); break;
+	case 10: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 11: pAutonomousCommand = new RobotLeftSwitchLeft       (); break;
+	case 12: pAutonomousCommand = new RobotLeftSwitchRight      (); break;
+	case 13: pAutonomousCommand = new MPTestAutonomousCG        (); break;
 
-	case 020: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
-	case 021: pAutonomousCommand = new RobotCenterSwitchLeft     (); break;
-	case 022: pAutonomousCommand = new RobotCenterSwitchRight    (); break;
-	case 023: pAutonomousCommand = new MPTestAutonomousCG        (); break;
+	case 20: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 21: pAutonomousCommand = new RobotCenterSwitchLeft     (); break;
+	case 22: pAutonomousCommand = new RobotCenterSwitchRight    (); break;
+	case 23: pAutonomousCommand = new MPTestAutonomousCG        (); break;
 
-	case 030: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
-	case 031: pAutonomousCommand = new RobotRightSwitchLeft      (); break;
-	case 032: pAutonomousCommand = new RobotRightSwitchRight     (); break;
-	case 033: pAutonomousCommand = new MPTestAutonomousCG        (); break;
+	case 30: pAutonomousCommand = new JustDriveForward          (); break; // we didn't get the switch position from the FMS
+	case 31: pAutonomousCommand = new RobotRightSwitchLeft      (); break;
+	case 32: pAutonomousCommand = new RobotRightSwitchRight     (); break;
+	case 33: pAutonomousCommand = new MPTestAutonomousCG        (); break;
 
 	case 888:
 	case 999:

@@ -1,4 +1,5 @@
 #include "MPTestAutonomousCG.h"
+#include "../../Utilities/Log.h"
 #include "../Commands/RCtoSRCommand.h"
 #include "../Commands/SRtoRCCommand.h"
 #include "../Commands/RCtoPY1Command.h"
@@ -14,9 +15,11 @@
  */
 MPTestAutonomousCG::MPTestAutonomousCG()
 {
+	LOG("[MPTestAutonomousCG] Constructed");
+
 	// Start the elevator service. This handles calls from the other
 	// commands to move the elevator.  It runs throughout autonomous mode
-	AddParallel(new ElevatorService());
+//	AddParallel(new ElevatorService());
 
 	// FIRST CUBE
 	// move from robot center to switch right

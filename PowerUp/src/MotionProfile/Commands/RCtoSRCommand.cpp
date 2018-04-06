@@ -60,7 +60,7 @@ void RCtoSRCommand::Execute()
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[RCtoSRCommand] SetValue: " << setOutput);
+//	LOG("[RCtoSRCommand] SetValue: " << setOutput);
 
 	CommandBase::pDriveTrain->GetLeftFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
