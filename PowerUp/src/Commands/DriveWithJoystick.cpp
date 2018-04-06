@@ -45,6 +45,8 @@ void DriveWithJoystick::Initialize()
 {
 	LOG("[DriveWithJoystick] Initialized");
 
+	CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
+
 	return;
 }
 
@@ -208,22 +210,6 @@ void DriveWithJoystick::Execute()
 	// log the test results
 	if (this->isDriveTest)
 	{
-		LOG("[DriveWithJoystick] TD: " << this->dDistance
-			<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
-			<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
-			<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
-			<< " RE: " << CommandBase::pDriveTrain->GetRightCosedLoopError()
-			<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
-			<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
-			<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
-			<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
-			<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
-			<< " MS: " << dSpeed
-			<< " RS: " << dRotation
-			<< " P : " << this->dTalon_P
-			<< " I : " << this->dTalon_I
-			<< " D : " << this->dTalon_D
-			<< " Time: " << this->pTimer->Get());
 	}
 	else if (this->isTurnTest)
 	{
@@ -246,14 +232,29 @@ bool DriveWithJoystick::IsFinished()
 {
 	if (this->isDriveTest)
 	{
-		if (CommandBase::pDriveTrain->GetLeftPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
+		if (fabs(this->dDistance - CommandBase::pDriveTrain->GetLeftDistance()) > 1.0 && pTimer->Get() > 0)
 		{
-			LOG("[DriveWithJoystick] Reached Left Target");
+			LOG("[DriveWithJoystick] TD: " << this->dDistance
+				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+//				<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
+//				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
+//				<< " RE: " << CommandBase::pDriveTrain->GetRightCosedLoopError()
+//				<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
+				<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
+				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+				<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
+				<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
+				<< " MS: " << dSpeed
+				<< " RS: " << dRotation
+				<< " P : " << this->dTalon_P
+				<< " I : " << this->dTalon_I
+				<< " D : " << this->dTalon_D
+				<< " Time: " << this->pTimer->Get());
 		}
 
 		if (CommandBase::pDriveTrain->GetRightPosition() >= CommandBase::pDriveTrain->GetTargetPosition() && pTimer->Get() > 0)
 		{
-			LOG("[DriveWithJoystick] Reached Right Target");
+//			LOG("[DriveWithJoystick] Reached Right Target");
 		}
 	}
 	else if (this->isTurnTest)

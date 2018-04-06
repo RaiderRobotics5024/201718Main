@@ -28,9 +28,9 @@ private:
 	double dLastDistance = 0.0;
 	double dLastSetpoint = 0.0;
 	
-	double dTalon_P = 0.0;
-	double dTalon_I = 0.0;
-	double dTalon_D = 0.0;
+	double dTalon_P = 0.025;
+	double dTalon_I = 0.00;
+	double dTalon_D = 0.00;
 	double dGyro_P = 0.0;
 	double dGyro_I = 0.0;
 	double dGyro_D = 0.0;
