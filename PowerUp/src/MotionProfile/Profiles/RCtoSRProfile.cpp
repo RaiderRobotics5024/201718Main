@@ -11,10 +11,10 @@ RCtoSRProfile::RCtoSRProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & 
 	_bStart = false;
 	_setValue = SetValueMotionProfile::Disable;
 
-	_talonLeft.ChangeMotionControlFramePeriod(5);
-	_talonRight.ChangeMotionControlFramePeriod(5);
+	_talonLeft.ChangeMotionControlFramePeriod(25);
+	_talonRight.ChangeMotionControlFramePeriod(25);
 
-	_notifer.StartPeriodic(0.025);
+	_notifer.StartPeriodic(0.005);
 
 	return;
 }
