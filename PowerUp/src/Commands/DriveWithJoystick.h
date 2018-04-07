@@ -27,13 +27,17 @@ private:
 	double dRotation = 0.0;
 	double dLastDistance = 0.0;
 	double dLastSetpoint = 0.0;
+	double dMinDistance = 0.0;
+	double dMaxDistance = 0.0;
 	
-	double dTalon_P = 0.025;
-	double dTalon_I = 0.00;
-	double dTalon_D = 0.00;
-	double dGyro_P = 0.0;
-	double dGyro_I = 0.0;
-	double dGyro_D = 0.0;
+	double dTalon_F =  0.001; //0.118;
+	double dTalon_P =  0.06; //0.02;
+	double dTalon_I =  0.00007;
+	double dTalon_D =  0.60;
+
+	double dGyro_P = 0.0082;
+	double dGyro_I = 0.000; //0.001;
+	double dGyro_D = 0.000; //0.10;
 };
 
 #endif

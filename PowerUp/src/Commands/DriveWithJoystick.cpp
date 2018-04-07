@@ -45,7 +45,7 @@ void DriveWithJoystick::Initialize()
 {
 	LOG("[DriveWithJoystick] Initialized");
 
-	CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
+	CommandBase::pDriveTrain->SetTalonFPID(dTalon_F, dTalon_P, dTalon_I, dTalon_D);
 
 	return;
 }
@@ -142,20 +142,20 @@ void DriveWithJoystick::Execute()
 				case 135: dTalon_D -= 0.01; if (dTalon_D < 0.0 ) dTalon_D = 0.0; break;
 				default : break;
 			}
-			CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
+			CommandBase::pDriveTrain->SetTalonFPID(dTalon_F, dTalon_P, dTalon_I, dTalon_D);
 		}
 		else if (this->isTurnTest)
 		{
-			switch (pJoyDrive->GetPOV(0))
-			{
-				case 315: dGyro_P += 0.01; break;
-				case   0: dGyro_I += 0.01; break;
-				case  45: dGyro_D += 0.01; break;
-				case 225: dGyro_P -= 0.01; if (dGyro_P < 0.0 ) dGyro_P = 0.0; break;
-				case 180: dGyro_I -= 0.01; if (dGyro_I < 0.0 ) dGyro_I = 0.0; break;
-				case 135: dGyro_D -= 0.01; if (dGyro_D < 0.0 ) dGyro_D = 0.0; break;
-				default : break;
-			}
+//			switch (pJoyDrive->GetPOV(0))
+//			{
+//				case 315: dGyro_P += 0.01; break;
+//				case   0: dGyro_I += 0.01; break;
+//				case  45: dGyro_D += 0.01; break;
+//				case 225: dGyro_P -= 0.01; if (dGyro_P < 0.0 ) dGyro_P = 0.0; break;
+//				case 180: dGyro_I -= 0.01; if (dGyro_I < 0.0 ) dGyro_I = 0.0; break;
+//				case 135: dGyro_D -= 0.01; if (dGyro_D < 0.0 ) dGyro_D = 0.0; break;
+//				default : break;
+//			}
 			CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
 		}
 	}
@@ -207,21 +207,6 @@ void DriveWithJoystick::Execute()
 		CommandBase::pDriveTrain->ArcadeDrive(dSpeed, dRotation);
 	}		
 
-	// log the test results
-	if (this->isDriveTest)
-	{
-	}
-	else if (this->isTurnTest)
-	{
-		LOG("[DriveWithJoystick] TA: " << this->dSetpoint
-			<< " CA: " << CommandBase::pDriveTrain->GetAngle()
-			<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
-			<< " P : " << this->dGyro_P
-			<< " I : " << this->dGyro_I
-			<< " D : " << this->dGyro_D
-			<< " Time: " << this->pTimer->Get());
-	}
-
 	return;
 }
 
@@ -235,13 +220,13 @@ bool DriveWithJoystick::IsFinished()
 		if (fabs(this->dDistance - CommandBase::pDriveTrain->GetLeftDistance()) > 1.0 && pTimer->Get() > 0)
 		{
 			LOG("[DriveWithJoystick] TD: " << this->dDistance
-				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+//				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
 //				<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
 //				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
 //				<< " RE: " << CommandBase::pDriveTrain->GetRightCosedLoopError()
 //				<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
 				<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
-				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+//				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
 				<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
 				<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
 				<< " MS: " << dSpeed
@@ -259,10 +244,22 @@ bool DriveWithJoystick::IsFinished()
 	}
 	else if (this->isTurnTest)
 	{
+//		if (fabs(this->dSetpoint - CommandBase::pDriveTrain->GetAngle() > GYRO_TOLERANCE_DEGREES))
+//		{
+			LOG("[DriveWithJoystick] TA: " << this->dSetpoint
+				<< " CA: " << CommandBase::pDriveTrain->GetAngle()
+				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
+				<< " P : " << this->dGyro_P
+				<< " I : " << this->dGyro_I
+				<< " D : " << this->dGyro_D
+				<< " Time: " << this->pTimer->Get());
+
+//		}
+
 		if (CommandBase::pDriveTrain->GetAngle() >= (this->dSetpoint - GYRO_TOLERANCE_DEGREES)
 		 && CommandBase::pDriveTrain->GetAngle() <= (this->dSetpoint + GYRO_TOLERANCE_DEGREES) && pTimer->Get() > 0)
 		{
-			LOG("[DriveWithJoystick] Reached Turn Angle");
+//			LOG("[DriveWithJoystick] Reached Turn Angle");
 		}
 	}
 

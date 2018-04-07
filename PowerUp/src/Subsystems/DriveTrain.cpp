@@ -462,12 +462,14 @@ void DriveTrain::SetTargetPosition(double dTargetPosition)
 /**
  *
  */
-void DriveTrain::SetTalonPID(double dP, double dI, double dD)
+void DriveTrain::SetTalonFPID(double dF, double dP, double dI, double dD)
 {
+	this->pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, dF, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, dP, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, dI, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, dD, TIMEOUT_MS);
 
+	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, dF, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kP(PID_LOOP_INDEX, dP, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kI(PID_LOOP_INDEX, dI, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, dD, TIMEOUT_MS);
