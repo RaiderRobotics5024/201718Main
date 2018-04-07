@@ -149,27 +149,31 @@ void DriveTrain::InitMotionProfilingMode()
 	this->pLeftFrontMotor->SetSensorPhase(true);
 	this->pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
-	this->pLeftFrontMotor->Config_kP(SLOT_INDEX,  0.5  , TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kI(SLOT_INDEX,  0.0  , TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kD(SLOT_INDEX,  0.0  , TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kF(SLOT_INDEX,  0.0  , TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kF(SLOT_INDEX,  0.1574, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kP(SLOT_INDEX,  0.0000, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kI(SLOT_INDEX,  0.0000, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kD(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 
 	this->pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(50, TIMEOUT_MS); //Our profile uses 5 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	this->pLeftFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigMotionCruiseVelocity(5100, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigMotionAcceleration(5100, TIMEOUT_MS);
 
 	this->pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
 	this->pRightFrontMotor->SetSensorPhase(true);
 	this->pRightFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
-	this->pRightFrontMotor->Config_kP(SLOT_INDEX,  0.5  , TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kI(SLOT_INDEX,  0.0  , TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kD(SLOT_INDEX,  0.0  , TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kF(SLOT_INDEX,  0.0  , TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kF(SLOT_INDEX,  0.1574, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kP(SLOT_INDEX,  0.0000, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kI(SLOT_INDEX,  0.0000, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kD(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 
 	this->pRightFrontMotor->ConfigMotionProfileTrajectoryPeriod(50, TIMEOUT_MS); //Our profile uses 5 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	this->pRightFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigMotionCruiseVelocity(5100, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigMotionAcceleration(5100, TIMEOUT_MS);
 
 	return;
 }
