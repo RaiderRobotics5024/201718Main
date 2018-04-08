@@ -31,11 +31,11 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 	// SECOND CUBE
 	// move from switch right to robot center
 	// move elevator to one cube height
-//	AddSequential(new SRtoRCCommand());
+	AddSequential(new SRtoRCCommand());
 
 	// move to pyramid one position
 	// open gripper
-//	AddParallel(new RCtoPY1Command());
+	AddSequential(new RCtoPY1Command());
 //	AddSequential(new ToggleGripper(Action::OPEN));
 
 	// close gripper
@@ -45,17 +45,17 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 
 	// move back to robot center
 	// move elevator to switch position
-//	AddSequential(new PY1toRCCommand());
+	AddSequential(new PY1toRCCommand());
 
 	// move robot to switch right
 	// eject cube
-//	AddSequential(new RCtoSRCommand());
+	AddSequential(new RCtoSRCommand());
 //	AddSequential(new ToggleIntake(Cube::EJECT));
 
 	// THIRD CUBE
 	// move back to robot center
 	// move elevator to two cube height
-//	AddSequential(new SRtoRCCommand());
+	AddSequential(new SRtoRCCommand());
 
 	// move to pyramid two position
 	// open gripper
