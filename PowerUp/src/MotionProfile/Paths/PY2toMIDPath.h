@@ -1,9 +1,9 @@
-#ifndef _PY2TOVLTPATH_HG_
-#define _PY2TOVLTPATH_HG_
+#ifndef _PY2TOMIDPATH_HG_
+#define _PY2TOMIDPATH_HG_
 
-const int kPY2toVLTProfileSz = 276;
+const int kPY2toMIDProfileSz = 276;
 
-const double kPY2toVLTProfileLeft[][3] = {
+const double kPY2toMIDProfileLeft[][3] = {
 		{-0.000030, 0.005979, 10},
 		{-0.000126, 0.009636, 10},
 		{-0.000413, 0.028721, 10},
@@ -282,7 +282,7 @@ const double kPY2toVLTProfileLeft[][3] = {
 		{-6.761253, 0.000000, 10},
 };
 
-const double kPY2toVLTProfileRight[][3] = {
+const double kPY2toMIDProfileRight[][3] = {
 		{-0.000030, 0.005979, 10},
 		{-0.000110, 0.008022, 10},
 		{-0.000361, 0.025090, 10},

@@ -1,10 +1,10 @@
-#include "PY2toVLTProfile.h"
+#include "PY2toMIDProfile.h"
 #include "../../Subsystems/DriveTrainMap.h"
 
 /**
  *
  */
-PY2toVLTProfile::PY2toVLTProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&PY2toVLTProfile::PeriodicTask, this)
+PY2toMIDProfile::PY2toMIDProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&PY2toMIDProfile::PeriodicTask, this)
 {
 	_pos = 0, _vel = 0, _heading = 0, _state = 0;
 	_loopTimeout = 30;
@@ -22,7 +22,7 @@ PY2toVLTProfile::PY2toVLTProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSR
 /**
  *
  */
-void PY2toVLTProfile::PeriodicTask()
+void PY2toMIDProfile::PeriodicTask()
 {
 	_talonLeft.ProcessMotionProfileBuffer();
 	_talonRight.ProcessMotionProfileBuffer();
@@ -31,7 +31,7 @@ void PY2toVLTProfile::PeriodicTask()
 /**
  *
  */
-void PY2toVLTProfile::reset()
+void PY2toMIDProfile::reset()
 {
 	_talonLeft.ClearMotionProfileTrajectories();
 	_talonRight.ClearMotionProfileTrajectories();
@@ -44,7 +44,7 @@ void PY2toVLTProfile::reset()
 /**
  * Called every loop.
  */
-void PY2toVLTProfile::control()
+void PY2toMIDProfile::control()
 {
 	if (_loopTimeout < 0)
 	{
@@ -122,7 +122,7 @@ void PY2toVLTProfile::control()
 /**
  *
  */
-TrajectoryDuration PY2toVLTProfile::GetTrajectoryDuration(int durationMs)
+TrajectoryDuration PY2toMIDProfile::GetTrajectoryDuration(int durationMs)
 {
 	/* lookup and return valid value */
 	switch (durationMs)
@@ -144,7 +144,7 @@ TrajectoryDuration PY2toVLTProfile::GetTrajectoryDuration(int durationMs)
 /**
  *
  */
-bool PY2toVLTProfile::isFinished()
+bool PY2toMIDProfile::isFinished()
 {
 	return _setValue == SetValueMotionProfile::Hold;
 }
@@ -152,15 +152,15 @@ bool PY2toVLTProfile::isFinished()
 /**
  *
  */
-void PY2toVLTProfile::startFilling()
+void PY2toMIDProfile::startFilling()
 {
-	startFilling(kPY2toVLTProfileLeft, kPY2toVLTProfileRight, kPY2toVLTProfileSz);
+	startFilling(kPY2toMIDProfileLeft, kPY2toMIDProfileRight, kPY2toMIDProfileSz);
 }
 
 /**
  *
  */
-void PY2toVLTProfile::startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt)
+void PY2toMIDProfile::startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt)
 {
 	TrajectoryPoint pointLeft;
 	TrajectoryPoint pointRight;
@@ -220,7 +220,7 @@ void PY2toVLTProfile::startFilling(const double profileLeft[][3], const double p
 /**
  *
  */
-void PY2toVLTProfile::start()
+void PY2toMIDProfile::start()
 {
 	_bStart = true;
 }
@@ -228,7 +228,7 @@ void PY2toVLTProfile::start()
 /**
  *
  */
-SetValueMotionProfile PY2toVLTProfile::getSetValue()
+SetValueMotionProfile PY2toMIDProfile::getSetValue()
 {
 	return _setValue;
 }

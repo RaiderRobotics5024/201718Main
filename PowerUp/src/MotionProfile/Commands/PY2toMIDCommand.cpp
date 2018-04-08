@@ -1,22 +1,22 @@
-#include "PY2toVLTCommand.h"
+#include "PY2toMIDCommand.h"
 #include "../../Utilities/Log.h"
 
 /**
  *
  */
-PY2toVLTCommand::PY2toVLTCommand(Height::Type height)
+PY2toMIDCommand::PY2toMIDCommand(Height::Type height)
 {
-	LOG("[PY2toVLTCommand] Constructed");
+	LOG("[PY2toMIDCommand] Constructed");
 
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new PY2toVLTProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
+		this->pMotionProfiler = new PY2toMIDProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
 		this->htHeight = height;
 	}
 	else
 	{
-		LOG("[PY2toVLTCommand] driveTrain is NULL");
+		LOG("[PY2toMIDCommand] driveTrain is NULL");
 	}
 
 	this->pTimer = new Timer();
@@ -27,7 +27,7 @@ PY2toVLTCommand::PY2toVLTCommand(Height::Type height)
 /**
  *
  */
-PY2toVLTCommand::~PY2toVLTCommand()
+PY2toMIDCommand::~PY2toMIDCommand()
 {
 	delete this->pTimer;
 	delete this->pMotionProfiler;
@@ -38,7 +38,7 @@ PY2toVLTCommand::~PY2toVLTCommand()
 /**
  *
  */
-void PY2toVLTCommand::Initialize()
+void PY2toMIDCommand::Initialize()
 {
 	LOG("[PY2toRCCommand] Initializing" );
 
@@ -53,14 +53,14 @@ void PY2toVLTCommand::Initialize()
 /**
  *
  */
-void PY2toVLTCommand::Execute()
+void PY2toMIDCommand::Execute()
 {
 	this->pMotionProfiler->control();
 	this->pMotionProfiler->PeriodicTask();
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[PY2toVLTCommand] Set Output: " << setOutput);
+	LOG("[PY2toMIDCommand] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetLeftFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
@@ -76,7 +76,7 @@ void PY2toVLTCommand::Execute()
 /**
  *
  */
-bool PY2toVLTCommand::IsFinished()
+bool PY2toMIDCommand::IsFinished()
 {
 	if (this->pMotionProfiler->isFinished())
 	{
@@ -91,9 +91,9 @@ bool PY2toVLTCommand::IsFinished()
 /**
  *
  */
-void PY2toVLTCommand::End()
+void PY2toMIDCommand::End()
 {
-	LOG("[PY2toVLTCommand] Ending" );
+	LOG("[PY2toMIDCommand] Ending" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
@@ -104,9 +104,9 @@ void PY2toVLTCommand::End()
 /**
  *
  */
-void PY2toVLTCommand::Interrupted()
+void PY2toMIDCommand::Interrupted()
 {
-	LOG("[PY2toVLTCommand] Interrupted" );
+	LOG("[PY2toMIDCommand] Interrupted" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();

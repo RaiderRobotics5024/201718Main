@@ -6,7 +6,7 @@
 #include "../Commands/RCtoPY2Command.h"
 #include "../Commands/PY1toRCCommand.h"
 #include "../Commands/PY2toRCCommand.h"
-#include "../Commands/PY2toVLTCommand.h"
+#include "../Commands/PY2toMIDCommand.h"
 #include "../Commands/MIDtoVLTCommand.h"
 #include "../Commands/TestCommand.h"
 #include "../../Commands/Autonomous/ElevatorService.h"
@@ -71,7 +71,7 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 
 	// move back to robot center
 	// move elevator to switch height
-	AddSequential(new PY2toVLTCommand());
+	AddSequential(new PY2toMIDCommand());
 
 	// move robot to switch right
 	// eject cube

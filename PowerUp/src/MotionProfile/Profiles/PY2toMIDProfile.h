@@ -1,19 +1,19 @@
-#ifndef _PY2TOVLTPROFILE_HG_
-#define _PY2TOVLTPROFILE_HG_
+#ifndef _PY2TOMIDPROFILE_HG_
+#define _PY2TOMIDPROFILE_HG_
 
+#include <MotionProfile/Paths/PY2toMIDPath.h>
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../Instrumentation.h"
 
-#include "../Paths/PY2toVLTPath.h"
 
 /**
  *
  */
-class PY2toVLTProfile
+class PY2toMIDProfile
 {
 public:
-	PY2toVLTProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
+	PY2toMIDProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);
