@@ -1,10 +1,10 @@
-#include "SRtoRCProfile.h"
+#include "TestProfile.h"
 #include "../../Subsystems/DriveTrainMap.h"
 
 /**
  *
  */
-SRtoRCProfile::SRtoRCProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&SRtoRCProfile::PeriodicTask, this)
+TestProfile::TestProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&TestProfile::PeriodicTask, this)
 {
 	_pos = 0, _vel = 0, _heading = 0, _state = 0;
 	_loopTimeout = 30;
@@ -22,7 +22,7 @@ SRtoRCProfile::SRtoRCProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & 
 /**
  *
  */
-void SRtoRCProfile::PeriodicTask()
+void TestProfile::PeriodicTask()
 {
 	_talonLeft.ProcessMotionProfileBuffer();
 	_talonRight.ProcessMotionProfileBuffer();
@@ -31,7 +31,7 @@ void SRtoRCProfile::PeriodicTask()
 /**
  *
  */
-void SRtoRCProfile::reset()
+void TestProfile::reset()
 {
 	_talonLeft.ClearMotionProfileTrajectories();
 	_talonRight.ClearMotionProfileTrajectories();
@@ -44,7 +44,7 @@ void SRtoRCProfile::reset()
 /**
  * Called every loop.
  */
-void SRtoRCProfile::control()
+void TestProfile::control()
 {
 	if (_loopTimeout < 0)
 	{
@@ -122,7 +122,7 @@ void SRtoRCProfile::control()
 /**
  *
  */
-TrajectoryDuration SRtoRCProfile::GetTrajectoryDuration(int durationMs)
+TrajectoryDuration TestProfile::GetTrajectoryDuration(int durationMs)
 {
 	/* lookup and return valid value */
 	switch (durationMs)
@@ -144,15 +144,15 @@ TrajectoryDuration SRtoRCProfile::GetTrajectoryDuration(int durationMs)
 /**
  *
  */
-void SRtoRCProfile::startFilling()
+void TestProfile::startFilling()
 {
-	startFilling(kSRtoRCProfileLeft, kSRtoRCProfileRight, kSRtoRCProfileSz);
+	startFilling(kTestProfileLeft, kTestProfileRight, kTestProfileSz);
 }
 
 /**
  *
  */
-bool SRtoRCProfile::isFinished()
+bool TestProfile::isFinished()
 {
 	return _setValue == SetValueMotionProfile::Hold;
 }
@@ -160,7 +160,7 @@ bool SRtoRCProfile::isFinished()
 /**
  *
  */
-void SRtoRCProfile::startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt)
+void TestProfile::startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt)
 {
 	TrajectoryPoint pointLeft;
 	TrajectoryPoint pointRight;
@@ -220,7 +220,7 @@ void SRtoRCProfile::startFilling(const double profileLeft[][3], const double pro
 /**
  *
  */
-void SRtoRCProfile::start()
+void TestProfile::start()
 {
 	_bStart = true;
 }
@@ -228,7 +228,7 @@ void SRtoRCProfile::start()
 /**
  *
  */
-SetValueMotionProfile SRtoRCProfile::getSetValue()
+SetValueMotionProfile TestProfile::getSetValue()
 {
 	return _setValue;
 }

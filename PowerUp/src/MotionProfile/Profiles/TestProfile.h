@@ -1,19 +1,19 @@
-#ifndef _SRTORCPROFILE_HG_
-#define _SRTORCPROFILE_HG_
+#ifndef _TESTPROFILE_HG_
+#define _TESTPROFILE_HG_
 
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../Instrumentation.h"
 
-#include "../Paths/SRtoRCPath.h"
+#include "../Paths/TestPath.h"
 
 /**
  *
  */
-class SRtoRCProfile
+class TestProfile
 {
 public:
-	SRtoRCProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
+	TestProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

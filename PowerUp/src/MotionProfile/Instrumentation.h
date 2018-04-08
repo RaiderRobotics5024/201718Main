@@ -73,13 +73,13 @@ public:
 
 		std::cout
 			<< std::setw(12)<< StrOutputEnable(status.outputEnable) << delim
-			<< std::setw(12)<< status.topBufferCnt << delim
-			<< std::setw(12)<< status.topBufferRem << delim
+			<< std::setw(12)<< status.topBufferCnt << delim << delim
+			<< std::setw(12)<< status.topBufferRem << delim << delim
 			<< std::setw(12)<< status.btmBufferCnt << delim
-			<< std::setw(12)<< (status.activePointValid ? "1" : " ") << delim
-			<< std::setw(12)<< (status.hasUnderrun ? "1" : " ") << delim
-			<< std::setw(12)<< (status.isUnderrun ? "1" : " ") << delim
-			<< std::setw(12)<< (status.isLast ? "1" : " ") << delim
+			<< std::setw(12)<< (status.activePointValid ? "true" : "false") << delim
+			<< std::setw(12)<< (status.hasUnderrun ? "true" : "false") << delim
+			<< std::setw(12)<< (status.isUnderrun ? "true" : "false") << delim
+			<< std::setw(12)<< (status.isLast ? "true" : "false") << delim
 			<< std::setw(12)<< pos << delim
 			<< std::setw(12)<< vel << delim
 			<< std::setw(12)<< status.profileSlotSelect0 << delim

@@ -6,6 +6,7 @@
 #include "../Commands/RCtoPY2Command.h"
 #include "../Commands/PY1toRCCommand.h"
 #include "../Commands/PY2toRCCommand.h"
+#include "../Commands/TestCommand.h"
 #include "../../Commands/Autonomous/ElevatorService.h"
 #include "../../Commands/Autonomous/ToggleIntake.h"
 #include "../../Commands/Autonomous/ToggleGripper.h"

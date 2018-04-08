@@ -1,22 +1,22 @@
-#include "SRtoRCCommand.h"
+#include "TestCommand.h"
 #include "../../Utilities/Log.h"
 
 /**
  *
  */
-SRtoRCCommand::SRtoRCCommand(Height::Type height)
+TestCommand::TestCommand(Height::Type height)
 {
-	LOG("[SRtoRCCommand] Constructed");
+	LOG("[TestCommand] Constructed");
 
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new SRtoRCProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
+		this->pMotionProfiler = new TestProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
 		this->htHeight = height;
 	}
 	else
 	{
-		LOG("[SRtoRCCommand] driveTrain is NULL");
+		LOG("[TestCommand] driveTrain is NULL");
 	}
 
 	this->pTimer = new Timer();
@@ -27,7 +27,7 @@ SRtoRCCommand::SRtoRCCommand(Height::Type height)
 /**
  *
  */
-SRtoRCCommand::~SRtoRCCommand()
+TestCommand::~TestCommand()
 {
 	delete this->pTimer;
 	delete this->pMotionProfiler;
@@ -38,9 +38,9 @@ SRtoRCCommand::~SRtoRCCommand()
 /**
  *
  */
-void SRtoRCCommand::Initialize()
+void TestCommand::Initialize()
 {
-	LOG("[SRtoRCCommand] Initializing" );
+	LOG("[TestCommand] Initializing" );
 
 	this->pTimer->Reset();
 	this->pTimer->Start();
@@ -53,14 +53,14 @@ void SRtoRCCommand::Initialize()
 /**
  *
  */
-void SRtoRCCommand::Execute()
+void TestCommand::Execute()
 {
 	this->pMotionProfiler->control();
 	this->pMotionProfiler->PeriodicTask();
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-//	LOG("[SRtoRCCommand] Set Output: " << setOutput);
+//	LOG("[TestCommand] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetLeftFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
@@ -76,11 +76,11 @@ void SRtoRCCommand::Execute()
 /**
  *
  */
-bool SRtoRCCommand::IsFinished()
+bool TestCommand::IsFinished()
 {
 	if (this->pMotionProfiler->isFinished())
 	{
-		LOG("[RCtoSRCommand] MP Finished");
+		LOG("[TestCommand] MP Finished");
 
 		return true;
 	}
@@ -112,9 +112,9 @@ bool SRtoRCCommand::IsFinished()
 /**
  *
  */
-void SRtoRCCommand::End()
+void TestCommand::End()
 {
-	LOG("[SRtoRCCommand] Ending" );
+	LOG("[TestCommand] Ending" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
@@ -125,9 +125,9 @@ void SRtoRCCommand::End()
 /**
  *
  */
-void SRtoRCCommand::Interrupted()
+void TestCommand::Interrupted()
 {
-	LOG("[SRtoRCCommand] Interrupted" );
+	LOG("[TestCommand] Interrupted" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();

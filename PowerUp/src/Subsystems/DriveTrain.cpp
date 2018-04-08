@@ -150,11 +150,11 @@ void DriveTrain::InitMotionProfilingMode()
 	this->pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
 	this->pLeftFrontMotor->Config_kF(SLOT_INDEX,  0.1574, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kP(SLOT_INDEX,  0.0000, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kP(SLOT_INDEX,  0.3000, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kD(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 
-	this->pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(50, TIMEOUT_MS); //Our profile uses 5 ms timing
+	this->pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(10, TIMEOUT_MS); //Our profile uses 10 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	this->pLeftFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
 	this->pLeftFrontMotor->ConfigMotionCruiseVelocity(5100, TIMEOUT_MS);
@@ -165,11 +165,11 @@ void DriveTrain::InitMotionProfilingMode()
 	this->pRightFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
 	this->pRightFrontMotor->Config_kF(SLOT_INDEX,  0.1574, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kP(SLOT_INDEX,  0.0000, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kP(SLOT_INDEX,  0.3000, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kI(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 
-	this->pRightFrontMotor->ConfigMotionProfileTrajectoryPeriod(50, TIMEOUT_MS); //Our profile uses 5 ms timing
+	this->pRightFrontMotor->ConfigMotionProfileTrajectoryPeriod(10, TIMEOUT_MS); //Our profile uses 10 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	this->pRightFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
 	this->pRightFrontMotor->ConfigMotionCruiseVelocity(5100, TIMEOUT_MS);
