@@ -144,6 +144,14 @@ TrajectoryDuration PY1toRCProfile::GetTrajectoryDuration(int durationMs)
 /**
  *
  */
+bool PY1toRCProfile::isFinished()
+{
+	return _setValue == SetValueMotionProfile::Hold;
+}
+
+/**
+ *
+ */
 void PY1toRCProfile::startFilling()
 {
 	startFilling(kPY1toRCProfileLeft, kPY1toRCProfileRight, kPY1toRCProfileSz);

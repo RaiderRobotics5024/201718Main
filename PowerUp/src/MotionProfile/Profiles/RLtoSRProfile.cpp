@@ -14,7 +14,7 @@ RLtoSRProfile::RLtoSRProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & 
 	_talonLeft.ChangeMotionControlFramePeriod(5);
 	_talonRight.ChangeMotionControlFramePeriod(5);
 
-	_notifer.StartPeriodic(0.025);
+	_notifer.StartPeriodic(0.005);
 
 	return;
 }
@@ -144,6 +144,14 @@ TrajectoryDuration RLtoSRProfile::GetTrajectoryDuration(int durationMs)
 /**
  *
  */
+bool RLtoSRProfile::isFinished()
+{
+	return _setValue == SetValueMotionProfile::Hold;
+}
+
+/**
+ *
+ */
 void RLtoSRProfile::startFilling()
 {
 	startFilling(kRLtoSRProfileLeft, kRLtoSRProfileRight, kRLtoSRProfileSz);
@@ -176,8 +184,8 @@ void RLtoSRProfile::startFilling(const double profileLeft[][3], const double pro
 		double positionRotRight = profileRight[i][0];
 		double velocityRPMRight = profileRight[i][1];
 
-		pointLeft.position = positionRotLeft * TICKS_PER_REVOLUTION; //Convert Revolutions to Units
-		pointLeft.velocity = velocityRPMLeft * TICKS_PER_REVOLUTION / 600.0; //Convert RPM to Units/100ms
+		pointLeft.position = positionRotLeft * 5120; //Convert Revolutions to Units
+		pointLeft.velocity = velocityRPMLeft * 5120 / 600.0; //Convert RPM to Units/100ms
 		pointLeft.headingDeg = 0; /* future feature - not used in this example*/
 		pointLeft.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
 		pointLeft.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
@@ -190,8 +198,8 @@ void RLtoSRProfile::startFilling(const double profileLeft[][3], const double pro
 		if ((i + 1) == totalCnt)
 			pointLeft.isLastPoint = true; /* set this to true on the last point  */
 
-		pointRight.position = positionRotRight * TICKS_PER_REVOLUTION; //Convert Revolutions to Units
-		pointRight.velocity = velocityRPMRight * TICKS_PER_REVOLUTION / 600.0; //Convert RPM to Units/100ms
+		pointRight.position = positionRotRight * 5120; //Convert Revolutions to Units
+		pointRight.velocity = velocityRPMRight * 5120 / 600.0; //Convert RPM to Units/100ms
 		pointRight.headingDeg = 0; /* future feature - not used in this example*/
 		pointRight.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
 		pointRight.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */

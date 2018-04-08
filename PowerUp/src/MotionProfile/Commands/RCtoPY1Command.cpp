@@ -60,7 +60,7 @@ void RCtoPY1Command::Execute()
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[RCtoPY1Command] Set Output: " << setOutput);
+//	LOG("[RCtoPY1Command] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetLeftFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
@@ -78,26 +78,33 @@ void RCtoPY1Command::Execute()
  */
 bool RCtoPY1Command::IsFinished()
 {
-	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
-	{
-		LOG("[RCtoPY1Command] Timed out");
-
-		return true;
-	}
-
-	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetLeftFrontMotor()->GetActiveTrajectoryVelocity() == 0)
+	if (this->pMotionProfiler->isFinished())
 	{
 		LOG("[RCtoPY1Command] MP Finished");
 
 		return true;
 	}
 
-	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
-	{
-		LOG("[RCtoPY1Command] MP Stopped");
-
-		return true;
-	}
+//	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
+//	{
+//		LOG("[RCtoPY1Command] Timed out");
+//
+//		return true;
+//	}
+//
+//	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetLeftFrontMotor()->GetActiveTrajectoryVelocity() == 0)
+//	{
+//		LOG("[RCtoPY1Command] MP Finished");
+//
+//		return true;
+//	}
+//
+//	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
+//	{
+//		LOG("[RCtoPY1Command] MP Stopped");
+//
+//		return true;
+//	}
 
 	return false;
 }

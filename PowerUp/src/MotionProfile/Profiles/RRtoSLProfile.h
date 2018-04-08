@@ -22,6 +22,7 @@ public:
 	void start();
 	void startFilling();
 	void startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt);
+	bool isFinished();
 
 private:
 	MotionProfileStatus _status;

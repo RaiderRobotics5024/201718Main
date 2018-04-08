@@ -1,8 +1,8 @@
 #ifndef _INTAKE_MAP_HG_
 #define _INTAKE_MAP_HG_
 
-const int INTAKE_LEFT_MOTOR_ID = 7;
-const int INTAKE_RIGHT_MOTOR_ID = 6;
+const int INTAKE_LEFT_MOTOR_ID = 6;
+const int INTAKE_RIGHT_MOTOR_ID = 7;
 
 //Gripper:
 const int GRIPPER_SOLENOID_CAN_ID = 8;

@@ -44,11 +44,11 @@ void ToggleIntake::Execute()
 {
 	if (ctCube == Cube::TAKEIN)
 	{
-		CommandBase::pIntake->OpenGripper();
+		CommandBase::pIntake->TakeInCube();
 	}
 	else if (ctCube == Cube::EJECT)
 	{
-		CommandBase::pIntake->CloseGripper();
+		CommandBase::pIntake->EjectCube();
 	}
 
 	return;
