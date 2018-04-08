@@ -78,23 +78,9 @@ void PY2toVLTCommand::Execute()
  */
 bool PY2toVLTCommand::IsFinished()
 {
-	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
+	if (this->pMotionProfiler->isFinished())
 	{
-		LOG("[PY2toVLTCommand] Timed out");
-
-		return true;
-	}
-
-	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetLeftFrontMotor()->GetActiveTrajectoryVelocity() == 0)
-	{
-		LOG("[PY2toVLTCommand] MP Finished");
-
-		return true;
-	}
-
-	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
-	{
-		LOG("[PY2toVLTCommand] MP Stopped");
+		LOG("[PY1toRCCommand] MP Finished");
 
 		return true;
 	}

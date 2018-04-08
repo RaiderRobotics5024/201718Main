@@ -6,6 +6,8 @@
 #include "../Commands/RCtoPY2Command.h"
 #include "../Commands/PY1toRCCommand.h"
 #include "../Commands/PY2toRCCommand.h"
+#include "../Commands/PY2toVLTCommand.h"
+#include "../Commands/MIDtoVLTCommand.h"
 #include "../Commands/TestCommand.h"
 #include "../../Commands/Autonomous/ElevatorService.h"
 #include "../../Commands/Autonomous/ToggleIntake.h"
@@ -59,7 +61,7 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 
 	// move to pyramid two position
 	// open gripper
-	AddParallel(new RCtoPY2Command());
+	AddSequential(new RCtoPY2Command());
 //	AddSequential(new ToggleGripper(Action::OPEN));
 
 	// close gripper
@@ -69,10 +71,10 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 
 	// move back to robot center
 	// move elevator to switch height
-//	AddSequential(new PY2toRCCommand());
+	AddSequential(new PY2toVLTCommand());
 
 	// move robot to switch right
 	// eject cube
-//	AddSequential(new RCtoSRCommand());
-//	AddSequential(new ToggleIntake(Cube::EJECT));
+	AddSequential(new MIDtoVLTCommand());
+	AddSequential(new ToggleIntake(Cube::EJECT));
 }

@@ -85,27 +85,6 @@ bool PY1toRCCommand::IsFinished()
 		return true;
 	}
 
-//	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
-//	{
-//		LOG("[PY1toRCCommand] Timed out");
-//
-//		return true;
-//	}
-//
-//	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetLeftFrontMotor()->GetActiveTrajectoryVelocity() == 0)
-//	{
-//		LOG("[PY1toRCCommand] MP Finished");
-//
-//		return true;
-//	}
-//
-//	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
-//	{
-//		LOG("[PY1toRCCommand] MP Stopped");
-//
-//		return true;
-//	}
-
 	return false;
 }
 

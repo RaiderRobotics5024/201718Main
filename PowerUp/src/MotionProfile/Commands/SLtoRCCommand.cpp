@@ -78,23 +78,9 @@ void SLtoRCCommand::Execute()
  */
 bool SLtoRCCommand::IsFinished()
 {
-	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
+	if (this->pMotionProfiler->isFinished())
 	{
-		LOG("[SLtoRCCommand] Timed out");
-
-		return true;
-	}
-
-	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetLeftFrontMotor()->GetActiveTrajectoryVelocity() == 0)
-	{
-		LOG("[SLtoRCCommand] MP Finished");
-
-		return true;
-	}
-
-	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
-	{
-		LOG("[SLtoRCCommand] MP Stopped");
+		LOG("[PY1toRCCommand] MP Finished");
 
 		return true;
 	}

@@ -85,27 +85,6 @@ bool RCtoSRCommand::IsFinished()
 		return true;
 	}
 
-//	if (this->pTimer->Get() > 4.0) // stop after 4 seconds no matter what
-//	{
-//		LOG("[RCtoSRCommand] Timed out");
-//
-//		return true;
-//	}
-
-//	if (this->pTimer->Get() > 0.5 && CommandBase::pDriveTrain->GetLeftFrontMotor()->GetActiveTrajectoryVelocity() == 0)
-//	{
-//		LOG("[RCtoSRCommand] MP Finished");
-//
-//		return true;
-//	}
-
-//	if (this->pTimer->Get() > 0.5 && !CommandBase::pDriveTrain->IsDriving())
-//	{
-//		LOG("[RCtoSRCommand] MP Stopped");
-//
-//		return true;
-//	}
-
 	return false;
 }
 

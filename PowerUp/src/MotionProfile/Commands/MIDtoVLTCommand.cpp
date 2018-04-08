@@ -1,22 +1,22 @@
-#include "RLtoSLCommand.h"
+#include "MIDtoVLTCommand.h"
 #include "../../Utilities/Log.h"
 
 /**
  *
  */
-RLtoSLCommand::RLtoSLCommand(Height::Type height)
+MIDtoVLTCommand::MIDtoVLTCommand(Height::Type height)
 {
-	LOG("[RLtoSLCommand] Constructed");
+	LOG("[MIDtoVLTCommand] Constructed");
 
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new RLtoSLProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
+		this->pMotionProfiler = new MIDtoVLTProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
 		this->htHeight = height;
 	}
 	else
 	{
-		LOG("[RLtoSLCommand] driveTrain is NULL");
+		LOG("[MIDtoVLTCommand] driveTrain is NULL");
 	}
 
 	this->pTimer = new Timer();
@@ -27,7 +27,7 @@ RLtoSLCommand::RLtoSLCommand(Height::Type height)
 /**
  *
  */
-RLtoSLCommand::~RLtoSLCommand()
+MIDtoVLTCommand::~MIDtoVLTCommand()
 {
 	delete this->pTimer;
 	delete this->pMotionProfiler;
@@ -38,9 +38,9 @@ RLtoSLCommand::~RLtoSLCommand()
 /**
  *
  */
-void RLtoSLCommand::Initialize()
+void MIDtoVLTCommand::Initialize()
 {
-	LOG("[RLtoSLCommand] Initializing" );
+	LOG("[MIDtoRCCommand] Initializing" );
 
 	this->pTimer->Reset();
 	this->pTimer->Start();
@@ -53,14 +53,14 @@ void RLtoSLCommand::Initialize()
 /**
  *
  */
-void RLtoSLCommand::Execute()
+void MIDtoVLTCommand::Execute()
 {
 	this->pMotionProfiler->control();
 	this->pMotionProfiler->PeriodicTask();
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-	LOG("[RLtoSLCommand] Set Output: " << setOutput);
+	LOG("[MIDtoVLTCommand] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetLeftFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
@@ -76,11 +76,11 @@ void RLtoSLCommand::Execute()
 /**
  *
  */
-bool RLtoSLCommand::IsFinished()
+bool MIDtoVLTCommand::IsFinished()
 {
 	if (this->pMotionProfiler->isFinished())
 	{
-		LOG("[PY1toRCCommand] MP Finished");
+		LOG("[MIDtoVLTCommand] MP Finished");
 
 		return true;
 	}
@@ -91,9 +91,9 @@ bool RLtoSLCommand::IsFinished()
 /**
  *
  */
-void RLtoSLCommand::End()
+void MIDtoVLTCommand::End()
 {
-	LOG("[RLtoSLCommand] Ending" );
+	LOG("[MIDtoVLTCommand] Ending" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
@@ -104,9 +104,9 @@ void RLtoSLCommand::End()
 /**
  *
  */
-void RLtoSLCommand::Interrupted()
+void MIDtoVLTCommand::Interrupted()
 {
-	LOG("[RLtoSLCommand] Interrupted" );
+	LOG("[MIDtoVLTCommand] Interrupted" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
