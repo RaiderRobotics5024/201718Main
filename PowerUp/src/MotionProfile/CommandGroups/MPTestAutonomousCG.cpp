@@ -28,7 +28,7 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 	// move from robot center to switch right
 	// eject the cube
 	AddSequential(new RCtoSRCommand());
-	AddSequential(new ToggleIntake(Cube::EJECT));
+//	AddSequential(new ToggleIntake(Cube::EJECT));
 
 	// SECOND CUBE
 	// move from switch right to robot center
@@ -37,44 +37,44 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 
 	// move to pyramid one position
 	// open gripper
-	AddSequential(new RCtoPY1Command());
+//	AddSequential(new RCtoPY1Command());
 //	AddSequential(new ToggleGripper(Action::OPEN));
 
 	// close gripper
 	// intake cube
 //	AddParallel(new ToggleGripper(Action::CLOSE));
-	AddSequential(new ToggleIntake (Cube::TAKEIN));
+//	AddSequential(new ToggleIntake (Cube::TAKEIN));
 
 	// move back to robot center
 	// move elevator to switch position
-	AddSequential(new PY1toRCCommand());
+//	AddSequential(new PY1toRCCommand());
 
 	// move robot to switch right
 	// eject cube
-	AddSequential(new RCtoSRCommand());
-	AddSequential(new ToggleIntake(Cube::EJECT));
+//	AddSequential(new RCtoSRCommand());
+//	AddSequential(new ToggleIntake(Cube::EJECT));
 
 	// THIRD CUBE
 	// move back to robot center
 	// move elevator to two cube height
-	AddSequential(new SRtoRCCommand());
+//	AddSequential(new SRtoRCCommand());
 
 	// move to pyramid two position
 	// open gripper
-	AddSequential(new RCtoPY2Command());
+//	AddSequential(new RCtoPY2Command());
 //	AddSequential(new ToggleGripper(Action::OPEN));
 
 	// close gripper
 	// intake cube
 //	AddParallel(new ToggleGripper(Action::CLOSE));
-	AddSequential(new ToggleIntake (Cube::TAKEIN));
+//	AddSequential(new ToggleIntake (Cube::TAKEIN));
 
 	// move back to robot center
 	// move elevator to switch height
-	AddSequential(new PY2toMIDCommand());
+//	AddSequential(new PY2toMIDCommand());
 
 	// move robot to switch right
 	// eject cube
-	AddSequential(new MIDtoVLTCommand());
-	AddSequential(new ToggleIntake(Cube::EJECT));
+//	AddSequential(new MIDtoVLTCommand());
+//	AddSequential(new ToggleIntake(Cube::EJECT));
 }

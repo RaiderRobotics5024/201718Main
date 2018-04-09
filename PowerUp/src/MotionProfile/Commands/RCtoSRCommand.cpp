@@ -93,7 +93,7 @@ bool RCtoSRCommand::IsFinished()
  */
 void RCtoSRCommand::End()
 {
-	LOG("[RCtoSRCommand] Ending" );
+	LOG("[RCtoSRCommand] Ending: " << this->pTimer->Get());
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();

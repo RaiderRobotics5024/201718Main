@@ -93,7 +93,7 @@ bool SLtoRCCommand::IsFinished()
  */
 void SLtoRCCommand::End()
 {
-	LOG("[SLtoRCCommand] Ending" );
+	LOG("[SLtoRCCommand] Ending: " << this->pTimer->Get());
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();

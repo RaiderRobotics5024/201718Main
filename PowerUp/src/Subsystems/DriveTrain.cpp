@@ -92,10 +92,10 @@ void DriveTrain::InitAutonomousMode()
 	this->pLeftFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
+	this->pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, 0.29, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 
 //	int abLeftPosition = this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
 	int abLeftPosition = this->pLeftFrontMotor->GetSensorCollection().GetPulseWidthPosition();
@@ -114,10 +114,10 @@ void DriveTrain::InitAutonomousMode()
 	this->pRightFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
 	/* set closed loop gains in slot0 */
+	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kP(PID_LOOP_INDEX, 0.29, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kI(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 
 //	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
 	int abRightPosition = this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition();
@@ -150,30 +150,30 @@ void DriveTrain::InitMotionProfilingMode()
 	this->pLeftFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
 	this->pLeftFrontMotor->Config_kF(SLOT_INDEX,  0.1574, TIMEOUT_MS);
-	this->pLeftFrontMotor->Config_kP(SLOT_INDEX,  0.3000, TIMEOUT_MS);
+	this->pLeftFrontMotor->Config_kP(SLOT_INDEX,  4.5000, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kD(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 
 	this->pLeftFrontMotor->ConfigMotionProfileTrajectoryPeriod(10, TIMEOUT_MS); //Our profile uses 10 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	this->pLeftFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
-	this->pLeftFrontMotor->ConfigMotionCruiseVelocity(5100, TIMEOUT_MS);
-	this->pLeftFrontMotor->ConfigMotionAcceleration(5100, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigMotionCruiseVelocity(6800, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigMotionAcceleration(6800, TIMEOUT_MS);
 
 	this->pRightFrontMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, PID_LOOP_INDEX, TIMEOUT_MS);
 	this->pRightFrontMotor->SetSensorPhase(true);
 	this->pRightFrontMotor->ConfigNeutralDeadband(NEUTRAL_DEADBAND_PERCENT * 0.01, TIMEOUT_MS);
 
 	this->pRightFrontMotor->Config_kF(SLOT_INDEX,  0.1574, TIMEOUT_MS);
-	this->pRightFrontMotor->Config_kP(SLOT_INDEX,  0.3000, TIMEOUT_MS);
+	this->pRightFrontMotor->Config_kP(SLOT_INDEX,  4.5000, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kI(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(SLOT_INDEX,  0.0000, TIMEOUT_MS);
 
 	this->pRightFrontMotor->ConfigMotionProfileTrajectoryPeriod(10, TIMEOUT_MS); //Our profile uses 10 ms timing
 	/* status 10 provides the trajectory target for motion profile AND motion magic */
 	this->pRightFrontMotor->SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, TIMEOUT_MS);
-	this->pRightFrontMotor->ConfigMotionCruiseVelocity(5100, TIMEOUT_MS);
-	this->pRightFrontMotor->ConfigMotionAcceleration(5100, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigMotionCruiseVelocity(6800, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigMotionAcceleration(6800, TIMEOUT_MS);
 
 	return;
 }
