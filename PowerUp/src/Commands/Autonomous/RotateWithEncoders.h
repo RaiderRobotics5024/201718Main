@@ -4,11 +4,15 @@
 #include <Timer.h>
 #include <WPILib.h>
 #include "../../CommandBase.h"
+#include "../../Subsystems/Elevator.h"
 
+/**
+ *
+ */
 class RotateWithEncoders : public CommandBase
 {
 public:
-	RotateWithEncoders(double distance, double speed);
+	RotateWithEncoders(double distance, double speed, Height::Type height = Height::NONE, double timeout = 5.0);
 	~RotateWithEncoders(void);
 	void Initialize() override;
 	void Execute() override;
@@ -20,8 +24,10 @@ public:
 private:
 	Timer* pTimer;
 	int    iCounter = 0;
-	double dDistance = 0;
-	double dSpeed = 0;
+	double dDistance = 0.0;
+	double dSpeed = 0.0;
+	Height::Type htHeight = Height::NONE;
+	double dTimeout = 5.0;
 };
 
 #endif
