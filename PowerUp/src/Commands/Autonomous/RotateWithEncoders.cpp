@@ -5,7 +5,7 @@
 /**
  *
  */
-RotateWithEncoders::RotateWithEncoders(double distance, double speed)
+RotateWithEncoders::RotateWithEncoders(double distance, double speed, Height::Type height, double timeout)
 {
 	LOG("[RotateWithEncoders] Constructed" );
 
@@ -14,6 +14,8 @@ RotateWithEncoders::RotateWithEncoders(double distance, double speed)
 		Requires(CommandBase::pDriveTrain);
 		this->dDistance = distance;
 		this->dSpeed = speed;
+		this->htHeight = height;
+		this->dTimeout = timeout;
 	}
 	else
 	{
@@ -44,7 +46,7 @@ void RotateWithEncoders::Initialize()
 	this->pTimer->Start();
 
 	CommandBase::pDriveTrain->InitAutonomousMode();
-	CommandBase::pDriveTrain->ResetEncoders();
+	CommandBase::pDriveTrain->DriveSetup();
 	CommandBase::pDriveTrain->Drive(dDistance, dSpeed);
 
 	return;
@@ -55,6 +57,11 @@ void RotateWithEncoders::Initialize()
  */
 void RotateWithEncoders::Execute()
 {
+	// ask elevator service to move to our set height
+	gElevatorHeight = this->htHeight;
+
+	RotateWithEncoders::Trace();
+
 	return;
 }
 
@@ -63,16 +70,23 @@ void RotateWithEncoders::Execute()
  */
 bool RotateWithEncoders::IsFinished()
 {
-	if (this->pTimer->Get() > 3.0) // stop after 3 seconds no matter what
+	if (this->pTimer->Get() > dTimeout) // stop after dTimeout seconds no matter what
 	{
 		LOG("[RotateWithEncoders] Timed out");
 
 		return true;
 	}
 
-	if (!CommandBase::pDriveTrain->IsTurning() && this->pTimer->Get() > 0)
+	if (CommandBase::pDriveTrain->GetLeftPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
 	{
-		LOG("[RotateWithEncoders] Angle Reached");
+		LOG("[RotateWithEncoders] Reached Target by Left");
+
+		return true;
+	}
+
+	if (CommandBase::pDriveTrain->GetRightPosition() >= (CommandBase::pDriveTrain->GetTargetPosition()))
+	{
+		LOG("[RotateWithEncoders] Reached Target by Right");
 
 		return true;
 	}
@@ -112,7 +126,18 @@ void RotateWithEncoders::Trace()
 	{
 		CommandBase::pDriveTrain->Trace();
 
-		LOG("[RotateWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
+		LOG("[RotateWithEncoders]"
+			<< " TD: " << this->dDistance
+			<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
+			<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
+			<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+			<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
+			<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
+			<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
+			<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()
+			<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
+			<< " RE: " << CommandBase::pDriveTrain->GetRightClosedLoopError()
+			<< " Time: " << this->pTimer->Get());
 
 		iCounter = 0;
 	}
