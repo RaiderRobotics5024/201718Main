@@ -17,8 +17,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	this->pLeftFrontMotor->SetInverted(false);
 	this->pLeftRearMotor->SetInverted(false);
-	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
-	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
+	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Coast);
+	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Coast);
 
 	// Initialize the right motors
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
@@ -27,8 +27,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	this->pRightFrontMotor->SetInverted(true);
 	this->pRightRearMotor->SetInverted(true);
-	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
-	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
+	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Coast);
+	this->pRightRearMotor->SetNeutralMode(NeutralMode::Coast);
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
@@ -47,8 +47,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	// Initialize the turn controller
 	this->pTurnController = new PIDController(0.00f, 0.00f, 0.00f, 0.00f, pGyro, this);
 	this->pTurnController->SetInputRange(-180.0f,  180.0f);
-	this->pTurnController->SetOutputRange(-1.0, 1.0);
-	this->pTurnController->SetAbsoluteTolerance(GYRO_TOLERANCE_DEGREES);
+	this->pTurnController->SetOutputRange(-.5, .5);
+	this->pTurnController->SetAbsoluteTolerance(2.0f);
 	this->pTurnController->SetContinuous(true);
 
 	this->dRotateToAngleRate = 0.0f;
@@ -247,7 +247,7 @@ void DriveTrain::CurvatureDrive(double xSpeed, double zRotation, bool isQuickTur
 /**
  *
  */
-void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
+void DriveTrain::TankDrive(double leftSpeed, double rightSpeed)
 {
 	this->pRobotDrive->TankDrive(leftSpeed, rightSpeed);
 
@@ -257,9 +257,33 @@ void DriveTrain::TankDrive( double leftSpeed, double rightSpeed )
 /**
  *
  */
+PIDController* DriveTrain::GetController()
+{
+	return this->pTurnController;
+}
+
+/**
+ *
+ */
+double DriveTrain::GetAcceleration()
+{
+	return this->pGyro->GetWorldLinearAccelX();
+}
+
+/**
+ *
+ */
 double DriveTrain::GetAngle()
 {
-	return pGyro->GetAngle();
+	return this->pGyro->GetAngle();
+}
+
+/**
+ *
+ */
+double DriveTrain::GetVelocity()
+{
+	return this->pGyro->GetVelocityX();
 }
 
 /**
@@ -297,6 +321,14 @@ double DriveTrain::GetLeftPosition()
 /**
  *
  */
+int DriveTrain::GetLeftVelocity()
+{
+	return pLeftFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
+}
+
+/**
+ *
+ */
 can::WPI_TalonSRX* DriveTrain::GetRightFrontMotor()
 {
 	return this->pRightFrontMotor;
@@ -329,6 +361,14 @@ double DriveTrain::GetRightPosition()
 /**
  *
  */
+int DriveTrain::GetRightVelocity()
+{
+	return pRightFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
+}
+
+/**
+ *
+ */
 double DriveTrain::GetRotateToAngleRate()
 {
 	return this->dRotateToAngleRate;
@@ -342,21 +382,7 @@ double DriveTrain::GetTargetPosition()
 	return this->dTargetPostionRotations;
 }
 
-/**
- *
- */
-int DriveTrain::GetLeftVelocity()
-{
-	return pLeftFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
-}
 
-/**
- *
- */
-int DriveTrain::GetRightVelocity()
-{
-	return pRightFrontMotor->GetSelectedSensorVelocity(SLOT_INDEX);
-}
 /**
  *
  */
@@ -499,10 +525,21 @@ void DriveTrain::Trace()
 /* based upon navX MXP yaw angle input and PID Coefficients.    */
 void DriveTrain::PIDWrite(double output)
 {
+//	if (output > 0.0 && output < .25)
+//	{
+//		output = .25;
+//	}
+//
+//	if (output < 0.0 && output > -.25)
+//	{
+//		output = -.25;
+//	}
+
     SetRotateToAngleRate(output);
 
     if (this->pTurnController->IsEnabled())
     {
+//    	this->pTurnController->SetF(output);
     	DriveTrain::Turn();
     }
 

@@ -30,14 +30,14 @@ private:
 	double dMinDistance = 0.0;
 	double dMaxDistance = 0.0;
 	
-	double dTalon_F =  0.001; //0.118;
-	double dTalon_P =  0.06; //0.02;
-	double dTalon_I =  0.00007;
-	double dTalon_D =  0.60;
+	double dTalon_F =  0.00; //0.118;
+	double dTalon_P =  0.00; //0.02;
+	double dTalon_I =  0.00;
+	double dTalon_D =  0.00;
 
-	double dGyro_P = 0.0082;
-	double dGyro_I = 0.000; //0.001;
-	double dGyro_D = 0.000; //0.10;
+	double dGyro_P = 0.12; // Kc = 0.2
+	double dGyro_I = 0.522; // 2 * Kp/Pc
+	double dGyro_D = 1.2; // 0.125 * KpPc
 };
 
 #endif

@@ -47,6 +47,6 @@ const static double GYRO_PID_I = 0.0f;
 const static double GYRO_PID_D = 0.0;
 const static double GYRO_PID_F = 0.0f;
 
-const static double GYRO_TOLERANCE_DEGREES = 2.0f;
+const static double GYRO_TOLERANCE_DEGREES = 0.0f;
 
 #endif

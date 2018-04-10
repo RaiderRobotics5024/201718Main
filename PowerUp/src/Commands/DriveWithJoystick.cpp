@@ -108,7 +108,7 @@ void DriveWithJoystick::Execute()
 	// Y, B, A, X buttons set test distances and angles
 	if (pJoyDrive->GetYButtonPressed())
 	{
-		this->dDistance = 19.0;
+		this->dDistance = 18.85;
 		this->dSetpoint =  0.0;
 	}
 	else if (pJoyDrive->GetBButtonPressed())
@@ -118,7 +118,7 @@ void DriveWithJoystick::Execute()
 	}
 	else if (pJoyDrive->GetAButtonPressed())
 	{
-		this->dDistance = 170.0;
+		this->dDistance = 127.0;
 		this->dSetpoint = 180.0;
 	}
 	else if (pJoyDrive->GetXButtonPressed())
@@ -234,6 +234,8 @@ bool DriveWithJoystick::IsFinished()
 				<< " P : " << this->dTalon_P
 				<< " I : " << this->dTalon_I
 				<< " D : " << this->dTalon_D
+				<< " AC: " << CommandBase::pDriveTrain->GetAcceleration()
+				<< " VL: " << CommandBase::pDriveTrain->GetVelocity()
 				<< " Time: " << this->pTimer->Get());
 		}
 
@@ -249,11 +251,10 @@ bool DriveWithJoystick::IsFinished()
 			LOG("[DriveWithJoystick] TA: " << this->dSetpoint
 				<< " CA: " << CommandBase::pDriveTrain->GetAngle()
 				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
-				<< " P : " << this->dGyro_P
-				<< " I : " << this->dGyro_I
-				<< " D : " << this->dGyro_D
+				<< " P : " << CommandBase::pDriveTrain->GetController()->GetP()
+				<< " I : " << CommandBase::pDriveTrain->GetController()->GetI()
+				<< " D : " << CommandBase::pDriveTrain->GetController()->GetD()
 				<< " Time: " << this->pTimer->Get());
-
 //		}
 
 		if (CommandBase::pDriveTrain->GetAngle() >= (this->dSetpoint - GYRO_TOLERANCE_DEGREES)
@@ -261,6 +262,15 @@ bool DriveWithJoystick::IsFinished()
 		{
 //			LOG("[DriveWithJoystick] Reached Turn Angle");
 		}
+	}
+	else if (CommandBase::pDriveTrain->GetVelocity() > 0.0)
+	{
+
+		LOG("[DriveWithJoystick] "
+			<< " SP: " << dSpeed
+			<< " RT: " << dRotation
+			<< " AC: " << CommandBase::pDriveTrain->GetAcceleration()
+			<< " VL: " << CommandBase::pDriveTrain->GetVelocity());
 	}
 
 	// We want the command to run until we stop it manually

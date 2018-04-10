@@ -34,7 +34,11 @@ public:
 	void CurvatureDrive(double xSpeed, double zRotation, bool isQuickTurn);
 	void TankDrive(double leftSpeed, double rightSpeed);
 
+	PIDController*  GetController(void);
+	double GetAcceleration(void);
 	double GetAngle(void);
+	double GetVelocity(void);
+
 	can::WPI_TalonSRX* GetLeftFrontMotor();  // Needed by Motion Profiler
 	int    GetLeftClosedLoopError(void);
 	double GetLeftDistance(void);
