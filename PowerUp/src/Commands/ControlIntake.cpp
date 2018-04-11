@@ -39,20 +39,20 @@ void ControlIntake::Execute()
 {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
-	double dInSpeed  = pJoyDrive->GetTriggerAxis(frc::XboxController::kLeftHand);
-	double dOutSpeed = pJoyDrive->GetTriggerAxis(frc::XboxController::kRightHand);
-
-	double dSpeed = (dInSpeed - dOutSpeed) * GRIPPER_SPEED_ADJUSTMENT_RATIO;
-	CommandBase::pIntake->SetSpeed(dSpeed);
-
-	if (pJoyDrive->GetAButton())
-	{
-		CommandBase::pIntake->CloseGripper();
-	}
-	else if ( pJoyDrive->GetBButton() )
-	{
-		CommandBase::pIntake->OpenGripper();
-	}
+//	double dInSpeed  = pJoyDrive->GetTriggerAxis(frc::XboxController::kLeftHand);
+//	double dOutSpeed = pJoyDrive->GetTriggerAxis(frc::XboxController::kRightHand);
+//
+//	double dSpeed = (dInSpeed - dOutSpeed) * GRIPPER_SPEED_ADJUSTMENT_RATIO;
+//	CommandBase::pIntake->SetSpeed(dSpeed);
+//
+//	if (pJoyDrive->GetAButton())
+//	{
+//		CommandBase::pIntake->CloseGripper();
+//	}
+//	else if ( pJoyDrive->GetBButton() )
+//	{
+//		CommandBase::pIntake->OpenGripper();
+//	}
 
 	return;
 }

@@ -2,6 +2,7 @@
 #include "DriveTrainMap.h"
 #include "../Utilities/Log.h"
 #include "../Commands/DriveWithJoystick.h"
+#include "../Commands/DriveWithTriggers.h"
 
 /**
  *
@@ -133,7 +134,7 @@ void DriveTrain::InitDefaultCommand()
 {
 	LOG("[DriveTrain] Initialized Default Command");
 
-	SetDefaultCommand(new DriveWithJoystick());
+	SetDefaultCommand(new DriveWithTriggers());
 
 	return;
 }

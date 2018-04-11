@@ -9,6 +9,7 @@
 #include "Commands/ControlElevator.h"
 #include "Commands/ControlIntake.h"
 #include "Commands/DriveWithJoystick.h"
+#include "Commands/DriveWithTriggers.h"
 #include "Commands/ToggleCompressor.h"
 
 #include "MotionProfile/CommandGroups/MPTestAutonomousCG.h"
@@ -67,6 +68,7 @@ public:
 	ControlElevator*	pControlElevator;
 	ControlIntake*		pControlIntake;
 	DriveWithJoystick*	pDriveWithJoystick;
+	DriveWithTriggers*  pDriveWithTriggers;
 	ToggleCompressor*   pToggleCompressor;
 
 	MPTestAutonomousCG* pMotionProfileCommand;
