@@ -115,17 +115,17 @@ void DriveWithJoystick::Execute()
 	else if (pJoyDrive->GetBButtonPressed())
 	{
 		this->dDistance = 80.0;
-		this->dSetpoint = 90.0;
+		this->dSetpoint = 45.0;
 	}
 	else if (pJoyDrive->GetAButtonPressed())
 	{
 		this->dDistance = 127.0;
-		this->dSetpoint = 180.0;
+		this->dSetpoint =  90.0;
 	}
 	else if (pJoyDrive->GetXButtonPressed())
 	{
 		this->dDistance = 230.0;
-		this->dSetpoint = -90.0;
+		this->dSetpoint = 180.0;
 	}
 		    
 	// the drive/turn test will start if we are in test mode and the distance/setpoint has changed

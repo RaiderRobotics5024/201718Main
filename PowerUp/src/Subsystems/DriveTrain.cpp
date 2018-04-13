@@ -535,7 +535,7 @@ void DriveTrain::TestMotor(const std::string name, WPI_TalonSRX* pTalonSRX)
     Wait(4.0);
 
     double current = pTalonSRX->GetOutputCurrent();
-    double temperature = pTalonSRX->GetTemperature()();
+    double temperature = pTalonSRX->GetTemperature();
     pTalonSRX->Set(0.0);
 
     LOG("[DriveTrain] " << name << " Current: " << (current < mCurrentThreshold ? "FAILED" : "OKAY"));
@@ -546,15 +546,15 @@ void DriveTrain::TestMotor(const std::string name, WPI_TalonSRX* pTalonSRX)
 /* based upon navX MXP yaw angle input and PID Coefficients.    */
 void DriveTrain::PIDWrite(double output)
 {
-//	if (output > 0.0 && output < .25)
-//	{
-//		output = .25;
-//	}
-//
-//	if (output < 0.0 && output > -.25)
-//	{
-//		output = -.25;
-//	}
+	if (output > 0.2 && output < .3)
+	{
+		output = .3;
+	}
+
+	if (output < -0.2 && output > -.3)
+	{
+		output = -.3;
+	}
 
     SetRotateToAngleRate(output);
 
