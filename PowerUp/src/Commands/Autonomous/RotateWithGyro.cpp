@@ -51,15 +51,12 @@ void RotateWithGyro::Execute()
 	
 	if (iCounter++ == 10)
 	{
-		CommandBase::pDriveTrain->Trace();
-
 		double dCurrentAngle = CommandBase::pDriveTrain->GetAngle();
 
 		LOG("[RotateWithGyro] Set Point: " << dSetPoint
 				<< " Angle: " << dCurrentAngle
 				<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
 				<< " Time: "  << this->pTimer->Get());
-
 
 		iCounter = 0;
 	}

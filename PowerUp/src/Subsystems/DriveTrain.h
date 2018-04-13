@@ -69,13 +69,13 @@ public:
 	void SetTalonFPID(double F, double P, double I, double D);
 	void SetGyroPID(double P, double I, double D);
 
-	// Send motor data to SmartDashboard
-	void Trace(void);
-	void Trace(WPI_TalonSRX* pTalonSRX, const std::string name);
+	void TestSubsystem(void);
 
 	virtual void PIDWrite(double output) override;
 
 private:
+	void TestMotor(const std::string name, WPI_TalonSRX* pTalonSRX);
+
 	can::WPI_TalonSRX* pLeftFrontMotor;
 	can::WPI_TalonSRX* pLeftRearMotor;
 	can::WPI_TalonSRX* pRightFrontMotor;

@@ -46,6 +46,7 @@ void DriveWithJoystick::Initialize()
 	LOG("[DriveWithJoystick] Initialized");
 
 	CommandBase::pDriveTrain->SetTalonFPID(dTalon_F, dTalon_P, dTalon_I, dTalon_D);
+	CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
 
 	return;
 }
@@ -125,39 +126,6 @@ void DriveWithJoystick::Execute()
 	{
 		this->dDistance = 230.0;
 		this->dSetpoint = -90.0;
-	}
-
-	// set the PID values using the POV stick
-	if (pJoyDrive->GetPOV(0) > -1)
-	{
-		if (this->isDriveTest)
-		{
-			switch (pJoyDrive->GetPOV(0))
-			{
-				case 315: dTalon_P += 0.01; break;
-				case   0: dTalon_I += 0.01; break;
-				case  45: dTalon_D += 0.01; break;
-				case 225: dTalon_P -= 0.01; if (dTalon_P < 0.0 ) dTalon_P = 0.0; break;
-				case 180: dTalon_I -= 0.01; if (dTalon_I < 0.0 ) dTalon_I = 0.0; break;
-				case 135: dTalon_D -= 0.01; if (dTalon_D < 0.0 ) dTalon_D = 0.0; break;
-				default : break;
-			}
-			CommandBase::pDriveTrain->SetTalonFPID(dTalon_F, dTalon_P, dTalon_I, dTalon_D);
-		}
-		else if (this->isTurnTest)
-		{
-//			switch (pJoyDrive->GetPOV(0))
-//			{
-//				case 315: dGyro_P += 0.01; break;
-//				case   0: dGyro_I += 0.01; break;
-//				case  45: dGyro_D += 0.01; break;
-//				case 225: dGyro_P -= 0.01; if (dGyro_P < 0.0 ) dGyro_P = 0.0; break;
-//				case 180: dGyro_I -= 0.01; if (dGyro_I < 0.0 ) dGyro_I = 0.0; break;
-//				case 135: dGyro_D -= 0.01; if (dGyro_D < 0.0 ) dGyro_D = 0.0; break;
-//				default : break;
-//			}
-			CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
-		}
 	}
 		    
 	// the drive/turn test will start if we are in test mode and the distance/setpoint has changed

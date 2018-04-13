@@ -58,8 +58,6 @@ void RotateWithEncoders::Execute()
 {
 	if (iCounter++ == 10)
 	{
-		CommandBase::pDriveTrain->Trace();
-
 		LOG("[RotateWithEncoders] Current Position: " << CommandBase::pDriveTrain->GetLeftPosition() << " Target Position: " << CommandBase::pDriveTrain->GetTargetPosition());
 
 		iCounter = 0;

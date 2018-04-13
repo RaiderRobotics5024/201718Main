@@ -57,8 +57,6 @@ void DriveWithEncoders::Execute()
 {
 	if (iCounter++ == 2)
 	{
-		CommandBase::pDriveTrain->Trace();
-
 		LOG("[DriveWithEncoders] TD: " << this->dDistance
 				<< " CD: " << CommandBase::pDriveTrain->GetLeftDistance()
 				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()

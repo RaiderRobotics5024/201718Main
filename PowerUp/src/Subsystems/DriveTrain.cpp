@@ -47,7 +47,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	// Initialize the turn controller
 	this->pTurnController = new PIDController(0.00f, 0.00f, 0.00f, 0.00f, pGyro, this);
 	this->pTurnController->SetInputRange(-180.0f,  180.0f);
-	this->pTurnController->SetOutputRange(-.5, .5);
+	this->pTurnController->SetOutputRange(-.75, .75);
 	this->pTurnController->SetAbsoluteTolerance(2.0f);
 	this->pTurnController->SetContinuous(true);
 
@@ -87,8 +87,8 @@ void DriveTrain::InitAutonomousMode()
 	/* set the peak and nominal outputs, 12V means full */
 	this->pLeftFrontMotor->ConfigNominalOutputForward( 0, TIMEOUT_MS);
 	this->pLeftFrontMotor->ConfigNominalOutputReverse( 0, TIMEOUT_MS);
-	this->pLeftFrontMotor->ConfigPeakOutputForward   ( 1, TIMEOUT_MS);
-	this->pLeftFrontMotor->ConfigPeakOutputReverse   (-1, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigPeakOutputForward   ( 0.75, TIMEOUT_MS);
+	this->pLeftFrontMotor->ConfigPeakOutputReverse   (-0.75, TIMEOUT_MS);
 
 	this->pLeftFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
@@ -98,8 +98,8 @@ void DriveTrain::InitAutonomousMode()
 	this->pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 
-//	int abLeftPosition = this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
-	int abLeftPosition = this->pLeftFrontMotor->GetSensorCollection().GetPulseWidthPosition();
+	int abLeftPosition = this->pLeftFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
+//	int abLeftPosition = this->pLeftFrontMotor->GetSensorCollection().GetPulseWidthPosition();
 	this->pLeftFrontMotor->SetSelectedSensorPosition(abLeftPosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	/* choose the sensor and sensor direction */
@@ -109,8 +109,8 @@ void DriveTrain::InitAutonomousMode()
 	/* set the peak and nominal outputs, 12V means full */
 	this->pRightFrontMotor->ConfigNominalOutputForward( 0, TIMEOUT_MS);
 	this->pRightFrontMotor->ConfigNominalOutputReverse( 0, TIMEOUT_MS);
-	this->pRightFrontMotor->ConfigPeakOutputForward   ( 1, TIMEOUT_MS);
-	this->pRightFrontMotor->ConfigPeakOutputReverse   (-1, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigPeakOutputForward   ( 0.75, TIMEOUT_MS);
+	this->pRightFrontMotor->ConfigPeakOutputReverse   (-0.75, TIMEOUT_MS);
 
 	this->pRightFrontMotor->ConfigAllowableClosedloopError(SLOT_INDEX, 0, TIMEOUT_MS);
 
@@ -120,8 +120,8 @@ void DriveTrain::InitAutonomousMode()
 	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, 0.00, TIMEOUT_MS);
 
-//	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
-	int abRightPosition = this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition();
+	int abRightPosition = this->pRightFrontMotor->GetSelectedSensorPosition(SLOT_INDEX) & 0xFFF;
+//	int abRightPosition = this->pRightFrontMotor->GetSensorCollection().GetPulseWidthPosition();
 	this->pRightFrontMotor->SetSelectedSensorPosition(abRightPosition, PID_LOOP_INDEX, TIMEOUT_MS);
 
 	return;
@@ -516,9 +516,30 @@ void DriveTrain::SetGyroPID(double dP, double dI, double dD)
 /**
  *
  */
-void DriveTrain::Trace()
+void DriveTrain::TestSubsystem()
 {
-	return;
+
+}
+
+/**
+ *
+ */
+void DriveTrain::TestMotor(const std::string name, WPI_TalonSRX* pTalonSRX)
+{
+	const double mCurrentThreshold = 0.5;
+	const double mTemperatureThreshold = 300.0;
+
+	pTalonSRX->Set(ControlMode::Current, 0.0);
+	pTalonSRX->Set(-6.0f);
+
+    Wait(4.0);
+
+    double current = pTalonSRX->GetOutputCurrent();
+    double temperature = pTalonSRX->GetTemperature()();
+    pTalonSRX->Set(0.0);
+
+    LOG("[DriveTrain] " << name << " Current: " << (current < mCurrentThreshold ? "FAILED" : "OKAY"));
+    LOG("[DriveTrain] " << name << " Temperature: " << (temperature < mTemperatureThreshold ? "FAILED" : "OKAY"));
 }
 
 /* This function is invoked periodically by the PID Controller, */
@@ -539,7 +560,6 @@ void DriveTrain::PIDWrite(double output)
 
     if (this->pTurnController->IsEnabled())
     {
-//    	this->pTurnController->SetF(output);
     	DriveTrain::Turn();
     }
 
