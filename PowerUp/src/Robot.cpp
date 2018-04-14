@@ -65,6 +65,11 @@ void Robot::RobotInit()
 	scOverrideAuto.AddObject ("3. Just Drive Forward", 999);
 	frc::SmartDashboard::PutData("Autonomous Mode", &scOverrideAuto);
 
+	nt::NetworkTableInstance instance = nt::NetworkTableInstance::GetDefault();
+	auto nt = instance.GetTable("datatable");
+	xEntry = nt->GetEntry("X");
+	yEntry = nt->GetEntry("Y");
+
 	return;
 }
 
@@ -227,6 +232,10 @@ void Robot::TeleopPeriodic()
 {
 	frc::Scheduler::GetInstance()->Run();
 
+	xEntry.SetDouble(x);
+	yEntry.SetDouble(y);
+	x += 0.05;
+	y += 1.0;
 	return;
 }
 

@@ -1,19 +1,19 @@
-#ifndef _SRTORCCOMMAND_HG_
-#define _SRTORCCOMMAND_HG_
+#ifndef _PY1TORCCOMMAND_HG_
+#define _PY1TORCCOMMAND_HG_
 
 #include <Timer.h>
 #include <WPILib.h>
-#include "../Profiles/SRtoRCProfile.h"
+#include "../Profiles/PY1toMIDProfile.h"
 #include "../../CommandBase.h"
 
 /**
  *
  */
-class SRtoRCCommand : public CommandBase
+class PY1toMIDCommand : public CommandBase
 {
 public:
-	SRtoRCCommand(Height::Type height = Height::NONE);
-	~SRtoRCCommand();
+	PY1toMIDCommand(Height::Type height = Height::NONE);
+	~PY1toMIDCommand();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -21,7 +21,7 @@ public:
 	void Interrupted() override;
 
 private:
-	SRtoRCProfile* pMotionProfiler;
+	PY1toMIDProfile* pMotionProfiler;
 	Height::Type htHeight = Height::NONE;
 	Timer* pTimer;
 };

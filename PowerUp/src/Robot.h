@@ -5,6 +5,9 @@
 #include <Commands/Command.h>
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SendableChooser.h>
+#include <NetworkTables/NetworkTable.h>
+#include <NetworkTables/NetworkTableEntry.h>
+#include <NetworkTables/NetworkTableInstance.h>
 #include "Commands/ClimbScale.h"
 #include "Commands/ControlElevator.h"
 #include "Commands/ControlIntake.h"
@@ -74,13 +77,18 @@ public:
 	MPTestAutonomousCG* pMotionProfileCommand;
 
 private:
-
 	int GetAutoType();
 
 	frc::SendableChooser<int> scRobotPosition;
 	frc::SendableChooser<int> scRobotRole;
 	frc::SendableChooser<int> scOverrideAuto;
 	frc::Command* pAutonomousCommand;
+
+	nt::NetworkTableEntry xEntry;
+	nt::NetworkTableEntry yEntry;
+
+	double x = 0.0;
+	double y = 0.0;
 };
 
 #endif

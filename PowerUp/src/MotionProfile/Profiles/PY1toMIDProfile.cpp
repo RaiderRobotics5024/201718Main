@@ -1,10 +1,10 @@
-#include "SRtoRCProfile.h"
+#include "PY1toMIDProfile.h"
 #include "../../Subsystems/DriveTrainMap.h"
 
 /**
  *
  */
-SRtoRCProfile::SRtoRCProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&SRtoRCProfile::PeriodicTask, this)
+PY1toMIDProfile::PY1toMIDProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&PY1toMIDProfile::PeriodicTask, this)
 {
 	_pos = 0, _vel = 0, _heading = 0, _state = 0;
 	_loopTimeout = 30;
@@ -22,7 +22,7 @@ SRtoRCProfile::SRtoRCProfile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & 
 /**
  *
  */
-void SRtoRCProfile::PeriodicTask()
+void PY1toMIDProfile::PeriodicTask()
 {
 	_talonLeft.ProcessMotionProfileBuffer();
 	_talonRight.ProcessMotionProfileBuffer();
@@ -31,7 +31,7 @@ void SRtoRCProfile::PeriodicTask()
 /**
  *
  */
-void SRtoRCProfile::reset()
+void PY1toMIDProfile::reset()
 {
 	_talonLeft.ClearMotionProfileTrajectories();
 	_talonRight.ClearMotionProfileTrajectories();
@@ -44,7 +44,7 @@ void SRtoRCProfile::reset()
 /**
  * Called every loop.
  */
-void SRtoRCProfile::control()
+void PY1toMIDProfile::control()
 {
 	if (_loopTimeout < 0)
 	{
@@ -122,7 +122,7 @@ void SRtoRCProfile::control()
 /**
  *
  */
-TrajectoryDuration SRtoRCProfile::GetTrajectoryDuration(int durationMs)
+TrajectoryDuration PY1toMIDProfile::GetTrajectoryDuration(int durationMs)
 {
 	/* lookup and return valid value */
 	switch (durationMs)
@@ -144,15 +144,7 @@ TrajectoryDuration SRtoRCProfile::GetTrajectoryDuration(int durationMs)
 /**
  *
  */
-void SRtoRCProfile::startFilling()
-{
-	startFilling(kSRtoRCProfileLeft, kSRtoRCProfileRight, kSRtoRCProfileSz);
-}
-
-/**
- *
- */
-bool SRtoRCProfile::isFinished()
+bool PY1toMIDProfile::isFinished()
 {
 	return _setValue == SetValueMotionProfile::Hold;
 }
@@ -160,7 +152,15 @@ bool SRtoRCProfile::isFinished()
 /**
  *
  */
-void SRtoRCProfile::startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt)
+void PY1toMIDProfile::startFilling()
+{
+	startFilling(kPY1toMIDProfileLeft, kPY1toMIDProfileRight, kPY1toMIDProfileSz);
+}
+
+/**
+ *
+ */
+void PY1toMIDProfile::startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt)
 {
 	TrajectoryPoint pointLeft;
 	TrajectoryPoint pointRight;
@@ -220,7 +220,7 @@ void SRtoRCProfile::startFilling(const double profileLeft[][3], const double pro
 /**
  *
  */
-void SRtoRCProfile::start()
+void PY1toMIDProfile::start()
 {
 	_bStart = true;
 }
@@ -228,7 +228,7 @@ void SRtoRCProfile::start()
 /**
  *
  */
-SetValueMotionProfile SRtoRCProfile::getSetValue()
+SetValueMotionProfile PY1toMIDProfile::getSetValue()
 {
 	return _setValue;
 }

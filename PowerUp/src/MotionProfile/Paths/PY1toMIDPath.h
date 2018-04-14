@@ -1,9 +1,9 @@
-#ifndef _PY1TORCPATH_HG_
-#define _PY1TORCPATH_HG_
+#ifndef _PY1TOMIDPATH_HG_
+#define _PY1TOMIDPATH_HG_
 
-const int kPY1toRCProfileSz = 142;
+const int kPY1toMIDProfileSz = 142;
 
-const double kPY1toRCProfileLeft[][3] = {
+const double kPY1toMIDProfileLeft[][3] = {
 		{-0.000030, 0.005977, 10},
 		{-0.000149, 0.011954, 10},
 		{-0.000418, 0.026896, 10},
@@ -148,7 +148,7 @@ const double kPY1toRCProfileLeft[][3] = {
 		{-2.580026, 0.000000, 10}
 };
 
-const double kPY1toRCProfileRight[][3] = {
+const double kPY1toMIDProfileRight[][3] = {
 		{-0.000030, 0.005977, 10},
 		{-0.000149, 0.011954, 10},
 		{-0.000418, 0.026896, 10},

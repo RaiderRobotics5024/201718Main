@@ -1,19 +1,19 @@
-#ifndef _PY1TORCPROFILE_HG_
-#define _PY1TORCPROFILE_HG_
+#ifndef _MIDTOPY1PROFILE_HG_
+#define _MIDTOPY1PROFILE_HG_
 
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../Instrumentation.h"
 
-#include "../Paths/PY1toRCPath.h"
+#include "../Paths/MIDtoPY1Path.h"
 
 /**
  *
  */
-class PY1toRCProfile
+class MIDtoPY1Profile
 {
 public:
-	PY1toRCProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
+	MIDtoPY1Profile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

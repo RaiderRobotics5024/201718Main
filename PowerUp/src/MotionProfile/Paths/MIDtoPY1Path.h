@@ -1,9 +1,9 @@
-#ifndef _RCTOPY1PATH_HG_
-#define _RCTOPY1PATH_HG_
+#ifndef _MIDTOPY1PATH_HG_
+#define _midTOPY1PATH_HG_
 
-const int kRCtoPY1ProfileSz = 142;
+const int kMIDtoPY1ProfileSz = 142;
 
-const double kRCtoPY1ProfileLeft[][3] = {
+const double kMIDtoPY1ProfileLeft[][3] = {
 		{0.000030, 0.005977, 10},
 		{0.000149, 0.011954, 10},
 		{0.000418, 0.026896, 10},
@@ -148,7 +148,7 @@ const double kRCtoPY1ProfileLeft[][3] = {
 		{2.580026, 0.000000, 10}
 };
 
-const double kRCtoPY1ProfileRight[][3] = {
+const double kMIDtoPY1ProfileRight[][3] = {
 		{0.000030, 0.005977, 10},
 		{0.000149, 0.011954, 10},
 		{0.000418, 0.026896, 10},

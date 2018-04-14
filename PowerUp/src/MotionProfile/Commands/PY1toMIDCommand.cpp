@@ -1,22 +1,22 @@
-#include "SRtoRCCommand.h"
+#include <MotionProfile/Commands/PY1toMIDCommand.h>
 #include "../../Utilities/Log.h"
 
 /**
  *
  */
-SRtoRCCommand::SRtoRCCommand(Height::Type height)
+PY1toMIDCommand::PY1toMIDCommand(Height::Type height)
 {
-	LOG("[SRtoRCCommand] Constructed");
+	LOG("[PY1toMIDCommand] Constructed");
 
 	if ( CommandBase::pDriveTrain != nullptr )
 	{
 		Requires(CommandBase::pDriveTrain);
-		this->pMotionProfiler = new SRtoRCProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
+		this->pMotionProfiler = new PY1toMIDProfile(*CommandBase::pDriveTrain->GetLeftFrontMotor(), *CommandBase::pDriveTrain->GetRightFrontMotor());
 		this->htHeight = height;
 	}
 	else
 	{
-		LOG("[SRtoRCCommand] driveTrain is NULL");
+		LOG("[PY1toMIDCommand] driveTrain is NULL");
 	}
 
 	this->pTimer = new Timer();
@@ -27,7 +27,7 @@ SRtoRCCommand::SRtoRCCommand(Height::Type height)
 /**
  *
  */
-SRtoRCCommand::~SRtoRCCommand()
+PY1toMIDCommand::~PY1toMIDCommand()
 {
 	delete this->pTimer;
 	delete this->pMotionProfiler;
@@ -38,9 +38,9 @@ SRtoRCCommand::~SRtoRCCommand()
 /**
  *
  */
-void SRtoRCCommand::Initialize()
+void PY1toMIDCommand::Initialize()
 {
-	LOG("[SRtoRCCommand] Initializing" );
+	LOG("[PY1toMIDCommand] Initializing" );
 
 	this->pTimer->Reset();
 	this->pTimer->Start();
@@ -53,14 +53,14 @@ void SRtoRCCommand::Initialize()
 /**
  *
  */
-void SRtoRCCommand::Execute()
+void PY1toMIDCommand::Execute()
 {
 	this->pMotionProfiler->control();
 	this->pMotionProfiler->PeriodicTask();
 
 	SetValueMotionProfile setOutput = this->pMotionProfiler->getSetValue();
 
-//	LOG("[SRtoRCCommand] Set Output: " << setOutput);
+//	LOG("[PY1toMIDCommand] Set Output: " << setOutput);
 
 	CommandBase::pDriveTrain->GetLeftFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
 	CommandBase::pDriveTrain->GetRightFrontMotor()->Set(ControlMode::MotionProfile, setOutput);
@@ -76,11 +76,11 @@ void SRtoRCCommand::Execute()
 /**
  *
  */
-bool SRtoRCCommand::IsFinished()
+bool PY1toMIDCommand::IsFinished()
 {
 	if (this->pMotionProfiler->isFinished())
 	{
-		LOG("[RCtoSRCommand] MP Finished");
+		LOG("[PY1toMIDCommand] MP Finished");
 
 		return true;
 	}
@@ -91,9 +91,9 @@ bool SRtoRCCommand::IsFinished()
 /**
  *
  */
-void SRtoRCCommand::End()
+void PY1toMIDCommand::End()
 {
-	LOG("[SRtoRCCommand] Ending: " << this->pTimer->Get());
+	LOG("[PY1toMIDCommand] Ending" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();
@@ -104,9 +104,9 @@ void SRtoRCCommand::End()
 /**
  *
  */
-void SRtoRCCommand::Interrupted()
+void PY1toMIDCommand::Interrupted()
 {
-	LOG("[SRtoRCCommand] Interrupted" );
+	LOG("[PY1toMIDCommand] Interrupted" );
 
 	this->pMotionProfiler->reset();
 	CommandBase::pDriveTrain->ResetDrive();

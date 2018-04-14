@@ -1,10 +1,10 @@
+#include <MotionProfile/Commands/MIDtoPY1Command.h>
+#include <MotionProfile/Commands/PY1toMIDCommand.h>
+#include <MotionProfile/Commands/SRtoMIDCommand.h>
 #include "MPTestAutonomousCG.h"
 #include "../../Utilities/Log.h"
 #include "../Commands/RCtoSRCommand.h"
-#include "../Commands/SRtoRCCommand.h"
-#include "../Commands/RCtoPY1Command.h"
 #include "../Commands/RCtoPY2Command.h"
-#include "../Commands/PY1toRCCommand.h"
 #include "../Commands/PY2toRCCommand.h"
 #include "../Commands/PY2toMIDCommand.h"
 #include "../Commands/MIDtoVLTCommand.h"
@@ -33,7 +33,7 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 	// SECOND CUBE
 	// move from switch right to robot center
 	// move elevator to one cube height
-	AddSequential(new SRtoRCCommand());
+	AddSequential(new SRtoMIDCommand());
 
 	// move to pyramid one position
 	// open gripper

@@ -1,19 +1,19 @@
-#ifndef _SRTORCPROFILE_HG_
-#define _SRTORCPROFILE_HG_
+#ifndef _SRTOMIDPROFILE_HG_
+#define _SRTOMIDPROFILE_HG_
 
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include "../Instrumentation.h"
 
-#include "../Paths/SRtoRCPath.h"
+#include "../Paths/SRtoMIDPath.h"
 
 /**
  *
  */
-class SRtoRCProfile
+class SRtoMIDProfile
 {
 public:
-	SRtoRCProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
+	SRtoMIDProfile(can::WPI_TalonSRX & leftTalon, can::WPI_TalonSRX & rightTalon);
 	void control();
 	SetValueMotionProfile getSetValue();
 	TrajectoryDuration GetTrajectoryDuration(int durationMs);

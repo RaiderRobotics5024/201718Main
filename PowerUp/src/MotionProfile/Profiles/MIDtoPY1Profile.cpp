@@ -1,10 +1,10 @@
-#include "RCtoPY1Profile.h"
+#include "MIDtoPY1Profile.h"
 #include "../../Subsystems/DriveTrainMap.h"
 
 /**
  *
  */
-RCtoPY1Profile::RCtoPY1Profile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&RCtoPY1Profile::PeriodicTask, this)
+MIDtoPY1Profile::MIDtoPY1Profile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX & talonRight) : _talonLeft(talonLeft), _talonRight(talonRight), _notifer(&MIDtoPY1Profile::PeriodicTask, this)
 {
 	_pos = 0, _vel = 0, _heading = 0, _state = 0;
 	_loopTimeout = 30;
@@ -22,7 +22,7 @@ RCtoPY1Profile::RCtoPY1Profile(can::WPI_TalonSRX & talonLeft, can::WPI_TalonSRX 
 /**
  *
  */
-void RCtoPY1Profile::PeriodicTask()
+void MIDtoPY1Profile::PeriodicTask()
 {
 	_talonLeft.ProcessMotionProfileBuffer();
 	_talonRight.ProcessMotionProfileBuffer();
@@ -31,7 +31,7 @@ void RCtoPY1Profile::PeriodicTask()
 /**
  *
  */
-void RCtoPY1Profile::reset()
+void MIDtoPY1Profile::reset()
 {
 	_talonLeft.ClearMotionProfileTrajectories();
 	_talonRight.ClearMotionProfileTrajectories();
@@ -44,7 +44,7 @@ void RCtoPY1Profile::reset()
 /**
  * Called every loop.
  */
-void RCtoPY1Profile::control()
+void MIDtoPY1Profile::control()
 {
 	if (_loopTimeout < 0)
 	{
@@ -122,7 +122,7 @@ void RCtoPY1Profile::control()
 /**
  *
  */
-TrajectoryDuration RCtoPY1Profile::GetTrajectoryDuration(int durationMs)
+TrajectoryDuration MIDtoPY1Profile::GetTrajectoryDuration(int durationMs)
 {
 	/* lookup and return valid value */
 	switch (durationMs)
@@ -144,7 +144,7 @@ TrajectoryDuration RCtoPY1Profile::GetTrajectoryDuration(int durationMs)
 /**
  *
  */
-bool RCtoPY1Profile::isFinished()
+bool MIDtoPY1Profile::isFinished()
 {
 	return _setValue == SetValueMotionProfile::Hold;
 }
@@ -152,15 +152,15 @@ bool RCtoPY1Profile::isFinished()
 /**
  *
  */
-void RCtoPY1Profile::startFilling()
+void MIDtoPY1Profile::startFilling()
 {
-	startFilling(kRCtoPY1ProfileLeft, kRCtoPY1ProfileRight, kRCtoPY1ProfileSz);
+	startFilling(kMIDtoPY1ProfileLeft, kMIDtoPY1ProfileRight, kMIDtoPY1ProfileSz);
 }
 
 /**
  *
  */
-void RCtoPY1Profile::startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt)
+void MIDtoPY1Profile::startFilling(const double profileLeft[][3], const double profileRight[][3], int totalCnt)
 {
 	TrajectoryPoint pointLeft;
 	TrajectoryPoint pointRight;
@@ -220,7 +220,7 @@ void RCtoPY1Profile::startFilling(const double profileLeft[][3], const double pr
 /**
  *
  */
-void RCtoPY1Profile::start()
+void MIDtoPY1Profile::start()
 {
 	_bStart = true;
 }
@@ -228,7 +228,7 @@ void RCtoPY1Profile::start()
 /**
  *
  */
-SetValueMotionProfile RCtoPY1Profile::getSetValue()
+SetValueMotionProfile MIDtoPY1Profile::getSetValue()
 {
 	return _setValue;
 }

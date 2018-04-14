@@ -1,9 +1,9 @@
-#ifndef _SRTORCPATH_HG_
-#define _SRTORCPATH_HG_
+#ifndef _SRTOMIDPATH_HG_
+#define _SRTOMIDPATH_HG_
 
-const int kSRtoRCProfileSz = 242;
+const int kSRtoMIDProfileSz = 242;
 
-const double kSRtoRCProfileLeft[][3] = {
+const double kSRtoMIDProfileLeft[][3] = {
 		{-0.000030, 0.005961, 10},
 		{-0.000055, 0.002500, 10},
 		{-0.000256, 0.020092, 10},
@@ -248,7 +248,7 @@ const double kSRtoRCProfileLeft[][3] = {
 		{-7.957482, 0.000000, 10}
 };
 
-const double kSRtoRCProfileRight[][3] = {
+const double kSRtoMIDProfileRight[][3] = {
 		{-0.000030, 0.005961, 10},
 		{-0.000115, 0.008482, 10},
 		{-0.000450, 0.033554, 10},

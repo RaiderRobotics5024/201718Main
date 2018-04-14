@@ -1,9 +1,9 @@
 #include "MPRobotCenterSwitchLeftCG.h"
+#include "../Commands/MIDtoPY1Command.h"
+#include "../Commands/PY1toMIDCommand.h"
 #include "../Commands/RCtoSLCommand.h"
 #include "../Commands/SLtoRCCommand.h"
-#include "../Commands/RCtoPY1Command.h"
 #include "../Commands/RCtoPY2Command.h"
-#include "../Commands/PY1toRCCommand.h"
 #include "../Commands/PY2toRCCommand.h"
 #include "../../Commands/Autonomous/ElevatorService.h"
 #include "../../Commands/Autonomous/ToggleIntake.h"
@@ -31,7 +31,7 @@ MPRobotCenterSwitchLeftCG::MPRobotCenterSwitchLeftCG()
 
 	// move robot to pyramid 1 position
 	// open the gripper
-	AddParallel(new RCtoPY1Command());
+	AddParallel(new MIDtoPY1Command());
 	AddSequential(new ToggleGripper(Action::OPEN));
 	
 	// close the gripper
@@ -41,7 +41,7 @@ MPRobotCenterSwitchLeftCG::MPRobotCenterSwitchLeftCG()
 
 	// move robot back to robot center
 	// set elevator height to switch
-	AddSequential(new PY1toRCCommand(Height::SWITCH));
+	AddSequential(new PY1toMIDCommand(Height::SWITCH));
 
 	// move robot from robot center to switch left
 	// eject the cube
