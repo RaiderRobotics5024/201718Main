@@ -2,6 +2,7 @@
 #include "DriveTrainMap.h"
 #include "../Utilities/Log.h"
 #include "../Commands/DriveWithJoystick.h"
+#include "../Commands/DriveWithTriggers.h"
 
 /**
  *
@@ -17,8 +18,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	this->pLeftFrontMotor->SetInverted(false);
 	this->pLeftRearMotor->SetInverted(false);
-	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Coast);
-	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Coast);
+	this->pLeftFrontMotor->SetNeutralMode(NeutralMode::Brake);
+	this->pLeftRearMotor->SetNeutralMode(NeutralMode::Brake);
 
 	// Initialize the right motors
 	this->pRightFrontMotor = new can::WPI_TalonSRX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
@@ -27,8 +28,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	this->pRightFrontMotor->SetInverted(true);
 	this->pRightRearMotor->SetInverted(true);
-	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Coast);
-	this->pRightRearMotor->SetNeutralMode(NeutralMode::Coast);
+	this->pRightFrontMotor->SetNeutralMode(NeutralMode::Brake);
+	this->pRightRearMotor->SetNeutralMode(NeutralMode::Brake);
 
 	this->pRobotDrive = new frc::DifferentialDrive(*pLeftFrontMotor, *pRightFrontMotor);
 
@@ -488,14 +489,12 @@ void DriveTrain::SetTargetPosition(double dTargetPosition)
 /**
  *
  */
-void DriveTrain::SetTalonFPID(double dF, double dP, double dI, double dD)
+void DriveTrain::SetTalonPID(double dP, double dI, double dD)
 {
-	this->pLeftFrontMotor->Config_kF(PID_LOOP_INDEX, dF, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kP(PID_LOOP_INDEX, dP, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kI(PID_LOOP_INDEX, dI, TIMEOUT_MS);
 	this->pLeftFrontMotor->Config_kD(PID_LOOP_INDEX, dD, TIMEOUT_MS);
 
-	this->pRightFrontMotor->Config_kF(PID_LOOP_INDEX, dF, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kP(PID_LOOP_INDEX, dP, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kI(PID_LOOP_INDEX, dI, TIMEOUT_MS);
 	this->pRightFrontMotor->Config_kD(PID_LOOP_INDEX, dD, TIMEOUT_MS);

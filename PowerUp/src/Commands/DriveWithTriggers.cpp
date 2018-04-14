@@ -1,16 +1,15 @@
-#include "DriveWithJoystick.h"
+#include "DriveWithTriggers.h"
 #include "../Utilities/Log.h"
 #include <math.h>
 #include "../RobotMap.h"
 #include "../Subsystems/DriveTrainMap.h"
-#include <SmartDashboard/SmartDashboard.h>
 
 /**
  *
  */
-DriveWithJoystick::DriveWithJoystick()
+DriveWithTriggers::DriveWithTriggers()
 {
-	LOG("[DriveWithJoystick] Constructed");
+	LOG("[DriveWithTriggers] Constructed");
 
 	if (CommandBase::pDriveTrain != nullptr)
 	{
@@ -18,10 +17,8 @@ DriveWithJoystick::DriveWithJoystick()
 	}
 	else
 	{
-		LOG("[DriveWithJoystick] driveTrain is null!");
+		LOG("[DriveWithTriggers] driveTrain is null!");
 	}
-
-	this->pTimer = new Timer();
 
 	return;
 }
@@ -29,9 +26,9 @@ DriveWithJoystick::DriveWithJoystick()
 /**
  *
  */
-DriveWithJoystick::~DriveWithJoystick()
+DriveWithTriggers::~DriveWithTriggers()
 {
-	LOG("[DriveWithJoystick] Destroyed");
+	LOG("[DriveWithTriggers] Destroyed");
 
 	delete this->pJoyDrive;
 	delete this->pTimer;
@@ -42,9 +39,9 @@ DriveWithJoystick::~DriveWithJoystick()
 /**
  *
  */
-void DriveWithJoystick::Initialize()
+void DriveWithTriggers::Initialize()
 {
-	LOG("[DriveWithJoystick] Initialized");
+	LOG("[DriveWithTriggers] Initialized");
 
 	this->pJoyDrive = CommandBase::pOI->GetJoystickDrive();
 
@@ -57,14 +54,14 @@ void DriveWithJoystick::Initialize()
 /**
  *
  */
-void DriveWithJoystick::Execute()
+void DriveWithTriggers::Execute()
 {
 	// use right bumper to turn on/off drive test
 	if (this->pJoyDrive->GetBumperPressed(XboxController::kRightHand))
 	{
 		this->isDriveTest = !this->isDriveTest;
 		this->isTurnTest = false;
-		
+
 		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 		SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
 
@@ -72,12 +69,12 @@ void DriveWithJoystick::Execute()
 		{
 			CommandBase::pDriveTrain->InitAutonomousMode();
 			CommandBase::pDriveTrain->DriveSetup();
-						
+
 			// set starting point
 			this->dDistance = 0.0;
 			this->dLastDistance = 0.0;
 
-			DriveWithJoystick::TraceTalon();
+			DriveWithTriggers::TraceTalon();
 		}
 		else
 		{
@@ -90,7 +87,7 @@ void DriveWithJoystick::Execute()
 	{
 		this->isTurnTest = !this->isTurnTest;
 		this->isDriveTest = false;
-		
+
 		SmartDashboard::PutBoolean("Is Drive Test:", this->isDriveTest);
 		SmartDashboard::PutBoolean("Is Turn  Test:", this->isTurnTest);
 
@@ -98,12 +95,12 @@ void DriveWithJoystick::Execute()
 		{
 			CommandBase::pDriveTrain->ResetGyro();
 			CommandBase::pDriveTrain->TurnSetup();
-						
+
 			// set starting angle
 			this->dSetpoint = 0.0;
 			this->dLastSetpoint = 0.0;
 
-			DriveWithJoystick::TraceGyro();
+			DriveWithTriggers::TraceGyro();
 		}
 		else
 		{
@@ -120,13 +117,13 @@ void DriveWithJoystick::Execute()
 			{
 				this->dTalon_P += 0.0005;
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
-				DriveWithJoystick::TraceTalon();
+				DriveWithTriggers::TraceTalon();
 			}
 			else if (this->isTurnTest)
 			{
 				this->dGyro_P += 0.01;
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
-				DriveWithJoystick::TraceGyro();
+				DriveWithTriggers::TraceGyro();
 			}
 		}
 		else if (this->pJoyDrive->GetYButtonPressed())
@@ -135,13 +132,13 @@ void DriveWithJoystick::Execute()
 			{
 				this->dTalon_I += 0.001;
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
-				DriveWithJoystick::TraceTalon();
+				DriveWithTriggers::TraceTalon();
 			}
 			else if (this->isTurnTest)
 			{
 				this->dGyro_I += 0.001;
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
-				DriveWithJoystick::TraceGyro();
+				DriveWithTriggers::TraceGyro();
 			}
 		}
 		else if (this->pJoyDrive->GetBButtonPressed())
@@ -150,13 +147,13 @@ void DriveWithJoystick::Execute()
 			{
 				this->dTalon_D += 0.01;
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
-				DriveWithJoystick::TraceTalon();
+				DriveWithTriggers::TraceTalon();
 			}
 			else if (this->isTurnTest)
 			{
 				this->dGyro_D += 0.01;
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
-				DriveWithJoystick::TraceGyro();
+				DriveWithTriggers::TraceGyro();
 			}
 		}
 	}
@@ -172,7 +169,7 @@ void DriveWithJoystick::Execute()
 				if (this->dTalon_P < 0.0) dTalon_P = 0.0;
 
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
-				DriveWithJoystick::TraceTalon();
+				DriveWithTriggers::TraceTalon();
 			}
 			else if (this->isTurnTest)
 			{
@@ -180,7 +177,7 @@ void DriveWithJoystick::Execute()
 				if (this->dGyro_P < 0.0) dTalon_P = 0.0;
 
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
-				DriveWithJoystick::TraceGyro();
+				DriveWithTriggers::TraceGyro();
 			}
 		}
 		else if (this->pJoyDrive->GetYButtonPressed())
@@ -191,7 +188,7 @@ void DriveWithJoystick::Execute()
 				if (this->dTalon_I < 0.0) dTalon_I = 0.0;
 
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
-				DriveWithJoystick::TraceTalon();
+				DriveWithTriggers::TraceTalon();
 			}
 			else if (this->isTurnTest)
 			{
@@ -199,7 +196,7 @@ void DriveWithJoystick::Execute()
 				if (this->dGyro_I < 0.0) dGyro_I = 0.0;
 
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
-				DriveWithJoystick::TraceGyro();
+				DriveWithTriggers::TraceGyro();
 			}
 
 		}
@@ -211,7 +208,7 @@ void DriveWithJoystick::Execute()
 				if (this->dTalon_D < 0.0) dTalon_D = 0.0;
 
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
-				DriveWithJoystick::TraceTalon();
+				DriveWithTriggers::TraceTalon();
 			}
 			else if (this->isTurnTest)
 			{
@@ -219,7 +216,7 @@ void DriveWithJoystick::Execute()
 				if (this->dGyro_D < 0.0) dGyro_D = 0.0;
 
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
-				DriveWithJoystick::TraceGyro();
+				DriveWithTriggers::TraceGyro();
 			}
 		}
 	}
@@ -245,7 +242,7 @@ void DriveWithJoystick::Execute()
 		this->dDistance = 230.0;
 		this->dSetpoint = 180.0;
 	}
-		    
+
 	// the drive/turn test will start if we are in test mode and the distance/setpoint has changed
 	if (this->dLastDistance != this->dDistance || this->dLastSetpoint != this->dSetpoint)
 	{
@@ -253,10 +250,10 @@ void DriveWithJoystick::Execute()
 		{
 			this->pTimer->Reset();
 			this->pTimer->Start();
-			
+
 			CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
 			CommandBase::pDriveTrain->Drive(dDistance, 1.0);
-			
+
 			this->dLastDistance = dDistance;
 			this->dLastSetpoint = dSetpoint;
 		}
@@ -264,11 +261,11 @@ void DriveWithJoystick::Execute()
 		{
 			this->pTimer->Reset();
 			this->pTimer->Start();
-			
+
 			CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
 			CommandBase::pDriveTrain->SetSetpoint(dSetpoint);
 			CommandBase::pDriveTrain->Turn();
-			
+
 			this->dLastDistance = dDistance;
 			this->dLastSetpoint = dSetpoint;
 		}
@@ -277,14 +274,19 @@ void DriveWithJoystick::Execute()
 	// drive the bot as usual if not drive test and not turn test
 	if (!this->isDriveTest && !this->isTurnTest)
 	{
-		// Y-axis is -1 (forward) and 1 (backwards) but we need the motor
-		// speed to be 1 (forward) and -1 (reverse) so multiply input by -1
-		dSpeed    = pJoyDrive->GetY(XboxController::kLeftHand) * -1;
-		dRotation = pJoyDrive->GetX(XboxController::kLeftHand);
+		// The Y-axis goes from -1 (forward) to 1 (backwards) but we want to
+		// set motor from 1 (forward) to -1 (reverse) so multiply by -1
+		dSpeed    = this->pJoyDrive->GetTriggerAxis(frc::XboxController::kRightHand) - this->pJoyDrive->GetTriggerAxis(frc::XboxController::kLeftHand);
+		dRotation = this->pJoyDrive->GetX(XboxController::kLeftHand);
 
-		if (fabs(dSpeed) <= XBOX_DEADZONE_LEFT_JOY)
+		dSpeed *= SPEED_FACTOR;
+		if (dSpeed > 1.0)
 		{
-			dSpeed = 0.0;
+			dSpeed = 1.0;
+		}
+		else if (dSpeed < -1.0)
+		{
+			dSpeed = -1.0;
 		}
 
 		if (fabs(dRotation) <= XBOX_DEADZONE_LEFT_JOY)
@@ -293,7 +295,7 @@ void DriveWithJoystick::Execute()
 		}
 
 		CommandBase::pDriveTrain->ArcadeDrive(dSpeed, dRotation);
-	}		
+	}
 
 	return;
 }
@@ -301,11 +303,11 @@ void DriveWithJoystick::Execute()
 /**
  *
  */
-bool DriveWithJoystick::IsFinished()
+bool DriveWithTriggers::IsFinished()
 {
 	if (iCounter += 10)
 	{
-		DriveWithJoystick::Trace();
+		DriveWithTriggers::Trace();
 
 		iCounter = 0;
 	}
@@ -318,7 +320,7 @@ bool DriveWithJoystick::IsFinished()
 /**
  *
  */
-void DriveWithJoystick::End()
+void DriveWithTriggers::End()
 {
 	return;
 }
@@ -326,7 +328,7 @@ void DriveWithJoystick::End()
 /**
  *
  */
-void DriveWithJoystick::Interrupted()
+void DriveWithTriggers::Interrupted()
 {
 	return;
 }
@@ -334,22 +336,22 @@ void DriveWithJoystick::Interrupted()
 /**
  *
  */
-void DriveWithJoystick::Trace()
+void DriveWithTriggers::Trace()
 {
 	if (this->isDriveTest)
 	{
 		if (fabs(this->dDistance - CommandBase::pDriveTrain->GetLeftDistance()) > 1.0 && pTimer->Get() > 0)
 		{
-			DriveWithJoystick::TraceTalon();
+			DriveWithTriggers::TraceTalon();
 		}
 	}
 	else if (this->isTurnTest)
 	{
-		DriveWithJoystick::TraceGyro();
+		DriveWithTriggers::TraceGyro();
 	}
 	else if (CommandBase::pDriveTrain->GetVelocity() > 0.0)
 	{
-		DriveWithJoystick::TraceDrive();
+		DriveWithTriggers::TraceDrive();
 	}
 
 	return;
@@ -358,9 +360,9 @@ void DriveWithJoystick::Trace()
 /**
  *
  */
-void DriveWithJoystick::TraceDrive()
+void DriveWithTriggers::TraceDrive()
 {
-	LOG("[DriveWithJoystick] "
+	LOG("[DriveWithTriggers] "
 		<< " SP: " << dSpeed
 		<< " RT: " << dRotation
 		<< " AC: " << CommandBase::pDriveTrain->GetAcceleration()
@@ -372,9 +374,9 @@ void DriveWithJoystick::TraceDrive()
 /**
  *
  */
-void DriveWithJoystick::TraceGyro()
+void DriveWithTriggers::TraceGyro()
 {
-	LOG("[DriveWithJoystick] TA: " << this->dSetpoint
+	LOG("[DriveWithTriggers] TA: " << this->dSetpoint
 		<< " CA: " << CommandBase::pDriveTrain->GetAngle()
 		<< " Rate: " << CommandBase::pDriveTrain->GetRotateToAngleRate()
 		<< " P : " << CommandBase::pDriveTrain->GetController()->GetP()
@@ -388,9 +390,9 @@ void DriveWithJoystick::TraceGyro()
 /**
  *
  */
-void DriveWithJoystick::TraceTalon()
+void DriveWithTriggers::TraceTalon()
 {
-	LOG("[DriveWithJoystick] TD: " << this->dDistance
+	LOG("[DriveWithTriggers] TD: " << this->dDistance
 	//				<< " TP: " << CommandBase::pDriveTrain->GetTargetPosition()
 	//				<< " RD: " << CommandBase::pDriveTrain->GetRightDistance()
 	//				<< " RP: " << CommandBase::pDriveTrain->GetRightPosition()

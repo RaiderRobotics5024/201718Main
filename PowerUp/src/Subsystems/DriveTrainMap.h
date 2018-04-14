@@ -28,6 +28,7 @@ const int PID_LOOP_INDEX = 0;
 const int TIMEOUT_MS = 100;
 const int BASE_TRAJECTORY_PERIOD_MS = 0;
 const int NEUTRAL_DEADBAND_PERCENT = 1;
+const double SPEED_FACTOR = 1.0;
 
 // Talon PIDF Settings
 const double TALON_PID_F = 0.00;
