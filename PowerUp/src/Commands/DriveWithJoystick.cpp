@@ -124,7 +124,7 @@ void DriveWithJoystick::Execute()
 			}
 			else if (this->isTurnTest)
 			{
-				this->dGyro_P += 0.01;
+				this->dGyro_P += 0.0005;
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
 				DriveWithJoystick::TraceGyro();
 			}
@@ -133,13 +133,13 @@ void DriveWithJoystick::Execute()
 		{
 			if (this->isDriveTest)
 			{
-				this->dTalon_I += 0.001;
+				this->dTalon_I += 0.0001;
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
 				DriveWithJoystick::TraceTalon();
 			}
 			else if (this->isTurnTest)
 			{
-				this->dGyro_I += 0.001;
+				this->dGyro_I += 0.0001;
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
 				DriveWithJoystick::TraceGyro();
 			}
@@ -148,13 +148,13 @@ void DriveWithJoystick::Execute()
 		{
 			if (this->isDriveTest)
 			{
-				this->dTalon_D += 0.01;
+				this->dTalon_D += 0.001;
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
 				DriveWithJoystick::TraceTalon();
 			}
 			else if (this->isTurnTest)
 			{
-				this->dGyro_D += 0.01;
+				this->dGyro_D += 0.001;
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
 				DriveWithJoystick::TraceGyro();
 			}
@@ -176,7 +176,7 @@ void DriveWithJoystick::Execute()
 			}
 			else if (this->isTurnTest)
 			{
-				this->dGyro_P -= 0.01;
+				this->dGyro_P -= 0.0005;
 				if (this->dGyro_P < 0.0) dTalon_P = 0.0;
 
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
@@ -187,7 +187,7 @@ void DriveWithJoystick::Execute()
 		{
 			if (this->isDriveTest)
 			{
-				this->dTalon_I -= 0.001;
+				this->dTalon_I -= 0.0001;
 				if (this->dTalon_I < 0.0) dTalon_I = 0.0;
 
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
@@ -195,7 +195,7 @@ void DriveWithJoystick::Execute()
 			}
 			else if (this->isTurnTest)
 			{
-				this->dGyro_I -= 0.001;
+				this->dGyro_I -= 0.0001;
 				if (this->dGyro_I < 0.0) dGyro_I = 0.0;
 
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
@@ -207,7 +207,7 @@ void DriveWithJoystick::Execute()
 		{
 			if (this->isDriveTest)
 			{
-				this->dTalon_D -= 0.01;
+				this->dTalon_D -= 0.001;
 				if (this->dTalon_D < 0.0) dTalon_D = 0.0;
 
 				CommandBase::pDriveTrain->SetTalonPID(dTalon_P, dTalon_I, dTalon_D);
@@ -215,7 +215,7 @@ void DriveWithJoystick::Execute()
 			}
 			else if (this->isTurnTest)
 			{
-				this->dGyro_D -= 0.01;
+				this->dGyro_D -= 0.001;
 				if (this->dGyro_D < 0.0) dGyro_D = 0.0;
 
 				CommandBase::pDriveTrain->SetGyroPID(dGyro_P, dGyro_I, dGyro_D);
