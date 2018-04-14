@@ -397,7 +397,7 @@ void DriveWithJoystick::TraceTalon()
 	//				<< " RE: " << CommandBase::pDriveTrain->GetRightCosedLoopError()
 	//				<< " RV: " << CommandBase::pDriveTrain->GetRightVelocity()
 		<< " LD: " << CommandBase::pDriveTrain->GetLeftDistance()
-	//				<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
+		<< " LP: " << CommandBase::pDriveTrain->GetLeftPosition()
 		<< " LE: " << CommandBase::pDriveTrain->GetLeftClosedLoopError()
 		<< " LV: " << CommandBase::pDriveTrain->GetLeftVelocity()
 		<< " MS: " << dSpeed
