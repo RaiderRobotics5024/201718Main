@@ -36,7 +36,7 @@ void Robot::RobotInit()
 {
 	LOG("[Robot] Initialized");
 
-	// intialize the commands
+	// initialize the commands
 	this->pClimbScale = new ClimbScale();
 	this->pControlElevator = new ControlElevator();
 	this->pControlIntake = new ControlIntake();
@@ -69,6 +69,8 @@ void Robot::RobotInit()
 	auto nt = instance.GetTable("datatable");
 	xEntry = nt->GetEntry("X");
 	yEntry = nt->GetEntry("Y");
+
+	CameraServer::GetInstance()->StartAutomaticCapture();
 
 	return;
 }
@@ -163,7 +165,7 @@ void Robot::AutonomousInit()
 
 	case 888:
 	case 999:
-	default : pAutonomousCommand = new JustDriveForward          (); break;
+	default : pAutonomousCommand = new JustDriveForward         (); break;
 	}
 
 	LOG("[Robot] Starting autonomous");

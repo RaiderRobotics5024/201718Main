@@ -37,7 +37,7 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 
 	// move to pyramid one position
 	// open gripper
-//	AddSequential(new RCtoPY1Command());
+	AddSequential(new MIDtoPY1Command());
 //	AddSequential(new ToggleGripper(Action::OPEN));
 
 	// close gripper
@@ -47,7 +47,7 @@ MPTestAutonomousCG::MPTestAutonomousCG()
 
 	// move back to robot center
 	// move elevator to switch position
-//	AddSequential(new PY1toRCCommand());
+	AddSequential(new PY1toMIDCommand());
 
 	// move robot to switch right
 	// eject cube
