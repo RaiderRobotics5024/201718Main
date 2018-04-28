@@ -5,15 +5,17 @@
 #include <Commands/Command.h>
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SendableChooser.h>
-#include <NetworkTables/NetworkTable.h>
-#include <NetworkTables/NetworkTableEntry.h>
-#include <NetworkTables/NetworkTableInstance.h>
 #include "Commands/ClimbScale.h"
 #include "Commands/ControlElevator.h"
 #include "Commands/ControlIntake.h"
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/DriveWithTriggers.h"
 #include "Commands/ToggleCompressor.h"
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <thread>
 
 #include "MotionProfile/CommandGroups/MPTestAutonomousCG.h"
 
@@ -84,11 +86,9 @@ private:
 	frc::SendableChooser<int> scOverrideAuto;
 	frc::Command* pAutonomousCommand;
 
-	nt::NetworkTableEntry xEntry;
-	nt::NetworkTableEntry yEntry;
-
-	double x = 0.0;
-	double y = 0.0;
+	static void ListenForLetters(void);
+	int iSockFd;
+	struct sockaddr_in serv_addr;
 };
 
 #endif

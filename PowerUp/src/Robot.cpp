@@ -65,14 +65,32 @@ void Robot::RobotInit()
 	scOverrideAuto.AddObject ("3. Just Drive Forward", 999);
 	frc::SmartDashboard::PutData("Autonomous Mode", &scOverrideAuto);
 
-	nt::NetworkTableInstance instance = nt::NetworkTableInstance::GetDefault();
-	auto nt = instance.GetTable("datatable");
-	xEntry = nt->GetEntry("X");
-	yEntry = nt->GetEntry("Y");
-
 	CameraServer::GetInstance()->StartAutomaticCapture();
 
+	iSockFd = socket(AF_INET, SOCK_STREAM, 0);
+	if (iSockFd > -1)
+	{
+		serv_addr.sin_family = AF_INET;
+		serv_addr.sin_addr.s_addr = INADDR_ANY;
+		serv_addr.sin_port = htons(2362);
+
+		if (bind(iSockFd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
+		{
+			LOG("[Robot] Error on binding");
+		}
+
+		std::thread t1(Robot::ListenForLetters);
+	}
 	return;
+}
+
+/**
+ *
+ */
+void Robot::ListenForLetters()
+{
+	LOG("[Robot] I'm listening...");
+	Wait(1.0);
 }
 
 /**
@@ -234,10 +252,6 @@ void Robot::TeleopPeriodic()
 {
 	frc::Scheduler::GetInstance()->Run();
 
-	xEntry.SetDouble(x);
-	yEntry.SetDouble(y);
-	x += 0.05;
-	y += 1.0;
 	return;
 }
 
