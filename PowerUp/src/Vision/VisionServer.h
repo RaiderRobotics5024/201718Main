@@ -23,6 +23,7 @@ private:
 	AdbBridge* pAdbBridge;
 	bool bIsRunning;
 	std::vector<std::thread> vThreads;
+	int iPort;
 };
 
 #endif

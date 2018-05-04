@@ -18,6 +18,10 @@ VisionServer::VisionServer()
 VisionServer::VisionServer(int port)
 {
 	this->pAdbBridge = new AdbBridge();
+	this->iPort = port;
+
+    this->pAdbBridge->Start();
+    this->pAdbBridge->ReversePortForward(iPort, iPort);
 }
 
 /**
@@ -39,7 +43,7 @@ VisionServer* VisionServer::GetInstance()
 {
     if (VisionServer::pInstance == 0)
     {
-    	VisionServer::pInstance = new VisionServer(5024);
+    	VisionServer::pInstance = new VisionServer(8254);
     }
 
     return VisionServer::pInstance;
