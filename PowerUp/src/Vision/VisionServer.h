@@ -3,7 +3,9 @@
 
 #include "AdbBridge.h"
 #include <thread>
+#include <chrono>
 #include <vector>
+#include <Timer.h>
 
 /**
  *
@@ -18,12 +20,20 @@ public:
 private:
 	VisionServer();
 	VisionServer(int port);
+
+
 	static VisionServer* pInstance;
+	void AppMaintenanceThread(void);
 
 	AdbBridge* pAdbBridge;
+	Timer* pTimer;
+
 	bool bIsRunning;
+	bool bWantsAppRestart = false;
+	bool bIsConnected = false;
 	std::vector<std::thread> vThreads;
 	int iPort;
+	double dLastMessageReceivedTime = 0.0;
 };
 
 #endif

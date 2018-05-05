@@ -10,6 +10,7 @@ VisionServer* VisionServer::pInstance = 0;
 VisionServer::VisionServer()
 {
 	this->bIsRunning = true;
+	this->pTimer = new Timer();
 }
 
 /**
@@ -22,6 +23,8 @@ VisionServer::VisionServer(int port)
 
     this->pAdbBridge->Start();
     this->pAdbBridge->ReversePortForward(iPort, iPort);
+
+    vThreads.push_back(std::thread(&AppMaintenanceThread, pInstance, "Maintenance Thread"));
 }
 
 /**
@@ -57,5 +60,32 @@ void VisionServer::Run()
 	while (this->bIsRunning)
 	{
 
+	}
+}
+
+/**
+ *
+ */
+void VisionServer::AppMaintenanceThread()
+{
+	while (true)
+	{
+		if (pTimer->GetFPGATimestamp() - dLastMessageReceivedTime > .1)
+		{
+			pAdbBridge->ReversePortForward(iPort, iPort);
+			bIsConnected = false;
+		}
+		else
+		{
+			bIsConnected = true;
+		}
+
+		if (bWantsAppRestart)
+		{
+			pAdbBridge->RestartApp();
+			bWantsAppRestart = false;
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	}
 }

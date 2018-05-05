@@ -12,12 +12,9 @@
 #include "Commands/DriveWithTriggers.h"
 #include "Commands/ToggleCompressor.h"
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <thread>
-
 #include "MotionProfile/CommandGroups/MPTestAutonomousCG.h"
+
+#include "Vision/VisionServer.h"
 
 struct RobotPosition
 {
@@ -86,9 +83,8 @@ private:
 	frc::SendableChooser<int> scOverrideAuto;
 	frc::Command* pAutonomousCommand;
 
-	static void ListenForLetters(void);
-	int iSockFd;
-	struct sockaddr_in serv_addr;
+	VisionServer* pVisonServer;
+
 };
 
 #endif

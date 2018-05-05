@@ -67,30 +67,9 @@ void Robot::RobotInit()
 
 	CameraServer::GetInstance()->StartAutomaticCapture();
 
-	iSockFd = socket(AF_INET, SOCK_STREAM, 0);
-	if (iSockFd > -1)
-	{
-		serv_addr.sin_family = AF_INET;
-		serv_addr.sin_addr.s_addr = INADDR_ANY;
-		serv_addr.sin_port = htons(2362);
+	this->pVisonServer = VisionServer::GetInstance();
 
-		if (bind(iSockFd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
-		{
-			LOG("[Robot] Error on binding");
-		}
-
-		std::thread t1(Robot::ListenForLetters);
-	}
 	return;
-}
-
-/**
- *
- */
-void Robot::ListenForLetters()
-{
-	LOG("[Robot] I'm listening...");
-	Wait(1.0);
 }
 
 /**
