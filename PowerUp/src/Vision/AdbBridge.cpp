@@ -53,7 +53,7 @@ bool AdbBridge::RunCommand(const char* cmd)
 void AdbBridge::Start()
 {
 	LOG("[AdbBride] Starting adb");
-	AdbBridge::RunCommand("/usr/bin/adb start");
+	AdbBridge::RunCommand("/usr/bin/adb start-server");
 }
 
 /**
@@ -80,7 +80,7 @@ void AdbBridge::RestartAdb()
  */
 void AdbBridge::PortForward(int local_port, int remote_port)
 {
-	AdbBridge::RunCommand(("/usr/bin/adb forward tcp: " + std::to_string(local_port) + " tcp: " + std::to_string(remote_port)).c_str());
+	AdbBridge::RunCommand(("/usr/bin/adb forward tcp:" + std::to_string(local_port) + " tcp:" + std::to_string(remote_port)).c_str());
 }
 
 /**

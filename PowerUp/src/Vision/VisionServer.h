@@ -2,6 +2,7 @@
 #define _VISION_VISIONSERVER_HG_
 
 #include "AdbBridge.h"
+#include "SocketServer.h"
 #include <thread>
 #include <chrono>
 #include <vector>
@@ -20,20 +21,19 @@ public:
 private:
 	VisionServer();
 	VisionServer(int port);
-
-
-	static VisionServer* pInstance;
 	void AppMaintenanceThread(void);
 
-	AdbBridge* pAdbBridge;
+	static VisionServer* pInstance;
+
 	Timer* pTimer;
+	AdbBridge* pAdbBridge;
+	SocketServer* pSocketServer;
 
 	bool bIsRunning;
 	bool bWantsAppRestart = false;
 	bool bIsConnected = false;
 	std::vector<std::thread> vThreads;
 	int iPort;
-	double dLastMessageReceivedTime = 0.0;
 };
 
 #endif

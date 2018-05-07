@@ -24,7 +24,12 @@ VisionServer::VisionServer(int port)
     this->pAdbBridge->Start();
     this->pAdbBridge->ReversePortForward(iPort, iPort);
 
-    vThreads.push_back(std::thread(&AppMaintenanceThread, pInstance, "Maintenance Thread"));
+    std::thread amt(&VisionServer::AppMaintenanceThread, this);
+    vThreads.push_back(move(amt));
+
+    this->pSocketServer = new SocketServer();
+    std::thread sst(&SocketServer::Accept, pSocketServer);
+    vThreads.push_back(move(sst));
 }
 
 /**
@@ -70,7 +75,7 @@ void VisionServer::AppMaintenanceThread()
 {
 	while (true)
 	{
-		if (pTimer->GetFPGATimestamp() - dLastMessageReceivedTime > .1)
+		if (pTimer->GetFPGATimestamp() - pSocketServer->GetLastMessageReceivedTime() > .1)
 		{
 			pAdbBridge->ReversePortForward(iPort, iPort);
 			bIsConnected = false;
