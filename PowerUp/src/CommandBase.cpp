@@ -6,10 +6,6 @@
 // (not in the .h file)
 DriveTrain*       CommandBase::pDriveTrain = NULL;
 OI*               CommandBase::pOI = NULL;
-Intake*           CommandBase::pIntake = NULL;
-Elevator*         CommandBase::pElevator = NULL;
-ClimbSystem*      CommandBase::pClimbSystem = NULL;
-CompressorSystem* CommandBase::pCompressorSystem = NULL;
 
 /**
  *
@@ -34,26 +30,6 @@ CommandBase::CommandBase() : Command()
 		CommandBase::pDriveTrain = new DriveTrain();
 	}
 
-	if (CommandBase::pIntake == nullptr)
-	{
-		CommandBase::pIntake = new Intake();
-	}
-
-	if (CommandBase::pElevator == nullptr)
-	{
-		CommandBase::pElevator = new Elevator();
-	}
-
-	if (CommandBase::pClimbSystem == nullptr)
-	{
-		CommandBase::pClimbSystem = new ClimbSystem();
-	}
-
-	if (CommandBase::pCompressorSystem == nullptr)
-	{
-		CommandBase::pCompressorSystem = new CompressorSystem();
-	}
-
 	return;
 }
 
@@ -63,11 +39,7 @@ CommandBase::CommandBase() : Command()
 CommandBase::~CommandBase()
 {
 	delete this->pDriveTrain;
-	delete this->pIntake;
 	delete this->pOI;
-	delete this->pElevator;
-	delete this->pClimbSystem;
-	delete this->pCompressorSystem;
 
 	return;
 }

@@ -1,7 +1,7 @@
 #include "DriveWithTriggers.h"
 #include "../Utilities/Log.h"
 #include <math.h>
-#include "../RobotMap.h"
+#include "../RobotCFG.hpp"
 
 /**
  *

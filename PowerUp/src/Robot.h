@@ -5,47 +5,9 @@
 #include <Commands/Command.h>
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SendableChooser.h>
-#include "Commands/ClimbScale.h"
-#include "Commands/ControlElevator.h"
-#include "Commands/ControlIntake.h"
 #include "Commands/DriveWithJoystick.h"
 #include "Commands/DriveWithTriggers.h"
-#include "Commands/ToggleCompressor.h"
 
-#include "MotionProfile/CommandGroups/MPTestAutonomousCG.h"
-
-#include "Vision/VisionServer.h"
-
-struct RobotPosition
-{
-	typedef enum
-	{
-		LEFT   = 10,
-		CENTER = 20,
-		RIGHT  = 30
-	} Type;
-};
-
-struct RobotRole
-{
-	typedef enum
-	{
-		NONE         = 100,
-		VAULT        = 200,
-		OUR_SWITCH   = 300,
-		THEIR_SWITCH = 400
-	} Type;
-};
-
-struct SwitchPosition
-{
-	typedef enum
-	{
-		LEFT  = 1,
-		RIGHT = 2,
-		TEST  = 3
-	} Type;
-};
 
 /**
  *
@@ -66,14 +28,8 @@ public:
 	void TestPeriodic() override;
 
 	// declare the commands
-	ClimbScale*         pClimbScale;
-	ControlElevator*	pControlElevator;
-	ControlIntake*		pControlIntake;
 	DriveWithJoystick*	pDriveWithJoystick;
 	DriveWithTriggers*  pDriveWithTriggers;
-	ToggleCompressor*   pToggleCompressor;
-
-	MPTestAutonomousCG* pMotionProfileCommand;
 
 private:
 	int GetAutoType();
@@ -83,7 +39,6 @@ private:
 	frc::SendableChooser<int> scOverrideAuto;
 	frc::Command* pAutonomousCommand;
 
-	VisionServer* pVisonServer;
 
 };
 

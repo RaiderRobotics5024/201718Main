@@ -2,8 +2,8 @@
 #define _DRIVE_TRAIN_MAP_HG_
 
 #include <math.h>
+#include "../RobotCFG.hpp"
 
-const bool IS_QBERT = true; // change this to false if using the test bot
 
 // Motor IDs
 const int DRIVETRAIN_LEFT_FRONT_MOTOR_ID = 1;

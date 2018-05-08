@@ -1,6 +1,6 @@
 #include "OI.h"
 #include "Utilities/Log.h"
-#include "RobotMap.h"
+#include "RobotCFG.hpp"
 
 
 OI::OI()
