@@ -1,6 +1,6 @@
-#include "DriveWithJoystick.h"
-#include "../Utilities/Log.h"
+#include <Commands/DriveWithJoystick.hpp>
 #include <math.h>
+#include <Utilities/Log.hpp>
 #include "../RobotCFG.hpp"
 
 /**

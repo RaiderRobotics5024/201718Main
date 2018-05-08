@@ -1,5 +1,5 @@
-#include <Commands/Autonomous/CommandGroups/Auto.h>
-#include "../../../Utilities/Log.h"
+#include <Commands/Autonomous/CommandGroups/Auto.hpp>
+#include <Utilities/Log.hpp>
 
 /**
  *

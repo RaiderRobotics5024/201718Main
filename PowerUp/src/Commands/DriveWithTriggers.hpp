@@ -1,8 +1,8 @@
 #ifndef _DRIVEWITHTRIGGERS_HG_
 #define _DRIVEWITHTRIGGERS_HG_
 
+#include <CommandBase.hpp>
 #include <WPILib.h>
-#include "../CommandBase.h"
 
 
 

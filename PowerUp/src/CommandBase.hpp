@@ -1,10 +1,10 @@
 #ifndef _COMMANDBASE_HG_
 #define _COMMANDBASE_HG_
 
+#include <OI.hpp>
+#include <Subsystems/DriveTrain.hpp>
 #include <WPILib.h>
 #include "Commands/Command.h"
-#include "OI.h"
-#include "Subsystems/DriveTrain.h"
 
 /*
  *

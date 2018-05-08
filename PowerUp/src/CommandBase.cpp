@@ -1,6 +1,6 @@
-#include "CommandBase.h"
-#include "Utilities/Log.h"
-#include "Subsystems/DriveTrain.h"
+#include <CommandBase.hpp>
+#include <Subsystems/DriveTrain.hpp>
+#include <Utilities/Log.hpp>
 
 // static variables in C++ have to be declared here
 // (not in the .h file)

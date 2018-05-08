@@ -1,8 +1,8 @@
-#include "Robot.h"
-#include "Utilities/Log.h"
+#include <Robot.hpp>
 #include <string>
 #include "RobotCFG.hpp"
 #include <SmartDashboard/SmartDashboard.h>
+#include <Utilities/Log.hpp>
 
 Robot::~Robot()
 {

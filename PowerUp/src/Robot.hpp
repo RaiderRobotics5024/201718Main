@@ -3,10 +3,10 @@
 
 #include <WPILib.h>
 #include <Commands/Command.h>
+#include <Commands/DriveWithJoystick.hpp>
+#include <Commands/DriveWithTriggers.hpp>
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SendableChooser.h>
-#include "Commands/DriveWithJoystick.h"
-#include "Commands/DriveWithTriggers.h"
 
 
 /**

@@ -1,8 +1,8 @@
-#include "DriveTrain.h"
-#include "DriveTrainMap.h"
-#include "../Utilities/Log.h"
-#include "../Commands/DriveWithJoystick.h"
-#include "../Commands/DriveWithTriggers.h"
+#include <Commands/DriveWithJoystick.hpp>
+#include <Commands/DriveWithTriggers.hpp>
+#include <Subsystems/DriveTrain.hpp>
+#include <Subsystems/DriveTrainMap.hpp>
+#include <Utilities/Log.hpp>
 
 /**
  *
