@@ -3,11 +3,7 @@
 
 #include <Commands/CommandGroup.h>
 
-/**
- *
- */
-class JustDriveForward : public frc::CommandGroup
-{
+class JustDriveForward: public frc::CommandGroup {
 public:
 	JustDriveForward();
 };

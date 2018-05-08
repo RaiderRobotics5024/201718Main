@@ -4,7 +4,6 @@
 #include <math.h>
 #include "../RobotCFG.hpp"
 
-
 // Motor IDs
 const int DRIVETRAIN_LEFT_FRONT_MOTOR_ID = 1;
 const int DRIVETRAIN_LEFT_REAR_MOTOR_ID = 2;

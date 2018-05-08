@@ -3,60 +3,40 @@
 #include <Utilities/Log.hpp>
 #include "../RobotCFG.hpp"
 
-/**
- *
- */
-DriveWithTriggers::DriveWithTriggers()
-{
+DriveWithTriggers::DriveWithTriggers() {
 	LOG("[DriveWithTriggers] Constructed");
 
-	if (CommandBase::pDriveTrain != nullptr)
-	{
+	if (CommandBase::pDriveTrain != nullptr) {
 		Requires(CommandBase::pDriveTrain);
-	}
-	else
-	{
+	} else {
 		LOG("[DriveWithTriggers] driveTrain is null!");
 	}
 
 	return;
 }
 
-/**
- *
- */
-DriveWithTriggers::~DriveWithTriggers()
-{
+DriveWithTriggers::~DriveWithTriggers() {
 	LOG("[DriveWithTriggers] Destroyed");
 
 	return;
 }
 
-/**
- *
- */
-void DriveWithTriggers::Initialize()
-{
+void DriveWithTriggers::Initialize() {
 	LOG("[DriveWithTriggers] Initialized");
 
 	return;
 }
 
-/**
- *
- */
-void DriveWithTriggers::Execute()
-{
+void DriveWithTriggers::Execute() {
 	frc::XboxController* pJoyDrive = CommandBase::pOI->GetJoystickDrive();
-
 
 	// The Y-axis goes from -1 (forward) to 1 (backwards) but we want to
 	// set motor from 1 (forward) to -1 (reverse) so multiply by -1
-	double    xSpeed = pJoyDrive->GetTriggerAxis(frc::XboxController::kRightHand) - pJoyDrive->GetTriggerAxis(frc::XboxController::kLeftHand);
+	double xSpeed = pJoyDrive->GetTriggerAxis(frc::XboxController::kRightHand)
+			- pJoyDrive->GetTriggerAxis(frc::XboxController::kLeftHand);
 	double zRotation = pJoyDrive->GetX(XboxController::kLeftHand);
 
-	if (fabs(zRotation) <= XBOX_DEADZONE_LEFT_JOY)
-	{
+	if (fabs(zRotation) <= XBOX_DEADZONE_LEFT_JOY) {
 		zRotation = 0.0;
 	}
 
@@ -65,26 +45,14 @@ void DriveWithTriggers::Execute()
 	return;
 }
 
-/**
- *
- */
-bool DriveWithTriggers::IsFinished()
-{
+bool DriveWithTriggers::IsFinished() {
 	return false;
 }
 
-/**
- *
- */
-void DriveWithTriggers::End()
-{
+void DriveWithTriggers::End() {
 	return;
 }
 
-/**
- *
- */
-void DriveWithTriggers::Interrupted()
-{
+void DriveWithTriggers::Interrupted() {
 	return;
 }

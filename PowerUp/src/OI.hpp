@@ -4,17 +4,12 @@
 #include <WPILib.h>
 #include <XboxController.h>
 
-/**
- *
- */
-class OI
-{
+class OI {
 public:
 	OI();
 	~OI();
 	frc::XboxController* GetJoystickDrive(void);
 	frc::XboxController* GetJoystickOperator(void);
-
 
 private:
 	frc::XboxController* pJoystickDrive;

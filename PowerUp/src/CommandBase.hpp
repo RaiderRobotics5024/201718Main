@@ -6,17 +6,13 @@
 #include <WPILib.h>
 #include "Commands/Command.h"
 
-/*
- *
- */
-class CommandBase: public frc::Command
-{
+class CommandBase: public frc::Command {
 public:
 	CommandBase();
 	~CommandBase();
 
-	static OI*                pOI;
-	static DriveTrain*        pDriveTrain;
+	static OI* pOI;
+	static DriveTrain* pDriveTrain;
 };
 
 #endif

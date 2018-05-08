@@ -8,12 +8,7 @@
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SendableChooser.h>
 
-
-/**
- *
- */
-class Robot : public frc::TimedRobot
-{
+class Robot: public frc::TimedRobot {
 public:
 	// Robot Positions
 	~Robot();
@@ -28,8 +23,8 @@ public:
 	void TestPeriodic() override;
 
 	// declare the commands
-	DriveWithJoystick*	pDriveWithJoystick;
-	DriveWithTriggers*  pDriveWithTriggers;
+	DriveWithJoystick* pDriveWithJoystick;
+	DriveWithTriggers* pDriveWithTriggers;
 
 private:
 	int GetAutoType();
@@ -38,7 +33,6 @@ private:
 	frc::SendableChooser<int> scRobotRole;
 	frc::SendableChooser<int> scOverrideAuto;
 	frc::Command* pAutonomousCommand;
-
 
 };
 

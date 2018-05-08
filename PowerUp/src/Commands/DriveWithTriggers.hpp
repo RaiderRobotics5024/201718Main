@@ -4,10 +4,7 @@
 #include <CommandBase.hpp>
 #include <WPILib.h>
 
-
-
-class DriveWithTriggers: public CommandBase
-{
+class DriveWithTriggers: public CommandBase {
 public:
 	DriveWithTriggers();
 	~DriveWithTriggers();

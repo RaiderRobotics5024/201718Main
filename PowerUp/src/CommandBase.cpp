@@ -3,15 +3,12 @@
 #include <Utilities/Log.hpp>
 
 // static variables in C++ have to be declared here
-// (not in the .h file)
-DriveTrain*       CommandBase::pDriveTrain = NULL;
-OI*               CommandBase::pOI = NULL;
+// (not in the .hpp file)
+DriveTrain* CommandBase::pDriveTrain = NULL;
+OI* CommandBase::pOI = NULL;
 
-/**
- *
- */
-CommandBase::CommandBase() : Command()
-{
+CommandBase::CommandBase() :
+		Command() {
 	LOG("[CommandBase] Constructed");
 
 	// Note: These aren't "this" because they are static,
@@ -20,24 +17,18 @@ CommandBase::CommandBase() : Command()
 	//	regular variables that are created (and are unique)
 	//	to the 'instance' of the object.
 
-	if (CommandBase::pOI == nullptr)
-	{
+	if (CommandBase::pOI == nullptr) {
 		CommandBase::pOI = new OI();
 	}
 
-	if (CommandBase::pDriveTrain == nullptr)
-	{
+	if (CommandBase::pDriveTrain == nullptr) {
 		CommandBase::pDriveTrain = new DriveTrain();
 	}
 
 	return;
 }
 
-/**
- *
- */
-CommandBase::~CommandBase()
-{
+CommandBase::~CommandBase() {
 	delete this->pDriveTrain;
 	delete this->pOI;
 

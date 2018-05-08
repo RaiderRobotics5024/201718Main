@@ -2,9 +2,7 @@
 #include <Utilities/Log.hpp>
 #include "RobotCFG.hpp"
 
-
-OI::OI()
-{
+OI::OI() {
 	LOG("[OI] Constructed");
 
 	// NOTE: For some reason, Eclipse complains about not finding
@@ -15,23 +13,17 @@ OI::OI()
 	return;
 }
 
-
-OI::~OI()
-{
+OI::~OI() {
 	delete this->pJoystickDrive;
 	delete this->pJoystickOperator;
 
 	return;
 }
 
-
-frc::XboxController* OI::GetJoystickDrive()
-{
+frc::XboxController* OI::GetJoystickDrive() {
 	return this->pJoystickDrive;
 }
 
-
-frc::XboxController* OI::GetJoystickOperator()
-{
+frc::XboxController* OI::GetJoystickOperator() {
 	return this->pJoystickOperator;
 }

@@ -11,5 +11,4 @@
 #define XBOX_DEADZONE_LEFT_JOY 0.1 //Double
 #define XBOX_DEADZONE_RIGHT_JOY 0.1 //Double
 
-
 #endif

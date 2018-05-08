@@ -4,10 +4,7 @@
 #include <CommandBase.hpp>
 #include <WPILib.h>
 
-
-
-class DriveWithJoystick: public CommandBase
-{
+class DriveWithJoystick: public CommandBase {
 public:
 	DriveWithJoystick();
 	~DriveWithJoystick();

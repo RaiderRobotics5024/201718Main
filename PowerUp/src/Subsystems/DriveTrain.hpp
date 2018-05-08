@@ -10,11 +10,7 @@
 // https://www.pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/c/
 #include <AHRS.h>
 
-/**
- *
- */
-class DriveTrain: public frc::Subsystem, PIDOutput
-{
+class DriveTrain: public frc::Subsystem, PIDOutput {
 public:
 	DriveTrain();
 	~DriveTrain();
@@ -27,7 +23,7 @@ public:
 	void DriveSetup(void);
 	void Drive(double distance, double speed);
 	void TurnSetup(void);
-	void Turn (void);
+	void Turn(void);
 
 	// These are the same as the DifferentialDrive class:
 	void ArcadeDrive(double xSpeed, double zRotation);
@@ -35,18 +31,18 @@ public:
 	void TankDrive(double leftSpeed, double rightSpeed);
 
 	double GetAngle(void);
-	
+
 	can::WPI_TalonSRX* GetLeftFrontMotor();  // Needed by Motion Profiler
-	int    GetLeftClosedLoopError(void);
+	int GetLeftClosedLoopError(void);
 	double GetLeftDistance(void);
 	double GetLeftPosition(void);
-	int    GetLeftVelocity(void);
-	
+	int GetLeftVelocity(void);
+
 	can::WPI_TalonSRX* GetRightFrontMotor(); // Needed by Motion Profiler
-	int    GetRightClosedLoopError(void);
+	int GetRightClosedLoopError(void);
 	double GetRightDistance(void);
 	double GetRightPosition(void);
-	int    GetRightVelocity(void);
+	int GetRightVelocity(void);
 
 	double GetRotateToAngleRate(void);
 	double GetTargetPosition(void);
