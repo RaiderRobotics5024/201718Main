@@ -15,7 +15,7 @@ public:
 	void Interrupted() override;
 
 private:
-	bool isReverse;
+	bool isReverse = false;
 };
 
 #endif
