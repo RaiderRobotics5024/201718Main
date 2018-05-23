@@ -1,0 +1,31 @@
+-- Controller Layout --
+
+Driver Controller
+Button A       : 
+Button B       : 
+Button X       : 
+Button Y       :
+Left Stick     : 
+Left Bumper    :
+Left Trigger   : 
+Right Stick    :
+Right Bumper   : 
+Right Trigger  : 
+Directional Pad:
+Start Button   :
+Back Button    :
+
+Operator Controller
+Button A + LB  : 
+Button B + RB  : 
+Button X       : 
+Button Y       :
+Left Stick     : analog input for talon 5
+Left Bumper    : digital -100% for talon 5
+Left Trigger   : digital +100% for talon 5 (add deadzone for anything under 90%)
+Right Stick    : analog input for talon 6
+Right Bumper   : digital -100% for talon 6
+Right Trigger  : digital +100% for talon 6 (add deadzone for anything under 90%)
+Directional Pad:
+Start Button   : 
+Back Button    : 
