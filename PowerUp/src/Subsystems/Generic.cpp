@@ -12,8 +12,10 @@ Generic::Generic() :
 	this->pMotor1 = new can::WPI_TalonSRX(PROTO_1_MOTOR_ID);
 	this->pMotor2 = new can::WPI_TalonSRX(PROTO_2_MOTOR_ID);
 
-	this->pMotor1->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::ProtoBrakeMode);
-	this->pMotor2->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::ProtoBrakeMode);
+	this->pMotor1->SetNeutralMode(
+			ctre::phoenix::motorcontrol::NeutralMode::ProtoBrakeMode);
+	this->pMotor2->SetNeutralMode(
+			ctre::phoenix::motorcontrol::NeutralMode::ProtoBrakeMode);
 //
 //	this->pRightFrontMotor = new can::WPI_TalonSRX(
 //			Generic_RIGHT_FRONT_MOTOR_ID);
@@ -46,8 +48,12 @@ Generic::~Generic() {
 //	return;
 //}
 
-void setSpeed(int ID, double speed){
-//	if(ID == 1){
-//		this->pMotor1->set();
-//	}
+void Generic::setSpeed(int ID, double speed) {
+	if (ID == 1) {
+		this->pMotor1->Set(speed);
+	} else if (ID == 2) {
+		this->pMotor2->Set(speed);
+	} else {
+		LOG("[Generic] ERROR!! INVALID MOTOR ID IN setSpeed");
+	}
 }

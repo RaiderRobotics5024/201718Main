@@ -7,7 +7,7 @@
 #include <ctre/Phoenix.h>
 #include <Drive/DifferentialDrive.h>
 
-class Generic: public frc::Subsystem{
+class Generic: public frc::Subsystem {
 public:
 	Generic();
 	~Generic();
