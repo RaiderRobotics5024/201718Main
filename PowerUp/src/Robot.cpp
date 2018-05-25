@@ -6,6 +6,7 @@
 Robot::~Robot() {
 	delete this->pDriveWithJoystick;
 	delete this->pDriveWithTriggers;
+	delete this->pGenericControl;
 
 	if (this->pAutonomousCommand != nullptr)
 		delete this->pAutonomousCommand;
@@ -19,6 +20,7 @@ void Robot::RobotInit() {
 	// initialize the commands
 	this->pDriveWithJoystick = new DriveWithJoystick();
 	this->pDriveWithTriggers = new DriveWithTriggers();
+	this->pGenericControl = new GenericControl();
 
 	return;
 }
