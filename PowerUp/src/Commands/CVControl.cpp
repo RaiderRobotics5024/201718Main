@@ -3,6 +3,7 @@
 #include <Utilities/Log.hpp>
 #include <WPILib.h>
 #include <ntcore.h>
+#include <networktables/NetworkTableInstance.h>
 #include "../RobotCFG.hpp"
 
 CVControl::CVControl() {
@@ -26,8 +27,17 @@ void CVControl::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void CVControl::Execute() {
 
-	double x = table->GetNumber("x", 0.0);
-	CommandBase::pDriveTrain->ArcadeDrive(0.0, x);
+	double x = table->GetNumber("camx", 0.00);
+
+	if(!this->Glock){
+		this->lock = false;
+		CommandBase::pDriveTrain->ArcadeDrive(0.0, x);
+	} else{
+		if(!this->lock){
+	CommandBase::pDriveTrain->ArcadeDrive(0.0, 0.0);
+	this->lock = true;
+		}
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -38,6 +48,14 @@ bool CVControl::IsFinished() {
 // Called once after isFinished returns true
 void CVControl::End() {
 
+}
+
+void CVControl::Enable() {
+	this->Glock = false;
+}
+
+void CVControl::Disable() {
+	this->Glock = true;
 }
 
 // Called when another command which requires one or more of the same

@@ -6,13 +6,17 @@
 
 class CVControl : public frc::Command {
 public:
-	GenericControl();
+	CVControl();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
+	void Enable();
+	void Disable();
 	void Interrupted() override;
 private:
-	NetworkTable *table;
+	std::shared_ptr<NetworkTable> table;
+	bool lock = true;
+	bool Glock = true;
 };
 
