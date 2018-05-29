@@ -2,6 +2,7 @@
 #include <math.h>
 #include <Utilities/Log.hpp>
 #include "../RobotCFG.hpp"
+#include <Utilities/GLK.hpp>
 
 DriveWithTriggers::DriveWithTriggers() {
 	LOG("[DriveWithTriggers] Constructed");
@@ -11,6 +12,8 @@ DriveWithTriggers::DriveWithTriggers() {
 	} else {
 		LOG("[DriveWithTriggers] driveTrain is null!");
 	}
+
+
 
 	return;
 }
@@ -44,6 +47,10 @@ void DriveWithTriggers::Execute() {
 	double dSlow = (pJoyDrive->GetBumper(XboxController::kRightHand)) ? 0.5 : 1;
 	// Set dReverse based on value of isReversed
 	double dReverse = (this->isReverse) ? -1 : 1;
+
+//	if(pJoyDrive->GetXButton()){
+//		GLK = false;}else{GLK=true;}
+
 
 	if (fabs(zRotation) <= XBOX_DEADZONE_LEFT_JOY) {
 		zRotation = 0.0;

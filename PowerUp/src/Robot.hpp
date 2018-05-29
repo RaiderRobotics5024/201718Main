@@ -6,6 +6,7 @@
 #include <Commands/DriveWithJoystick.hpp>
 #include <Commands/DriveWithTriggers.hpp>
 #include <Commands/GenericControl.hpp>
+#include <Commands/CVControl.hpp>
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SendableChooser.h>
 
@@ -27,6 +28,7 @@ public:
 	DriveWithJoystick* pDriveWithJoystick;
 	DriveWithTriggers* pDriveWithTriggers;
 	GenericControl* pGenericControl;
+	CVControl* pVision;
 
 private:
 	int GetAutoType();

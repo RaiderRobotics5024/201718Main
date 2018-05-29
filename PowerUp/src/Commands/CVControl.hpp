@@ -1,6 +1,5 @@
 
 #pragma once
-
 #include <CommandBase.hpp>
 #include <WPILib.h>
 
@@ -11,12 +10,9 @@ public:
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
-	void Enable();
-	void Disable();
 	void Interrupted() override;
 private:
 	std::shared_ptr<NetworkTable> table;
 	bool lock = true;
-	bool Glock = true;
 };
 

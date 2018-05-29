@@ -2,11 +2,13 @@
 #include <string>
 #include "RobotCFG.hpp"
 #include <Utilities/Log.hpp>
+#include <Utilities/GLK.hpp>
 
 Robot::~Robot() {
 	delete this->pDriveWithJoystick;
 	delete this->pDriveWithTriggers;
 	delete this->pGenericControl;
+	delete this->pVision;
 
 	if (this->pAutonomousCommand != nullptr)
 		delete this->pAutonomousCommand;
@@ -21,6 +23,9 @@ void Robot::RobotInit() {
 	this->pDriveWithJoystick = new DriveWithJoystick();
 	this->pDriveWithTriggers = new DriveWithTriggers();
 	this->pGenericControl = new GenericControl();
+	this->pVision = new CVControl();
+
+
 
 	return;
 }
@@ -53,6 +58,13 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
 	LOG("[Robot] Teleop Initialized");
 
+
+	if(cvtest){
+		if (this->pVision != nullptr) {
+					this->pVision->Start();
+					LOG("USE OP CONTROLLER FOR PROTOTYPING")
+				}
+	}else{
 	if (JoyDrive == true) {
 		if (this->pDriveWithJoystick != nullptr) {
 			this->pDriveWithJoystick->Start();
@@ -67,6 +79,9 @@ void Robot::TeleopInit() {
 		this->pGenericControl->Start();
 		LOG("USE OP CONTROLLER FOR PROTOTYPING")
 	}
+	}
+
+
 
 	return;
 }
