@@ -1,1 +1,3 @@
-# 201718Main
+![Icon](./full.png)
+# PowerUP
+## Raider Robotics' 2018 codebase
